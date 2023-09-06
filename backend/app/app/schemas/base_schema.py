@@ -1,0 +1,67 @@
+from __future__ import annotations
+from pydantic import BaseModel, Field
+from typing import Optional
+from uuid import UUID
+from datetime import datetime
+
+
+class BaseSchema(BaseModel):
+    @property
+    def as_db_dict(self):
+        to_db = self.dict(exclude_defaults=True, exclude_none=True, exclude={"identifier, id"})
+        for key in ["id", "identifier"]:
+            if key in self.dict().keys():
+                to_db[key] = self.dict()[key].hex
+        return to_db
+
+
+class BaseSummarySchema(BaseSchema):
+    id: Optional[UUID] = Field(None, description="Automatically generated unique identity.")
+    created: Optional[datetime] = Field(None, description="Automatically generated date last modified.")
+    modified: Optional[datetime] = Field(None, description="Automatically generated date last modified.")
+    isPrivate: Optional[bool] = Field(False, description="Whether private to roleplayers.")
+    name: Optional[str] = Field(None, description="A machine-readable name.")
+    title: Optional[str] = Field(None, description="A human-readable title.")
+    description: Optional[str] = Field(
+        None,
+        description="A short description.",
+    )
+
+    class Config:
+        orm_mode = True
+
+
+class MetadataBaseSchema(BaseSchema):
+    # Receive via API
+    # https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#section-3
+    title: Optional[str] = Field(None, description="A human-readable title given to the resource.")
+    description: Optional[str] = Field(
+        None, description="A short description of the resource.",
+    )
+    isActive: Optional[bool] = Field(default=True, description="Whether the resource is still actively maintained.")
+    isPrivate: Optional[bool] = Field(
+        default=False, description="Whether the resource is private to team members with appropriate authorisation."
+    )
+
+
+class MetadataBaseCreate(MetadataBaseSchema):
+    pass
+
+
+class MetadataBaseUpdate(MetadataBaseSchema):
+    identifier: UUID = Field(..., description="Automatically generated unique identity for the resource.")
+
+
+class MetadataBaseInDBBase(MetadataBaseSchema):
+    # Identifier managed programmatically
+    identifier: UUID = Field(..., description="Automatically generated unique identity for the resource.")
+    created: datetime = Field(..., description="Automatically generated date resource was created.")
+    isActive: bool = Field(..., description="Whether the resource is still actively maintained.")
+    isPrivate: bool = Field(
+        ..., description="Whether the resource is private to team members with appropriate authorisation."
+    )
+
+    class Config:
+        # https://github.com/samuelcolvin/pydantic/issues/1334#issuecomment-745434257
+        # Call PydanticModel.from_orm(dbQuery)
+        orm_mode = True
