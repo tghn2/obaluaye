@@ -36,6 +36,21 @@ class UserBase(BaseModel):
         orm_mode = True
         arbitrary_types_allowed = True
 
+    @validator("language", pre=True)
+    def evaluate_lazy_language(cls, v):
+        if v and isinstance(v, str):
+            return Locale(v.lower())
+        if v and isinstance(v, Locale):
+            return Locale(str(v).lower())
+
+    @validator("country", pre=True)
+    def evaluate_lazy_country(cls, v):
+        if v and isinstance(v, list):
+            return [
+                Country(c.upper()) if isinstance(c, str) else c
+                for c in [c for c in v if isinstance(c, str) or isinstance(c, Country)]
+            ]
+
 
 class UserSummary(BaseModel):
     email: Optional[EmailStr] = None
@@ -85,6 +100,7 @@ class User(UserInDBBase):
         None,
         description="Specify the language of pathway. Controlled vocabulary defined by ISO 639-1, ISO 639-2 or ISO 639-3.",
     )
+    country: Optional[list[str]] = Field([], description="A list of countries, defined by country codes.")
 
     class Config:
         allow_population_by_field_name = True
@@ -102,10 +118,13 @@ class User(UserInDBBase):
         return False
 
     @validator("language", pre=True)
-    def evaluate_language(cls, language):
-        if language:
-            return str(language)
-        return None
+    def evaluate_lazy_language(cls, v):
+        if v and isinstance(v, Locale):
+            return str(v).lower()
+
+    @validator("country", pre=True)
+    def evaluate_lazy_country(cls, v):
+        return [c.code if isinstance(c, Country) else c for c in v]
 
 # Additional properties stored in DB
 class UserInDB(UserInDBBase):

@@ -43,6 +43,21 @@ class ThemeBase(BaseSchema):
     def evaluate_subjects(cls, v):
         return [s for s in v]
 
+    @validator("language", pre=True)
+    def evaluate_lazy_language(cls, v):
+        if v and isinstance(v, str):
+            return Locale(v.lower())
+        if v and isinstance(v, Locale):
+            return Locale(str(v).lower())
+
+    @validator("country", pre=True)
+    def evaluate_lazy_country(cls, v):
+        if v and isinstance(v, list):
+            return [
+                Country(c.upper()) if isinstance(c, str) else c
+                for c in [c for c in v if isinstance(c, str) or isinstance(c, Country)]
+            ]
+
 
 class ThemeCreate(ThemeBase):
     title: str = Field(..., description="A human-readable title given to the theme.")
@@ -63,7 +78,21 @@ class Theme(ThemeBase):
     created: datetime = Field(..., description="Automatically generated date theme was created.")
     modified: datetime = Field(..., description="Automatically generated date theme was last modified.")
     title: str = Field(..., description="A human-readable title given to the theme.")
+    language: Optional[str] = Field(
+        None,
+        description="Specify the language of pathway. Controlled vocabulary defined by ISO 639-1, ISO 639-2 or ISO 639-3.",
+    )
+    country: Optional[list[str]] = Field([], description="A list of countries, defined by country codes.")
     resources: Optional[List[Resource]] = Field([], description="A list of resources relevant to this theme.")
+
+    @validator("language", pre=True)
+    def evaluate_lazy_language(cls, v):
+        if v and isinstance(v, Locale):
+            return str(v).lower()
+
+    @validator("country", pre=True)
+    def evaluate_lazy_country(cls, v):
+        return [c.code if isinstance(c, Country) else c for c in v]
 
     @validator("resources", pre=True)
     def evaluate_lazy_resources(cls, v):

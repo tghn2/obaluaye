@@ -26,6 +26,14 @@ class ResponseBase(BaseSchema):
 
     class Config:
         orm_mode = True
+        arbitrary_types_allowed = True
+
+    @validator("language", pre=True)
+    def evaluate_lazy_language(cls, v):
+        if v and isinstance(v, str):
+            return Locale(v.lower())
+        if v and isinstance(v, Locale):
+            return Locale(str(v).lower())
 
 
 class ResponseCreate(ResponseBase):
@@ -40,12 +48,19 @@ class ResponseUpdate(ResponseCreate):
 
 class Response(ResponseBase):
     id: UUID = Field(..., description="Automatically generated unique identity.")
+    language: Optional[str] = Field(
+        None,
+        description="Specify the language of pathway. Controlled vocabulary defined by ISO 639-1, ISO 639-2 or ISO 639-3.",
+    )
     answer: FormAttributeModel = Field(..., description="Dictionary defining the answer response to a question raise in a `node`.")
 
+    @validator("language", pre=True)
+    def evaluate_lazy_language(cls, v):
+        if v and isinstance(v, Locale):
+            return str(v).lower()
 
-class ResponseCommented(ResponseBase):
-    id: UUID = Field(..., description="Automatically generated unique identity.")
-    answer: FormAttributeModel = Field(..., description="Dictionary defining the answer response to a question raise in a `node`.")
+
+class ResponseCommented(Response):
     comments: Optional[List[Comment]] = Field([], description="A list of comments to this response.")
 
     @validator("comments", pre=True)

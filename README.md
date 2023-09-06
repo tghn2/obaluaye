@@ -30,6 +30,8 @@ The 1,000 Nurse-led Research Global Challenge is intended to reach nurses, midwi
 
 The program is a joint initiative of the [Nursing Now Challenge](https://www.nursingnow.org/) and [The Global Health Network](https://tghn.org/), leveraging their extensive global communities. 
 
+_[Obalúayé](https://en.wikipedia.org/wiki/Babal%C3%BA-Ay%C3%A9) is one of the orishas or manifestations of the supreme creator god Olodumare in the Yoruba religion of West Africa. Obalúayé is the spirit of the Earth and strongly associated with infectious disease, and healing._
+
 ## Licence
 
-The Obalúayé hub distribution is licensed under the terms of the [GNU Affero General Public License](https://github.com/whythawk/whyqd-hub/blob/main/LICENSE).
+Obalúayé is licensed under the terms of the [GNU Affero General Public License](https://github.com/whythawk/whyqd-hub/blob/main/LICENSE).
