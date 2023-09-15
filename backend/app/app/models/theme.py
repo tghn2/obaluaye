@@ -57,7 +57,9 @@ class Theme(Base):
         cascade="all, delete",
         lazy="dynamic",
     )
-    pathway_id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("pathway.id", onupdate="CASCADE", ondelete="CASCADE"))
+    pathway_id: Mapped[UUID] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("pathway.id", onupdate="CASCADE", ondelete="CASCADE")
+    )
     pathway: Mapped["Pathway"] = relationship(back_populates="themes")
 
 

@@ -61,13 +61,10 @@ class User(Base):
     )
     # ANSWERS
     responses: Mapped[list["Response"]] = relationship(
-        back_populates="respondent", cascade="all, delete", lazy="dynamic"
+        order_by="Response.created", back_populates="respondent", cascade="all, delete", lazy="dynamic"
     )
     comments: Mapped[list["Comment"]] = relationship(
-        order_by="Comment.created",
-        back_populates="researcher",
-        cascade="all, delete",
-        lazy="dynamic"
+        order_by="Comment.created", back_populates="researcher", cascade="all, delete", lazy="dynamic"
     )
 
     __table_args__ = (

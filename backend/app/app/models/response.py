@@ -31,11 +31,15 @@ class Response(Base):
     language: Mapped[Locale] = mapped_column(LocaleType, nullable=True)
     answer: Mapped[json] = mapped_column(JSONB)
     # ANSWERS
-    node_id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("node.id", onupdate="CASCADE", ondelete="CASCADE"))
+    node_id: Mapped[UUID] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("node.id", onupdate="CASCADE", ondelete="CASCADE")
+    )
     node: Mapped["Node"] = relationship(back_populates="responses")
     respondent_id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("user.id"))
     respondent: Mapped["User"] = relationship(back_populates="responses")
-    group_id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("group.id", onupdate="CASCADE", ondelete="CASCADE"))
+    group_id: Mapped[UUID] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("group.id", onupdate="CASCADE", ondelete="CASCADE"), nullable=True
+    )
     group: Mapped["Group"] = relationship(back_populates="responses")
     # COMMENTS
     comments: Mapped[list["Comment"]] = relationship(

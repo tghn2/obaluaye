@@ -44,11 +44,17 @@ class Resource(Base):
     )
     language: Mapped[Locale] = mapped_column(LocaleType, nullable=True)
     # PATHWAY
-    pathway_id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("pathway.id", onupdate="CASCADE", ondelete="CASCADE"))
+    pathway_id: Mapped[UUID] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("pathway.id", onupdate="CASCADE", ondelete="CASCADE"), nullable=True
+    )
     pathway: Mapped["Pathway"] = relationship(back_populates="resources")
-    theme_id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("theme.id", onupdate="CASCADE", ondelete="CASCADE"))
+    theme_id: Mapped[UUID] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("theme.id", onupdate="CASCADE", ondelete="CASCADE"), nullable=True
+    )
     theme: Mapped["Theme"] = relationship(back_populates="resources")
-    node_id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("node.id", onupdate="CASCADE", ondelete="CASCADE"))
+    node_id: Mapped[UUID] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("node.id", onupdate="CASCADE", ondelete="CASCADE"), nullable=True
+    )
     node: Mapped["Node"] = relationship(back_populates="resources")
 
 

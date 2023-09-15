@@ -59,9 +59,6 @@ class Pathway(Base):
     authorisations: Mapped[list["Role"]] = relationship(
         back_populates="pathway", cascade="all, delete", lazy="dynamic"
     )
-    # groups: Mapped[list["Role"]] = relationship(
-    #     foreign_keys="[Role.group_id]", back_populates="pathway", cascade="all, delete", lazy="dynamic"
-    # )
     # PATHWAY
     resources: Mapped[list["Resource"]] = relationship(
         order_by="Resource.created",

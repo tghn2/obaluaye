@@ -20,7 +20,9 @@ class Role(Base):
     id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, index=True, default=uuid4)
     created: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
     # WHO
-    researcher_id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("user.id", onupdate="CASCADE", ondelete="CASCADE"))
+    researcher_id: Mapped[UUID] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("user.id", onupdate="CASCADE", ondelete="CASCADE")
+    )
     researcher: Mapped["User"] = relationship(
         back_populates="roles", foreign_keys=[researcher_id], order_by="User.email"
     )
@@ -31,5 +33,7 @@ class Role(Base):
     # HAS RESPONSIBILITY
     responsibility: Mapped[ENUM[RoleType]] = mapped_column(ENUM(RoleType), nullable=False, default=RoleType.VIEWER)
     # FOR
-    pathway_id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("pathway.id", onupdate="CASCADE", ondelete="CASCADE"), nullable=True)
+    pathway_id: Mapped[UUID] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("pathway.id", onupdate="CASCADE", ondelete="CASCADE")
+    )
     pathway: Mapped["Pathway"] = relationship(back_populates="authorisations", foreign_keys=[pathway_id])

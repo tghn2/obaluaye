@@ -2,11 +2,10 @@ from __future__ import annotations
 from typing import Optional, List
 from pydantic import Field, validator
 from sqlalchemy.orm import Query
-from babel import Locale
 from uuid import UUID
 from datetime import datetime
 
-from app.schemas.base_schema import BaseSchema
+from app.schemas.base_schema import BaseSchema, LocaleType
 from app.schemas.form import FormAttributeModel
 from app.schemas.comment import Comment
 
@@ -19,26 +18,17 @@ class ResponseBase(BaseSchema):
         {},
         description="Dictionary defining the answer response to a question raised in a `node`.",
     )
-    language: Optional[Locale] = Field(
+    language: Optional[LocaleType] = Field(
         None,
         description="Specify the language of pathway. Controlled vocabulary defined by ISO 639-1, ISO 639-2 or ISO 639-3.",
     )
-
-    class Config:
-        orm_mode = True
-        arbitrary_types_allowed = True
-
-    @validator("language", pre=True)
-    def evaluate_lazy_language(cls, v):
-        if v and isinstance(v, str):
-            return Locale(v.lower())
-        if v and isinstance(v, Locale):
-            return Locale(str(v).lower())
 
 
 class ResponseCreate(ResponseBase):
     answer: FormAttributeModel = Field(..., description="Dictionary defining the answer response to a question raise in a `node`.")
     node_id: UUID = Field(..., description="Response associated node identity.")
+    group_id: Optional[UUID] = Field(None, description="Response associated group identity.")
+    respondent_id: UUID = Field(..., description="Response associated respondent identity.")
 
 
 class ResponseUpdate(ResponseCreate):
@@ -48,16 +38,7 @@ class ResponseUpdate(ResponseCreate):
 
 class Response(ResponseBase):
     id: UUID = Field(..., description="Automatically generated unique identity.")
-    language: Optional[str] = Field(
-        None,
-        description="Specify the language of pathway. Controlled vocabulary defined by ISO 639-1, ISO 639-2 or ISO 639-3.",
-    )
     answer: FormAttributeModel = Field(..., description="Dictionary defining the answer response to a question raise in a `node`.")
-
-    @validator("language", pre=True)
-    def evaluate_lazy_language(cls, v):
-        if v and isinstance(v, Locale):
-            return str(v).lower()
 
 
 class ResponseCommented(Response):

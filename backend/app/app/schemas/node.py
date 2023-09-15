@@ -5,7 +5,7 @@ from sqlalchemy.orm import Query
 from uuid import UUID
 from datetime import datetime
 
-from app.schemas.base_schema import BaseSchema
+from app.schemas.base_schema import BaseSchema, LocaleType
 from app.schemas.form import FormAttributeModel
 from app.schema_types.node import NodeType
 from app.schemas.resource import Resource
@@ -22,9 +22,10 @@ class NodeBase(BaseSchema):
         {},
         description="Dictionary defining the question in a `node`.",
     )
-
-    class Config:
-        orm_mode = True
+    language: Optional[LocaleType] = Field(
+        None,
+        description="Specify the language of pathway. Controlled vocabulary defined by ISO 639-1, ISO 639-2 or ISO 639-3.",
+    )
 
 
 class NodeCreate(NodeBase):

@@ -10,7 +10,7 @@ from app.schemas.user import UserSummary
 
 
 class InvitationBase(BaseSchema):
-    fullName: Optional[str] = Field(None, alias="full_name", description="Name of invited project member.")
+    full_name: Optional[str] = Field(None, alias="full_name", description="Name of invited project member.")
     email: Optional[EmailStr] = Field(None, description="Email of invited project member.")
     response: InvitationResponseType = Field(
         default=InvitationResponseType.WAITING, description="Invitee current response."
@@ -19,7 +19,8 @@ class InvitationBase(BaseSchema):
 
 class InvitationCreate(InvitationBase):
     sender_id: Optional[UUID] = Field(None, description="Project custodian responsible for the invitation.")
-    project_id: Optional[UUID] = Field(None, description="Invitation project identity.")
+    group_id: Optional[UUID] = Field(None, description="Invitation group identity.")
+    pathway_id: Optional[UUID] = Field(None, description="Invitation project identity.")
 
 
 class InvitationUpdate(InvitationBase):
@@ -31,10 +32,8 @@ class Invitation(InvitationBase):
     id: UUID = Field(..., description="Automatically generated unique identity for the invitation.")
     created: datetime = Field(..., description="Automatically generated datetime of creation.")
     sender: UserSummary = Field(..., description="Project custodian responsible for the invitation.")
-    project: BaseSummarySchema = Field(..., description="Invitation project summary.")
+    group: BaseSummarySchema = Field(..., description="Invitation group summary.")
+    pathway: BaseSummarySchema = Field(..., description="Invitation project summary.")
     response: InvitationResponseType = Field(
         default=InvitationResponseType.WAITING, description="Invitee current response."
     )
-
-    class Config:
-        orm_mode = True

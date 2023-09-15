@@ -1,9 +1,8 @@
 from typing import Optional, List
 from uuid import UUID
 from pydantic import BaseModel, Field, EmailStr, constr, validator
-from babel import Locale
-from sqlalchemy_utils import Country
 
+from app.schemas.base_schema import BaseSchema, LocaleType, CountryListType
 
 class UserLogin(BaseModel):
     username: str
@@ -11,7 +10,7 @@ class UserLogin(BaseModel):
 
 
 # Shared properties
-class UserBase(BaseModel):
+class UserBase(BaseSchema):
     email: Optional[EmailStr] = None
     email_validated: Optional[bool] = False
     is_active: Optional[bool] = True
@@ -22,37 +21,18 @@ class UserBase(BaseModel):
         [],
         description="A list of topics of the pathway."
     )
-    language: Optional[Locale] = Field(
+    language: Optional[LocaleType] = Field(
         None,
         description="Specify the language of pathway. Controlled vocabulary defined by ISO 639-1, ISO 639-2 or ISO 639-3.",
     )
-    country: Optional[list[Country]] = Field([], description="A list of countries, defined by country codes.")
+    country: Optional[CountryListType] = Field([], description="A list of countries, defined by country codes.")
     spatial: Optional[str] = Field(
         None,
         description="Spatial characteristics of the pathway."
     )
 
-    class Config:
-        orm_mode = True
-        arbitrary_types_allowed = True
 
-    @validator("language", pre=True)
-    def evaluate_lazy_language(cls, v):
-        if v and isinstance(v, str):
-            return Locale(v.lower())
-        if v and isinstance(v, Locale):
-            return Locale(str(v).lower())
-
-    @validator("country", pre=True)
-    def evaluate_lazy_country(cls, v):
-        if v and isinstance(v, list):
-            return [
-                Country(c.upper()) if isinstance(c, str) else c
-                for c in [c for c in v if isinstance(c, str) or isinstance(c, Country)]
-            ]
-
-
-class UserSummary(BaseModel):
+class UserSummary(BaseSchema):
     email: Optional[EmailStr] = None
     full_name: Optional[str] = None
     description: Optional[str] = None
@@ -60,18 +40,12 @@ class UserSummary(BaseModel):
         [],
         description="A list of topics of the pathway."
     )
-    language: Optional[Locale] = Field(
+    language: Optional[LocaleType] = Field(
         None,
         description="Specify the language of pathway. Controlled vocabulary defined by ISO 639-1, ISO 639-2 or ISO 639-3.",
     )
-    spatial: Optional[str] = Field(
-        None,
-        description="Spatial characteristics of the pathway."
-    )
+    country: Optional[CountryListType] = Field([], description="A list of countries, defined by country codes.")
 
-    class Config:
-        orm_mode = True
-        arbitrary_types_allowed = True
 
 # Properties to receive via API on creation
 class UserCreate(UserBase):
@@ -88,19 +62,11 @@ class UserUpdate(UserBase):
 class UserInDBBase(UserBase):
     id: Optional[UUID] = None
 
-    class Config:
-        orm_mode = True
-
 
 # Additional properties to return via API
 class User(UserInDBBase):
     hashed_password: bool = Field(default=False, alias="password")
     totp_secret: bool = Field(default=False, alias="totp")
-    language: Optional[str] = Field(
-        None,
-        description="Specify the language of pathway. Controlled vocabulary defined by ISO 639-1, ISO 639-2 or ISO 639-3.",
-    )
-    country: Optional[list[str]] = Field([], description="A list of countries, defined by country codes.")
 
     class Config:
         allow_population_by_field_name = True
@@ -117,14 +83,6 @@ class User(UserInDBBase):
             return True
         return False
 
-    @validator("language", pre=True)
-    def evaluate_lazy_language(cls, v):
-        if v and isinstance(v, Locale):
-            return str(v).lower()
-
-    @validator("country", pre=True)
-    def evaluate_lazy_country(cls, v):
-        return [c.code if isinstance(c, Country) else c for c in v]
 
 # Additional properties stored in DB
 class UserInDB(UserInDBBase):

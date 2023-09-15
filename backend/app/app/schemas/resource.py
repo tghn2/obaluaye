@@ -5,7 +5,7 @@ from uuid import UUID
 from datetime import datetime
 import re
 
-from app.schemas.base_schema import BaseSchema
+from app.schemas.base_schema import BaseSchema, LocaleType
 from app.schema_types.resource import ResourceType
 
 
@@ -18,13 +18,10 @@ class ResourceBase(BaseSchema):
     description: Optional[str] = Field(None, description="A short description of the resource.")
     content: Optional[str] = Field(None, description="Content for the resource. Can be markdown or a link.")
     resourceType: Optional[ResourceType] = Field(None, description="The type of resource, which defines how to use the `content` field.")
-    language: Optional[str] = Field(
+    language: Optional[LocaleType] = Field(
         None,
         description="Specify the language of resource. Controlled vocabulary defined by ISO 639-1, ISO 639-2 or ISO 639-3.",
     )
-
-    class Config:
-        orm_mode = True
 
     @validator("name", always=True)
     def evaluate_name(cls, v, values):
@@ -37,6 +34,9 @@ class ResourceBase(BaseSchema):
 class ResourceCreate(ResourceBase):
     title: str = Field(..., description="A human-readable title given to the resource.")
     resourceType: ResourceType = Field(..., description="The type of resource, which defines how to use the `content` field.")
+    pathway_id: Optional[UUID] = Field(..., description="Pathway associated identity.")
+    theme_id: Optional[UUID] = Field(..., description="Theme associated identity.")
+    node_id: Optional[UUID] = Field(..., description="Node associated identity.")
 
 
 class ResourceUpdate(ResourceCreate):

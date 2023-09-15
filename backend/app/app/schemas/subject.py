@@ -10,9 +10,6 @@ class SubjectBase(BaseSchema):
     id: Optional[UUID] = Field(None, description="Automatically generated unique identity.")
     term: str = Field(..., description="Unique term, in any language.")
 
-    class Config:
-        orm_mode = True
-
 
 class SubjectCreate(SubjectBase):
     pass

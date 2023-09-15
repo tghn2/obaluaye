@@ -12,5 +12,7 @@ if TYPE_CHECKING:
 
 class Token(Base):
     token: Mapped[str] = mapped_column(primary_key=True, index=True)
-    authenticates_id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("user.id", onupdate="CASCADE", ondelete="CASCADE"))
+    authenticates_id: Mapped[UUID] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("user.id", onupdate="CASCADE", ondelete="CASCADE")
+    )
     authenticates: Mapped["User"] = relationship(back_populates="refresh_tokens")

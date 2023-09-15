@@ -14,12 +14,10 @@ class RoleBase(BaseSchema):
     created: Optional[datetime] = Field(None, description="Automatically generated date role was created.")
     responsibility: RoleType = Field(default=RoleType.VIEWER, description="Responsibility assigned to this researcher.")
 
-    class Config:
-        orm_mode = True
-
 
 class RoleCreate(RoleBase):
     researcher_id: UUID = Field(..., description="Specified researcher with responsibility.")
+    group_id: Optional[UUID] = Field(None, description="Unique identity for the referenced group.")
     pathway_id: UUID = Field(..., description="Unique identity for the referenced pathway.")
 
 
@@ -32,6 +30,5 @@ class Role(BaseSchema):
     created: datetime = Field(..., description="Automatically generated datetime of creation.")
     researcher: UserSummary = Field(..., description="Specified researcher with responsibility.")
     responsibility: RoleType = Field(default=RoleType.VIEWER, description="Responsibility assigned to this researcher.")
-
-    class Config:
-        orm_mode = True
+    group_id: Optional[UUID] = Field(None, description="Unique identity for the referenced group.")
+    pathway_id: UUID = Field(..., description="Unique identity for the referenced pathway.")

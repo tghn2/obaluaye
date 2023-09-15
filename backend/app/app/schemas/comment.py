@@ -3,7 +3,7 @@ from pydantic import Field
 from uuid import UUID
 from datetime import datetime
 
-from app.schemas.base_schema import BaseSchema
+from app.schemas.base_schema import BaseSchema, LocaleType
 from app.schemas.user import UserSummary
 
 
@@ -12,6 +12,11 @@ class CommentBase(BaseSchema):
     created: Optional[datetime] = Field(None, description="Automatically generated date comment was created.")
     modified: Optional[datetime] = Field(None, description="Automatically generated date comment was last modified.")
     content: Optional[str] = Field(None, description="Comment for the response. Can be in markdown.")
+    resolved: bool = Field(default=False, description="Whether this comment has been resolved.")
+    language: Optional[LocaleType] = Field(
+        None,
+        description="Specify the language of pathway. Controlled vocabulary defined by ISO 639-1, ISO 639-2 or ISO 639-3.",
+    )
 
 
 class CommentCreate(CommentBase):
@@ -33,6 +38,3 @@ class Comment(CommentBase):
     modified: datetime = Field(..., description="Automatically generated date was last modified.")
     creator: UserSummary = Field(..., description="Person who wrote the comment.")
     content: str = Field(..., description="Comment for the response. Can be in markdown.")
-
-    class Config:
-        orm_mode = True

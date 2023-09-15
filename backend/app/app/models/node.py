@@ -33,20 +33,20 @@ class Node(Base):
     order: Mapped[int] = mapped_column(nullable=False)
     formType: Mapped[ENUM[NodeType]] = mapped_column(ENUM(NodeType), nullable=False)
     language: Mapped[Locale] = mapped_column(LocaleType, nullable=True)
-    # after: Mapped[list["Node"]] = relationship(
-    #     secondary="pathway_sequence",
-    #     primaryjoin="id == pathway_sequence.before_id",
-    #     secondaryjoin="id == pathway_sequence.after_id",
-    #     back_populates="before",
-    #     lazy="dynamic",
-    # )
-    # before: Mapped[list["Node"]] = relationship(
-    #     secondary="pathway_sequence",
-    #     primaryjoin="id == pathway_sequence.after_id",
-    #     secondaryjoin="id == pathway_sequence.before_id",
-    #     back_populates="after",
-    #     lazy="dynamic",
-    # )
+    after: Mapped[list["Node"]] = relationship(
+        secondary="pathway_sequence",
+        primaryjoin="Node.id == pathway_sequence.c.before_id",
+        secondaryjoin="Node.id == pathway_sequence.c.after_id",
+        back_populates="before",
+        lazy="dynamic",
+    )
+    before: Mapped[list["Node"]] = relationship(
+        secondary="pathway_sequence",
+        primaryjoin="Node.id == pathway_sequence.c.after_id",
+        secondaryjoin="Node.id == pathway_sequence.c.before_id",
+        back_populates="after",
+        lazy="dynamic",
+    )
     # FORM
     question: Mapped[dict[str | Locale, "NodeQuestion"]] = relationship(
         collection_class=attribute_keyed_dict("language"),
@@ -65,7 +65,7 @@ class Node(Base):
     )
     pathway_id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("pathway.id", onupdate="CASCADE", ondelete="CASCADE"))
     pathway: Mapped["Pathway"] = relationship(back_populates="nodes")
-    theme_id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("theme.id"))
+    theme_id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("theme.id"), nullable=True)
     theme: Mapped["Theme"] = relationship(back_populates="nodes")
     responses: Mapped[list["Response"]] = relationship(
         back_populates="node", cascade="all, delete", lazy="dynamic"
@@ -77,12 +77,12 @@ class Node(Base):
 # https://medium.com/@mandyranero/how-to-implement-and-use-a-flask-sqlalchemy-self-referential-many-to-many-relationship-11aa0179e13a
 # https://stackoverflow.com/questions/73447328/self-referencing-many-to-many-relationship-with-extra-column-in-association-obje
 # https://stackoverflow.com/questions/66424424/self-referencing-many-to-many-relationship-with-an-association-object-in-sqlalch
-# pathway_sequence_table: Final[Table] = Table(
-#     "pathway_sequence",
-#     Base.metadata,
-#     Column("before_id", UUID(as_uuid=True), ForeignKey("node.id"), primary_key=True),
-#     Column("after_id", UUID(as_uuid=True), ForeignKey("node.id"), primary_key=True),
-# )
+pathway_sequence_table: Final[Table] = Table(
+    "pathway_sequence",
+    Base.metadata,
+    Column("before_id", UUID(as_uuid=True), ForeignKey("node.id"), primary_key=True),
+    Column("after_id", UUID(as_uuid=True), ForeignKey("node.id"), primary_key=True),
+)
 
 
 class NodeQuestion(Base):
