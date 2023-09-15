@@ -1,4 +1,5 @@
 /* eslint-disable camelcase */
+
 export interface IUserProfile {
   id: string
   email: string
@@ -6,6 +7,11 @@ export interface IUserProfile {
   is_active: boolean
   is_superuser: boolean
   full_name: string
+  description?: string
+  subjects?: string[]
+  country?: string[]
+  spatial?: string
+  language?: string
   password: boolean
   totp: boolean
 }
@@ -32,4 +38,16 @@ export interface IUserOpenProfileCreate {
   full_name?: string
   password: string
 }
-  
+
+export interface IUserEmail {
+  email: string
+}
+
+export interface IProfileSummary {
+  email: string
+  full_name?: string
+  description?: string
+  subjects?: string[]
+  language?: string
+  country?: string[]
+}
