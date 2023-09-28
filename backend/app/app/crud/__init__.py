@@ -1,7 +1,7 @@
 from .crud_user import user  # noqa: F401
 from .crud_token import token  # noqa: F401
 from .crud_group import group  # noqa: F401
-# from .crud_role import role  # noqa: F401
+from .crud_role import role  # noqa: F401
 
 # from .crud_spaces import spaces  # noqa: F401
 # from .crud_files import files  # noqa: F401

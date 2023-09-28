@@ -1,4 +1,4 @@
-from typing import Optional, List
+from typing import Optional, List, Set
 from uuid import UUID
 from pydantic import BaseModel, Field, EmailStr, constr, validator
 
@@ -17,10 +17,7 @@ class UserBase(BaseSchema):
     is_superuser: Optional[bool] = False
     full_name: Optional[str] = None
     description: Optional[str] = None
-    subjects: Optional[List[str]] = Field(
-        [],
-        description="A list of topics of the pathway."
-    )
+    subjects: Optional[Set[str]] = Field([], description="A list of topics.")
     language: Optional[LocaleType] = Field(
         None,
         description="Specify the language of pathway. Controlled vocabulary defined by ISO 639-1, ISO 639-2 or ISO 639-3.",
@@ -30,6 +27,10 @@ class UserBase(BaseSchema):
         None,
         description="Spatial characteristics of the pathway."
     )
+
+    @validator("subjects", pre=True)
+    def evaluate_subjects(cls, v):
+        return {s for s in v}
 
 
 class UserSummary(BaseSchema):
@@ -67,6 +68,7 @@ class UserInDBBase(UserBase):
 class User(UserInDBBase):
     hashed_password: bool = Field(default=False, alias="password")
     totp_secret: bool = Field(default=False, alias="totp")
+    completedPersonalPathway: bool = Field(default=False)
 
     class Config:
         allow_population_by_field_name = True

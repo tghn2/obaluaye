@@ -2,15 +2,17 @@ from typing import Any, Dict, Generic, Optional, Type, TypeVar, Union
 
 from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, Query
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm.decl_api import DeclarativeAttributeIntercept
-from babel import Locale
+from babel import Locale, UnknownLocaleError
+from datetime import datetime
 
 from app.db.base_class import Base
 from app.core.config import settings
-from app.models import Subject
-from app.schemas.base_schema import BaseSummarySchema
+from app.models import Subject, User
+from app.schema_types import RoleType
+from app.schemas.base_schema import BaseSummarySchema, BaseSchema
 
 ModelType = TypeVar("ModelType", bound=Base)
 CreateSchemaType = TypeVar("CreateSchemaType", bound=BaseModel)
@@ -39,15 +41,12 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType, OutputSche
         self.schema = schema
         self.i18n_terms = i18n_terms
 
-    def get(self, db: Session, id: Any) -> Optional[ModelType]:
-        return db.query(self.model).filter(self.model.id == id).first()
-
     def _get_schema(
         self,
         *,
         db_obj: ModelType,
         schema: BaseModel,
-        language: Locale | None = None
+        language: str | Locale | None = None
     ) -> dict[str, Any]:
         obj_out = {}
         if language:
@@ -64,23 +63,74 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType, OutputSche
                 elif i18n_obj.get(db_obj.language):
                     obj_out[field] = getattr(i18n_obj[db_obj.language], field)
             else:
-                obj_out[field] = getattr(db_obj, field)
+                attr = getattr(db_obj, field)
+                if not isinstance(attr, Query):
+                    obj_out[field] = attr
         if language:
             obj_out["language"] = language
         return obj_out
 
-    def get_schema_summary(self, *, db_obj: ModelType, language: Locale | None = None) -> BaseSummarySchema:
+    def get_schema_summary(self, *, db_obj: ModelType, language: str | Locale | None = None) -> BaseSummarySchema:
         obj_out = self._get_schema(db_obj=db_obj, schema=BaseSummarySchema, language=language)
         return BaseSummarySchema(**obj_out)
 
-    def get_schema(self, *, db_obj: ModelType, language: Locale | None = None) -> OutputSchemaType:
-        if not self.schema:
+    def get_schema(self, *, db_obj: ModelType, language: str | Locale | None = None, schema_out: BaseSchema | None = None) -> OutputSchemaType:
+        if not schema_out:
+            schema_out = self.schema
+        if not schema_out:
             raise ValueError("Output schema not defined.")
-        obj_out = self._get_schema(db_obj=db_obj, schema=self.schema, language=language)
-        return self.schema(**obj_out)
+        obj_out = self._get_schema(db_obj=db_obj, schema=schema_out, language=language)
+        return schema_out(**obj_out)
 
-    def get_multi(self, db: Session, *, page: int = 0, page_break: bool = False) -> list[ModelType]:
-        db_objs = db.query(self.model)
+    def get(self, db: Session, id: Any) -> Optional[ModelType]:
+        return db.query(self.model).filter(self.model.id == id).first()
+
+    def _filter_multi(
+        self,
+        *,
+        db_objs: Query,
+        match: str | None = None,
+        date_from: datetime | str | None = None,
+        date_to: datetime | str | None = None,
+        user: User | None = None,
+        responsibility: RoleType = RoleType.VIEWER,
+    ) -> list[ModelType]:
+        if date_from and date_to and date_from > date_to:
+            date_to = None
+        if date_to:
+            if isinstance(date_to, str):
+                date_to = datetime.strptime(date_to, "%Y-%m-%d")
+            db_objs = db_objs.filter(self.model.created <= date_to)
+        if date_from:
+            if isinstance(date_from, str):
+                date_from = datetime.strptime(date_from, "%Y-%m-%d")
+            db_objs = db_objs.filter(self.model.created >= date_from)
+        return db_objs
+
+    def get_multi(
+        self,
+        db: Session,
+        *,
+        db_objs: Query | None = None,
+        page: int = 0,
+        page_break: bool = False,
+        match: str | None = None,
+        date_from: datetime | str | None = None,
+        date_to: datetime | str | None = None,
+        user: User | None = None,
+        responsibility: RoleType = RoleType.VIEWER,
+    ) -> list[ModelType]:
+        if not db_objs:
+            # Permits foreign key lists to be filtered
+            db_objs = db.query(self.model)
+        db_objs = self._filter_multi(
+            db_objs=db_objs,
+            match=match,
+            date_from=date_from,
+            date_to=date_to,
+            user=user,
+            responsibility=responsibility
+        )
         if not page_break:
             if page > 0:
                 db_objs = db_objs.offset(page * settings.MULTI_MAX)
@@ -179,8 +229,13 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType, OutputSche
         db.commit()
         return obj
 
-    def _fix_language(self, language: Locale | None) -> Optional[Locale]:
+    def _fix_language(self, language: str | Locale | None) -> Optional[Locale]:
         # Locale is saved as lowercase to the db
         if language and isinstance(language, Locale):
             language = Locale(str(language).lower())
+        if language and isinstance(language, str):
+            try:
+                language = Locale(language.lower())
+            except UnknownLocaleError:
+                language = None
         return language

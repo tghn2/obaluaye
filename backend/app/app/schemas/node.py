@@ -63,6 +63,7 @@ class Node(NodeBase):
         description="Dictionary defining the question in a `node`.",
     )
     resources: Optional[List[Resource]] = Field([], description="A list of resources relevant to this node.")
+    theme_id: Optional[UUID] = Field(None, description="Theme associated node.")
 
     @validator("resources", pre=True)
     def evaluate_lazy_resources(cls, v):
@@ -70,3 +71,4 @@ class Node(NodeBase):
         # Call PydanticModel.from_orm(dbQuery)
         if isinstance(v, Query):
             return v.all()
+        return v

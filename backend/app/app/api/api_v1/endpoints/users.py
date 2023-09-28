@@ -79,6 +79,7 @@ def read_user(
     """
     Get current user.
     """
+    print(current_user.email, current_user.subjects)
     return current_user
 
 

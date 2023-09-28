@@ -10,10 +10,10 @@ from app.core.config import settings
 
 
 class CRUDInvitation(CRUDBase[Invitation, InvitationCreate, InvitationUpdate, InvitationOut]):
-    def get_multi_by_project(
-        self, db: Session, *, project_id: UUID, page: int = 0, page_break: bool = False
+    def get_multi_by_group(
+        self, db: Session, *, group_id: UUID, page: int = 0, page_break: bool = False
     ) -> List[Invitation]:
-        db_objs = db.query(self.model).filter(Invitation.project_id == project_id)
+        db_objs = db.query(self.model).filter(Invitation.group_id == group_id)
         if not page_break:
             if page > 0:
                 db_objs = db_objs.offset(page * settings.MULTI_MAX)

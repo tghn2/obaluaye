@@ -8,6 +8,7 @@ import re
 
 from app.schemas.base_schema import BaseSchema, LocaleType, CountryListType
 from app.schemas.resource import Resource
+from app.schemas.node import Node
 
 
 class ThemeBase(BaseSchema):
@@ -57,7 +58,9 @@ class Theme(ThemeBase):
     created: datetime = Field(..., description="Automatically generated date theme was created.")
     modified: datetime = Field(..., description="Automatically generated date theme was last modified.")
     title: str = Field(..., description="A human-readable title given to the theme.")
+    nodes: Optional[List[Node]] = Field([], description="A list of nodes which define this pathway.")
     resources: Optional[List[Resource]] = Field([], description="A list of resources relevant to this theme.")
+    pathway_id: UUID = Field(..., description="Pathway associated identity.")
 
     @validator("resources", pre=True)
     def evaluate_lazy_resources(cls, v):
@@ -65,3 +68,10 @@ class Theme(ThemeBase):
         # Call PydanticModel.from_orm(dbQuery)
         if isinstance(v, Query):
             return v.all()
+        return v
+
+    @validator("nodes", pre=True)
+    def evaluate_lazy_nodes(cls, v):
+        if isinstance(v, Query):
+            return v.all()
+        return v

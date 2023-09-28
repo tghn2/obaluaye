@@ -1,5 +1,4 @@
-from typing import Any, Union, Dict
-
+from typing import Any, Union
 from fastapi import APIRouter, Body, Depends, HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
@@ -24,7 +23,7 @@ Specifies minimum criteria:
         - The user ID or password was incorrect.
         - The account does not exist.
         - The account is locked or disabled.
-    - Code should go through the same process, no matter what, allowing the application to return in approximately 
+    - Code should go through the same process, no matter what, allowing the application to return in approximately
       the same response time.
     - In the words of George Orwell, break these rules sooner than do something truly barbaric.
 

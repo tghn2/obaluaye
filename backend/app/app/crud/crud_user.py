@@ -5,6 +5,9 @@ from sqlalchemy.orm import Session
 from app.core.security import get_password_hash, verify_password
 from app.crud.base import CRUDBase
 from app.models.user import User
+from app.models.pathway import Pathway
+from app.models.response import Response
+from app.schema_types import PathwayType
 from app.schemas.user import UserCreate, UserInDB, UserUpdate, User as UserOut
 from app.schemas.totp import NewTOTP
 
@@ -89,6 +92,15 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate, UserOut]):
 
     def is_email_validated(self, user: User) -> bool:
         return user.email_validated
+
+    def has_completed_personal_pathway(self, user: User) -> bool:
+        last_response = user.responses.filter(
+            Pathway.pathType == PathwayType.PERSONAL
+        ).order_by(None).order_by(Response.created.desc()).first()
+        if not last_response or last_response.node.after.first():
+            # Either they've not filled in, or the response isn't for the last node
+            return False
+        return True
 
 
 user = CRUDUser(model=User)

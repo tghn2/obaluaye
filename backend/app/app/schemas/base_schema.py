@@ -125,3 +125,7 @@ class BaseSummarySchema(BaseSchema):
             # https://stackoverflow.com/a/57837793/295606
             return re.sub("[^a-z0-9-]", "", values["title"].lower().replace(" ", "-"))
         return None
+
+    @validator("subjects", pre=True)
+    def evaluate_subjects(cls, v):
+        return {s for s in v}

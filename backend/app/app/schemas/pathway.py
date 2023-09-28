@@ -11,7 +11,7 @@ import re
 from app.schemas.base_schema import BaseSchema, LocaleType, CountryListType
 from app.schemas.role import Role
 from app.schemas.theme import Theme
-from app.schemas.node import Node
+# from app.schemas.node import Node
 from app.schemas.resource import Resource
 from app.schema_types.pathway import PathwayType
 
@@ -80,23 +80,8 @@ class Pathway(PathwayBase):
     created: datetime = Field(..., description="Automatically generated date pathway was created.")
     modified: datetime = Field(..., description="Automatically generated date pathway was last modified.")
     title: str = Field(..., description="A human-readable title given to the pathway.")
-    # language: Optional[str] = Field(
-    #     None,
-    #     description="Specify the language of pathway. Controlled vocabulary defined by ISO 639-1, ISO 639-2 or ISO 639-3.",
-    # )
-    # country: Optional[List[str]] = Field([], description="A list of countries, defined by country codes.")
     themes: Optional[List[Theme]] = Field([], description="A list of themes which define the nodes in this pathway.")
-    nodes: Optional[List[Node]] = Field([], description="A list of nodes which define this pathway.")
     resources: Optional[List[Resource]] = Field([], description="A list of resources relevant to this pathway.")
-
-    # @validator("language", pre=True)
-    # def evaluate_lazy_language(cls, v):
-    #     if v and isinstance(v, Locale):
-    #         return str(v).lower()
-
-    # @validator("country", pre=True)
-    # def evaluate_lazy_country(cls, v):
-    #     return [c.code if isinstance(c, Country) else c for c in v]
 
     @validator("themes", pre=True)
     def evaluate_lazy_themes(cls, v):
@@ -104,11 +89,7 @@ class Pathway(PathwayBase):
         # Call PydanticModel.from_orm(dbQuery)
         if isinstance(v, Query):
             return v.all()
-
-    @validator("nodes", pre=True)
-    def evaluate_lazy_nodes(cls, v):
-        if isinstance(v, Query):
-            return v.all()
+        return v
 
     @validator("resources", pre=True)
     def evaluate_lazy_resources(cls, v):
@@ -116,6 +97,7 @@ class Pathway(PathwayBase):
         # Call PydanticModel.from_orm(dbQuery)
         if isinstance(v, Query):
             return v.all()
+        return v
 
 
 class PathwayAdmin(Pathway):
