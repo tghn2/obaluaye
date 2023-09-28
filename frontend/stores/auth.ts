@@ -10,16 +10,22 @@ import { tokenIsTOTP, tokenParser } from "@/utilities"
 import { useToastStore } from "./toasts"
 import { useTokenStore } from "./tokens"
 
-export const useAuthStore = defineStore("authUser", {
-  state: (): IUserProfile => ({
-    id: "",
-    email: "",
-    email_validated: false,
-    is_active: false,
-    is_superuser: false,
-    full_name: "",
-    password: false,
-    totp: false
+export const useAuthStore = defineStore("authStore", {
+    state: (): IUserProfile => ({
+        id: "",
+        email: "",
+        email_validated: false,
+        is_active: false,
+        is_superuser: false,
+        full_name: "",
+        description: "",
+        subjects: [],
+        language: "",
+        country: [],
+        spatial: "",
+        password: false,
+        totp: false,
+        completedPersonalPathway: false,
   }),
   persist: {
     storage: persistedState.cookiesWithOptions({
@@ -205,14 +211,20 @@ export const useAuthStore = defineStore("authUser", {
     },
     // mutations are actions, instead of `state` as first argument use `this`
     setUserProfile (payload: IUserProfile) {
-      this.id = payload.id
-      this.email = payload.email
-      this.email_validated = payload.email_validated
-      this.is_active = payload.is_active
-      this.is_superuser = payload.is_superuser
-      this.full_name = payload.full_name
-      this.password = payload.password
-      this.totp = payload.totp
+        this.id = payload.id
+        this.email = payload.email
+        this.email_validated = payload.email_validated
+        this.is_active = payload.is_active
+        this.is_superuser = payload.is_superuser
+        this.full_name = payload.full_name
+        this.description = payload.description
+        this.subjects = payload.subjects
+        this.language = payload.language
+        this.country = payload.country
+        this.spatial = payload.spatial
+        this.password = payload.password
+        this.totp = payload.totp
+        this.completedPersonalPathway = payload.completedPersonalPathway
     },
     async sendEmailValidation() {
       // @ts-ignore

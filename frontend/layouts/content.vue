@@ -1,19 +1,26 @@
 <template>
     <Html :lang="htmlAttrs.lang" :dir="htmlAttrs.dir">
-        <Body>
-            <div class="bg-white">
-                <slot name="header" >
-                    <LayoutsDefaultNavigation />
+
+    <Body>
+        <div class="flex min-h-full flex-col">
+            <div class="mx-auto w-full max-w-5xl grow lg:flex">
+                <slot name="header">
+                    <!-- Responsive menus -->
+                    <NavigationDefaultSidebarMenu />
+                    <NavigationDefaultMobileMenu />
                 </slot>
-                <main>
-                    <ContentDoc />
+                <main class="mt-10 md:mt-0 md:pl-20 lg:pl-60">
+                    <div class="flex-grow">
+                        <ContentDoc />
+                    </div>
                 </main>
-                <slot name="footer" >
-                    <LayoutsNotification />
-                    <LayoutsDefaultFooter />
+                <slot name="notifications">
+                    <CommonNotification />
                 </slot>
             </div>
-        </Body>
+        </div>
+    </Body>
+
     </Html>
 </template>
 

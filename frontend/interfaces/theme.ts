@@ -1,4 +1,5 @@
 import { IResource } from "./general"
+import { INode } from "./node"
 
 export interface ITheme {
     // https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#section-3
@@ -15,4 +16,5 @@ export interface ITheme {
     language?: string
     pathway_id?: string
     resources?: IResource[]
+    nodes?: INode[]
 }

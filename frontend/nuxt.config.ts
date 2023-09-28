@@ -61,7 +61,7 @@ export default defineNuxtConfig({
       navigation: {
         fields: ["title", "author", "publishedAt"]
       },
-      locales: ["en", "fr"],
+      locales: ["en", "fr", "es", "pt"],
       defaultLocale: "en",
     },
     i18n: {
@@ -82,6 +82,20 @@ export default defineNuxtConfig({
           iso: "fr-FR",
           dir: "ltr",
           file: "fr-FR.ts",
+        },
+        {
+          code: "es",
+          name: "Español",
+          iso: "es-ES",
+          dir: "ltr",
+          file: "es-ES.ts",
+        },
+        {
+          code: "pt",
+          name: "Português",
+          iso: "pt-PT",
+          dir: "ltr",
+          file: "pt-PT.ts",
         }
       ], 
       defaultLocale: "en",
@@ -157,6 +171,6 @@ export default defineNuxtConfig({
         },
     },
     build: {
-      transpile: ["@heroicons/vue"]
+      transpile: ["@phosphor-icons/vue"]
     }
 })

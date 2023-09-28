@@ -30,6 +30,8 @@ export interface IResource {
 
 export interface IFilters {
     match?: string
-    descending?: boolean
+    date_from?: string
+    date_to?: string
+    language?: string
     page?: number
 }

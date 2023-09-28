@@ -7,7 +7,7 @@ import {
     tokenParser,
 } from "./generic"
 import {
-    readableDate,
+    readableDate, readableNumber, capitalizeFirst, nameSpace, splitWordify,
 } from "./textual"
 import {
     tokenIsTOTP
@@ -21,5 +21,9 @@ export {
     isValidHttpUrl,
     tokenParser,
     readableDate,
+    readableNumber,
+    capitalizeFirst,
+    nameSpace,
+    splitWordify,
     tokenIsTOTP,
 }

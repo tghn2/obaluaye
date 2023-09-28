@@ -22,6 +22,5 @@ export interface IPathway {
     language?: string
     bibliographicCitation?: string
     themes?: ITheme[]
-    nodes?: INode[]
     resources?: IResource[]
 }

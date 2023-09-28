@@ -12,10 +12,6 @@ import {
 import { apiCore } from "./core"
 
 export const apiAuth = {
-  // TEST
-  async getTestText() {
-    return await useFetch<IMsg>(`${apiCore.url()}/users/tester`)
-  },
   // LOGIN WITH MAGIC LINK OR OAUTH2 (USERNAME/PASSWORD)
   async loginWithMagicLink(email: string) {
     return await useFetch<IWebToken>(`${apiCore.url()}/login/magic/${email}`,

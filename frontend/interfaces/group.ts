@@ -24,7 +24,9 @@ export interface IGroup {
 
 export interface IGroupFilters {
     match?: string
-    descending?: boolean
+    date_from?: string
+    date_to?: string
+    language?: string
     page?: number
 }
   
