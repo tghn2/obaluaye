@@ -195,7 +195,7 @@ async function watchHeadingRequest(request: string) {
         case "save":
             break
         case "cancel":
-            break
+            return await navigateTo(`/pathway/${route.params.id}`)
         default:
             watchLocaleSelect(request)
             break

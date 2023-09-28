@@ -45,6 +45,7 @@ ENV NODE_ENV=production APP_ENV=production NITRO_HOST=${NUXT_HOST:-0.0.0.0} NITR
 WORKDIR /frontend
 RUN yarn add nuxt@${NUXT_VERSION} @nuxt/content@${NUXT_CONTENT_VERSION} tailwindcss@${TAILWINDCSS_VERSION} autoprefixer@${AUTOPREFIXER_VERSION} postcss@${POSTCSS_VERSION} @tailwindcss/aspect-ratio@${ASPECT_RATIO_VERSION} @tailwindcss/forms@${FORMS_VERSION} @tailwindcss/typography@${TYPOGRAPHY_VERSION} @headlessui/vue@${HEADLESSUI_VERSION} @phosphor-icons/vue@${PHOSPHORICONS_VERSION} pinia@${PINIA_VERSION} @pinia/nuxt@${PINI_NUXT_VERSION} @pinia-plugin-persistedstate/nuxt@${PINIA_PERSISTED_VERSION} vee-validate@${VEE_VERSION} @vee-validate/i18n@${VEE_I18N_VERSION} @vee-validate/rules@${VEE_RULES_VERSION} qrcode.vue@${QR_CODE_VERSION} @nuxtjs/i18n@${I18N_VERSION} @nuxtjs/robots@${NUXT_ROBOTS_VERSION} @vite-pwa/nuxt@${VITE_PWA_NUXT_VERSION} browser-fs-access@${BROWSER_FS_ACCESS_VERSION} dayjs@${DAYJS_VERSION} i18n-iso-countries@${I18N_ISO_COUNTRIES} @nuxtjs/robots@${NUXT_ROBOTS_VERSION} vue-tailwind-datepicker@${VUE_TAILWIND_PICKER_VERSION}
 COPY --from=build /app/.nuxt ./.nuxt
+COPY --from=build /app/.output/ ./.output
 COPY --from=build /app/api ./api
 COPY --from=build /app/assets ./assets
 COPY --from=build /app/components ./components
@@ -63,6 +64,6 @@ COPY --from=build /app/.env ./
 COPY --from=build /app/app.vue ./
 COPY --from=build /app/nuxt.config* ./
 COPY --from=build /app/tailwind.config* ./
-COPY --from=build /app/tsconfig.json ./
+COPY --from=build /app/tsconfig.json* ./
 ENTRYPOINT [ "yarn" ]
 CMD [ "start" ]
