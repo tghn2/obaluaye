@@ -65,5 +65,6 @@ COPY --from=build /frontend/app.vue ./
 COPY --from=build /frontend/nuxt.config* ./
 COPY --from=build /frontend/tailwind.config* ./
 COPY --from=build /frontend/tsconfig.json* ./
+COPY --from=build /frontend/package.json ./
 ENTRYPOINT [ "yarn" ]
 CMD [ "start" ]

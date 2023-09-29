@@ -1,4 +1,4 @@
-version: "3.3"
+version: "3.6"
 services:
   proxy:
     image: traefik:v2.2
@@ -85,8 +85,6 @@ services:
     networks:
       - ${TRAEFIK_PUBLIC_NETWORK?Variable not set}
       - default
-    depends_on:
-      - db
     env_file:
       - .env
     deploy:
@@ -140,8 +138,6 @@ services:
 
   backend:
     image: "${DOCKER_IMAGE_BACKEND?Variable not set}:${TAG-latest}"
-    depends_on:
-      - db
     logging:
       driver: "json-file"
       options:
@@ -172,9 +168,6 @@ services:
 
   celeryworker:
     image: "${DOCKER_IMAGE_CELERYWORKER?Variable not set}:${TAG-latest}"
-    depends_on:
-      - db
-      - queue
     logging:
       driver: "json-file"
       options:

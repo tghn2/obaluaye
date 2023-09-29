@@ -17,6 +17,7 @@ RUN hatch env prune && hatch env create production && pip install --upgrade setu
 # jupyter lab --ip=0.0.0.0 --allow-root --NotebookApp.custom_display_url=http://127.0.0.1:8888
 ARG INSTALL_JUPYTER=false
 RUN bash -c "if [ $INSTALL_JUPYTER == 'true' ] ; then pip install jupyterlab ; fi"
+RUN bash -c "pip install argon2_cffi"
 
 ARG BACKEND_APP_MODULE=app.main:app
 ARG BACKEND_PRE_START_PATH=/app/prestart.sh
