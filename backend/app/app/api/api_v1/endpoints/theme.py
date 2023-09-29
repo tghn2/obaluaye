@@ -117,18 +117,24 @@ def update_theme(
     current_user: models.User = Depends(deps.get_current_active_user),
 ) -> Any:
     """
-    Update a theme.
+    Update a theme. Handles both create and update.
     """
-    db_obj = crud.theme.get(db=db, id=id)
-    if not db_obj or not crud.role.has_responsibility(
-        db=db, user=current_user, pathway=db_obj.pathway, responsibility=schema_types.RoleType.CURATOR
+    # Check that pathway exists and user has appropriate auths
+    pathway_obj = crud.pathway.get(db=db, id=obj_in.pathway_id)
+    if not obj_in.pathway_id or not pathway_obj or not crud.role.has_responsibility(
+        db=db, user=current_user, pathway=pathway_obj, responsibility=schema_types.RoleType.CURATOR
     ):
         raise HTTPException(
             status_code=400,
-            detail="Either theme does not exist, or user does not have the rights for this request.",
+            detail="Either root pathway does not exist, or user does not have the rights for this request.",
         )
-    db_obj = crud.theme.update(db=db, db_obj=db_obj, obj_in=obj_in)
-    return crud.theme.get_schema(db_obj=db_obj, language=obj_in.language)
+    # Check if theme exists
+    theme_obj = crud.theme.get(db=db, id=id)
+    if not theme_obj:
+        theme_obj = crud.theme.create(db=db, obj_in=obj_in)
+    else:
+        theme_obj = crud.theme.update(db=db, db_obj=theme_obj, obj_in=obj_in)
+    return crud.theme.get_schema(db_obj=theme_obj, language=obj_in.language)
 
 
 @router.delete("/{id}", response_model=schemas.Msg)

@@ -88,17 +88,21 @@ pathway_sequence_table: Final[Table] = Table(
 class NodeQuestion(Base):
     id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, index=True, default=uuid4)
     node_id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("node.id", onupdate="CASCADE", ondelete="CASCADE"))
+    node: Mapped["Node"] = relationship(back_populates="question")
     question: Mapped[Optional[str]] = mapped_column(index=True)
     language: Mapped[Locale] = mapped_column(LocaleType)
 
-    def __init__(self, language: str | Locale, question: str):
+    def __init__(self, language: str | Locale, question: str, back_ref: Node | None = None):
         self.language = language
         self.question = question
+        if back_ref:
+            self.node = back_ref
 
 
 class NodeForm(Base):
     id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, index=True, default=uuid4)
     node_id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("node.id", onupdate="CASCADE", ondelete="CASCADE"))
+    node: Mapped["Node"] = relationship(back_populates="form")
     # Pay attention to JSON field mutability
     # https://amercader.net/blog/beware-of-json-fields-in-sqlalchemy/
     # For these small data fields, create a copy of the JSON field dict before making the changes
@@ -109,6 +113,8 @@ class NodeForm(Base):
     form: Mapped[json] = mapped_column(JSONB)
     language: Mapped[Locale] = mapped_column(LocaleType)
 
-    def __init__(self, language: str | Locale, form: str):
+    def __init__(self, language: str | Locale, form: str, back_ref: Node | None = None):
         self.language = language
         self.form = form
+        if back_ref:
+            self.node = back_ref

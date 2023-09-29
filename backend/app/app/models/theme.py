@@ -66,6 +66,7 @@ class Theme(Base):
 class ThemeTitle(Base):
     id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, index=True, default=uuid4)
     theme_id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("theme.id", onupdate="CASCADE", ondelete="CASCADE"))
+    theme: Mapped["Theme"] = relationship(back_populates="title")
     title: Mapped[Optional[str]] = mapped_column(index=True)
     language: Mapped[Locale] = mapped_column(LocaleType)
     title_vector: Mapped[TSVectorType] = mapped_column(
@@ -77,14 +78,17 @@ class ThemeTitle(Base):
         Index("ix_theme_title_vector", title_vector, postgresql_using="gin"),
     )
 
-    def __init__(self, language: str | Locale, title: str):
+    def __init__(self, language: str | Locale, title: str, back_ref: Theme | None = None):
         self.language = language
         self.title = title
+        if back_ref:
+            self.theme = back_ref
 
 
 class ThemeDescription(Base):
     id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, index=True, default=uuid4)
     theme_id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("theme.id", onupdate="CASCADE", ondelete="CASCADE"))
+    theme: Mapped["Theme"] = relationship(back_populates="description")
     description: Mapped[Optional[str]] = mapped_column(index=True)
     language: Mapped[Locale] = mapped_column(LocaleType)
     description_vector: Mapped[TSVectorType] = mapped_column(
@@ -96,9 +100,11 @@ class ThemeDescription(Base):
         Index("ix_theme_description_vector", description_vector, postgresql_using="gin"),
     )
 
-    def __init__(self, language: str | Locale, description: str):
+    def __init__(self, language: str | Locale, description: str, back_ref: Theme | None = None):
         self.language = language
         self.description = description
+        if back_ref:
+            self.theme = back_ref
 
 
 theme_subject_table: Final[Table] = Table(

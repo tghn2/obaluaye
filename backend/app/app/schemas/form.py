@@ -35,6 +35,7 @@ class TermModel(BaseSchema):
         None,
         description="A text label describing the expected value, especially where the form may be a scale."
     )
+    branch: Optional[UUID] = Field(None, description="Theme id for following branch.")
 
 
 class AnswerModel(BaseSchema):

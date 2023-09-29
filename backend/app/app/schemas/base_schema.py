@@ -67,7 +67,7 @@ class CountryListType(Country):
                 try:
                     if isinstance(v, str):
                         validated.append(Country(v.upper()))
-                    elif isinstance(val, cls):
+                    elif isinstance(v, Country):
                         validated.append(Country(v.code))
                 except (KeyError, ValueError):
                     pass
