@@ -25,6 +25,7 @@ export interface ITerm {
     id?: string
     value?: string
     label?: string
+    branch?: string
 }
 
 export interface IConstraints {

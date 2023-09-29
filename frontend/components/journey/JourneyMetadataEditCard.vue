@@ -45,6 +45,17 @@
                             <p class="mt-2 text-sm leading-6 text-gray-500">{{ t("pathway.help.subjects") }}</p>
                         </div>
                         <div class="col-span-full">
+                            <label for="pathway-country-values" class="block text-sm font-semibold leading-6 text-gray-900">
+                                {{ t("pathway.field.country") }}
+                            </label>
+                            <div class="mt-2">
+                                <CommonCountrySelect :initial-choices="draft.country" @set-select="watchCountrySelect" />
+                            </div>
+                            <p class="mt-2 text-sm leading-6 text-gray-500">
+                                {{ t("pathway.help.country") }}
+                            </p>
+                        </div>
+                        <div class="col-span-full">
                             <label for="pathway-spatial-values" class="block text-sm font-semibold leading-6 text-gray-900">
                                 {{ t("pathway.field.spatial") }}
                             </label>
@@ -73,53 +84,6 @@
                                 {{ t("pathway.help.temporal") }}
                             </p>
                         </div>
-                        <!-- 
-                <div class="col-span-full">
-                    <label for="pathway-accrual-method-values"
-                        class="block text-sm font-semibold leading-6 text-gray-900">Accrual
-                        method</label>
-                    <div class="mt-2">
-                        <Listbox v-model="draft.accrualMethod">
-                            <div class="relative mt-1">
-                                <ListboxButton
-                                    class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-spring-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-spring-300 sm:text-sm">
-                                    <span v-if="draft.accrualMethod" class="block truncate">{{
-                                        capitalizeFirst(draft.accrualMethod)
-                                    }}</span>
-                                    <span v-else class="block truncate">Select...</span>
-                                    <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                                        <PhCaretUpDown class="h-5 w-5 text-gray-400" aria-hidden="true" />
-                                    </span>
-                                </ListboxButton>
-                                <transition leave-active-class="transition duration-100 ease-in"
-                                    leave-from-class="opacity-100" leave-to-class="opacity-0">
-                                    <ListboxOptions
-                                        class="absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                                        <ListboxOption v-slot="{ active, selected }" v-for="mtype in parameters.accrualType"
-                                            :key="`mtype-${mtype.value}`" :value="mtype.value" as="template">
-                                            <li :class="[
-                                                active ? 'bg-spring-100 text-spring-900' : 'text-gray-900',
-                                                'relative cursor-default select-none py-2 pl-10 pr-4',
-                                            ]">
-                                                <span :class="[
-                                                    selected ? 'font-medium' : 'font-normal',
-                                                    'block truncate',
-                                                ]">{{ capitalizeFirst(mtype.value) }}</span>
-                                                <span v-if="selected"
-                                                    class="absolute inset-y-0 left-0 flex items-center pl-3 text-spring-600">
-                                                    <PhCheck class="h-5 w-5" aria-hidden="true" />
-                                                </span>
-                                            </li>
-                                        </ListboxOption>
-                                    </ListboxOptions>
-                                </transition>
-                            </div>
-                        </Listbox>
-                    </div>
-                    <p class="mt-2 text-sm leading-6 text-gray-600">
-                        The method by which items are added to a resource.
-                    </p>
-                </div> -->
                         <div class="col-span-full">
                             <label for="pathway-bibliographic-citation-values"
                                 class="block text-sm font-semibold leading-6 text-gray-900">
@@ -145,9 +109,7 @@
 import { storeToRefs } from "pinia"
 import VueTailwindDatepicker from "vue-tailwind-datepicker"
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue"
-import { Listbox, ListboxButton, ListboxOptions, ListboxOption, } from "@headlessui/vue"
-import { PhCheck, PhCaretDown } from "@phosphor-icons/vue"
-import { capitalizeFirst } from "@/utilities"
+import { PhCaretDown } from "@phosphor-icons/vue"
 import { IPathway } from "@/interfaces"
 import { usePathwayStore } from "@/stores"
 import dayjs from "dayjs"
@@ -184,6 +146,10 @@ function disclosureWatcher(open: boolean, close: typeof ref | HTMLElement) {
         openState.value = false
         pathwayStore.setActiveDraft("")
     }
+}
+
+function watchCountrySelect(response: string[]) {
+    draft.value.country = response
 }
 
 watch(() => pathwayStore.activeEdit, () => {

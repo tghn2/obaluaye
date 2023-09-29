@@ -47,6 +47,17 @@
                             <p class="mt-2 text-sm leading-6 text-gray-500">{{ t("theme.help.subjects") }}</p>
                         </div>
                         <div class="col-span-full">
+                            <label for="pathway-country-values" class="block text-sm font-semibold leading-6 text-gray-900">
+                                {{ t("pathway.field.country") }}
+                            </label>
+                            <div class="mt-2">
+                                <CommonCountrySelect :initial-choices="draft.country" @set-select="watchCountrySelect" />
+                            </div>
+                            <p class="mt-2 text-sm leading-6 text-gray-500">
+                                {{ t("pathway.help.country") }}
+                            </p>
+                        </div>
+                        <div class="col-span-full">
                             <label for="theme-spatial-values" class="block text-sm font-semibold leading-6 text-gray-900">
                                 {{ t("theme.field.spatial") }}
                             </label>
@@ -99,6 +110,10 @@ function disclosureWatcher(open: boolean, close: typeof ref | HTMLElement) {
         openState.value = false
         pathwayStore.setActiveDraft("")
     }
+}
+
+function watchCountrySelect(response: string[]) {
+    draft.value.country = response
 }
 
 watch(() => pathwayStore.activeEdit, () => {

@@ -69,6 +69,10 @@ const props = defineProps<{
 const emit = defineEmits<{ setDraft: [draft: IForm] }>()
 
 // WATCHERS
+watch(() => [dtypeMinimum, dtypeMaximum], () => {
+    draft.value = setDraft({ ...draft.value })
+})
+
 watch(
     () => draft.value, () => {
         const response = setDraft({ ...draft.value })
@@ -106,6 +110,8 @@ function resetDraft() {
     if (!initialDraft.constraints || Object.keys(initialDraft.constraints).length === 0) initialDraft.constraints = {} as IConstraints
     if (!("dtype" in initialDraft.constraints)) initialDraft.constraints.dtype = defaultType
     if (initialDraft.constraints.dtype) dtype.value = initialDraft.constraints.dtype
+    if (initialDraft.constraints.minimum) dtypeMinimum.value = initialDraft.constraints.minimum
+    if (initialDraft.constraints.maximum) dtypeMaximum.value = initialDraft.constraints.maximum
     draft.value = { ...initialDraft }
 }
 

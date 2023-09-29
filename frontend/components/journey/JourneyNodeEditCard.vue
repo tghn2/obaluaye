@@ -30,12 +30,12 @@
                                 {{ t("form.name") }}
                             </label>
                             <div class="mt-2">
-                                <Listbox v-model="formOfType" id="form-selection-types">
+                                <Listbox v-model="draft.formType" id="form-selection-types">
                                     <div class="relative mt-1">
                                         <ListboxButton
                                             class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus-visible:border-spring-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-spring-300 sm:text-sm">
                                             <span class="block truncate text-gray-900">
-                                                {{ t(formType[formOfType].name) }}
+                                                {{ t(formType[draft.formType as INodeType].name) }}
                                             </span>
                                             <span
                                                 class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
@@ -79,7 +79,7 @@
                             <p class="mt-2 text-sm leading-6 text-gray-500">{{ t("node.help.subjects") }}</p>
                         </div>
                     </div>
-                    <component :is="formType[formOfType].component" :initial-draft="draft.form"
+                    <component :is="formType[draft.formType as INodeType].component" :initial-draft="draft.form"
                         @set-draft="watchFormRequest" />
                 </form>
             </DisclosurePanel>
@@ -92,7 +92,7 @@ import { storeToRefs } from "pinia"
 import { PhDotsSix, PhCaretDown, PhCaretUpDown, PhCheck } from "@phosphor-icons/vue"
 import { Disclosure, DisclosureButton, DisclosurePanel, Listbox, ListboxButton, ListboxOptions, ListboxOption, } from "@headlessui/vue"
 import { usePathwayStore } from "@/stores"
-import { INode, IKeyable, IForm } from "@/interfaces"
+import { INode, IKeyable, IForm, INodeType } from "@/interfaces"
 
 const { t } = useI18n()
 const pathwayStore = usePathwayStore()
@@ -101,7 +101,8 @@ const toggleClose = ref({} as typeof ref | HTMLElement)
 const openState = ref(false)
 const draft = ref({} as INode)
 const subjects = ref("")
-const formOfType = ref("SELECTONE")
+const defaultType: INodeType = "SELECTONE"
+const formOfType = ref("SELECTONE" as INodeType)
 
 // https://nuxt.com/docs/guide/directory-structure/components#dynamic-components
 const formSelect: IKeyable = [
@@ -174,6 +175,7 @@ function resetDraft() {
     const initialDraft = { ...props.initialDraft }
     if (initialDraft.subjects && initialDraft.subjects.length) subjects.value = initialDraft.subjects.join(", ")
     if (!initialDraft.form || Object.keys(initialDraft.form).length === 0) initialDraft.form = {}
+    if (!initialDraft.formType) initialDraft.formType = defaultType
     draft.value = { ...initialDraft }
 }
 

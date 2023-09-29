@@ -133,7 +133,6 @@ const draft = ref({} as IPathway)
 const draftStartLanguage = ref("")
 const dragThemeID = ref("" as string)
 const dragNodeID = ref("" as string)
-const isNew = ref(false)
 const pathTitle = ref("Creating pathway")
 
 // SETUP
@@ -142,10 +141,10 @@ onMounted(async () => {
     await pathwayStore.getTerm(route.params.id as string, false)
     if (!pathwayStore.term || Object.keys(pathwayStore.term).length === 0) {
         // The pathway doesn't exist, so create a draft ...
-        isNew.value = true
+        pathwayStore.setCreateDraft(true)
         createDraft()
     } else {
-        isNew.value = false
+        pathwayStore.setCreateDraft(false)
         pathTitle.value = "Updating pathway"
         resetDraft()
     }
@@ -170,6 +169,7 @@ function createDraft() {
                     {
                         id: generateUUID(),
                         language: pathwayStore.languageDraft,
+                        formType: "SELECTONE",
                         form: {},
                         resources: [],
                         theme_id: themeID,
@@ -193,6 +193,7 @@ async function watchHeadingRequest(request: string) {
     console.log("watchHeadingRequest", request)
     switch (request) {
         case "save":
+            await pathwayStore.updateTerm(route.params.id as string, draft.value)
             break
         case "cancel":
             return await navigateTo(`/pathway/${route.params.id}`)
@@ -230,14 +231,7 @@ watch(
     { deep: true }
 )
 
-// PATHWAY
-function updatePathwayMetadata(update: IPathway) {
-    if (draft.value.themes && draft.value.themes.length) update.themes = [...draft.value.themes]
-    if (draft.value.resources && draft.value.resources.length) update.resources = [...draft.value.resources]
-    draft.value = { ...update }
-}
-
-// THEMES
+// GETTERS
 function getThemeIndex(themeID: string) {
     return draft.value.themes!.findIndex(
         (theme: ITheme) => theme.id === themeID
@@ -250,25 +244,36 @@ function getTheme(themeID: string) {
     )
 }
 
-function reorderThemes(frThemeID: string, toThemeID: string) {
-    // Reorder themes
-    const frIdx = getThemeIndex(frThemeID)
-    const toIdx = getThemeIndex(toThemeID)
-    // Because TypeScript, in its infinite wisdom, has no concept of `-1`
-    const dragged = { ...draft.value.themes!.slice(frIdx)[0] }
-    draft.value.themes!.splice(frIdx, 1)
-    draft.value.themes!.splice(toIdx, 0, dragged)
+function getNodeIndex(theme: ITheme, nodeID: string) {
+    return theme.nodes!.findIndex(
+        (node: INode) => node.id === nodeID
+    )
 }
 
-function moveNodeBetweenThemes(frThemeID: string, toThemeID: string, nodeID: string) {
-    const frTheme = getTheme(frThemeID)
-    const frIdx = getNodeIndex(frTheme as ITheme, nodeID)
-    const toTheme = getTheme(toThemeID)
-    const dragged = { ...frTheme!.nodes!.slice(frIdx)[0] }
-    // make sure this is reassigned
-    dragged.theme_id = toTheme!.id
-    frTheme!.nodes!.splice(frIdx, 1)
-    toTheme!.nodes!.push(dragged)
+function getNode(theme: ITheme, nodeID: string) {
+    return theme.nodes!.find(
+        (node: INode) => node.id === nodeID
+    )
+}
+
+// CREATORS UPDATERS
+function updatePathwayMetadata(update: IPathway) {
+    if (draft.value.themes && draft.value.themes.length) update.themes = [...draft.value.themes]
+    if (draft.value.resources && draft.value.resources.length) update.resources = [...draft.value.resources]
+    draft.value = { ...update }
+}
+
+function updateTheme(update: ITheme) {
+    const updateIdx = getThemeIndex(update.id as string)
+    update.nodes = draft.value.themes![updateIdx].nodes
+    draft.value.themes![updateIdx] = update
+}
+
+function updateNode(update: INode) {
+    const themeIdx = getThemeIndex(update.theme_id as string)
+    const theme = getTheme(update.theme_id as string)
+    const updateIdx = getNodeIndex(theme as ITheme, update.id as string)
+    draft.value.themes![themeIdx].nodes![updateIdx] = update
 }
 
 function addTheme(requestThemeID?: string) {
@@ -290,39 +295,6 @@ function addTheme(requestThemeID?: string) {
     if (requestThemeID) reorderThemes(newTheme.id as string, requestThemeID)
 }
 
-function updateTheme(update: ITheme) {
-    const updateIdx = getThemeIndex(update.id as string)
-    update.nodes = draft.value.themes![updateIdx].nodes
-    draft.value.themes![updateIdx] = update
-}
-
-function removeTheme(themeID: string) {
-    const themeIdx = getThemeIndex(themeID)
-    draft.value.themes!.splice(themeIdx, 1)
-}
-
-// NODES
-function getNodeIndex(theme: ITheme, nodeID: string) {
-    return theme.nodes!.findIndex(
-        (node: INode) => node.id === nodeID
-    )
-}
-
-function getNode(theme: ITheme, nodeID: string) {
-    return theme.nodes!.find(
-        (node: INode) => node.id === nodeID
-    )
-}
-
-function reorderNodes(theme: ITheme, frNodeID: string, toNodeID: string) {
-    // Reorder themes
-    const frIdx = getNodeIndex(theme, frNodeID)
-    const toIdx = getNodeIndex(theme, toNodeID)
-    const dragged = { ...theme.nodes!.slice(frIdx)[0] }
-    theme.nodes!.splice(frIdx, 1)
-    theme.nodes!.splice(toIdx, 0, dragged)
-}
-
 function addNode(themeID: string, requestNodeID?: string) {
     const theme = getTheme(themeID)
     const newNode = {
@@ -336,11 +308,41 @@ function addNode(themeID: string, requestNodeID?: string) {
     if (requestNodeID) reorderNodes(theme as ITheme, newNode.id, requestNodeID)
 }
 
-function updateNode(update: INode) {
-    const themeIdx = getThemeIndex(update.theme_id as string)
-    const theme = getTheme(update.theme_id as string)
-    const updateIdx = getNodeIndex(theme as ITheme, update.id as string)
-    draft.value.themes![themeIdx].nodes![updateIdx] = update
+// REORDER MOVERS
+function reorderThemes(frThemeID: string, toThemeID: string) {
+    // Reorder themes
+    const frIdx = getThemeIndex(frThemeID)
+    const toIdx = getThemeIndex(toThemeID)
+    // Because TypeScript, in its infinite wisdom, has no concept of `-1`
+    const dragged = { ...draft.value.themes!.slice(frIdx)[0] }
+    draft.value.themes!.splice(frIdx, 1)
+    draft.value.themes!.splice(toIdx, 0, dragged)
+}
+
+function moveNodeBetweenThemes(frThemeID: string, toThemeID: string, nodeID: string) {
+    const frTheme = getTheme(frThemeID)
+    const frIdx = getNodeIndex(frTheme as ITheme, nodeID)
+    const toTheme = getTheme(toThemeID)
+    const dragged = { ...frTheme!.nodes!.slice(frIdx)[0] }
+    // make sure this is reassigned
+    dragged.theme_id = toTheme!.id
+    frTheme!.nodes!.splice(frIdx, 1)
+    toTheme!.nodes!.push(dragged)
+}
+
+function reorderNodes(theme: ITheme, frNodeID: string, toNodeID: string) {
+    // Reorder themes
+    const frIdx = getNodeIndex(theme, frNodeID)
+    const toIdx = getNodeIndex(theme, toNodeID)
+    const dragged = { ...theme.nodes!.slice(frIdx)[0] }
+    theme.nodes!.splice(frIdx, 1)
+    theme.nodes!.splice(toIdx, 0, dragged)
+}
+
+// DELETERS
+function removeTheme(themeID: string) {
+    const themeIdx = getThemeIndex(themeID)
+    draft.value.themes!.splice(themeIdx, 1)
 }
 
 function removeNode(themeID: string, nodeID: string) {

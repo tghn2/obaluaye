@@ -53,7 +53,7 @@ export default {
             title: "",
             description: "A complete description of the pathway.",
             subjects: "A list of topics of the pathway. Comma-separated. Contains all languages.",
-            country: "A list of one or more languages appropriate to this pathway.",
+            country: "A list of one or more countries appropriate to this pathway.",
             spatial: "Spatial characteristics of the pathway.",
             temporal: "Temporal range of the pathway.",
             language: "Specify pathway base language. Permits translation.",
@@ -96,6 +96,7 @@ export default {
         new: "Add term",
         required: "Required",
         randomise: "Randomise",
+        select: "Select",
         terms: {
             name: "Terms",
             value: "Value",
@@ -110,6 +111,9 @@ export default {
             selectbranch: "Select branch",
             upload: "Upload",
         },
+        responsevalue: "Response data type",
+        scaleTo: "to",
+        scaleLabel: "Label (optional)",
         values: {
             date: "Date",
             datetime: "DateTime",

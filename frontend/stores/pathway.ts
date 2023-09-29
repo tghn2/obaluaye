@@ -2,7 +2,7 @@ import { IPathway, IFilters } from "@/interfaces"
 import { useTokenStore } from "./tokens"
 import { useSettingStore } from "./settings"
 import { useToastStore } from "./toasts"
-import { apiPathway } from "@/api"
+import { apiPathway, apiTheme, apiNode } from "@/api"
 
 export const usePathwayStore = defineStore("pathwayStore", {
     state: () => ({
@@ -12,6 +12,8 @@ export const usePathwayStore = defineStore("pathwayStore", {
         activeEdit: "" as string,
         translatingEdit: false,
         languageEdit: "" as string,
+        createEdit: false,
+        savingEdit: false,
         facets: {} as IFilters,
     }),
     persist: {
@@ -23,6 +25,8 @@ export const usePathwayStore = defineStore("pathwayStore", {
         draft: (state) => state.edit,
         activeDraft: (state) => state.activeEdit,
         languageDraft: (state) => state.languageEdit,
+        createDraft: (state) => state.createEdit,
+        savingDraft: (state) => state.savingEdit,
         isTranslatingDraft: (state) => state.translatingEdit,
         filters: (state) => state.facets,
         authTokens: () => {
@@ -81,23 +85,49 @@ export const usePathwayStore = defineStore("pathwayStore", {
                     this.resetDraft()
                 } 
                 } catch (error) {
-                this.one = {} as IPathway
+                    this.one = {} as IPathway
                 }
             }
         },
         async updateTerm(key: string, payload: IPathway = {} as IPathway) {
+            this.savingEdit = true
             await this.authTokens.refreshTokens()
             if (this.authTokens.token) {
                 try {
-                if (payload && Object.keys(payload).length !== 0) this.setDraft(payload)
-                const { data: response } = await apiPathway.updateTerm(this.authTokens.token, key, this.draft)
-                if (response.value) {
-                    this.setTerm(response.value)
-                    this.resetDraft()
-                } 
+                    if (payload && Object.keys(payload).length !== 0) this.setDraft(payload)
+                    if (this.createEdit)
+                        await apiPathway.createTerm(this.authTokens.token, this.draft)
+                    else
+                        await apiPathway.updateTerm(this.authTokens.token, key, this.draft)
+                    // Loop through themes and nodes to create and update these
+                    // https://stackoverflow.com/a/34349073/295606
+                    for (const [themeIdx, theme] of this.draft.themes.entries()) {
+                        theme.pathway_id = this.draft.id
+                        theme.order = themeIdx
+                        theme.language = this.draft.language
+                        const { data: themeResponse } = await apiTheme.updateTerm(this.authTokens.token, theme.id, theme)
+                        if (themeResponse.value) {
+                            for (const [nodeIdx, node] of theme.nodes.entries()) {
+                                node.pathway_id = this.draft.id
+                                node.theme_id = theme.id
+                                node.order = nodeIdx
+                                node.language = this.draft.language
+                                const { data: nodeResponse } = await apiNode.updateTerm(this.authTokens.token, node.id, node)
+                            }
+                        }
+                    }
+                    // const { data: response } = await apiPathway.getTerm(key, this.draft.language)
+                    // this.setTerm(response.value)
+                    // this.resetDraft()
                 } catch (error) {
-                this.one = {} as IPathway
+                    const toasts = useToastStore()
+                    toasts.addNotice({
+                        title: "pathway.alert.saveErrorTitle",
+                        content: "pathway.alert.saveErrorContent",
+                        icon: "error"
+                    })
                 }
+                this.savingEdit = false
             }
         },
         setDraft(payload: IPathway) {
@@ -108,6 +138,9 @@ export const usePathwayStore = defineStore("pathwayStore", {
         },
         setActiveDraft(payload: string) {
             this.activeEdit = payload
+        },
+        setCreateDraft(payload: boolean) {
+            this.createEdit = payload
         },
         setLanguageDraft(payload: string) {
             // this.edit.language = payload
@@ -131,10 +164,10 @@ export const usePathwayStore = defineStore("pathwayStore", {
                 this.settings.setPageState("error")
                 const toasts = useToastStore()
                 toasts.addNotice({
-                    title: "Deletion error",
-                    content: "Could not remove pathway. Please check your details, or internet connection, and try again.",
-                    icon: "error"
-                })
+                        title: "pathway.alert.removeErrorTitle",
+                        content: "pathway.alert.removeErrorContent",
+                        icon: "error"
+                    })
                 }
             }
         },

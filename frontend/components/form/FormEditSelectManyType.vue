@@ -142,6 +142,10 @@ function removeTerm(term: number): void {
 }
 
 // WATCHERS
+watch(() => [manyLimit], () => {
+    draft.value = setDraft({ ...draft.value })
+})
+
 watch(
     () => draft.value, () => {
         const response = setDraft({ ...draft.value })
@@ -178,6 +182,7 @@ function resetDraft() {
     if (!initialDraft.randomise) initialDraft.randomise = false
     if (!initialDraft.constraints || Object.keys(initialDraft.constraints).length === 0) initialDraft.constraints = {} as IConstraints
     if (!("dtype" in initialDraft.constraints)) initialDraft.constraints.dtype = defaultType
+    if (initialDraft.constraints.limit) manyLimit.value = initialDraft.constraints.limit
     draft.value = { ...initialDraft }
 }
 
