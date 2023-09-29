@@ -121,6 +121,7 @@ export default {
         responsevalue: "Response data type",
         scaleTo: "to",
         scaleLabel: "Label (optional)",
+        branchNone: "Add a theme to branch",
         values: {
             date: "Date",
             datetime: "DateTime",

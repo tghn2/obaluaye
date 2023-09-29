@@ -80,7 +80,7 @@
                         </div>
                     </div>
                     <component :is="formType[draft.formType as INodeType].component" :initial-draft="draft.form"
-                        @set-draft="watchFormRequest" />
+                        :theme-id="draft.theme_id" @set-draft="watchFormRequest" />
                 </form>
             </DisclosurePanel>
         </Disclosure>

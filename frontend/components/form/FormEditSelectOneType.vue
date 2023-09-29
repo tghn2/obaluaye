@@ -25,7 +25,6 @@
                                 <PhPlus class="h-5 w-5" aria-hidden="true" />
                             </button>
                         </td>
-
                     </tr>
                 </tbody>
             </table>

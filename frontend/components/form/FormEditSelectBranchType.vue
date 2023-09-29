@@ -3,12 +3,16 @@
         <div class="mt-2">
             <table class="min-w-full divide-y divide-gray-200">
                 <tbody class="divide-y divide-gray-200">
-                    <tr v-for="(term, termIdx) in draft.terms" :key="`term-${term.id}`">
+                    <tr v-for="(term, termIdx) in draft.terms" :key="`term-${term.id}`" class="items-center">
                         <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
                             <input type="text" v-model="draft.terms![termIdx].value"
                                 class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-spring-600 sm:text-sm sm:leading-6" />
                         </td>
-                        <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
+                        <td class="whitespace-nowrap text-sm text-gray-700">
+                            <InputBranchSelect :initial-branch="draft.terms![termIdx].branch" :term-id="term.id"
+                                :theme-id="props.themeId" @set-select="watchBranchSelect" />
+                        </td>
+                        <td class="relative whitespace-nowrap pr-4 text-right text-sm font-medium sm:pr-0">
                             <button type="button" @click="removeTerm(termIdx)"
                                 class="relative items-center rounded-full p-1 text-rose-700 hover:bg-rose-50">
                                 <PhX class="h-5 w-5" aria-hidden="true" />
@@ -25,7 +29,6 @@
                                 <PhPlus class="h-5 w-5" aria-hidden="true" />
                             </button>
                         </td>
-
                     </tr>
                 </tbody>
             </table>
@@ -71,16 +74,18 @@
 import { PhX, PhPlus } from "@phosphor-icons/vue"
 import { Switch, SwitchGroup, SwitchLabel } from "@headlessui/vue"
 import { usePathwayStore } from "@/stores"
-import { IForm, IConstraints, ITerm, INodeType } from "@/interfaces"
+import { IForm, IConstraints, ITerm, INodeType, IValueType } from "@/interfaces"
 import { generateUUID } from "@/utilities"
 
 const { t } = useI18n()
 const pathwayStore = usePathwayStore()
 const draft = ref({} as IForm)
 const formEditType: INodeType = "SELECTBRANCH"
+const defaultType: IValueType = "STRING"
 
 const props = defineProps<{
     initialDraft: IForm,
+    themeId: string,
 }>()
 const emit = defineEmits<{ setDraft: [draft: IForm] }>()
 
@@ -107,6 +112,15 @@ watch(
     { deep: true }
 )
 
+function watchBranchSelect(branchId: string) {
+    const branchTerms = branchId.split("|")
+    // Update term in list
+    if (draft.value.terms) {
+        const branchIdx = draft.value.terms.findIndex(x => x.id == branchTerms[0])
+        draft.value.terms[branchIdx].branch = branchTerms[1]
+    }
+}
+
 // SETTERS
 function setDraft(response: IForm): IForm {
     return response
@@ -126,13 +140,14 @@ function resetDraft() {
                 }
             ],
             constraints: {
-                dtype: "STRING",
+                dtype: defaultType,
             }
         }
     }
     if (!initialDraft.required) initialDraft.required = false
     if (!initialDraft.randomise) initialDraft.randomise = false
     if (!initialDraft.constraints || Object.keys(initialDraft.constraints).length === 0) initialDraft.constraints = {} as IConstraints
+    if (!("dtype" in initialDraft.constraints)) initialDraft.constraints.dtype = defaultType
     draft.value = { ...initialDraft }
 }
 
