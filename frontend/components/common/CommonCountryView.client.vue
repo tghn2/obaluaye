@@ -21,11 +21,6 @@ const props = defineProps<{
     currentCountry: string[],
 }>()
 
-// WATCHERS
-// watch(
-//     () => settingStore.currentLocale, () => setCountryList(),
-// )
-
 // SETTERS
 onMounted(async () => {
     setCountryList()
@@ -34,7 +29,7 @@ onMounted(async () => {
 function setCountryList() {
     countryList.value = []
     for (const code of props.currentCountry) {
-        countryList.value.push(countries.getName(code, settingStore.currentLocale, { select: "official" }))
+        countryList.value.push(countries.getName(code, settingStore.currentLocale, { select: "official" }) as string)
     }
 }
 

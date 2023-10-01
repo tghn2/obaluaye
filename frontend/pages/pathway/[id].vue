@@ -6,6 +6,10 @@
         <div v-if="appSettings.current.pageState === 'done' && pathwayStore.term && pathwayStore.term.name">
             <CommonHeadingView purpose="Pathway" :title="pathwayStore.term.title as string"
                 @set-edit-request="watchHeadingRequest" />
+            <div class="flex justify-end">
+                <PathwayViewDownload />
+                <PathwayViewTogglePublish />
+            </div>
             <dl class="divide-y divide-gray-100">
                 <div v-if="pathwayStore.term.title" class="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                     <dt class="text-sm font-medium text-gray-900">{{ t("pathway.field.title") }}</dt>

@@ -1,4 +1,3 @@
-from __future__ import annotations
 from sqlalchemy.orm import Session  # noqa: F401
 
 from app.crud.base import CRUDBase

@@ -39,6 +39,10 @@ export default {
         empty: "Nothing right now. Create some pathways to see them here.",
         create: "Create a pathway",
         metadata: "Metadata",
+        publish: "Publish",
+        unpublish: "Unpublish",
+        download: "Download",
+        upload: "Upload",
         field: {
             title: "Title",
             description: "Description",
@@ -58,6 +62,14 @@ export default {
             temporal: "Temporal range of the pathway.",
             language: "Specify pathway base language. Permits translation.",
             citation: "A bibliographic reference for the pathway.",
+        },
+        alert: {
+            saveErrorTitle: "Save error",
+            saveErrorContent: "Pathway failed to save. Please check your details, or internet connection, and try again.",
+            removeErrorTitle: "Deletion error",
+            removeErrorContent: "Could not remove pathway. Please check your details, or internet connection, and try again.",
+            toggleSuccessTitle: "Toggle success",
+            toggleSuccessContent: "Publication state successfully changed.",
         },
     },
     theme: {
@@ -136,6 +148,8 @@ export default {
     },
     resource: {
         name: "Resource",
+        download: "Download",
+        upload: "Upload",
         types: {
             markdown: "MarkDown",
             download: "Download",

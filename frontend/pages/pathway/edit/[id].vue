@@ -4,7 +4,7 @@
             <LoadingCardSkeleton />
         </div>
         <div v-if="appSettings.current.pageState === 'done'">
-            <JourneyHeadingEditPanel :title="pathTitle" @set-edit-request="watchHeadingRequest" />
+            <PathwayEditHeadingPanel :title="pathTitle" @set-edit-request="watchHeadingRequest" />
             <div class="flex justify-between -mb-2 mt-2">
                 <div class="block text-xs font-medium leading-6 text-white bg-spring-700 mx-3 px-3 pt-0.5 rounded-t-lg">
                     {{ t("pathway.metadata") }}
@@ -26,7 +26,7 @@
                 </div>
             </div>
             <div class="rounded-lg my-2 border-t-2 border-spring-700">
-                <JourneyMetadataEditCard :initial-draft="draft" @set-draft="watchMetadataRequest" />
+                <PathwayEditMetadataCard :initial-draft="draft" @set-draft="watchMetadataRequest" />
             </div>
             <ul role="list">
                 <li v-for="(theme, thIdx) in draft.themes" :key="`theme-${theme.id}`">
@@ -68,7 +68,7 @@
                         @dragenter="handleDragEnter" @dragover="handleDragOver" @dragleave="handleDragLeave"
                         @drop="handleDrop" @dragend="handleDragEnd"
                         class="bg-gray-50 rounded-lg my-2 border-t-2 border-spring-500">
-                        <JourneyThemeEditCard :initial-draft="theme" @set-draft="watchThemeRequest" />
+                        <PathwayEditThemeCard :initial-draft="theme" @set-draft="watchThemeRequest" />
                     </div>
                     <ul role="list">
                         <li v-for="(node, ndIdx) in theme.nodes" :key="`node-${node.id}`">
@@ -105,7 +105,7 @@
                                 @dragstart="handleDragStart" @dragenter="handleDragEnter" @dragover="handleDragOver"
                                 @dragleave="handleDragLeave" @drop="handleDrop" @dragend="handleDragEnd"
                                 class="bg-gray-50 rounded-lg my-2 border-t-2 border-spring-300">
-                                <JourneyNodeEditCard :initial-draft="node" @set-draft="watchNodeRequest" />
+                                <PathwayEditNodeCard :initial-draft="node" @set-draft="watchNodeRequest" />
                             </div>
                         </li>
                     </ul>

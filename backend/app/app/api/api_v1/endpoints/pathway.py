@@ -1,6 +1,8 @@
 from typing import Any, Optional
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
+from fastapi.responses import StreamingResponse
+import io
 
 from app import crud, models, schemas, schema_types
 from app.api import deps
@@ -129,3 +131,66 @@ def remove_pathway(
         )
     crud.pathway.remove(db=db, id=id)
     return {"msg": "Pathway has been successfully removed."}
+
+@router.put("/{id}/toggle-state", response_model=schemas.Msg)
+def toggle_state(
+    *,
+    db: Session = Depends(deps.get_db),
+    id: str,
+    obj_in: schemas.PathwayUpdate,
+    current_user: models.User = Depends(deps.get_current_active_user),
+) -> Any:
+    """
+    Toggle pathway publication state (CURATOR function)
+    """
+    db_obj = crud.pathway.get(db=db, id=id)
+    if not db_obj or not crud.role.has_responsibility(
+        db=db, user=current_user, pathway=db_obj, responsibility=schema_types.RoleType.CURATOR
+    ):
+        raise HTTPException(
+            status_code=400,
+            detail="Either pathway does not exist, or user does not have the rights for this request.",
+        )
+    response = crud.pathway.update(db=db, db_obj=db_obj, obj_in=obj_in)
+    if not response:
+        raise HTTPException(
+            status_code=400,
+            detail="Either pathway does not exist, or user does not have the rights for this request.",
+        )
+    return {"msg": "Publication state toggled successfully."}
+
+@router.get("/{id}/download", response_class=StreamingResponse)
+def download_pathway_model(
+    *,
+    db: Session = Depends(deps.get_db),
+    id: str,
+    language: str | None = None
+) -> Any:
+    """
+    Download a JSON model of a pathway.
+    """
+    db_obj = crud.pathway.get(db=db, id=id)
+    if not db_obj:
+        raise HTTPException(
+            status_code=400,
+            detail="Either pathway does not exist, or user does not have the rights for this request.",
+        )
+    response = crud.pathway.get_schema(db_obj=db_obj, language=language)
+    response.themes = []
+    for theme_obj in db_obj.themes.all():
+        theme_out = crud.theme.get_schema(db_obj=theme_obj, language=language)
+        theme_out.nodes = []
+        for node_obj in theme_obj.nodes.all():
+            node_out = crud.node.get_schema(db_obj=node_obj, language=language)
+            theme_out.nodes.append(node_out)
+        response.themes.append(theme_out)
+    # https://stackoverflow.com/a/69799463/295606
+    stream = io.StringIO(response.json(by_alias=True))
+    return StreamingResponse(
+        iter([stream.getvalue()]),
+        media_type="application/json",
+        headers={
+            "Content-Disposition": f"attachment; filename={response.name}-{response.language}.json",
+            "Access-Control-Expose-Headers": "Content-Disposition",
+        },
+    )

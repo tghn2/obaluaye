@@ -1,7 +1,7 @@
 <template>
     <div class="px-2 py-10 lg:px-4 lg:py-6 max-w-3xl mx-auto">
-        <JourneyHeadingEditPanel title="Testing" approach="Create" @set-edit-request="watchHeadingRequest" />
-        <JourneyMetadataEditCard />
+        <PathwayEditHeadingPanel title="Testing" approach="Create" @set-edit-request="watchHeadingRequest" />
+        <PathwayEditMetadataCard />
         <ul role="list">
             <li v-for="(theme, thIdx) in draft.themes" :key="`theme-${theme.id}`">
                 <div class="flex justify-between -mb-2">
@@ -27,7 +27,7 @@
                 <div :id="`${theme.id}`" draggable="true" @dragstart="handleDragStart" @dragenter="handleDragEnter"
                     @dragover="handleDragOver" @dragleave="handleDragLeave" @drop="handleDrop" @dragend="handleDragEnd"
                     class="bg-gray-50 sm:rounded-lg my-2 border-t-2 border-spring-500">
-                    <JourneyThemeEditCard :initial-draft="theme" @set-draft="watchThemeRequest"
+                    <PathwayEditThemeCard :initial-draft="theme" @set-draft="watchThemeRequest"
                         @remove-draft="removeTheme" />
                 </div>
                 <ul role="list">
@@ -35,7 +35,7 @@
                         <div :id="`${theme.id}|${node.id}`" draggable="true" @dragstart="handleDragStart"
                             @dragenter="handleDragEnter" @dragover="handleDragOver" @dragleave="handleDragLeave"
                             @drop="handleDrop" @dragend="handleDragEnd" class="bg-gray-50 sm:rounded-lg my-2">
-                            <JourneyNodeEditCard :initial-draft="node" @set-draft="watchNodeRequest" />
+                            <PathwayEditNodeCard :initial-draft="node" @set-draft="watchNodeRequest" />
                         </div>
                     </li>
                 </ul>

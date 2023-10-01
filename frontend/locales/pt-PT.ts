@@ -18,6 +18,7 @@ export default {
     header: {
         edit: "Edit",
         save: "Save",
+        saving: "Saving",
         reset: "Reset",
         delete: "Delete",
         cancel: "Cancel",
@@ -39,6 +40,10 @@ export default {
         empty: "Nothing right now. Create some pathways to see them here.",
         create: "Create a pathway",
         metadata: "Metadata",
+        publish: "Publish",
+        unpublish: "Unpublish",
+        download: "Download",
+        upload: "Upload",
         field: {
             title: "Title",
             description: "Description",
@@ -53,11 +58,19 @@ export default {
             title: "",
             description: "A complete description of the pathway.",
             subjects: "A list of topics of the pathway. Comma-separated. Contains all languages.",
-            country: "A list of one or more languages appropriate to this pathway.",
+            country: "A list of one or more countries appropriate to this pathway.",
             spatial: "Spatial characteristics of the pathway.",
             temporal: "Temporal range of the pathway.",
             language: "Specify pathway base language. Permits translation.",
             citation: "A bibliographic reference for the pathway.",
+        },
+        alert: {
+            saveErrorTitle: "Save error",
+            saveErrorContent: "Pathway failed to save. Please check your details, or internet connection, and try again.",
+            removeErrorTitle: "Deletion error",
+            removeErrorContent: "Could not remove pathway. Please check your details, or internet connection, and try again.",
+            toggleSuccessTitle: "Toggle success",
+            toggleSuccessContent: "Publication state successfully changed.",
         },
     },
     theme: {
@@ -96,6 +109,7 @@ export default {
         new: "Add term",
         required: "Required",
         randomise: "Randomise",
+        select: "Select",
         terms: {
             name: "Terms",
             value: "Value",
@@ -110,6 +124,10 @@ export default {
             selectbranch: "Select branch",
             upload: "Upload",
         },
+        responsevalue: "Response data type",
+        scaleTo: "to",
+        scaleLabel: "Label (optional)",
+        branchNone: "Add a theme to branch",
         values: {
             date: "Date",
             datetime: "DateTime",
@@ -131,6 +149,8 @@ export default {
     },
     resource: {
         name: "Resource",
+        download: "Download",
+        upload: "Upload",
         types: {
             markdown: "MarkDown",
             download: "Download",

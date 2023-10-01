@@ -101,18 +101,20 @@ export const usePathwayStore = defineStore("pathwayStore", {
                         await apiPathway.updateTerm(this.authTokens.token, key, this.draft)
                     // Loop through themes and nodes to create and update these
                     // https://stackoverflow.com/a/34349073/295606
-                    for (const [themeIdx, theme] of this.draft.themes.entries()) {
-                        theme.pathway_id = this.draft.id
-                        theme.order = themeIdx
-                        theme.language = this.draft.language
-                        const { data: themeResponse } = await apiTheme.updateTerm(this.authTokens.token, theme.id, theme)
-                        if (themeResponse.value) {
-                            for (const [nodeIdx, node] of theme.nodes.entries()) {
-                                node.pathway_id = this.draft.id
-                                node.theme_id = theme.id
-                                node.order = nodeIdx
-                                node.language = this.draft.language
-                                const { data: nodeResponse } = await apiNode.updateTerm(this.authTokens.token, node.id, node)
+                    if (this.draft.themes && this.draft.themes.length) {
+                        for (const [themeIdx, theme] of this.draft.themes.entries()) {
+                            theme.pathway_id = this.draft.id
+                            theme.order = themeIdx
+                            theme.language = this.draft.language
+                            const { data: themeResponse } = await apiTheme.updateTerm(this.authTokens.token, theme.id as string, theme)
+                            if (themeResponse.value && theme.nodes && theme.nodes.length) {
+                                for (const [nodeIdx, node] of theme.nodes.entries()) {
+                                    node.pathway_id = this.draft.id
+                                    node.theme_id = theme.id
+                                    node.order = nodeIdx
+                                    node.language = this.draft.language
+                                    const { data: nodeResponse } = await apiNode.updateTerm(this.authTokens.token, node.id as string, node)
+                                }
                             }
                         }
                     }
@@ -129,6 +131,32 @@ export const usePathwayStore = defineStore("pathwayStore", {
                 }
                 this.savingEdit = false
             }
+        },
+        async toggleTerm(key: string) {
+            this.savingEdit = true
+            const toasts = useToastStore()
+            await this.authTokens.refreshTokens()
+            if (this.authTokens.token) {
+                try {
+                    if (Object.keys(this.term).length && this.term.id === key) {
+                        const payload: IPathway = { ... this.term }
+                        payload.isPrivate = payload.isPrivate ? false : true
+                        const { data: response } = await apiPathway.toggleTerm(this.authTokens.token, key, payload)
+                        if (response.value) this.one.isPrivate = payload.isPrivate
+                    }
+                    toasts.addNotice({
+                        title: "pathway.alert.toggleSuccessTitle",
+                        content: "pathway.alert.toggleSuccessContent",
+                    })
+                } catch (error) {
+                    toasts.addNotice({
+                        title: "pathway.alert.saveErrorTitle",
+                        content: "pathway.alert.saveErrorContent",
+                        icon: "error"
+                    })
+                }
+            }
+            this.savingEdit = false
         },
         setDraft(payload: IPathway) {
             this.edit = payload

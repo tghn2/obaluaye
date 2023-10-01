@@ -40,6 +40,10 @@ export default {
         empty: "Nothing right now. Create some pathways to see them here.",
         create: "Create a pathway",
         metadata: "Metadata",
+        publish: "Publish",
+        unpublish: "Unpublish",
+        download: "Download",
+        upload: "Upload",
         field: {
             title: "Title",
             description: "Description",
@@ -65,6 +69,8 @@ export default {
             saveErrorContent: "Pathway failed to save. Please check your details, or internet connection, and try again.",
             removeErrorTitle: "Deletion error",
             removeErrorContent: "Could not remove pathway. Please check your details, or internet connection, and try again.",
+            toggleSuccessTitle: "Toggle success",
+            toggleSuccessContent: "Publication state successfully changed.",
         },
     },
     theme: {
@@ -143,6 +149,8 @@ export default {
     },
     resource: {
         name: "Resource",
+        download: "Download",
+        upload: "Upload",
         types: {
             markdown: "MarkDown",
             download: "Download",
