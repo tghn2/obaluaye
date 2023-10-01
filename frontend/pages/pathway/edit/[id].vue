@@ -158,7 +158,7 @@ function createDraft() {
     draft.value = {
         id: route.params.id as string,
         isPrivate: true,
-        isProtected: true,
+        isProtected: false,
         pathType: "RESEARCH",
         language: pathwayStore.languageDraft,
         themes: [

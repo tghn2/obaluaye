@@ -53,18 +53,19 @@
                             readableDate(pathwayStore.term.temporalEnd) }}</span>
                     </dd>
                 </div>
-                <div v-if="pathwayStore.term.language" class="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                    <dt class="text-sm font-medium text-gray-900">{{ t("pathway.field.language") }}</dt>
-                    <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                        <CommonLocaleView :language="pathwayStore.term.language" />
-                    </dd>
-                </div>
                 <div v-if="pathwayStore.term.bibliographicCitation"
                     class="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                     <dt class="text-sm font-medium text-gray-900">{{ t("pathway.field.citation") }}</dt>
                     <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
                         {{ pathwayStore.term.bibliographicCitation }}
                     </dd>
+                </div>
+                <div class="px-4 py-2 sm:px-6">
+                    <h2 class="text-sm font-medium text-gray-900 mb-2">Themes and nodes</h2>
+                    <div v-for="theme in pathwayStore.term.themes" :key="`theme-${theme.id}`"
+                        class="divide-y divide-gray-100">
+                        <PathwayViewThemeCard :theme="theme" />
+                    </div>
                 </div>
             </dl>
         </div>

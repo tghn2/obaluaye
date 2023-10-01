@@ -127,6 +127,10 @@ export default {
         scaleTo: "to",
         scaleLabel: "Label (optional)",
         branchNone: "Add a theme to branch",
+        booleanTrue: "True",
+        booleanFalse: "False",
+        uploadText: "Upload your response.",
+        valueText: "Respond with a",
         values: {
             date: "Date",
             datetime: "DateTime",

@@ -20,7 +20,7 @@ class PathwayBase(BaseSchema):
     id: Optional[UUID] = Field(None, description="Automatically generated unique identity.")
     created: Optional[datetime] = Field(None, description="Automatically generated date pathway was created.")
     modified: Optional[datetime] = Field(None, description="Automatically generated date pathway was last modified.")
-    isPrivate: Optional[bool] = Field(False, description="Whether the pathway is private to roleplayers.")
+    isPrivate: Optional[bool] = Field(True, description="Whether the pathway is private to roleplayers.")
     isProtected: Optional[bool] = Field(False, description="Whether the pathway is protected to require views from logged-in users.")
     # https://www.w3.org/TR/vocab-dcat-3/#Class:Dataset
     # https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#section-2

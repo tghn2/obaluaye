@@ -9,7 +9,7 @@
                                 class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-spring-600 sm:text-sm sm:leading-6" />
                         </td>
                         <td class="whitespace-nowrap text-sm text-gray-700">
-                            <InputBranchSelect :initial-branch="draft.terms![termIdx].branch" :term-id="term.id"
+                            <InputBranchSelect :initial-branch="draft.terms![termIdx].branch" :term-id="term.id as string"
                                 :theme-id="props.themeId" @set-select="watchBranchSelect" />
                         </td>
                         <td class="relative whitespace-nowrap pr-4 text-right text-sm font-medium sm:pr-0">
