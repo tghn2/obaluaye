@@ -29,5 +29,5 @@ from .response import Response, ResponseCreate, ResponseUpdate, ResponseCommente
 from .node import Node, NodeCreate, NodeUpdate  # noqa: F401
 from .resource import Resource, ResourceCreate, ResourceUpdate  # noqa: F401
 from .theme import Theme, ThemeCreate, ThemeUpdate  # noqa: F401
-from .pathway import Pathway, PathwayCreate, PathwayUpdate, PathwayAdmin  # noqa: F401
+from .pathway import Pathway, PathwaySummary, PathwayCreate, PathwayUpdate, PathwayAdmin  # noqa: F401
 from .group import Group, GroupCreate, GroupUpdate  # noqa: F401

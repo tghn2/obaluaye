@@ -34,6 +34,25 @@ export default {
             viewer: "Viewer",
         },
     },
+    start: {
+        pathwayTitle: "Pathways",
+        pathwayDescription: "View a list of pathways you can start.",
+        groupTitle: "Groups",
+        groupDescription: "Join or start a group",
+        commentTitle: "Comments",
+        commentDescription: "See activity in your groups",
+        personalTitle: "Complete a personal pathway",
+        personalDescription: "Once complete, you can join groups and start a research pathway",
+    },
+    filter: {
+        filter: "Filter",
+        filters: "Filters",
+        clear: "Clear",
+        search: "Search",
+        refresh: "Refresh filters",
+        dates: "Date range",
+        to: "to",
+    },
     pathway: {
         name: "Pathway",
         new: "New pathway",
@@ -46,6 +65,7 @@ export default {
         upload: "Upload",
         field: {
             title: "Title",
+            type: "Type",
             description: "Description",
             subjects: "Subjects",
             country: "Country",
@@ -53,6 +73,10 @@ export default {
             temporal: "Temporal range",
             language: "Language",
             citation: "Bibliographic citation",
+        },
+        types: {
+            personal: "Personal",
+            research: "Research",
         },
         help: {
             title: "",
@@ -128,6 +152,10 @@ export default {
         scaleTo: "to",
         scaleLabel: "Label (optional)",
         branchNone: "Add a theme to branch",
+        booleanTrue: "True",
+        booleanFalse: "False",
+        uploadText: "Upload your response.",
+        valueText: "Respond with a",
         values: {
             date: "Date",
             datetime: "DateTime",

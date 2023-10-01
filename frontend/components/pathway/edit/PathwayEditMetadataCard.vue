@@ -10,7 +10,7 @@
             <DisclosurePanel class="px-4 text-sm text-gray-500">
                 <form class="flex-auto rounded-lg p-3">
                     <div class="grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-6">
-                        <div class="col-span-full">
+                        <div class="sm:col-span-4">
                             <label for="pathway-title" class="block text-sm font-semibold leading-6 text-gray-900">{{
                                 t("pathway.field.title") }}</label>
                             <div class="mt-2">
@@ -20,6 +20,14 @@
                             <p v-if="pathwayStore.isTranslatingDraft" class="mt-2 text-sm leading-6 text-gray-500">
                                 {{ pathwayStore.draft.title }}
                             </p>
+                        </div>
+                        <div class="sm:col-span-2">
+                            <label for="pathway-title" class="block text-sm font-semibold leading-6 text-gray-900">{{
+                                t("pathway.field.type") }}</label>
+                            <div class="mt-2">
+                                <InputSelectPathType :initial-type="pathwayStore.draft.pathType"
+                                    @set-select="watchInputPathType" />
+                            </div>
                         </div>
                         <div class="col-span-full">
                             <label for="description" class="block text-sm font-semibold leading-6 text-gray-900">{{
@@ -110,7 +118,7 @@ import { storeToRefs } from "pinia"
 import VueTailwindDatepicker from "vue-tailwind-datepicker"
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue"
 import { PhCaretDown } from "@phosphor-icons/vue"
-import { IPathway } from "@/interfaces"
+import { IPathway, IPathwayType } from "@/interfaces"
 import { usePathwayStore } from "@/stores"
 import dayjs from "dayjs"
 
@@ -150,6 +158,10 @@ function disclosureWatcher(open: boolean, close: typeof ref | HTMLElement) {
 
 function watchCountrySelect(response: string[]) {
     draft.value.country = response
+}
+
+function watchInputPathType(response: IPathwayType) {
+    draft.value.pathType = response
 }
 
 watch(() => pathwayStore.activeEdit, () => {

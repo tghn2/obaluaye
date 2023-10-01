@@ -1,4 +1,4 @@
-import { IResourceType } from "./schema_types"
+import { IResourceType, IPathwayType } from "./schema_types"
 
 export interface ISummary {
     id?: string
@@ -33,5 +33,6 @@ export interface IFilters {
     date_from?: string
     date_to?: string
     language?: string
+    path_type?: IPathwayType
     page?: number
 }

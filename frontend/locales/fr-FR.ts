@@ -3,27 +3,28 @@ export default {
         title: "App",
     },
     nav: {
-        home: "Accueil",
-        search: "Recherche",
-        pathways: "Parcours",
-        comments: "Commentaires",
-        groups: "Groupes",
-        settings: "Paramètres",
-        about: "À propos",
-        privacy: "Vie privée",
+        home: "Home",
+        search: "Search",
+        pathways: "Pathways",
+        comments: "Comments",
+        groups: "Groups",
+        settings: "Settings",
+        about: "About",
+        privacy: "Privacy",
         contact: "Contact",
         authentication: "Authentication",
         blog: "Blog",
     },
     header: {
-        edit: "Modifier",
-        save: "Enregistrer",
-        reset: "Réinitialiser",
-        delete: "Supprimer",
-        cancel: "Annuler",
+        edit: "Edit",
+        save: "Save",
+        saving: "Saving",
+        reset: "Reset",
+        delete: "Delete",
+        cancel: "Cancel",
     },
     footer: {
-        rights: "Tous droits réservés."
+        rights: "All rights reserved."
     },
     authentication: {
         roles: {
@@ -32,6 +33,25 @@ export default {
             researcher: "Researcher",
             viewer: "Viewer",
         },
+    },
+    start: {
+        pathwayTitle: "Pathways",
+        pathwayDescription: "View a list of pathways you can start.",
+        groupTitle: "Groups",
+        groupDescription: "Join or start a group",
+        commentTitle: "Comments",
+        commentDescription: "See activity in your groups",
+        personalTitle: "Complete a personal pathway",
+        personalDescription: "Once complete, you can join groups and start a research pathway",
+    },
+    filter: {
+        filter: "Filter",
+        filters: "Filters",
+        clear: "Clear",
+        search: "Search",
+        refresh: "Refresh filters",
+        dates: "Date range",
+        to: "to",
     },
     pathway: {
         name: "Pathway",
@@ -45,6 +65,7 @@ export default {
         upload: "Upload",
         field: {
             title: "Title",
+            type: "Type",
             description: "Description",
             subjects: "Subjects",
             country: "Country",
@@ -52,6 +73,10 @@ export default {
             temporal: "Temporal range",
             language: "Language",
             citation: "Bibliographic citation",
+        },
+        types: {
+            personal: "Personal",
+            research: "Research",
         },
         help: {
             title: "",

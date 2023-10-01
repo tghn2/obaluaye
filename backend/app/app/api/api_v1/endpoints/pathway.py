@@ -11,26 +11,28 @@ router = APIRouter()
 
 
 @router.get("/", response_model=list[schemas.Pathway])
-def read_all_pathways(
+def read_all_public_pathways(
     *,
     db: Session = Depends(deps.get_db),
     match: Optional[str] = None,
     date_from: Optional[str] = None,
     date_to: Optional[str] = None,
+    path_type: Optional[str] = None,
     page: int = 0,
     language: str | None = None,
 ) -> Any:
     """
-    Get all pathways.
+    Get all public pathways.
     """
     db_objs = crud.pathway.get_multi(
         db=db,
         match=match,
         date_from=date_from,
         date_to=date_to,
+        path_type=path_type,
         page=page,
     )
-    return [crud.pathway.get_schema_summary(db_obj=db_obj, language=language) for db_obj in db_objs]
+    return [crud.pathway.get_schema(db_obj=db_obj, language=language, schema_out=schemas.PathwaySummary) for db_obj in db_objs]
 
 
 @router.get("/{id}", response_model=schemas.Pathway)

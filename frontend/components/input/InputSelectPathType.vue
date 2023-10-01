@@ -1,0 +1,71 @@
+<template>
+    <Listbox v-model="choice" id="form-selection-types">
+        <div class="relative mt-1">
+            <ListboxButton
+                class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus-visible:border-spring-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-spring-300 sm:text-sm">
+                <span class="block truncate text-gray-900">
+                    {{ t(inputType[choice]) }}
+                </span>
+                <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                    <PhCaretUpDown class="h-5 w-5 text-gray-400" aria-hidden="true" />
+                </span>
+            </ListboxButton>
+            <transition leave-active-class="transition duration-100 ease-in" leave-from-class="opacity-100"
+                leave-to-class="opacity-0">
+                <ListboxOptions
+                    class="absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                    <ListboxOption v-slot="{ active, selected }" v-for="itype in ['PERSONAL', 'RESEARCH']"
+                        :key="`itype-${itype}`" :value="itype" as="template">
+                        <li :class="[
+                            active ? 'bg-spring-100 text-spring-900' : 'text-gray-900',
+                            'relative cursor-default select-none py-2 pl-10 pr-4',
+                        ]">
+                            <span :class="[
+                                selected ? 'font-medium' : 'font-normal',
+                                'block truncate',
+                            ]">{{ t(inputType[itype]) }}</span>
+                            <span v-if="selected" class="absolute inset-y-0 left-0 flex items-center pl-3 text-spring-600">
+                                <PhCheck class="h-5 w-5" aria-hidden="true" />
+                            </span>
+                        </li>
+                    </ListboxOption>
+                </ListboxOptions>
+            </transition>
+        </div>
+    </Listbox>
+</template>
+  
+<script setup lang="ts">
+import { PhCaretUpDown, PhCheck } from "@phosphor-icons/vue"
+import { Listbox, ListboxButton, ListboxOptions, ListboxOption, } from "@headlessui/vue"
+import { IPathwayType, IKeyable } from "@/interfaces"
+
+const { t } = useI18n()
+const choice = ref("RESEARCH" as IPathwayType)
+
+// https://nuxt.com/docs/guide/directory-structure/components#dynamic-components
+const inputType: IKeyable = {
+    PERSONAL: "pathway.types.personal",
+    RESEARCH: "pathway.types.research",
+}
+
+const props = defineProps<{
+    initialType: IPathwayType,
+}>()
+const emit = defineEmits<{
+    setSelect: [select: IPathwayType]
+}>()
+
+// WATCHERS
+watch(
+    () => choice.value, () => {
+        emit("setSelect", choice.value)
+    }
+)
+
+// SETTERS
+onMounted(async () => {
+    choice.value = props.initialType
+})
+
+</script>

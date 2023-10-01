@@ -8,7 +8,7 @@ from uuid import UUID
 from datetime import datetime
 import re
 
-from app.schemas.base_schema import BaseSchema, LocaleType, CountryListType
+from app.schemas.base_schema import BaseSchema, BaseSummarySchema, LocaleType, CountryListType
 from app.schemas.role import Role
 from app.schemas.theme import Theme
 # from app.schemas.node import Node
@@ -64,6 +64,9 @@ class PathwayBase(BaseSchema):
     @validator("subjects", pre=True)
     def evaluate_subjects(cls, v):
         return {s for s in v}
+
+class PathwaySummary(BaseSummarySchema):
+    pathType: PathwayType = Field(default=PathwayType.RESEARCH, description="The type of pathway this represents.")
 
 
 class PathwayCreate(PathwayBase):
