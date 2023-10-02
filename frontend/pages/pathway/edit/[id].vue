@@ -28,11 +28,7 @@
                         <PhTagSimple class="md:-ml-0.5 h-4 w-4 text-spring-400" aria-hidden="true" />
                         <span class="hidden md:block">{{ t("theme.name") }}</span>
                     </button>
-                    <button type="button"
-                        class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-md px-2 py-1 text-xs text-spring-900 ring-1 ring-inset ring-spring-300 hover:bg-spring-50">
-                        <PhBookmarkSimple class="md:-ml-0.5 h-4 w-4 text-spring-400" aria-hidden="true" />
-                        <span class="hidden md:block">{{ t("resource.name") }}</span>
-                    </button>
+                    <PathwayEditResourceModal />
                 </div>
             </div>
             <div class="rounded-lg my-2 border-t-2 border-spring-700">
