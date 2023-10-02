@@ -61,6 +61,7 @@ import {
     useAuthStore,
 } from "@/stores"
 
+const localePath = useLocalePath()
 const authStore = useAuthStore()
 
 const navigation = [
@@ -92,6 +93,6 @@ async function logout() {
     //   projectStore.resetState()
     //   subscriptionStore.resetState()
     authStore.logOut()
-    await navigateTo(redirectRoute)
+    await navigateTo(localePath(redirectRoute))
 }
 </script>

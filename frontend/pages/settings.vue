@@ -17,7 +17,7 @@
                         </button>
                         <button v-if="authStore.is_superuser"
                             class="text-gray-900 hover:text-gray-900 group rounded-md px-3 py-2 flex items-center text-sm font-medium cursor-pointer"
-                            @click.prevent="navigateTo('/moderation')">
+                            @click.prevent="navigateTo(localePath('/moderation'))">
                             <component :is="PhUsers"
                                 class="text-gray-400 group-hover:text-gray-500 flex-shrink-0 -ml-1 mr-3 h-6 w-6"
                                 aria-hidden="true" />
@@ -47,6 +47,7 @@ definePageMeta({
     middleware: ["authenticated"],
 });
 
+const localePath = useLocalePath()
 const authStore = useAuthStore()
 
 const navigation = [

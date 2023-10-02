@@ -40,13 +40,14 @@ definePageMeta({
     middleware: ["anonymous"],
 });
 
+const localePath = useLocalePath()
 const tokenStore = useTokenStore()
 const redirectRoute = "/login"
 
 
 onMounted(async () => {
     if (!tokenParser(tokenStore.token).hasOwnProperty("fingerprint")) {
-        return await navigateTo(redirectRoute)
+        return await navigateTo(localePath(redirectRoute))
     }
 })
 </script>

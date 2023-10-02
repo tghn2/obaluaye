@@ -84,6 +84,7 @@ definePageMeta({
     layout: "home",
 });
 
+const localePath = useLocalePath()
 const authStore = useAuthStore()
 const settingsStore = useSettingStore()
 const tokenStore = useTokenStore()
@@ -104,8 +105,8 @@ onMounted(async () => {
             }, 100)
         })
         if (!authStore.loggedIn) await authStore.magicLogin(route.query.magic as string)
-        if (tokenIsTOTP(tokenStore.token)) await navigateTo(redirectTOTP)
-        else await navigateTo(redirectAfterLogin)
+        if (tokenIsTOTP(tokenStore.token)) await navigateTo(localePath(redirectTOTP))
+        else await navigateTo(localePath(redirectAfterLogin))
     }
 })
 

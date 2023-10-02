@@ -58,6 +58,7 @@ definePageMeta({
     middleware: ["anonymous"],
 });
 
+const localePath = useLocalePath()
 const schema = {
     password: { required: true, min: 8 },
     confirmation: { required: true, confirmed: "password" }
@@ -73,12 +74,12 @@ async function submit(values: any) {
             resolve(true)
         }, 2000)
     })
-    return await navigateTo(redirectRoute)
+    return await navigateTo(localePath(redirectRoute))
 }
 
 onMounted(async () => {
     // Check if token exists
-    if (!route.query || !route.query.token) await navigateTo("/")
+    if (!route.query || !route.query.token) await navigateTo(localePath("/"))
 })
 
 </script>

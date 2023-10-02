@@ -7,7 +7,7 @@
                         <div class="divide-y divide-solid">
                             <button
                                 class="text-gray-900 hover:text-gray-900 group rounded-md px-3 py-2 flex items-center text-sm font-medium cursor-pointer"
-                                @click.prevent="navigateTo('/settings')">
+                                @click.prevent="navigateTo(localePath('/settings'))">
                                 <PhGear class="text-gray-400 group-hover:text-gray-500 flex-shrink-0 -ml-1 mr-3 h-6 w-6"
                                     aria-hidden="true" />
                                 <span class="truncate">Settings</span>
@@ -47,6 +47,7 @@ definePageMeta({
     middleware: ["moderator"],
 });
 
+const localePath = useLocalePath()
 const navigation = [
     { name: "Users", id: "USERS", icon: PhUsers },
     { name: "Create", id: "CREATE", icon: PhUserPlus }

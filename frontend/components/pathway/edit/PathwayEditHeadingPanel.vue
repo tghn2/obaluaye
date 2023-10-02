@@ -6,7 +6,7 @@
                     <PhPath class="h-5 w-5 text-white" aria-hidden="true" />
                 </div>
                 <h1 class="truncate text-lg font-semibold leading-7 text-gray-900">
-                    {{ props.title }}
+                    {{ t(props.title) }}
                 </h1>
             </div>
             <div class="flex flex-inline items-center space-x-2">

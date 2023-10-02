@@ -77,6 +77,7 @@ import { readableDate } from "@/utilities"
 import { useSettingStore, usePathwayStore } from "@/stores"
 
 const { t } = useI18n()
+const localePath = useLocalePath()
 const appSettings = useSettingStore()
 const route = useRoute()
 const pathwayStore = usePathwayStore()
@@ -85,9 +86,9 @@ async function watchHeadingRequest(request: string) {
     switch (request) {
         case "remove":
             await pathwayStore.removeTerm(route.params.id as string)
-            return await navigateTo("/pathway")
+            return await navigateTo(localePath("/pathway"))
         case "edit":
-            return await navigateTo(`/pathway/edit/${route.params.id}`)
+            return await navigateTo(localePath(`/pathway/edit/${route.params.id}`))
     }
 }
 

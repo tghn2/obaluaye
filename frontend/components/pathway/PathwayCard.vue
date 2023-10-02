@@ -14,6 +14,10 @@
                                 <PhUser v-else class="text-gray-700 h-4 w-4 shrink-0" aria-hidden="true" />
                                 {{ props.pathway.pathType }}
                             </li>
+                            <li class="relative group flex flex-row text-xs font-medium text-gray-500 gap-x-1 pl-2">
+                                <PhEyeSlash v-if="props.pathway.isPrivate" class="text-rose-700 h-4 w-4 shrink-0"
+                                    aria-hidden="true" />
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -46,8 +50,7 @@
 </template>
 
 <script setup lang="ts">
-import { PhCalendarBlank, PhFlask, PhUser, PhTag, PhUsers } from "@phosphor-icons/vue"
-import { readableDate } from "@/utilities"
+import { PhFlask, PhUser, PhTag, PhUsers, PhEyeSlash } from "@phosphor-icons/vue"
 import { IPathway } from "@/interfaces"
 
 const props = defineProps<{

@@ -50,6 +50,7 @@ definePageMeta({
     middleware: ["anonymous"],
 });
 
+const localePath = useLocalePath()
 const authStore = useAuthStore()
 const tokenStore = useTokenStore()
 const redirectRoute = "/"
@@ -60,13 +61,13 @@ const schema = {
 async function submit(values: any) {
     await authStore.totpLogin(values.claim)
     if (authStore.loggedIn) {
-        return await navigateTo(redirectRoute)
+        return await navigateTo(localePath(redirectRoute))
     }
 }
 
 onMounted(async () => {
     // Check if token exists
     if (!tokenStore.token || !tokenIsTOTP(tokenStore.token))
-        return await navigateTo("/")
+        return await navigateTo(localePath("/"))
 })
 </script>

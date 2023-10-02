@@ -96,6 +96,7 @@ import { ISendEmail } from "@/interfaces"
 import { useToastStore } from "@/stores"
 import { apiService } from "@/api"
 
+const localePath = useLocalePath()
 const toasts = useToastStore()
 
 const schema = {
@@ -115,7 +116,7 @@ async function submit(values: any) {
             title: "Message sent",
             content: "Thanks so much for contacting us.",
         })
-        navigateTo("/")
+        navigateTo(localePath("/"))
     } catch (error) {
         toasts.addNotice({
             title: "Contact error",

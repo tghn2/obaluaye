@@ -73,6 +73,7 @@ definePageMeta({
     middleware: ["anonymous"],
 });
 
+const localePath = useLocalePath()
 const authStore = useAuthStore()
 const tokenStore = useTokenStore()
 const route = useRoute()
@@ -88,12 +89,12 @@ const schema = {
 
 async function submit(values: any) {
     await authStore.logIn({ username: values.email, password: values.password })
-    if (authStore.loggedIn) return await navigateTo(redirectAfterLogin)
+    if (authStore.loggedIn) return await navigateTo(localePath(redirectAfterLogin))
     if (tokenStore.token && tokenIsTOTP(tokenStore.token))
-        return await navigateTo(redirectTOTP)
+        return await navigateTo(localePath(redirectTOTP))
     if (tokenStore.token &&
         tokenParser(tokenStore.token).hasOwnProperty("fingerprint"))
-        return await navigateTo(redirectAfterMagic)
+        return await navigateTo(localePath(redirectAfterMagic))
 }
 
 onMounted(async () => {

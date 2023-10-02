@@ -52,6 +52,7 @@ definePageMeta({
     middleware: ["anonymous"],
 });
 
+const localePath = useLocalePath()
 const authStore = useAuthStore()
 const redirectRoute = "/"
 const schema = {
@@ -65,6 +66,6 @@ async function submit(values: any) {
             resolve(true)
         }, 2000)
     })
-    return await navigateTo(redirectRoute)
+    return await navigateTo(localePath(redirectRoute))
 }
 </script>

@@ -6,8 +6,18 @@
         <div v-if="appSettings.current.pageState === 'done'">
             <PathwayEditHeadingPanel :title="pathTitle" @set-edit-request="watchHeadingRequest" />
             <div class="flex justify-between -mb-2 mt-2">
-                <div class="block text-xs font-medium leading-6 text-white bg-spring-700 mx-3 px-3 pt-0.5 rounded-t-lg">
-                    {{ t("pathway.metadata") }}
+                <div class="flex flex-inline items-center space-x-2">
+                    <div
+                        class="text-xs font-medium leading-6 text-white bg-spring-700 mx-3 px-3 pt-0.5 -mb-0.5 mt-0.5 rounded-t-lg">
+                        {{ t("pathway.metadata") }}
+                    </div>
+                    <div v-if="pathwayStore.isTranslatingDraft"
+                        class="relative -ml-px inline-flex items-center gap-x-1.5 text-xs">
+                        <div class="rounded-full bg-cyan-600 p-1">
+                            <PhTranslate class="h-4 w-4 text-white" aria-hidden="true" />
+                        </div>
+                        <span class="text-cyan-600 hidden md:block">{{ t("pathway.translate") }}</span>
+                    </div>
                 </div>
                 <div class="flex flex-inline items-center space-x-2 mb-1">
                     <div class="rounded-full bg-spring-400 p-1">
@@ -116,7 +126,7 @@
 </template>
 
 <script setup lang="ts">
-import { PhPlus, PhMinus, PhTagSimple, PhLineSegments, PhBookmarkSimple, PhTrashSimple } from "@phosphor-icons/vue"
+import { PhPlus, PhMinus, PhTagSimple, PhLineSegments, PhBookmarkSimple, PhTrashSimple, PhTranslate } from "@phosphor-icons/vue"
 import { useSettingStore, usePathwayStore } from "@/stores"
 import { IPathway, IKeyable, ITheme, INode, IPathwayType } from "@/interfaces"
 import { generateUUID } from "@/utilities"
@@ -126,6 +136,7 @@ definePageMeta({
 });
 
 const { t } = useI18n()
+const localePath = useLocalePath()
 const route = useRoute()
 const appSettings = useSettingStore()
 const pathwayStore = usePathwayStore()
@@ -133,11 +144,13 @@ const draft = ref({} as IPathway)
 const draftStartLanguage = ref("")
 const dragThemeID = ref("" as string)
 const dragNodeID = ref("" as string)
-const pathTitle = ref("Creating pathway")
+const pathTitle = ref("pathway.creating")
+const { locale } = useI18n()
 
 // SETUP
 onMounted(async () => {
     appSettings.setPageName("nav.pathways")
+    console.log("GETTING EDIT", pathwayStore.settings.locale, locale.value)
     await pathwayStore.getTerm(route.params.id as string, false)
     if (!pathwayStore.term || Object.keys(pathwayStore.term).length === 0) {
         // The pathway doesn't exist, so create a draft ...
@@ -145,7 +158,7 @@ onMounted(async () => {
         createDraft()
     } else {
         pathwayStore.setCreateDraft(false)
-        pathTitle.value = "Updating pathway"
+        pathTitle.value = "pathway.updating"
         resetDraft()
     }
     draftStartLanguage.value = draft.value.language as string
@@ -196,7 +209,7 @@ async function watchHeadingRequest(request: string) {
             await pathwayStore.updateTerm(route.params.id as string, draft.value)
             break
         case "cancel":
-            return await navigateTo(`/pathway/${route.params.id}`)
+            return await navigateTo(localePath(`/pathway/${route.params.id}`))
         default:
             watchLocaleSelect(request)
             break
@@ -221,7 +234,7 @@ async function watchNodeRequest(request: INode) {
 async function watchLocaleSelect(select: string) {
     // console.log("Language change", select)
     pathwayStore.setLanguageDraft(select)
-    pathwayStore.setIsTranslatingDraft(select !== draftStartLanguage.value)
+    // pathwayStore.setIsTranslatingDraft(select !== draftStartLanguage.value)
 }
 
 watch(

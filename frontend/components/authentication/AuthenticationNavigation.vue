@@ -43,6 +43,7 @@ import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue"
 import { PhSignIn, PhUserCircle } from "@phosphor-icons/vue"
 import { useAuthStore } from "@/stores"
 
+const localePath = useLocalePath()
 const authStore = useAuthStore()
 const navigation = [
     { name: "Settings", to: "/settings" },
@@ -51,6 +52,6 @@ const redirectRoute = "/"
 
 async function logout() {
     authStore.logOut()
-    await navigateTo(redirectRoute)
+    await navigateTo(localePath(redirectRoute))
 }
 </script>

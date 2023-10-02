@@ -45,6 +45,7 @@ const props = defineProps({
     cardText: String
 })
 
+const localePath = useLocalePath()
 const authStore = useAuthStore()
 const redirectAfterMagic = "/magic"
 const redirectTOTP = "/totp"
@@ -57,9 +58,9 @@ const schema = {
 async function submit(values: any) {
     await authStore.logIn({ username: values.email, password: values.password })
     if (authStore.tokenStore.token && tokenIsTOTP(authStore.tokenStore.token))
-        return await navigateTo(redirectTOTP)
+        return await navigateTo(localePath(redirectTOTP))
     if (authStore.tokenStore.token &&
         tokenParser(authStore.tokenStore.token).hasOwnProperty("fingerprint"))
-        return await navigateTo(redirectAfterMagic)
+        return await navigateTo(localePath(redirectAfterMagic))
 }
 </script>

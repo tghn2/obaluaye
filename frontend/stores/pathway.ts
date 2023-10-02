@@ -27,7 +27,7 @@ export const usePathwayStore = defineStore("pathwayStore", {
         languageDraft: (state) => state.languageEdit,
         createDraft: (state) => state.createEdit,
         savingDraft: (state) => state.savingEdit,
-        isTranslatingDraft: (state) => state.translatingEdit,
+        isTranslatingDraft: (state) => state.edit.language !== state.languageEdit,
         filters: (state) => state.facets,
         authTokens: () => {
         return ( useTokenStore() )
@@ -95,6 +95,8 @@ export const usePathwayStore = defineStore("pathwayStore", {
             if (this.authTokens.token) {
                 try {
                     if (payload && Object.keys(payload).length !== 0) this.setDraft(payload)
+                    // Make sure the language is as expected
+                    this.edit.language = this.languageDraft
                     if (this.createEdit)
                         await apiPathway.createTerm(this.authTokens.token, this.draft)
                     else

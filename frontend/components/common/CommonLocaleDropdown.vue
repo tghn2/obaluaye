@@ -4,7 +4,7 @@
             <ListboxButton
                 class="inline-flex items-center w-full justify-center -ml-px gap-x-1.5 rounded-md px-3 py-2 text-sm text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
                 <PhGlobeHemisphereWest class="md:-ml-0.5 h-4 w-4 text-gray-400" aria-hidden="true" />
-                <span class="hidden md:block">{{ currentLocale.name }}</span>
+                <span class="hidden md:block">{{ commonLocale.name }}</span>
                 <PhCaretDown class="md:-ml h-4 w-4 text-gray-400" aria-hidden="true" />
             </ListboxButton>
         </div>
@@ -38,19 +38,19 @@ import { LocaleObject } from "@nuxtjs/i18n/dist/runtime/composables"
 
 const { locales } = useI18n()
 const supportedLocales = locales.value as Array<LocaleObject>
-const currentLocale = shallowRef({} as LocaleObject)
+const commonLocale = shallowRef({} as LocaleObject)
 const props = defineProps<{
     language: string,
 }>()
 const emit = defineEmits<{ setLocaleSelect: [select: string] }>()
 
 function watchLocaleSelect(select: LocaleObject) {
-    currentLocale.value = select
+    commonLocale.value = select
     emit("setLocaleSelect", select.code)
 }
 
 async function setLocale(term: string) {
-    currentLocale.value = await supportedLocales.find((l) => l.iso === term || l.code === term) as LocaleObject
+    commonLocale.value = await supportedLocales.find((l) => l.iso === term || l.code === term) as LocaleObject
 }
 
 onMounted(async () => {
