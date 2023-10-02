@@ -11,6 +11,8 @@ from app.core.config import settings
 from app.db.session import SessionLocal
 
 reusable_oauth2 = OAuth2PasswordBearer(tokenUrl=f"{settings.API_V1_STR}/login/oauth")
+# https://stackoverflow.com/a/66512998/295606
+optional_reusable_oauth2 = OAuth2PasswordBearer(tokenUrl=f"{settings.API_V1_STR}/login/oauth", auto_error=False)
 
 
 def get_db() -> Generator:
@@ -31,6 +33,27 @@ def get_token_payload(token: str) -> schemas.TokenPayload:
             detail="Could not validate credentials",
         )
     return token_data
+
+
+def get_optional_current_user(db: Session = Depends(get_db), token: str = Depends(optional_reusable_oauth2)) -> models.User:
+    token_data = None
+    user = None
+    if token:
+        try:
+            token_data = get_token_payload(token)
+        except HTTPException:
+            pass
+    if token_data:
+        if token_data.refresh or token_data.totp:
+            # Refresh token is not a valid access token and TOTP True can only be used to validate TOTP
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Could not validate credentials",
+            )
+        user = crud.user.get(db, id=token_data.sub)
+        if not user:
+            raise HTTPException(status_code=404, detail="User not found")
+    return user
 
 
 def get_current_user(db: Session = Depends(get_db), token: str = Depends(reusable_oauth2)) -> models.User:

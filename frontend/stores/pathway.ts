@@ -44,7 +44,7 @@ export const usePathwayStore = defineStore("pathwayStore", {
                 this.setMulti([])
                 if (!facets || Object.keys(facets).length === 0) facets = this.facets
                 facets.language = this.settings.locale
-                const { data: response } = await apiPathway.getMulti(facets)
+                const { data: response } = await apiPathway.getMulti(this.authTokens.token, facets)
                 if (response.value) {
                     if (response.value.length) {
                         this.setMulti(response.value)
@@ -67,7 +67,7 @@ export const usePathwayStore = defineStore("pathwayStore", {
             try {
                 this.settings.setPageState("loading")
                 this.setTerm({} as IPathway)
-                const { data: response } = await apiPathway.getTerm(key, this.settings.locale)
+                const { data: response } = await apiPathway.getTerm(this.authTokens.token, key, this.settings.locale)
                 if (response.value) this.setTerm(response.value)
                 if (manualState) this.settings.setPageState("done")
             } catch (error) {

@@ -28,7 +28,7 @@ class CRUDPathway(CRUDBase[Pathway, PathwayCreate, PathwayUpdate, PathwayOut]):
             user=user,
             responsibility=responsibility,
         )
-        if user:
+        if not user:
             db_objs = db_objs.filter(self.model.isPrivate.is_(False))
         if path_type:
             db_objs = db_objs.filter(self.model.pathType == path_type)

@@ -20,9 +20,10 @@ def read_all_public_pathways(
     path_type: Optional[str] = None,
     page: int = 0,
     language: str | None = None,
+    current_user: models.User | None = Depends(deps.get_optional_current_user),
 ) -> Any:
     """
-    Get all public pathways.
+    Get all public pathways. Check if current_user, and if they are pathway CUSTODIANs.
     """
     db_objs = crud.pathway.get_multi(
         db=db,
@@ -31,7 +32,16 @@ def read_all_public_pathways(
         date_to=date_to,
         path_type=path_type,
         page=page,
+        user=current_user,
     )
+    if current_user:
+        validated_objs = []
+        for db_obj in db_objs:
+            if not db_obj.isPrivate or crud.role.has_responsibility(
+                db=db, user=current_user, pathway=db_obj, responsibility=schema_types.RoleType.CURATOR
+            ):
+                validated_objs.append(db_obj)
+        db_objs = validated_objs
     return [crud.pathway.get_schema(db_obj=db_obj, language=language, schema_out=schemas.PathwaySummary) for db_obj in db_objs]
 
 
@@ -40,13 +50,18 @@ def get_pathway(
     *,
     db: Session = Depends(deps.get_db),
     id: str,
-    language: str | None = None
+    language: str | None = None,
+    current_user: models.User | None = Depends(deps.get_optional_current_user),
 ) -> Any:
     """
     Get a pathway.
     """
     db_obj = crud.pathway.get(db=db, id=id)
-    if not db_obj:
+    # if not db_obj or (db_obj.isPrivate and (not current_user or (current_user and not crud.role.has_responsibility))
+    if not db_obj or (db_obj.isPrivate and (
+        not current_user
+        or (current_user and not crud.role.has_responsibility(db=db, user=current_user, pathway=db_obj, responsibility=schema_types.RoleType.CURATOR)))
+    ):
         raise HTTPException(
             status_code=400,
             detail="Either pathway does not exist, or user does not have the rights for this request.",
