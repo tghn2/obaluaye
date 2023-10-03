@@ -28,7 +28,6 @@
                         <PhTagSimple class="md:-ml-0.5 h-4 w-4 text-spring-400" aria-hidden="true" />
                         <span class="hidden md:block">{{ t("theme.name") }}</span>
                     </button>
-                    <PathwayEditResourceModal />
                 </div>
             </div>
             <div class="rounded-lg my-2 border-t-2 border-spring-700">
@@ -63,11 +62,6 @@
                                 <PhLineSegments class="md:-ml-0.5 h-4 w-4 text-spring-400" aria-hidden="true" />
                                 <span class="hidden md:block">{{ t("node.name") }}</span>
                             </button>
-                            <button type="button"
-                                class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-md px-2 py-1 text-xs text-spring-900 ring-1 ring-inset ring-spring-300 hover:bg-spring-50">
-                                <PhBookmarkSimple class="md:-ml-0.5 h-4 w-4 text-spring-400" aria-hidden="true" />
-                                <span class="hidden md:block">{{ t("resource.name") }}</span>
-                            </button>
                         </div>
                     </div>
                     <div :id="`${theme.id}`" :draggable="theme.id !== pathwayStore.activeDraft" @dragstart="handleDragStart"
@@ -100,11 +94,6 @@
                                         <PhLineSegments class="md:-ml-0.5 h-4 w-4 text-spring-400" aria-hidden="true" />
                                         <span class="hidden md:block">{{ t("node.name") }}</span>
                                     </button>
-                                    <button type="button"
-                                        class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-md px-2 py-1 text-xs text-spring-900 ring-1 ring-inset ring-spring-300 hover:bg-spring-50">
-                                        <PhBookmarkSimple class="md:-ml-0.5 h-4 w-4 text-spring-400" aria-hidden="true" />
-                                        <span class="hidden md:block">{{ t("resource.name") }}</span>
-                                    </button>
                                 </div>
                             </div>
                             <div :id="`${theme.id}|${node.id}`" :draggable="node.id !== pathwayStore.activeDraft"
@@ -123,8 +112,9 @@
 
 <script setup lang="ts">
 import { PhPlus, PhMinus, PhTagSimple, PhLineSegments, PhBookmarkSimple, PhTrashSimple, PhTranslate } from "@phosphor-icons/vue"
-import { useSettingStore, usePathwayStore } from "@/stores"
-import { IPathway, IKeyable, ITheme, INode, IPathwayType } from "@/interfaces"
+import { useSettingStore, usePathwayStore, useTokenStore } from "@/stores"
+import { IPathway, IKeyable, ITheme, INode, IPathwayType, IResource } from "@/interfaces"
+import { apiTheme, apiNode } from "@/api"
 import { generateUUID } from "@/utilities"
 
 definePageMeta({
@@ -194,7 +184,9 @@ function createDraft() {
 
 function resetDraft() {
     pathwayStore.setLanguageDraft(pathwayStore.term.language as string)
-    draft.value = { ...pathwayStore.term }
+    let temporaryDraft: IPathway = { ...pathwayStore.term }
+    if (!temporaryDraft.resources || !temporaryDraft.resources.length) temporaryDraft.resources = [] as IResource[]
+    draft.value = { ...temporaryDraft }
 }
 
 // WATCHERS
@@ -212,22 +204,22 @@ async function watchHeadingRequest(request: string) {
     }
 }
 
-async function watchMetadataRequest(request: IPathway) {
+function watchMetadataRequest(request: IPathway) {
     // console.log("watchMetadataRequest", request)
     updatePathwayMetadata(request)
 }
 
-async function watchThemeRequest(request: ITheme) {
+function watchThemeRequest(request: ITheme) {
     // console.log("watchThemeRequest", request)
     updateTheme(request)
 }
 
-async function watchNodeRequest(request: INode) {
+function watchNodeRequest(request: INode) {
     // console.log("watchNodeRequest", request)
     updateNode(request)
 }
 
-async function watchLocaleSelect(select: string) {
+function watchLocaleSelect(select: string) {
     // console.log("Language change", select)
     pathwayStore.setLanguageDraft(select)
     // pathwayStore.setIsTranslatingDraft(select !== draftStartLanguage.value)
@@ -268,7 +260,7 @@ function getNode(theme: ITheme, nodeID: string) {
 // CREATORS UPDATERS
 function updatePathwayMetadata(update: IPathway) {
     if (draft.value.themes && draft.value.themes.length) update.themes = [...draft.value.themes]
-    if (draft.value.resources && draft.value.resources.length) update.resources = [...draft.value.resources]
+    // if (draft.value.resources && draft.value.resources.length) update.resources = [...draft.value.resources]
     draft.value = { ...update }
 }
 
@@ -349,15 +341,25 @@ function reorderNodes(theme: ITheme, frNodeID: string, toNodeID: string) {
 }
 
 // DELETERS
-function removeTheme(themeID: string) {
+async function removeTheme(themeID: string) {
     const themeIdx = getThemeIndex(themeID)
     draft.value.themes!.splice(themeIdx, 1)
+    // Delete it directly here first
+    const tokenStore = useTokenStore()
+    try {
+        await apiTheme.removeTerm(tokenStore.token, themeID)
+    } catch (error) { }
 }
 
-function removeNode(themeID: string, nodeID: string) {
+async function removeNode(themeID: string, nodeID: string) {
     const theme = getTheme(themeID)
     const nodeIdx = getNodeIndex(theme as ITheme, nodeID)
     theme!.nodes!.splice(nodeIdx, 1)
+    // Delete it directly here first
+    const tokenStore = useTokenStore()
+    try {
+        await apiNode.removeTerm(tokenStore.token, nodeID)
+    } catch (error) { }
 }
 
 // DRAG N DROP

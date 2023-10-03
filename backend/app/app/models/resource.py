@@ -61,6 +61,7 @@ class Resource(Base):
 class ResourceTitle(Base):
     id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, index=True, default=uuid4)
     resource_id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("resource.id", onupdate="CASCADE", ondelete="CASCADE"))
+    resource: Mapped["Resource"] = relationship(back_populates="title")
     title: Mapped[Optional[str]] = mapped_column(index=True)
     language: Mapped[Locale] = mapped_column(LocaleType)
     title_vector: Mapped[TSVectorType] = mapped_column(
@@ -72,14 +73,17 @@ class ResourceTitle(Base):
         Index("ix_resource_title_vector", title_vector, postgresql_using="gin"),
     )
 
-    def __init__(self, language: str | Locale, title: str):
+    def __init__(self, language: str | Locale, title: str, back_ref: Resource | None = None):
         self.language = language
         self.title = title
+        if back_ref:
+            self.resource = back_ref
 
 
 class ResourceDescription(Base):
     id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, index=True, default=uuid4)
     resource_id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("resource.id", onupdate="CASCADE", ondelete="CASCADE"))
+    resource: Mapped["Resource"] = relationship(back_populates="description")
     description: Mapped[Optional[str]] = mapped_column(index=True)
     language: Mapped[Locale] = mapped_column(LocaleType)
     description_vector: Mapped[TSVectorType] = mapped_column(
@@ -91,17 +95,22 @@ class ResourceDescription(Base):
         Index("ix_resource_description_vector", description_vector, postgresql_using="gin"),
     )
 
-    def __init__(self, language: str | Locale, description: str):
+    def __init__(self, language: str | Locale, description: str, back_ref: Resource | None = None):
         self.language = language
         self.description = description
+        if back_ref:
+            self.resource = back_ref
 
 
 class ResourceContent(Base):
     id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, index=True, default=uuid4)
     resource_id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("resource.id", onupdate="CASCADE", ondelete="CASCADE"))
+    resource: Mapped["Resource"] = relationship(back_populates="content")
     content: Mapped[Optional[str]]
     language: Mapped[Locale] = mapped_column(LocaleType)
 
-    def __init__(self, language: str | Locale, content: str):
+    def __init__(self, language: str | Locale, content: str, back_ref: Resource | None = None):
         self.language = language
         self.content = content
+        if back_ref:
+            self.resource = back_ref

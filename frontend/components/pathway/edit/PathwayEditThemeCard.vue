@@ -70,6 +70,9 @@
                                 {{ t("theme.help.spatial") }}
                             </p>
                         </div>
+                        <div class="col-span-full my-1 py-1 border-t border-gray-100">
+                            <PathwayEditResourceCard :initial-drafts="draft.resources" @set-drafts="watchResourcesUpdate" />
+                        </div>
                     </div>
                 </form>
             </DisclosurePanel>
@@ -79,10 +82,10 @@
   
 <script setup lang="ts">
 import { storeToRefs } from "pinia"
-import { PhDotsSix, PhCaretDown, PhTrash } from "@phosphor-icons/vue"
+import { PhDotsSix, PhCaretDown } from "@phosphor-icons/vue"
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue"
 import { usePathwayStore } from "@/stores"
-import { ITheme } from "@/interfaces"
+import { ITheme, IResource } from "@/interfaces"
 
 const { t } = useI18n()
 const pathwayStore = usePathwayStore()
@@ -114,6 +117,10 @@ function disclosureWatcher(open: boolean, close: typeof ref | HTMLElement) {
 
 function watchCountrySelect(response: string[]) {
     draft.value.country = response
+}
+
+function watchResourcesUpdate(update: IResource[]) {
+    draft.value.resources = update
 }
 
 watch(() => pathwayStore.activeEdit, () => {

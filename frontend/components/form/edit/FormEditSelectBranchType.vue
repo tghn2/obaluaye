@@ -73,12 +73,10 @@
 <script setup lang="ts">
 import { PhX, PhPlus } from "@phosphor-icons/vue"
 import { Switch, SwitchGroup, SwitchLabel } from "@headlessui/vue"
-import { usePathwayStore } from "@/stores"
 import { IForm, IConstraints, ITerm, INodeType, IValueType } from "@/interfaces"
 import { generateUUID } from "@/utilities"
 
 const { t } = useI18n()
-const pathwayStore = usePathwayStore()
 const draft = ref({} as IForm)
 const formEditType: INodeType = "SELECTBRANCH"
 const defaultType: IValueType = "STRING"

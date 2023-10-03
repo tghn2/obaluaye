@@ -3,7 +3,8 @@
         <div class="mx-auto overflow-hidden py-8">
             <nav class="-mx-5 -my-2 flex flex-wrap justify-center" aria-label="Footer">
                 <div v-for="item in footerNavigation.main" :key="item.name">
-                    <LocaleLink :to="item.to" class="text-sm text-gray-400 hover:text-gray-300">{{ t(item.name) }}
+                    <LocaleLink :to="item.to" class="text-sm text-gray-400 hover:text-gray-300">
+                        {{ t(item.name) }}
                     </LocaleLink>
                     <span v-show="item.dot" class="text-sm text-gray-400 px-2">&middot;</span>
                 </div>

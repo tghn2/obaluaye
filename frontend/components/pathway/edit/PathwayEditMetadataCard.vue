@@ -22,11 +22,11 @@
                             </p>
                         </div>
                         <div class="sm:col-span-2">
-                            <label for="pathway-title" class="block text-sm font-semibold leading-6 text-gray-900">{{
+                            <label for="pathway-type" class="block text-sm font-semibold leading-6 text-gray-900">{{
                                 t("pathway.field.type") }}</label>
                             <div class="mt-2">
-                                <InputSelectPathType :initial-type="pathwayStore.draft.pathType"
-                                    @set-select="watchInputPathType" />
+                                <InputSelectPathType name="pathway-type" id="pathway-type"
+                                    :initial-type="pathwayStore.draft.pathType" @set-select="watchInputPathType" />
                             </div>
                         </div>
                         <div class="col-span-full">
@@ -106,6 +106,9 @@
                                 {{ t("pathway.help.citation") }}
                             </p>
                         </div>
+                        <div class="col-span-full my-1 py-1 border-t border-gray-100">
+                            <PathwayEditResourceCard :initial-drafts="draft.resources" @set-drafts="watchResourcesUpdate" />
+                        </div>
                     </div>
                 </form>
             </DisclosurePanel>
@@ -118,7 +121,7 @@ import { storeToRefs } from "pinia"
 import VueTailwindDatepicker from "vue-tailwind-datepicker"
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue"
 import { PhCaretDown } from "@phosphor-icons/vue"
-import { IPathway, IPathwayType } from "@/interfaces"
+import { IPathway, IPathwayType, IResource } from "@/interfaces"
 import { usePathwayStore } from "@/stores"
 import dayjs from "dayjs"
 
@@ -162,6 +165,11 @@ function watchCountrySelect(response: string[]) {
 
 function watchInputPathType(response: IPathwayType) {
     draft.value.pathType = response
+}
+
+function watchResourcesUpdate(update: IResource[]) {
+    console.log("watchResourcesUpdate", update)
+    draft.value.resources = update
 }
 
 watch(() => pathwayStore.activeEdit, () => {

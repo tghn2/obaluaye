@@ -7,6 +7,7 @@ from app.api.api_v1.endpoints import (
     pathway,
     theme,
     node,
+    resource,
     services,
 )
 
@@ -17,4 +18,5 @@ api_router.include_router(group.router, prefix="/group", tags=["group"])
 api_router.include_router(pathway.router, prefix="/pathway", tags=["pathway"])
 api_router.include_router(theme.router, prefix="/theme", tags=["theme"])
 api_router.include_router(node.router, prefix="/node", tags=["node"])
+api_router.include_router(resource.router, prefix="/resource", tags=["resource"])
 api_router.include_router(services.router, prefix="/services", tags=["services"])

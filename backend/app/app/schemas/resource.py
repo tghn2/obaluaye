@@ -34,15 +34,13 @@ class ResourceBase(BaseSchema):
 class ResourceCreate(ResourceBase):
     title: str = Field(..., description="A human-readable title given to the resource.")
     resourceType: ResourceType = Field(..., description="The type of resource, which defines how to use the `content` field.")
-    pathway_id: Optional[UUID] = Field(..., description="Pathway associated identity.")
-    theme_id: Optional[UUID] = Field(..., description="Theme associated identity.")
-    node_id: Optional[UUID] = Field(..., description="Node associated identity.")
+    pathway_id: Optional[UUID] = Field(None, description="Pathway associated identity.")
+    theme_id: Optional[UUID] = Field(None, description="Theme associated identity.")
+    node_id: Optional[UUID] = Field(None, description="Node associated identity.")
 
 
 class ResourceUpdate(ResourceCreate):
     id: UUID = Field(..., description="Automatically generated unique identity.")
-    title: Optional[str] = Field(None, description="A human-readable title given to the resource.")
-    resourceType: Optional[ResourceType] = Field(None, description="The type of resource, which defines how to use the `content` field.")
 
 
 class Resource(ResourceBase):

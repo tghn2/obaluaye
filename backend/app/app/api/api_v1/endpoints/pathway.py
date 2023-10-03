@@ -67,12 +67,24 @@ def get_pathway(
             detail="Either pathway does not exist, or user does not have the rights for this request.",
         )
     response = crud.pathway.get_schema(db_obj=db_obj, language=language)
+    response.resources = []
+    for resource_obj in db_obj.resources.all():
+        resources_out = crud.resource.get_schema(db_obj=resource_obj, language=language)
+        response.resources.append(resources_out)
     response.themes = []
     for theme_obj in db_obj.themes.all():
         theme_out = crud.theme.get_schema(db_obj=theme_obj, language=language)
+        theme_out.resources = []
+        for resource_obj in theme_obj.resources.all():
+            resources_out = crud.resource.get_schema(db_obj=resource_obj, language=language)
+            theme_out.resources.append(resources_out)
         theme_out.nodes = []
         for node_obj in theme_obj.nodes.all():
             node_out = crud.node.get_schema(db_obj=node_obj, language=language)
+            node_out.resources = []
+            for resource_obj in node_obj.resources.all():
+                resources_out = crud.resource.get_schema(db_obj=resource_obj, language=language)
+                node_out.resources.append(resources_out)
             theme_out.nodes.append(node_out)
         response.themes.append(theme_out)
     return response
@@ -193,12 +205,24 @@ def download_pathway_model(
             detail="Either pathway does not exist, or user does not have the rights for this request.",
         )
     response = crud.pathway.get_schema(db_obj=db_obj, language=language)
+    response.resources = []
+    for resource_obj in db_obj.resources.all():
+        resources_out = crud.resource.get_schema(db_obj=resource_obj, language=language)
+        response.resources.append(resources_out)
     response.themes = []
     for theme_obj in db_obj.themes.all():
         theme_out = crud.theme.get_schema(db_obj=theme_obj, language=language)
+        theme_out.resources = []
+        for resource_obj in theme_obj.resources.all():
+            resources_out = crud.resource.get_schema(db_obj=resource_obj, language=language)
+            theme_out.resources.append(resources_out)
         theme_out.nodes = []
         for node_obj in theme_obj.nodes.all():
             node_out = crud.node.get_schema(db_obj=node_obj, language=language)
+            node_out.resources = []
+            for resource_obj in node_obj.resources.all():
+                resources_out = crud.resource.get_schema(db_obj=resource_obj, language=language)
+                node_out.resources.append(resources_out)
             theme_out.nodes.append(node_out)
         response.themes.append(theme_out)
     # https://stackoverflow.com/a/69799463/295606

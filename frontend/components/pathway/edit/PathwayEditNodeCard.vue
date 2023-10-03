@@ -81,6 +81,9 @@
                     </div>
                     <component :is="formType[draft.formType as INodeType].component" :initial-draft="draft.form"
                         :theme-id="draft.theme_id" @set-draft="watchFormRequest" />
+                    <div class="col-span-full my-1 py-1 border-t border-gray-100">
+                        <PathwayEditResourceCard :initial-drafts="draft.resources" @set-drafts="watchResourcesUpdate" />
+                    </div>
                 </form>
             </DisclosurePanel>
         </Disclosure>
@@ -92,7 +95,7 @@ import { storeToRefs } from "pinia"
 import { PhDotsSix, PhCaretDown, PhCaretUpDown, PhCheck } from "@phosphor-icons/vue"
 import { Disclosure, DisclosureButton, DisclosurePanel, Listbox, ListboxButton, ListboxOptions, ListboxOption, } from "@headlessui/vue"
 import { usePathwayStore } from "@/stores"
-import { INode, IKeyable, IForm, INodeType } from "@/interfaces"
+import { INode, IKeyable, IForm, INodeType, IResource } from "@/interfaces"
 
 const { t } = useI18n()
 const pathwayStore = usePathwayStore()
@@ -145,6 +148,10 @@ function disclosureWatcher(open: boolean, close: typeof ref | HTMLElement) {
         openState.value = false
         pathwayStore.setActiveDraft("")
     }
+}
+
+function watchResourcesUpdate(update: IResource[]) {
+    draft.value.resources = update
 }
 
 watch(() => pathwayStore.activeEdit, () => {

@@ -2,7 +2,7 @@ import { IPathway, IFilters } from "@/interfaces"
 import { useTokenStore } from "./tokens"
 import { useSettingStore } from "./settings"
 import { useToastStore } from "./toasts"
-import { apiPathway, apiTheme, apiNode } from "@/api"
+import { apiPathway, apiTheme, apiNode, apiResource } from "@/api"
 
 export const usePathwayStore = defineStore("pathwayStore", {
     state: () => ({
@@ -78,12 +78,12 @@ export const usePathwayStore = defineStore("pathwayStore", {
             await this.authTokens.refreshTokens()
             if (this.authTokens.token) {
                 try {
-                if (payload && Object.keys(payload).length !== 0) this.setDraft(payload)
-                const { data: response } = await apiPathway.createTerm(this.authTokens.token, this.draft)
-                if (response.value) {
-                    this.setTerm(response.value)
-                    this.resetDraft()
-                } 
+                    if (payload && Object.keys(payload).length !== 0) this.setDraft(payload)
+                    const { data: response } = await apiPathway.createTerm(this.authTokens.token, this.draft)
+                    if (response.value) {
+                        this.setTerm(response.value)
+                        this.resetDraft()
+                    } 
                 } catch (error) {
                     this.one = {} as IPathway
                 }
@@ -103,12 +103,27 @@ export const usePathwayStore = defineStore("pathwayStore", {
                         await apiPathway.updateTerm(this.authTokens.token, key, this.draft)
                     // Loop through themes and nodes to create and update these
                     // https://stackoverflow.com/a/34349073/295606
+                    if (this.draft.resources && this.draft.resources.length) {
+                        for (const resource of this.draft.resources) {
+                            resource.pathway_id = this.draft.id
+                            resource.language = this.draft.language
+                            await apiResource.updateTerm(this.authTokens.token, resource.id as string, resource)
+                        }
+                    }
                     if (this.draft.themes && this.draft.themes.length) {
                         for (const [themeIdx, theme] of this.draft.themes.entries()) {
                             theme.pathway_id = this.draft.id
                             theme.order = themeIdx
                             theme.language = this.draft.language
                             const { data: themeResponse } = await apiTheme.updateTerm(this.authTokens.token, theme.id as string, theme)
+                            if (theme.resources && theme.resources.length) {
+                                for (const resource of theme.resources) {
+                                    resource.pathway_id = this.draft.id
+                                    resource.theme_id = theme.id
+                                    resource.language = this.draft.language
+                                    await apiResource.updateTerm(this.authTokens.token, resource.id as string, resource)
+                                }
+                            }
                             if (themeResponse.value && theme.nodes && theme.nodes.length) {
                                 for (const [nodeIdx, node] of theme.nodes.entries()) {
                                     node.pathway_id = this.draft.id
@@ -116,13 +131,18 @@ export const usePathwayStore = defineStore("pathwayStore", {
                                     node.order = nodeIdx
                                     node.language = this.draft.language
                                     const { data: nodeResponse } = await apiNode.updateTerm(this.authTokens.token, node.id as string, node)
+                                    if (node.resources && node.resources.length) {
+                                        for (const resource of node.resources) {
+                                            resource.pathway_id = this.draft.id
+                                            resource.node_id = node.id
+                                            resource.language = this.draft.language
+                                            await apiResource.updateTerm(this.authTokens.token, resource.id as string, resource)
+                                        }
+                                    }
                                 }
                             }
                         }
                     }
-                    // const { data: response } = await apiPathway.getTerm(key, this.draft.language)
-                    // this.setTerm(response.value)
-                    // this.resetDraft()
                 } catch (error) {
                     const toasts = useToastStore()
                     toasts.addNotice({
@@ -186,18 +206,18 @@ export const usePathwayStore = defineStore("pathwayStore", {
             await this.authTokens.refreshTokens()
             if (this.authTokens.token) {
                 try {
-                this.settings.setPageState("loading")
-                const { data: response } = await apiPathway.removeTerm(this.authTokens.token, key)
-                if (response.value) this.setTerm({} as IPathway)
-                this.settings.setPageState("done")
+                    this.settings.setPageState("loading")
+                    const { data: response } = await apiPathway.removeTerm(this.authTokens.token, key)
+                    if (response.value) this.setTerm({} as IPathway)
+                    this.settings.setPageState("done")
                 } catch (error) {
-                this.settings.setPageState("error")
-                const toasts = useToastStore()
-                toasts.addNotice({
-                        title: "pathway.alert.removeErrorTitle",
-                        content: "pathway.alert.removeErrorContent",
-                        icon: "error"
-                    })
+                    this.settings.setPageState("error")
+                    const toasts = useToastStore()
+                    toasts.addNotice({
+                            title: "pathway.alert.removeErrorTitle",
+                            content: "pathway.alert.removeErrorContent",
+                            icon: "error"
+                        })
                 }
             }
         },

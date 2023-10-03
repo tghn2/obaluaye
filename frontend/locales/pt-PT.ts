@@ -182,10 +182,19 @@ export default {
         name: "Resource",
         download: "Download",
         upload: "Upload",
+        new: "Add a resource",
+        store: "Store",
+        cancel: "Cancel",
         types: {
             markdown: "MarkDown",
             download: "Download",
             weblink: "Web link",
+        },
+        field: {
+            title: "Title",
+            type: "Type",
+            description: "Description",
+            content: "Content",
         },
     },
     pwa: {
