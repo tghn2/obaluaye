@@ -136,7 +136,6 @@ const { locale } = useI18n()
 // SETUP
 onMounted(async () => {
     appSettings.setPageName("nav.pathways")
-    console.log("GETTING EDIT", pathwayStore.settings.locale, locale.value)
     await pathwayStore.getTerm(route.params.id as string, false)
     if (!pathwayStore.term || Object.keys(pathwayStore.term).length === 0) {
         // The pathway doesn't exist, so create a draft ...

@@ -28,7 +28,7 @@
                         </div>
                     </div>
                 </div>
-                <button type="button" @click="refreshPathways" class="group inline-flex justify-center">
+                <button type="button" @click="refreshGroups" class="group inline-flex justify-center">
                     <PhArrowsClockwise
                         class="-mr-1 ml-1 mt-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-spring-600"
                         aria-hidden="true" />
@@ -39,22 +39,6 @@
         <DisclosurePanel class="border-t border-gray-200 py-5">
             <div class="mx-auto text-xs sm:text-sm px-8 space-y-4">
                 <fieldset>
-                    <legend class="block font-bold">{{ t("pathway.field.type") }}</legend>
-                    <div class="space-y-4 pt-4">
-                        <div class="grid auto-rows-min grid-cols-4 gap-y-2 md:gap-x-3">
-                            <div v-for="(option, optionIdx) in pathType" :key="option.value" class="flex items-center">
-                                <input :id="`reference-${optionIdx}`" name="reference" :value="option.value" type="radio"
-                                    v-model="filters.path_type"
-                                    class="h-4 w-4 flex-shrink-0 rounded-full border-gray-300 text-ochre-600 focus:ring-ochre-500"
-                                    :checked="option.value === filters.path_type" />
-                                <label :for="`reference-${optionIdx}`" class="ml-3 min-w-0 flex-1 text-gray-600">
-                                    {{ t(option.content) }}
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </fieldset>
-                <fieldset>
                     <legend class="block font-bold pb-4">{{ t("filter.dates") }}</legend>
                     <div class="flex space-x-4 items-center">
                         <vue-tailwind-datepicker :formatter="formatter" as-single v-model="dateFrom" />
@@ -64,7 +48,7 @@
                 </fieldset>
             </div>
             <div class="flex flex-row justify-end pt-4">
-                <button type="submit" @click="refreshPathways"
+                <button type="submit" @click="refreshGroups"
                     class="w-20 justify-center rounded-md border border-transparent bg-spring-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-spring-700 focus:outline-none focus:ring-2 focus:ring-spring-600 focus:ring-offset-2">
                     {{ t("filter.filter") }}
                 </button>
@@ -81,11 +65,11 @@ import {
     PhMagnifyingGlass,
     PhFunnel,
 } from "@phosphor-icons/vue"
-import { usePathwayStore } from "@/stores"
+import { useGroupStore } from "@/stores"
 import { IFilters, IKeyable } from "@/interfaces"
 
 const { t } = useI18n()
-const pathwayStore = usePathwayStore()
+const groupStore = useGroupStore()
 const filters = ref({} as IFilters)
 const searchTerm = ref("")
 const dateFrom = ref("")
@@ -94,33 +78,23 @@ const formatter = ref({
     date: "YYYY-MM-DD",
     month: "MMM"
 })
-const pathType: IKeyable[] = [
-    {
-        value: "PERSONAL",
-        content: "pathway.types.personal"
-    },
-    {
-        value: "RESEARCH",
-        content: "pathway.types.research"
-    },
-]
 
 function watchSearchTerm(event: any) {
-    if (event.key === "Enter") refreshPathways()
+    if (event.key === "Enter") refreshGroups()
 }
 
-async function refreshPathways() {
+async function refreshGroups() {
     filters.value.match = searchTerm.value
     if (dateFrom.value && dateTo.value && dateFrom.value >= dateTo.value) dateTo.value = ""
     if (dateFrom.value) filters.value.date_from = dateFrom.value
     if (dateTo.value) filters.value.date_to = dateTo.value
-    pathwayStore.setFilters(filters.value)
+    groupStore.setFilters(filters.value)
     getFilters()
-    await pathwayStore.getMulti()
+    await groupStore.getMulti()
 }
 
 function getFilters() {
-    filters.value = { ...pathwayStore.filters }
+    filters.value = { ...groupStore.filters }
     dateFrom.value = ""
     dateTo.value = ""
     if (filters.value.date_from) dateFrom.value = filters.value.date_from
@@ -129,9 +103,9 @@ function getFilters() {
 }
 
 async function resetFilters() {
-    pathwayStore.resetFilters()
+    groupStore.resetFilters()
     getFilters()
-    await refreshPathways()
+    await refreshGroups()
 }
 
 onMounted(async () => {

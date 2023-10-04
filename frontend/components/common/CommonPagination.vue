@@ -4,13 +4,13 @@
             <LocaleLink :to="{ path, query: { page: pagePrevious } }" :event="showPrevious ? 'click' : ''"
                 :class="[showPrevious ? '' : 'pointer-events-none', 'group inline-flex items-center pr-1 pt-4 text-sm font-medium text-gray-500 hover:text-spring-500']">
                 <PhArrowLeft class="mr-3 h-5 w-5" aria-hidden="true" />
-                Previous
+                {{ t("multi.previous") }}
             </LocaleLink>
         </div>
         <div class="-mt-px flex w-0 flex-1 justify-end">
             <LocaleLink :to="{ path, query: { page: pageNext } }" :event="settingsStore.current.pageNext ? 'click' : ''"
                 :class="[settingsStore.current.pageNext ? '' : 'pointer-events-none', 'group inline-flex items-center pr-1 pt-4 text-sm font-medium text-gray-500 hover:text-spring-500']">
-                Next
+                {{ t("multi.next") }}
                 <PhArrowRight class="ml-3 h-5 w-5" aria-hidden="true" />
             </LocaleLink>
         </div>
@@ -21,6 +21,7 @@
 import { PhArrowLeft, PhArrowRight } from "@phosphor-icons/vue"
 import { useSettingStore } from "@/stores"
 
+const { t } = useI18n()
 const route = useRoute()
 const router = useRouter()
 const settingsStore = useSettingStore()

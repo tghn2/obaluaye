@@ -1,8 +1,8 @@
-import { IGroup, IGroupFilters, IGroupInvitation, IGroupRole, IRoleType  } from "@/interfaces"
+import { IGroup, IFilters, IGroupInvitation, IGroupRole, IRoleType, IMsg  } from "@/interfaces"
 import { apiCore } from "./core"
 
 export const apiGroup = {
-  async getMulti(token: string, payload: IGroupFilters = {}) {
+  async getMulti(token: string, payload: IFilters = {}) {
     return await useFetch<IGroup[]>(`${apiCore.url()}/group/`, 
       {
         headers: apiCore.headers(token),
@@ -18,7 +18,7 @@ export const apiGroup = {
     )
   },
   async createTerm(token: string, payload: IGroup) {
-    return await useFetch<IGroup>(`${apiCore.url()}/group/`, 
+    return await useFetch<IMsg>(`${apiCore.url()}/group/`, 
       {
         method: "POST",
         body: payload,
@@ -27,7 +27,7 @@ export const apiGroup = {
     )
   },
   async updateTerm(token: string, key: string, payload: IGroup) {
-    return await useFetch<IGroup>(`${apiCore.url()}/group/${key}`, 
+    return await useFetch<IMsg>(`${apiCore.url()}/group/${key}`, 
       {
         method: "PUT",
         body: payload,
@@ -36,7 +36,7 @@ export const apiGroup = {
     )
   },
   async removeTerm(token: string, key: string) {
-    return await useFetch<IGroup>(`${apiCore.url()}/group/${key}`, 
+    return await useFetch<IMsg>(`${apiCore.url()}/group/${key}`, 
       {
         method: "DELETE",
         headers: apiCore.headers(token),
@@ -44,16 +44,16 @@ export const apiGroup = {
     )
   },
   // MANAGE GROUP MEMBERS
-  async getAllMembers(token: string, key: string, payload: IGroupFilters = {}) {
-    return await useFetch<IGroupRole[]>(`${apiCore.url()}/project/${key}/members`, 
+  async getAllMembers(token: string, key: string, payload: IFilters = {}) {
+    return await useFetch<IGroupRole[]>(`${apiCore.url()}/group/${key}/members`, 
       {
         headers: apiCore.headers(token),
         query: payload,
       }
     )
   },
-  async updateMember(token: string, key: string, member_key: string, role_type: IRoleType, payload: IGroupFilters = {}) {
-    return await useFetch<IGroupRole[]>(`${apiCore.url()}/project/${key}/members/${member_key}/${role_type}`, 
+  async updateMember(token: string, key: string, member_key: string, role_type: IRoleType, payload: IFilters = {}) {
+    return await useFetch<IGroupRole[]>(`${apiCore.url()}/group/${key}/members/${member_key}/${role_type}`, 
       {
         method: "POST",
         headers: apiCore.headers(token),
@@ -61,8 +61,8 @@ export const apiGroup = {
       }
     )
   },
-  async removeMember(token: string, key: string, member_key: string, payload: IGroupFilters = {}) {
-    return await useFetch<IGroupRole[]>(`${apiCore.url()}/project/${key}/members/${member_key}`, 
+  async removeMember(token: string, key: string, member_key: string, payload: IFilters = {}) {
+    return await useFetch<IGroupRole[]>(`${apiCore.url()}/group/${key}/members/${member_key}`, 
       {
         method: "DELETE",
         headers: apiCore.headers(token),
@@ -70,16 +70,16 @@ export const apiGroup = {
       }
     )
   },
-  async getAllInvitations(token: string, key: string, payload: IGroupFilters = {}) {
-    return await useFetch<IGroupInvitation[]>(`${apiCore.url()}/project/${key}/invitations`, 
+  async getAllInvitations(token: string, key: string, payload: IFilters = {}) {
+    return await useFetch<IGroupInvitation[]>(`${apiCore.url()}/group/${key}/invitations`, 
       {
         headers: apiCore.headers(token),
         query: payload,
       }
     )
   },
-  async createInvitation(token: string, key: string, email: string, payload: IGroupFilters = {}) {
-    return await useFetch<IGroupInvitation[]>(`${apiCore.url()}/project/${key}/invitations/${email}`, 
+  async createInvitation(token: string, key: string, email: string, payload: IFilters = {}) {
+    return await useFetch<IGroupInvitation[]>(`${apiCore.url()}/group/${key}/invitations/${email}`, 
       {
         method: "POST",
         headers: apiCore.headers(token),
@@ -87,8 +87,8 @@ export const apiGroup = {
       }
     )
   },
-  async removeInvitation(token: string, key: string, invitation_key: string, payload: IGroupFilters = {}) {
-    return await useFetch<IGroupInvitation[]>(`${apiCore.url()}/project/${key}/invitations/${invitation_key}`, 
+  async removeInvitation(token: string, key: string, invitation_key: string, payload: IFilters = {}) {
+    return await useFetch<IGroupInvitation[]>(`${apiCore.url()}/group/${key}/invitations/${invitation_key}`, 
       {
         method: "DELETE",
         headers: apiCore.headers(token),

@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import Optional, List
+from typing import Optional, List, Set
 from pydantic import Field, validator
 from sqlalchemy.orm import Query
 from uuid import UUID
@@ -19,7 +19,7 @@ class ThemeBase(BaseSchema):
     title: Optional[str] = Field(None, description="A human-readable title given to the theme.")
     name: Optional[str] = Field(None, description="A machine-readable name given to the theme.")
     description: Optional[str] = Field(None, description="A short description of the theme.")
-    subjects: Optional[List[str]] = Field([], description="A list of topics of the theme.")
+    subjects: Optional[Set[str]] = Field(set(), description="A list of topics of the theme.")
     country: Optional[CountryListType] = Field([], description="A list of countries, defined by country codes.")
     spatial: Optional[str] = Field(None, description="Spatial characteristics of the theme.")
     language: Optional[LocaleType] = Field(

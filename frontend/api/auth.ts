@@ -3,6 +3,9 @@ import {
     IUserProfileUpdate,
     IUserProfileCreate,
     IUserOpenProfileCreate,
+    IGroupRole,
+    IGroupInvitation,
+    IFilters,
     ITokenResponse,
     IWebToken,
     INewTOTP,
@@ -182,6 +185,41 @@ export const apiAuth = {
         method: "POST",
         body: data,
         headers: apiCore.headers(token)
+      }
+    )
+  },
+  // INVITATIONS AND PROJECT MEMBERSHIP
+  async getAllMemberships(token: string, payload: IFilters = {}) {
+    return await useFetch<IGroupRole[]>(`${apiCore.url()}/users/memberships`, 
+      {
+        headers: apiCore.headers(token),
+        query: payload,
+      }
+    )
+  },
+  async getAllInvitations(token: string, payload: IFilters = {}) {
+    return await useFetch<IGroupInvitation[]>(`${apiCore.url()}/users/invitations`, 
+      {
+        headers: apiCore.headers(token),
+        query: payload,
+      }
+    )
+  },
+  async acceptInvitation(token: string, invitation_key: string, payload: IFilters = {}) {
+    return await useFetch<IGroupInvitation[]>(`${apiCore.url()}/users/invitations/${invitation_key}`, 
+      {
+        method: "POST",
+        headers: apiCore.headers(token),
+        query: payload,
+      }
+    )
+  },
+  async rejectInvitation(token: string, invitation_key: string, payload: IFilters = {}) {
+    return await useFetch<IGroupInvitation[]>(`${apiCore.url()}/users/invitations/${invitation_key}`, 
+      {
+        method: "DELETE",
+        headers: apiCore.headers(token),
+        query: payload,
       }
     )
   },

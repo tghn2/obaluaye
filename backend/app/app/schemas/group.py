@@ -1,4 +1,4 @@
-from typing import Optional, List
+from typing import Optional, List, Set
 from pydantic import Field, validator
 from sqlalchemy.orm import Query
 from uuid import UUID
@@ -16,8 +16,8 @@ class GroupBase(BaseSchema):
     title: Optional[str] = Field(None, description="A human-readable title given to the group.")
     name: Optional[str] = Field(None, description="A machine-readable name given to the group.")
     description: Optional[str] = Field(None, description="A short description of the group.")
-    subjects: Optional[List[str]] = Field(
-        [],
+    subjects: Optional[Set[str]] = Field(
+        set(),
         description="A list of topics of the pathway."
     )
     language: Optional[LocaleType] = Field(
@@ -37,16 +37,18 @@ class GroupBase(BaseSchema):
             return re.sub("[^a-z0-9-]", "", values["title"].lower().replace(" ", "-"))
         return None
 
+    @validator("subjects", pre=True)
+    def evaluate_subjects(cls, v):
+        return {s for s in v}
 
 class GroupCreate(GroupBase):
     title: str = Field(..., description="A human-readable title given to the group.")
-    pathway_id: UUID = Field(..., description="Pathway associated identity.")
+    # pathway_id: UUID = Field(..., description="Pathway associated identity.")
 
 
 class GroupUpdate(GroupCreate):
     id: UUID = Field(..., description="Automatically generated unique identity.")
     title: Optional[str] = Field(None, description="A human-readable title given to the group.")
-    pathway_id: Optional[UUID] = Field(None, description="Pathway associated identity.")
 
 
 class Group(GroupBase):
@@ -54,12 +56,13 @@ class Group(GroupBase):
     created: datetime = Field(..., description="Automatically generated date group was created.")
     modified: datetime = Field(..., description="Automatically generated date group was last modified.")
     title: str = Field(..., description="A human-readable title given to the group.")
-    pathway: BaseSummarySchema = Field(..., description="Research pathway objective for this group.")
-    members: List[Role] = Field(..., description="Pathway members.")
+    pathway: Optional[BaseSummarySchema] = Field(None, description="Research pathway objective for this group.")
+    roles: Optional[List[Role]] = Field([], description="Group members.")
 
-    @validator("members", pre=True)
-    def evaluate_lazy_members(cls, v):
+    @validator("roles", pre=True)
+    def evaluate_lazy_roles(cls, v):
         # https://github.com/samuelcolvin/pydantic/issues/1334#issuecomment-745434257
         # Call PydanticModel.from_orm(dbQuery)
         if isinstance(v, Query):
             return v.all()
+        return v

@@ -1,9 +1,10 @@
 from __future__ import annotations
 from typing import Optional
-from pydantic import Field, EmailStr
+from pydantic import Field, EmailStr, validator
 from uuid import UUID
 from datetime import datetime
 
+from app.db.base_class import Base
 from app.schema_types import InvitationResponseType
 from app.schemas.base_schema import BaseSchema, BaseSummarySchema
 from app.schemas.user import UserSummary
@@ -32,8 +33,20 @@ class Invitation(InvitationBase):
     id: UUID = Field(..., description="Automatically generated unique identity for the invitation.")
     created: datetime = Field(..., description="Automatically generated datetime of creation.")
     sender: UserSummary = Field(..., description="Project custodian responsible for the invitation.")
-    group: BaseSummarySchema = Field(..., description="Invitation group summary.")
-    pathway: BaseSummarySchema = Field(..., description="Invitation project summary.")
+    group: Optional[BaseSummarySchema] = Field(None, description="Invitation group summary.")
+    pathway: Optional[BaseSummarySchema] = Field(None, description="Invitation project summary.")
     response: InvitationResponseType = Field(
         default=InvitationResponseType.WAITING, description="Invitee current response."
     )
+
+    @validator("group", pre=True)
+    def evaluate_lazy_group(cls, v):
+        if isinstance(v, Base):
+            return None
+        return v
+
+    @validator("pathway", pre=True)
+    def evaluate_lazy_pathway(cls, v):
+        if isinstance(v, Base):
+            return None
+        return v

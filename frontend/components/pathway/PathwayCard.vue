@@ -30,7 +30,7 @@
                         {{ props.pathway.subjects.join(", ") }}
                     </span>
                     <span v-else class="ml-1">
-                        untagged
+                        {{ t("multi.untagged") }}
                     </span>
                 </div>
                 <ul role="list" class="flex flex-row justify-end text-xs">
@@ -53,6 +53,7 @@
 import { PhFlask, PhUser, PhTag, PhUsers, PhEyeSlash } from "@phosphor-icons/vue"
 import { IPathway } from "@/interfaces"
 
+const { t } = useI18n()
 const props = defineProps<{
     pathway: IPathway
 }>()

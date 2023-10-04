@@ -88,7 +88,7 @@ const leadNavigation = [
 
 const secondaryNavigation = [
     // { name: "nav.comments", to: "/journey", icon: PhChatTeardropText, login: true },
-    // { name: "nav.groups", to: "/projects", icon: PhUsersThree, login: true },
+    { name: "nav.groups", to: "/group", icon: PhUsersThree, login: true },
     { name: "nav.settings", to: "/settings", icon: PhGear, login: true },
 ]
 </script>

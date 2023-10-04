@@ -127,7 +127,7 @@ const leadNavigation: INav[] = [
 ]
 const secondaryNavigation: INav[] = [
     // { name: "nav.comments", to: "/projects", icon: PhChatTeardropText, login: true },
-    // { name: "nav.groups", to: "/projects", icon: PhUsersThree, login: true },
+    { name: "nav.groups", to: "/group", icon: PhUsersThree, login: true },
     { name: "nav.settings", to: "/settings", icon: PhGear, login: true },
 ]
 const footerNavigation = [

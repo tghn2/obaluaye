@@ -16,7 +16,6 @@ def read_all_groups(
     match: Optional[str] = None,
     date_from: Optional[str] = None,
     date_to: Optional[str] = None,
-    descending: bool = True,
     page: int = 0,
     current_user: models.User = Depends(deps.get_current_active_user),
 ) -> Any:
@@ -24,16 +23,36 @@ def read_all_groups(
     Get all groups for a researcher.
     """
     # Match can't do anything at this stage ... going to need to search on Groups not just Roles
-    db_objs = crud.role.get_multi(
-        db=db,
-        db_objs=current_user.roles,
-        match=match,
-        date_from=date_from,
-        date_to=date_to,
-        descending=descending,
-        page=page,
-    )
-    return [crud.group.get_schema_summary(db_obj=db_obj.group) for db_obj in db_objs]
+    if current_user.is_superuser:
+        db_objs = crud.role.get_multi(
+            db=db,
+            match=match,
+            date_from=date_from,
+            date_to=date_to,
+            page=page,
+        )
+    else:
+        db_objs = crud.role.get_multi_by_researcher(
+            db=db,
+            db_objs=current_user.roles,
+            match=match,
+            date_from=date_from,
+            date_to=date_to,
+            page=page,
+        )
+    objs_out = []
+    for db_obj in db_objs:
+        db_obj = db_obj.group
+        obj_out = crud.group.get_schema(db_obj=db_obj, language=db_obj.language, schema_out=schemas.Group)
+        obj_out.roles = []
+        pathway_obj = None
+        for role_obj in db_obj.roles.all():
+            if not pathway_obj:
+                pathway_obj = role_obj.pathway
+            obj_out.roles.append(crud.role.get_schema(db_obj=role_obj))
+        obj_out.pathway = crud.pathway.get_schema(db_obj=pathway_obj, language=db_obj.language, schema_out=schemas.PathwaySummary)
+        objs_out.append(obj_out)
+    return objs_out
 
 
 @router.get("/all", response_model=list[schemas.Group])
@@ -76,10 +95,18 @@ def get_group(
             status_code=400,
             detail="Either group does not exist, or researcher does not have the rights for this request.",
         )
-    return crud.group.get_schema(db_obj=db_obj)
+    obj_out = crud.group.get_schema(db_obj=db_obj, language=db_obj.language, schema_out=schemas.Group)
+    obj_out.roles = []
+    pathway_obj = None
+    for role_obj in db_obj.roles.all():
+        if not pathway_obj:
+            pathway_obj = role_obj.pathway
+        obj_out.roles.append(crud.role.get_schema(db_obj=role_obj))
+    obj_out.pathway = crud.pathway.get_schema(db_obj=pathway_obj, language=db_obj.language, schema_out=schemas.PathwaySummary)
+    return obj_out
 
 
-@router.post("/", response_model=schemas.Group)
+@router.post("/", response_model=schemas.Msg)
 def create_group(
     *,
     db: Session = Depends(deps.get_db),
@@ -105,10 +132,10 @@ def create_group(
     crud.role.create(
         db=db, user=current_user, group=group_obj, pathway=db_obj, responsibility=schema_types.RoleType.RESEARCHER
     )
-    return crud.group.get_schema(db_obj=group_obj)
+    return {"msg": "Group has been successfully created."}
 
 
-@router.put("/{id}", response_model=schemas.Group)
+@router.put("/{id}", response_model=schemas.Msg)
 def update_group(
     *,
     db: Session = Depends(deps.get_db),
@@ -119,6 +146,9 @@ def update_group(
     """
     Update a group.
     """
+    print("-----------------------------------------------------------------------------------------------------------")
+    print(obj_in)
+    print("-----------------------------------------------------------------------------------------------------------")
     db_obj = crud.group.get(db=db, id=id)
     if not db_obj or not crud.role.has_responsibility(
         db=db, user=current_user, group=db_obj, responsibility=schema_types.RoleType.RESEARCHER
@@ -128,7 +158,10 @@ def update_group(
             detail="Either group does not exist, or researcher does not have the rights for this request.",
         )
     db_obj = crud.group.update(db=db, db_obj=db_obj, obj_in=obj_in)
-    return crud.group.get_schema(db_obj=db_obj)
+    print("-----------------------------------------------------------------------------------------------------------")
+    print(db_obj.title)
+    print("-----------------------------------------------------------------------------------------------------------")
+    return {"msg": "Group has been successfully updated."}
 
 
 @router.delete("/{id}", response_model=schemas.Msg)
@@ -172,7 +205,7 @@ def read_members(
             status_code=400,
             detail="Either group does not exist, or researcher does not have the rights for this request.",
         )
-    return crud.role.get_multi_by_group(db=db, id=id, page=page)
+    return crud.role.get_multi_by_group(db=db, group_id=id, page=page)
 
 
 @router.post("/{id}/members/{role_id}/{role_type}", response_model=list[schemas.Role])
@@ -209,7 +242,7 @@ def update_member_role(
             detail="Either group does not exist, or researcher does not have the rights for this request.",
         )
     crud.role.update(db=db, db_obj=role_obj, responsibility=schema_types.RoleType(role_type))
-    return crud.role.get_multi_by_group(db=db, id=id, page=page)
+    return crud.role.get_multi_by_group(db=db, group_id=id, page=page)
 
 
 @router.delete("/{id}/members/{role_id}", response_model=list[schemas.Role])
@@ -241,7 +274,7 @@ def remove_member(
             detail="Either group does not exist, or user does not have the rights for this request.",
         )
     crud.role.remove_researcher_from_group(db=db, user=role_obj.researcher, group=db_obj)
-    return crud.role.get_multi_by_group(db=db, id=id, page=page)
+    return crud.role.get_multi_by_group(db=db, group_id=id, page=page)
 
 
 @router.get("/{id}/invitations", response_model=list[schemas.Invitation])
@@ -263,7 +296,14 @@ def read_invitations(
             status_code=400,
             detail="Either group does not exist, or researcher does not have the rights for this request.",
         )
-    return crud.invitation.get_multi_by_group(db=db, group_id=db_obj.id, page=page)
+    db_objs = crud.invitation.get_multi_by_group(db=db, group_id=db_obj.id, page=page)
+    objs_out = []
+    for db_obj in db_objs:
+        obj_out = crud.invitation.get_schema(db_obj=db_obj)
+        obj_out.pathway = crud.pathway.get_schema_summary(db_obj=db_obj.pathway)
+        obj_out.group = crud.group.get_schema_summary(db_obj=db_obj.group)
+        objs_out.append(obj_out)
+    return objs_out
 
 
 @router.post("/{id}/invitations/{email_id}", response_model=list[schemas.Invitation])
@@ -285,11 +325,12 @@ def add_invitation(
             status_code=400,
             detail="Either group does not exist, or researcher does not have the rights for this request.",
         )
+    pathway_id = db_obj.roles.first().pathway_id
     obj_in = schemas.InvitationCreate(**{
         "email": email_id,
         "sender_id": current_user.id,
         "group_id": db_obj.id,
-        "pathway_id": db_obj.pathway_id
+        "pathway_id": pathway_id
     })
     try:
         crud.invitation.create(db=db, obj_in=obj_in)
@@ -298,7 +339,14 @@ def add_invitation(
             status_code=400,
             detail=f"You have already invited {obj_in.email}.",
         )
-    return crud.invitation.get_multi_by_group(db=db, group_id=db_obj.id)
+    db_objs = crud.invitation.get_multi_by_group(db=db, group_id=db_obj.id)
+    objs_out = []
+    for db_obj in db_objs:
+        obj_out = crud.invitation.get_schema(db_obj=db_obj, schema_out=schemas.Invitation)
+        obj_out.pathway = crud.pathway.get_schema_summary(db_obj=db_obj.pathway)
+        obj_out.group = crud.group.get_schema_summary(db_obj=db_obj.group)
+        objs_out.append(obj_out)
+    return objs_out
 
 
 @router.delete("/{id}/invitations/{invitation_id}", response_model=list[schemas.Invitation])
@@ -326,4 +374,11 @@ def remove_invitation(
             detail="Either of group or invitation do not exist, or researcher does not have the rights for this request.",
         )
     crud.invitation.remove(db=db, id=invitation_id)
-    return crud.invitation.get_multi_by_group(db=db, group_id=db_obj.id)
+    db_objs = crud.invitation.get_multi_by_group(db=db, group_id=db_obj.id)
+    objs_out = []
+    for db_obj in db_objs:
+        obj_out = crud.invitation.get_schema(db_obj=db_obj, schema_out=schemas.Invitation)
+        obj_out.pathway = crud.pathway.get_schema_summary(db_obj=db_obj.pathway)
+        obj_out.group = crud.group.get_schema_summary(db_obj=db_obj.group)
+        objs_out.append(obj_out)
+    return objs_out

@@ -29,7 +29,7 @@ class PathwayBase(BaseSchema):
     description: Optional[str] = Field(None, description="A short description of the pathway.")
     pathType: PathwayType = Field(default=PathwayType.RESEARCH, description="The type of pathway this represents.")
     subjects: Optional[Set[str]] = Field(
-        [],
+        set(),
         description="A list of topics of the pathway."
     )
     country: Optional[CountryListType] = Field([], description="A list of countries, defined by country codes.")

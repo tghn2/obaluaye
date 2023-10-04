@@ -218,6 +218,8 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType, OutputSche
                 db.commit()
             else:
                 setattr(db_obj, field, update_data[field])
+                db.add(db_obj)
+                db.commit()
         db.add(db_obj)
         db.commit()
         db.refresh(db_obj)

@@ -112,7 +112,7 @@ class BaseSummarySchema(BaseSchema):
         None,
         description="A short description.",
     )
-    subjects: Optional[Set[str]] = Field([], description="A list of topics.")
+    subjects: Optional[Set[str]] = Field(set(), description="A list of topics.")
     language: Optional[LocaleType] = Field(
         None,
         description="Specify the language of pathway. Controlled vocabulary defined by ISO 639-1, ISO 639-2 or ISO 639-3.",

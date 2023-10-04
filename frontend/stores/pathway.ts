@@ -30,10 +30,10 @@ export const usePathwayStore = defineStore("pathwayStore", {
         isTranslatingDraft: (state) => state.edit.language !== state.languageEdit,
         filters: (state) => state.facets,
         authTokens: () => {
-        return ( useTokenStore() )
+            return ( useTokenStore() )
         },
         settings: () => {
-        return ( useSettingStore() )
+            return ( useSettingStore() )
         },
     },
     actions: {
@@ -101,6 +101,7 @@ export const usePathwayStore = defineStore("pathwayStore", {
                         await apiPathway.createTerm(this.authTokens.token, this.draft)
                     else
                         await apiPathway.updateTerm(this.authTokens.token, key, this.draft)
+                    this.createEdit = false
                     // Loop through themes and nodes to create and update these
                     // https://stackoverflow.com/a/34349073/295606
                     if (this.draft.resources && this.draft.resources.length) {

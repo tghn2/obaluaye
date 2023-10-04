@@ -107,7 +107,6 @@ def create_pathway(
     group_in = schemas.GroupCreate(**{
         "title": f"Group for {obj_in.title}",
         "language": obj_in.language,
-        "pathway_id": pathway_obj.id,
     })
     group_obj = crud.group.create(db=db, obj_in=group_in)
     # And assign the custodial role to the pathway creator

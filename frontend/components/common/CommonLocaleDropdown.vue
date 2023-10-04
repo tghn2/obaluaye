@@ -4,7 +4,7 @@
             <ListboxButton
                 class="inline-flex items-center w-full justify-center -ml-px gap-x-1.5 rounded-md px-3 py-2 text-sm text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
                 <PhGlobeHemisphereWest class="md:-ml-0.5 h-4 w-4 text-gray-400" aria-hidden="true" />
-                <span class="hidden md:block">{{ commonLocale.name }}</span>
+                <span v-if="commonLocale.name" class="hidden md:block">{{ commonLocale.name }}</span>
                 <PhCaretDown class="md:-ml h-4 w-4 text-gray-400" aria-hidden="true" />
             </ListboxButton>
         </div>

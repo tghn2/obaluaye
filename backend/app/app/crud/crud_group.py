@@ -17,4 +17,7 @@ class CRUDGroup(CRUDBase[Group, GroupCreate, GroupUpdate, GroupOut]):
         return False
 
 
-group = CRUDGroup(model=Group)
+group = CRUDGroup(
+    model=Group,
+    schema=GroupOut,
+)

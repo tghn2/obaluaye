@@ -1,4 +1,4 @@
-import { IGroup, IGroupFilters, IGroupRole, IGroupInvitation, IRoleType, IFilters } from "@/interfaces"
+import { IGroup, IGroupRole, IGroupInvitation, IRoleType, IFilters } from "@/interfaces"
 import { useTokenStore } from "./tokens"
 import { useSettingStore } from "./settings"
 import { useToastStore } from "./toasts"
@@ -10,9 +10,10 @@ export const useGroupStore = defineStore("groupStore", {
     board: [] as IGroup[],
     one: {} as IGroup,
     edit: {} as IGroup,
+    createEdit: false,
     invitationships: {} as IGroupInvitation[],
     memberships: {} as IGroupRole[],
-    facets: {} as IGroupFilters,
+    facets: {} as IFilters,
   }),
   persist: {
     storage: persistedState.localStorage,
@@ -22,14 +23,15 @@ export const useGroupStore = defineStore("groupStore", {
     term: (state) => state.one,
     draft: (state) => state.edit,
     invitations: (state) => state.invitationships,
+    createDraft: (state) => state.createEdit,
     members: (state) => state.memberships,
     isResearcher: (state) => {
       const authStore = useAuthStore()
       return (
         state.one
-        && state.one.auths
-        && state.one.auths.length
-        && state.one.auths.filter(member =>
+        && state.one.roles
+        && state.one.roles.length
+        && state.one.roles.filter(member =>
           member.researcher.email === authStore.email
           && member.responsibility === "RESEARCHER").length === 1
       )
@@ -38,9 +40,9 @@ export const useGroupStore = defineStore("groupStore", {
       const authStore = useAuthStore()
       return (
         state.one
-        && state.one.auths
-        && state.one.auths.length
-        && state.one.auths.filter(member =>
+        && state.one.roles
+        && state.one.roles.length
+        && state.one.roles.filter(member =>
           member.researcher.email === authStore.email
           && member.responsibility === "CUSTODIAN").length === 1
       )
@@ -54,7 +56,7 @@ export const useGroupStore = defineStore("groupStore", {
     },
   },
   actions: {
-    async getMulti(facets: IGroupFilters = {}) {
+    async getMulti(facets: IFilters = {}) {
       await this.authTokens.refreshTokens()
       if (this.authTokens.token) {
         try {
@@ -80,7 +82,7 @@ export const useGroupStore = defineStore("groupStore", {
     setMulti(payload: IGroup[]) {
       this.board = payload
     },
-    async getTerm(key: string) {
+    async getTerm(key: string, manualState = true) {
       await this.authTokens.refreshTokens()
       if (this.authTokens.token) {
         try {
@@ -88,7 +90,7 @@ export const useGroupStore = defineStore("groupStore", {
           this.setTerm({} as IGroup)
           const { data: response } = await apiGroup.getTerm(this.authTokens.token, key)
           if (response.value) this.setTerm(response.value)
-          this.settings.setPageState("done")
+          if (manualState) this.settings.setPageState("done")
         } catch (error) {
           this.settings.setPageState("error")
         }
@@ -114,13 +116,16 @@ export const useGroupStore = defineStore("groupStore", {
       if (this.authTokens.token) {
         try {
           if (payload && Object.keys(payload).length !== 0) this.setDraft(payload)
-          const { data: response } = await apiGroup.updateTerm(this.authTokens.token, key, this.draft)
-          if (response.value) {
-            this.setTerm(response.value)
-            this.resetDraft()
-          } 
+          if (this.createEdit) await apiGroup.createTerm(this.authTokens.token, this.draft)
+          else await apiGroup.updateTerm(this.authTokens.token, key, this.draft)
+          this.createEdit = false
         } catch (error) {
-          this.one = {} as IGroup
+            const toasts = useToastStore()
+            toasts.addNotice({
+                title: "group.alert.saveErrorTitle",
+                content: "group.alert.saveErrorContent",
+                icon: "error"
+            })
         }
       }
     },
@@ -129,6 +134,9 @@ export const useGroupStore = defineStore("groupStore", {
     },
     resetDraft() {
       this.edit = {} as IGroup
+    },
+    setCreateDraft(payload: boolean) {
+        this.createEdit = payload
     },
     setTerm(payload: IGroup) {
       this.one = payload
@@ -348,7 +356,7 @@ export const useGroupStore = defineStore("groupStore", {
     setInvitations(payload: IGroupInvitation[]) {
       this.invitationships = payload
     },
-    setFilters(payload: IGroupFilters) {
+    setFilters(payload: IFilters) {
       this.facets = payload
     },
     setPage(payload: string) {

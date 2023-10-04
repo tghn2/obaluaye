@@ -31,4 +31,7 @@ class CRUDInvitation(CRUDBase[Invitation, InvitationCreate, InvitationUpdate, In
         return db_objs.all()
 
 
-invitation = CRUDInvitation(model=Invitation)
+invitation = CRUDInvitation(
+    model=Invitation,
+    schema=InvitationOut,
+)

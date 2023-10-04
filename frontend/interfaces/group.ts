@@ -17,7 +17,7 @@ export interface IGroup {
     language?: string
     pathway?: ISummary
     pathway_id?: string
-    members?: IGroupRole[]
+    roles?: IGroupRole[]
     invitations?: IGroupInvitation[]
     responses?: IResponse[]
 }
@@ -40,7 +40,7 @@ export interface IGroupRole {
     responsibility: IRoleType
   }
   
-  export interface IGroupInvitation {
+export interface IGroupInvitation {
     id: string
     created: string
     full_name?: string
