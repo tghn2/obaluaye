@@ -29,7 +29,7 @@ class NodeBase(BaseSchema):
 
 
 class NodeCreate(NodeBase):
-    question: str = Field(..., description="The question required to be answered for this node.")
+    # question: str = Field(..., description="The question required to be answered for this node.")
     order: int = Field(..., description="Sorting order for multiple themes.")
     formType: NodeType = Field(..., description="The type of node, which defines how to use the `content` field.")
     form: FormAttributeModel = Field(
@@ -55,7 +55,7 @@ class Node(NodeBase):
     id: UUID = Field(..., description="Automatically generated unique identity.")
     created: datetime = Field(..., description="Automatically generated date node was created.")
     modified: datetime = Field(..., description="Automatically generated date node was last modified.")
-    question: str = Field(..., description="The question required to be answered for this node.")
+    # question: str = Field(..., description="The question required to be answered for this node.")
     order: int = Field(..., description="Sorting order for multiple themes.")
     formType: NodeType = Field(..., description="The type of node, which defines how to use the `content` field.")
     form: Optional[FormAttributeModel] = Field(

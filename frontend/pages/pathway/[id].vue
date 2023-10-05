@@ -3,7 +3,8 @@
         <div v-if="appSettings.current.pageState === 'loading'">
             <LoadingCardSkeleton />
         </div>
-        <div v-if="appSettings.current.pageState === 'done' && pathwayStore.term && pathwayStore.term.name">
+        <div
+            v-if="appSettings.current.pageState === 'done' && pathwayStore.term && pathwayStore.term.hasOwnProperty('name')">
             <CommonHeadingView purpose="Pathway" :title="pathwayStore.term.title as string"
                 @set-edit-request="watchHeadingRequest" />
             <div class="flex justify-end">

@@ -3,7 +3,7 @@
         <div v-if="appSettings.current.pageState === 'loading'">
             <LoadingCardSkeleton />
         </div>
-        <div v-if="appSettings.current.pageState === 'done' && groupStore.term && groupStore.term.name">
+        <div v-if="appSettings.current.pageState === 'done' && groupStore.term && groupStore.term.hasOwnProperty('name')">
             <GroupHeadingEditView :title="groupStore.term.title as string" @set-edit-request="watchHeadingRequest" />
             <form class="flex-auto rounded-lg p-3">
                 <div class="grid grid-cols-1 gap-x-3 gap-y-4 sm:grid-cols-6">

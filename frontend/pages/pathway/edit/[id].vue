@@ -147,6 +147,7 @@ onMounted(async () => {
         resetDraft()
     }
     draftStartLanguage.value = draft.value.language as string
+    pathwayStore.setSavingEdit(false)
     pathwayStore.settings.setPageState("done")
 })
 
@@ -292,7 +293,7 @@ function addTheme(requestThemeID?: string) {
         pathway_id: route.params.id as string,
     }
     draft.value.themes!.push(newTheme)
-    if (requestThemeID) reorderThemes(newTheme.id as string, requestThemeID)
+    if (requestThemeID) reorderThemes(newTheme.id as string, requestThemeID, 1)
 }
 
 function addNode(themeID: string, requestNodeID?: string) {
@@ -305,18 +306,18 @@ function addNode(themeID: string, requestNodeID?: string) {
         theme_id: theme!.id
     }
     theme!.nodes!.push(newNode)
-    if (requestNodeID) reorderNodes(theme as ITheme, newNode.id, requestNodeID)
+    if (requestNodeID) reorderNodes(theme as ITheme, newNode.id, requestNodeID, 1)
 }
 
 // REORDER MOVERS
-function reorderThemes(frThemeID: string, toThemeID: string) {
+function reorderThemes(frThemeID: string, toThemeID: string, added = 0) {
     // Reorder themes
     const frIdx = getThemeIndex(frThemeID)
     const toIdx = getThemeIndex(toThemeID)
     // Because TypeScript, in its infinite wisdom, has no concept of `-1`
     const dragged = { ...draft.value.themes!.slice(frIdx)[0] }
     draft.value.themes!.splice(frIdx, 1)
-    draft.value.themes!.splice(toIdx, 0, dragged)
+    draft.value.themes!.splice(toIdx + added, 0, dragged)
 }
 
 function moveNodeBetweenThemes(frThemeID: string, toThemeID: string, nodeID: string) {
@@ -330,13 +331,13 @@ function moveNodeBetweenThemes(frThemeID: string, toThemeID: string, nodeID: str
     toTheme!.nodes!.push(dragged)
 }
 
-function reorderNodes(theme: ITheme, frNodeID: string, toNodeID: string) {
+function reorderNodes(theme: ITheme, frNodeID: string, toNodeID: string, added = 0) {
     // Reorder themes
     const frIdx = getNodeIndex(theme, frNodeID)
     const toIdx = getNodeIndex(theme, toNodeID)
     const dragged = { ...theme.nodes!.slice(frIdx)[0] }
     theme.nodes!.splice(frIdx, 1)
-    theme.nodes!.splice(toIdx, 0, dragged)
+    theme.nodes!.splice(toIdx + added, 0, dragged)
 }
 
 // DELETERS

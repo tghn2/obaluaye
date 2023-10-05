@@ -163,10 +163,11 @@ export const apiAuth = {
     )
   },
   // ADMIN USER MANAGEMENT
-  async getAllUsers(token: string) {
+  async getAllUsers(token: string, payload: IFilters = {}) {
     return await useFetch<IUserProfile[]>(`${apiCore.url()}/users/all`,
       {
-        headers: apiCore.headers(token)
+        headers: apiCore.headers(token),
+        query: payload,
       }
     )
   },

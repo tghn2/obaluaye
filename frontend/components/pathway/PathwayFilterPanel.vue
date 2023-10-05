@@ -45,7 +45,7 @@
                             <div v-for="(option, optionIdx) in pathType" :key="option.value" class="flex items-center">
                                 <input :id="`reference-${optionIdx}`" name="reference" :value="option.value" type="radio"
                                     v-model="filters.path_type"
-                                    class="h-4 w-4 flex-shrink-0 rounded-full border-gray-300 text-ochre-600 focus:ring-ochre-500"
+                                    class="h-4 w-4 flex-shrink-0 rounded-full border-gray-300 text-spring-600 focus:ring-spring-500"
                                     :checked="option.value === filters.path_type" />
                                 <label :for="`reference-${optionIdx}`" class="ml-3 min-w-0 flex-1 text-gray-600">
                                     {{ t(option.content) }}

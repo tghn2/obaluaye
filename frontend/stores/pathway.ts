@@ -200,6 +200,9 @@ export const usePathwayStore = defineStore("pathwayStore", {
         setIsTranslatingDraft(payload: boolean) {
             this.translatingEdit = payload
         },
+        setSavingEdit(payload: boolean) {
+            this.savingEdit = payload
+        },
         setTerm(payload: IPathway) {
             this.one = payload
         },

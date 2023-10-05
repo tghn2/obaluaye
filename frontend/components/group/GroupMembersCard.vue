@@ -35,7 +35,7 @@
                             <Listbox>
                                 <div class="relative">
                                     <ListboxButton
-                                        class="relative w-full cursor-default rounded-lg bg-white py-1 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-ochre-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-ochre-300 sm:text-sm">
+                                        class="relative w-full cursor-default rounded-lg bg-white py-1 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-spring-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-spring-300 sm:text-sm">
                                         <span class="block truncate">{{ member.responsibility }}</span>
                                         <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                                             <PhCaretUpDown class="h-5 w-5 text-gray-400" aria-hidden="true" />
@@ -48,7 +48,7 @@
                                             <ListboxOption v-slot="{ active, selected }" v-for="rtype in parameters.role"
                                                 :key="`rtype-${rtype.value}`" :value="rtype.value" as="template">
                                                 <li :class="[
-                                                    active ? 'bg-ochre-100 text-ochre-900' : 'text-gray-900',
+                                                    active ? 'bg-spring-100 text-spring-900' : 'text-gray-900',
                                                     'relative cursor-default select-none py-2 pl-10 pr-4',
                                                 ]" @click="updateMemberRole(member.id, rtype.value as IRoleType)">
                                                     <span :class="[
@@ -56,7 +56,7 @@
                                                         'block truncate',
                                                     ]">{{ rtype.name }}</span>
                                                     <span v-if="selected"
-                                                        class="absolute inset-y-0 left-0 flex items-center pl-3 text-ochre-600">
+                                                        class="absolute inset-y-0 left-0 flex items-center pl-3 text-spring-600">
                                                         <PhCheck class="h-5 w-5" aria-hidden="true" />
                                                     </span>
                                                 </li>

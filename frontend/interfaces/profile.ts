@@ -19,7 +19,12 @@ export interface IUserProfile {
 
 export interface IUserProfileUpdate {
     email?: string
-    full_name?: string
+    full_name: string
+    description?: string
+    subjects?: string[]
+    country?: string[]
+    spatial?: string
+    language?: string
     original?: string
     password?: string
     is_active?: boolean

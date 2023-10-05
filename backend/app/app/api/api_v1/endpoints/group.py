@@ -146,9 +146,6 @@ def update_group(
     """
     Update a group.
     """
-    print("-----------------------------------------------------------------------------------------------------------")
-    print(obj_in)
-    print("-----------------------------------------------------------------------------------------------------------")
     db_obj = crud.group.get(db=db, id=id)
     if not db_obj or not crud.role.has_responsibility(
         db=db, user=current_user, group=db_obj, responsibility=schema_types.RoleType.RESEARCHER
@@ -158,9 +155,6 @@ def update_group(
             detail="Either group does not exist, or researcher does not have the rights for this request.",
         )
     db_obj = crud.group.update(db=db, db_obj=db_obj, obj_in=obj_in)
-    print("-----------------------------------------------------------------------------------------------------------")
-    print(db_obj.title)
-    print("-----------------------------------------------------------------------------------------------------------")
     return {"msg": "Group has been successfully updated."}
 
 

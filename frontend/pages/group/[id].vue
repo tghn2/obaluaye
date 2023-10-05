@@ -3,7 +3,7 @@
         <div v-if="appSettings.current.pageState === 'loading'">
             <LoadingCardSkeleton />
         </div>
-        <div v-if="appSettings.current.pageState === 'done' && groupStore.term && groupStore.term.name">
+        <div v-if="appSettings.current.pageState === 'done' && groupStore.term && groupStore.term.hasOwnProperty('name')">
             <GroupHeadingView purpose="Group" :title="groupStore.term.title as string"
                 @set-edit-request="watchHeadingRequest" />
             <TabGroup>

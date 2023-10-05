@@ -13,8 +13,8 @@
                     <div class="p-4">
                         <div v-if="toastStore.first" class="flex items-start">
                             <div class="flex-shrink-0">
-                                <PhCheckCircle v-if="toastStore.first.icon === 'success'"
-                                    class="h-6 w-6 text-eucalyptus-500" aria-hidden="true" />
+                                <PhCheckCircle v-if="toastStore.first.icon === 'success'" class="h-6 w-6 text-spring-500"
+                                    aria-hidden="true" />
                                 <PhWarningCircle v-if="toastStore.first.icon === 'error'" class="h-6 w-6 text-rose-500"
                                     aria-hidden="true" />
                                 <PhInfo v-if="toastStore.first.icon === 'information'" class="h-6 w-6 text-cerulean-500"

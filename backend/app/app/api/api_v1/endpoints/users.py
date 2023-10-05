@@ -5,7 +5,7 @@ from fastapi.encoders import jsonable_encoder
 from pydantic.networks import EmailStr
 from sqlalchemy.orm import Session
 
-from app import crud, models, schemas
+from app import crud, models, schemas, schema_types
 from app.api import deps
 from app.core.config import settings
 from app.core import security
@@ -57,8 +57,6 @@ def update_user(
     user_in = schemas.UserUpdate(**current_user_data)
     if obj_in.password is not None:
         user_in.password = obj_in.password
-    if obj_in.full_name is not None:
-        user_in.full_name = obj_in.full_name
     if obj_in.email is not None:
         check_user = crud.user.get_by_email(db, email=obj_in.email)
         if check_user and check_user.email != current_user.email:
@@ -67,6 +65,13 @@ def update_user(
                 detail="This username is not available.",
             )
         user_in.email = obj_in.email
+    # Copy everything else:
+    user_in.full_name = obj_in.full_name
+    user_in.description = obj_in.description
+    user_in.subjects = obj_in.subjects
+    user_in.country = obj_in.country
+    user_in.spatial = obj_in.spatial
+    user_in.language = obj_in.language
     user = crud.user.update(db, db_obj=current_user, obj_in=user_in)
     return user
 
@@ -79,7 +84,6 @@ def read_user(
     """
     Get current user.
     """
-    print(current_user.email, current_user.subjects)
     return current_user
 
 
@@ -149,3 +153,62 @@ def create_user(
     if settings.EMAILS_ENABLED and user_in.email:
         send_new_account_email(email_to=user_in.email, username=user_in.email, password=user_in.password)
     return user
+
+@router.get("/invitations", response_model=List[schemas.Invitation])
+def read_group_invitations(
+    *,
+    db: Session = Depends(deps.get_db),
+    page: int = 0,
+    current_user: models.User = Depends(deps.get_current_active_user),
+) -> Any:
+    """
+    Get a list of current group invitations.
+    """
+    return crud.invitation.get_multi_by_email(db=db, email=current_user.email, page=page)
+
+
+@router.post("/invitations/{invitation_id}", response_model=List[schemas.Invitation])
+def accept_group_invitation(
+    *,
+    db: Session = Depends(deps.get_db),
+    invitation_id: str,
+    current_user: models.User = Depends(deps.get_current_active_user),
+) -> Any:
+    """
+    Get a list of current group invitations.
+    """
+    invitation_obj = crud.invitation.get(db=db, id=invitation_id)
+    if not invitation_obj or not invitation_obj.email == current_user.email:
+        raise HTTPException(
+            status_code=400,
+            detail="Either invitation does not exist, or user does not have the rights for this request.",
+        )
+    crud.role.create(
+        db=db,
+        user=current_user,
+        responsibility=schema_types.RoleType.VIEWER,
+        db_obj=invitation_obj.group,
+        is_validated=True,
+    )
+    crud.invitation.remove(db=db, id=invitation_id)
+    return crud.invitation.get_multi_by_email(db=db, email=current_user.email)
+
+
+@router.delete("/invitations/{invitation_id}", response_model=List[schemas.Invitation])
+def reject_group_invitation(
+    *,
+    db: Session = Depends(deps.get_db),
+    invitation_id: str,
+    current_user: models.User = Depends(deps.get_current_active_user),
+) -> Any:
+    """
+    Get a list of current group invitations.
+    """
+    invitation_obj = crud.invitation.get(db=db, id=invitation_id)
+    if not invitation_obj or not invitation_obj.email == current_user.email:
+        raise HTTPException(
+            status_code=400,
+            detail="Either invitation does not exist, or user does not have the rights for this request.",
+        )
+    crud.invitation.remove(db=db, id=invitation_id)
+    return crud.invitation.get_multi_by_email(db=db, email=current_user.email)

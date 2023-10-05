@@ -254,7 +254,8 @@ export const useGroupStore = defineStore("groupStore", {
       // For group
       await this.authTokens.refreshTokens()
       if (this.authTokens.token) {
-        try {
+          try {
+            this.setInvitations([])
           const { data: response } = await apiGroup.getAllInvitations(this.authTokens.token, key, facets)
           if (response.value) {
             if (response.value.length) {
@@ -277,6 +278,7 @@ export const useGroupStore = defineStore("groupStore", {
       if (this.authTokens.token) {
         try {
           this.settings.setPageState("loading")
+          this.setInvitations([])
           const { data: response } = await apiAuth.getAllInvitations(this.authTokens.token, facets)
           if (response.value) {
             if (response.value.length) {
