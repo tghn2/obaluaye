@@ -40,7 +40,7 @@ class ThemeBase(BaseSchema):
 
 
 class ThemeCreate(ThemeBase):
-    title: str = Field(..., description="A human-readable title given to the theme.")
+    # title: str = Field(..., description="A human-readable title given to the theme.")
     order: int = Field(..., description="Sorting order for multiple themes. Items with the same order value are sorted alphabetically.",)
     pathway_id: UUID = Field(..., description="Pathway associated identity.")
 
@@ -57,7 +57,7 @@ class Theme(ThemeBase):
     order: int = Field(..., description="Sorting order for multiple themes. Items with the same order value are sorted alphabetically.")
     created: datetime = Field(..., description="Automatically generated date theme was created.")
     modified: datetime = Field(..., description="Automatically generated date theme was last modified.")
-    title: str = Field(..., description="A human-readable title given to the theme.")
+    # title: str = Field(..., description="A human-readable title given to the theme.")
     nodes: Optional[List[Node]] = Field([], description="A list of nodes which define this pathway.")
     resources: Optional[List[Resource]] = Field([], description="A list of resources relevant to this theme.")
     pathway_id: UUID = Field(..., description="Pathway associated identity.")
