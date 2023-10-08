@@ -49,7 +49,7 @@ const launchAdmin = [
         description: "start.pathwayDescription",
         icon: PhPath,
         to: "/pathway",
-        background: "bg-spring-500",
+        background: "bg-kashmir-500",
         show: authStore.profile.completedPersonalPathway,
     },
     {
@@ -57,7 +57,7 @@ const launchAdmin = [
         description: "start.groupDescription",
         icon: PhUsersThree,
         to: "/",
-        background: "bg-rose-500",
+        background: "bg-cerise-500",
         show: authStore.profile.completedPersonalPathway,
     },
     {
@@ -65,7 +65,7 @@ const launchAdmin = [
         description: "start.commentDescription",
         icon: PhChatTeardropText,
         to: "/",
-        background: "bg-teal-500",
+        background: "bg-spring-500",
         show: authStore.profile.completedPersonalPathway,
     },
     {
@@ -73,7 +73,7 @@ const launchAdmin = [
         description: "start.personalDescription",
         icon: PhUser,
         to: "/",
-        background: "bg-teal-500",
+        background: "bg-spring-500",
         personal: true,
         show: !authStore.profile.completedPersonalPathway,
     },

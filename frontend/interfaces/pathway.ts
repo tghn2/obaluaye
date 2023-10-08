@@ -1,7 +1,6 @@
-import { IPathwayType } from "./schema_types"
+import { IPathwayType, IRoleType } from "./schema_types"
 import { IResource } from "./general"
 import { ITheme } from "./theme"
-import { INode } from "./node"
 
 export interface IPathway {
     // https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#section-3
@@ -23,4 +22,5 @@ export interface IPathway {
     bibliographicCitation?: string
     themes?: ITheme[]
     resources?: IResource[]
+    responsibility?: IRoleType
 }

@@ -6,6 +6,8 @@ from app.core.security import get_password_hash, verify_password
 from app.crud.base import CRUDBase
 from app.models.user import User
 from app.models.pathway import Pathway
+from app.models.theme import Theme
+from app.models.node import Node
 from app.models.response import Response
 from app.schema_types import PathwayType
 from app.schemas.user import UserCreate, UserInDB, UserUpdate, User as UserOut
@@ -96,13 +98,31 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate, UserOut]):
         return user.email_validated
 
     def has_completed_personal_pathway(self, user: User) -> bool:
-        last_response = user.responses.filter(
-            Pathway.pathType == PathwayType.PERSONAL
-        ).order_by(None).order_by(Response.created.desc()).first()
-        if not last_response or last_response.node.after.first():
-            # Either they've not filled in, or the response isn't for the last node
+        # Get the pathway
+        pathway_obj = user.responses.first()
+        if not pathway_obj:
             return False
-        return True
+        try:
+            pathway_obj = pathway_obj.node.pathway
+        except Exception:
+            return False
+        # Get the last theme index for the pathway
+        order = pathway_obj.themes.order_by(None).order_by(Theme.order.desc()).first().order
+        last = [
+            theme_obj.nodes.order_by(None).order_by(Node.order.desc()).first().id
+            for theme_obj in pathway_obj.themes.filter(
+                (Theme.order == order)
+                & (Theme.pathway_id == pathway_obj.id)
+            ).all()
+        ]
+        completed = user.responses.filter(
+            (Pathway.pathType == PathwayType.PERSONAL)
+            & (Response.respondent_id == user.id)
+            & (Response.node_id.in_(last))
+        ).first()
+        if completed:
+            return True
+        return False
 
 
 user = CRUDUser(model=User)

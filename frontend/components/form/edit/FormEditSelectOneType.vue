@@ -6,11 +6,11 @@
                     <tr v-for="(term, termIdx) in draft.terms" :key="`term-${term.id}`">
                         <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
                             <input type="text" v-model="draft.terms![termIdx].value"
-                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-spring-600 sm:text-sm sm:leading-6" />
+                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-kashmir-600 sm:text-sm sm:leading-6" />
                         </td>
                         <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
                             <button type="button" @click="removeTerm(termIdx)"
-                                class="relative items-center rounded-full p-1 text-rose-700 hover:bg-rose-50">
+                                class="relative items-center rounded-full p-1 text-cerise-700 hover:bg-cerise-50">
                                 <PhX class="h-5 w-5" aria-hidden="true" />
                             </button>
                         </td>
@@ -21,7 +21,7 @@
                         </td>
                         <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
                             <button type="button" @click="addTerm"
-                                class="relative items-center rounded-full p-1 text-spring-500 hover:bg-spring-100">
+                                class="relative items-center rounded-full p-1 text-kashmir-500 hover:bg-kashmir-100">
                                 <PhPlus class="h-5 w-5" aria-hidden="true" />
                             </button>
                         </td>
@@ -38,7 +38,7 @@
                             <span aria-hidden="true"
                                 class="pointer-events-none absolute h-full w-full rounded-md bg-white" />
                             <span aria-hidden="true"
-                                :class="[draft.randomise ? 'bg-spring-600' : 'bg-gray-200', 'pointer-events-none absolute mx-auto h-4 w-9 rounded-full transition-colors duration-200 ease-in-out']" />
+                                :class="[draft.randomise ? 'bg-kashmir-600' : 'bg-gray-200', 'pointer-events-none absolute mx-auto h-4 w-9 rounded-full transition-colors duration-200 ease-in-out']" />
                             <span aria-hidden="true"
                                 :class="[draft.randomise ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none absolute left-0 inline-block h-5 w-5 transform rounded-full border border-gray-200 bg-white shadow ring-0 transition-transform duration-200 ease-in-out']" />
                         </Switch>
@@ -52,7 +52,7 @@
                             <span aria-hidden="true"
                                 class="pointer-events-none absolute h-full w-full rounded-md bg-white" />
                             <span aria-hidden="true"
-                                :class="[draft.required ? 'bg-spring-600' : 'bg-gray-200', 'pointer-events-none absolute mx-auto h-4 w-9 rounded-full transition-colors duration-200 ease-in-out']" />
+                                :class="[draft.required ? 'bg-kashmir-600' : 'bg-gray-200', 'pointer-events-none absolute mx-auto h-4 w-9 rounded-full transition-colors duration-200 ease-in-out']" />
                             <span aria-hidden="true"
                                 :class="[draft.required ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none absolute left-0 inline-block h-5 w-5 transform rounded-full border border-gray-200 bg-white shadow ring-0 transition-transform duration-200 ease-in-out']" />
                         </Switch>

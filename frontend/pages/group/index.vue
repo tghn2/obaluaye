@@ -6,7 +6,8 @@
         <div v-if="appSettings.current.pageState === 'done'">
             <GroupFilterPanel />
             <div v-if="groupStore.multi.length === 0" class="space-y-2">
-                <CommonEmptyCard :term="`${t('group.empty')}`" />
+                <CommonEmptyCard v-if="authStore.completedPersonalPathway" :term="`${t('group.empty')}`" />
+                <CommonEmptyCard v-else :term="`${t('group.emptyIncomplete')}`" />
             </div>
             <ul role="list" class="divide-y divide-gray-100">
                 <li v-for="group in groupStore.multi" :key="`group-${group.id}`"
@@ -20,7 +21,6 @@
 </template>
 
 <script setup lang="ts">
-import { PhPath } from "@phosphor-icons/vue"
 import { useSettingStore, useGroupStore, useAuthStore } from "@/stores"
 
 definePageMeta({

@@ -30,6 +30,9 @@ class CRUDInvitation(CRUDBase[Invitation, InvitationCreate, InvitationUpdate, In
             db_objs = db_objs.limit(settings.MULTI_MAX)
         return db_objs.all()
 
+    def get_count(self, db: Session, *, email: str) -> int:
+        return db.query(self.model).filter(self.model.email == email).count()
+
 
 invitation = CRUDInvitation(
     model=Invitation,

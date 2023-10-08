@@ -29,7 +29,7 @@ export const useToastStore = defineStore("toasts", {
       })
     },
     // reset state using `$reset`
-    deleteNotices() {
+    resetState() {
       this.$reset()
     }
   }

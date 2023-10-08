@@ -25,7 +25,7 @@ const items = [
         title: "Import data",
         icon: PhDownloadSimple,
         to: "/import",
-        background: "bg-rose-500",
+        background: "bg-cerise-500",
     },
 ]
 </script>

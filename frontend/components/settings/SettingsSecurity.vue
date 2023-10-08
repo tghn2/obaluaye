@@ -23,7 +23,7 @@
                     </label>
                     <div class="mt-1 group relative inline-block w-full">
                         <Field id="original" name="original" type="password" autocomplete="password"
-                            class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-spring-600 focus:outline-none focus:ring-spring-600 sm:text-sm" />
+                            class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-kashmir-600 focus:outline-none focus:ring-kashmir-600 sm:text-sm" />
                         <ErrorMessage name="original"
                             class="absolute left-5 top-5 translate-y-full w-48 px-2 py-1 bg-gray-700 rounded-lg text-center text-white text-sm after:content-[''] after:absolute after:left-1/2 after:bottom-[100%] after:-translate-x-1/2 after:border-8 after:border-x-transparent after:border-t-transparent after:border-b-gray-700" />
                     </div>
@@ -31,18 +31,18 @@
 
                 <div v-if="authStore.profile.password" class="space-y-1">
                     <div class="flex items-center justify-between">
-                        <p class="text-sm font-medium text-spring-500 align-middle">
+                        <p class="text-sm font-medium text-kashmir-500 align-middle">
                             {{ t("settings.security.useTotp") }}
                         </p>
                         <Switch v-model="totpEnabled"
-                            class="group relative inline-flex h-5 w-10 flex-shrink-0 cursor-pointer items-center justify-center rounded-full focus:outline-none focus:ring-2 focus:ring-spring-600 focus:ring-offset-2">
+                            class="group relative inline-flex h-5 w-10 flex-shrink-0 cursor-pointer items-center justify-center rounded-full focus:outline-none focus:ring-2 focus:ring-kashmir-600 focus:ring-offset-2">
                             <span class="sr-only">
                                 {{ t("settings.security.useTotpSetting") }}
                             </span>
                             <span aria-hidden="true"
                                 class="pointer-events-none absolute h-full w-full rounded-md bg-white" />
                             <span aria-hidden="true"
-                                :class="[totpEnabled ? 'bg-spring-500' : 'bg-gray-200', 'pointer-events-none absolute mx-auto h-4 w-9 rounded-full transition-colors duration-200 ease-in-out']" />
+                                :class="[totpEnabled ? 'bg-kashmir-500' : 'bg-gray-200', 'pointer-events-none absolute mx-auto h-4 w-9 rounded-full transition-colors duration-200 ease-in-out']" />
                             <span aria-hidden="true"
                                 :class="[totpEnabled ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none absolute left-0 inline-block h-5 w-5 transform rounded-full border border-gray-200 bg-white shadow ring-0 transition-transform duration-200 ease-in-out']" />
                         </Switch>
@@ -54,7 +54,7 @@
                     </label>
                     <div class="mt-1 group relative inline-block w-full">
                         <Field id="password" name="password" type="password" autocomplete="password"
-                            class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-spring-600 focus:outline-none focus:ring-spring-600 sm:text-sm" />
+                            class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-kashmir-600 focus:outline-none focus:ring-kashmir-600 sm:text-sm" />
                         <ErrorMessage name="password"
                             class="absolute left-5 top-5 translate-y-full w-48 px-2 py-1 bg-gray-700 rounded-lg text-center text-white text-sm after:content-[''] after:absolute after:left-1/2 after:bottom-[100%] after:-translate-x-1/2 after:border-8 after:border-x-transparent after:border-t-transparent after:border-b-gray-700" />
                     </div>
@@ -66,7 +66,7 @@
                     </label>
                     <div class="mt-1 group relative inline-block w-full">
                         <Field id="confirmation" name="confirmation" type="password" autocomplete="confirmation"
-                            class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-spring-600 focus:outline-none focus:ring-spring-600 sm:text-sm" />
+                            class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-kashmir-600 focus:outline-none focus:ring-kashmir-600 sm:text-sm" />
                         <ErrorMessage name="confirmation"
                             class="absolute left-5 top-5 translate-y-full w-48 px-2 py-1 bg-gray-700 rounded-lg text-center text-white text-sm after:content-[''] after:absolute after:left-1/2 after:bottom-[100%] after:-translate-x-1/2 after:border-8 after:border-x-transparent after:border-t-transparent after:border-b-gray-700" />
                     </div>
@@ -74,7 +74,7 @@
             </div>
             <div class="py-3 pb-6 text-right sm:px-6">
                 <button type="submit"
-                    class="inline-flex justify-center rounded-md border border-transparent bg-spring-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-spring-700 focus:outline-none focus:ring-2 focus:ring-spring-600 focus:ring-offset-2">
+                    class="inline-flex justify-center rounded-md border border-transparent bg-kashmir-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-kashmir-700 focus:outline-none focus:ring-2 focus:ring-kashmir-600 focus:ring-offset-2">
                     {{ t("settings.account.submit") }}
                 </button>
             </div>
@@ -97,8 +97,8 @@
                                 class="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
                                 <div class="sm:flex sm:items-start">
                                     <div
-                                        class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-spring-100 sm:mx-0 sm:h-10 sm:w-10">
-                                        <PhQrCode class="h-6 w-6 text-spring-500" aria-hidden="true" />
+                                        class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-kashmir-100 sm:mx-0 sm:h-10 sm:w-10">
+                                        <PhQrCode class="h-6 w-6 text-kashmir-500" aria-hidden="true" />
                                     </div>
                                     <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                                         <DialogTitle as="h3" class="text-lg font-medium leading-6 text-gray-900">
@@ -148,16 +148,16 @@
                                                                 <div class="mt-1 group relative inline-block w-full">
                                                                     <Field id="claim" name="claim" type="text"
                                                                         autocomplete="off"
-                                                                        class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-spring-600 focus:outline-none focus:ring-spring-600 sm:text-sm" />
+                                                                        class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-kashmir-600 focus:outline-none focus:ring-kashmir-600 sm:text-sm" />
                                                                 </div>
                                                             </div>
                                                             <div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
                                                                 <button type="submit"
-                                                                    class="inline-flex w-full justify-center rounded-md border border-transparent bg-spring-500 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm">
+                                                                    class="inline-flex w-full justify-center rounded-md border border-transparent bg-kashmir-500 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-cerise-700 focus:outline-none focus:ring-2 focus:ring-cerise-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm">
                                                                     {{ t("settings.account.submit") }}
                                                                 </button>
                                                                 <button type="button"
-                                                                    class="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-spring-500 focus:ring-offset-2 sm:mt-0 sm:w-auto sm:text-sm"
+                                                                    class="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-kashmir-500 focus:ring-offset-2 sm:mt-0 sm:w-auto sm:text-sm"
                                                                     @click="totpModal = false" ref="cancelButtonRef">
                                                                     {{ t("settings.security.cancel") }}
                                                                 </button>

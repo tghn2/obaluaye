@@ -15,7 +15,7 @@
                                 {{ props.pathway.pathType }}
                             </li>
                             <li class="relative group flex flex-row text-xs font-medium text-gray-500 gap-x-1 pl-2">
-                                <PhEyeSlash v-if="props.pathway.isPrivate" class="text-rose-700 h-4 w-4 shrink-0"
+                                <PhEyeSlash v-if="props.pathway.isPrivate" class="text-cerise-700 h-4 w-4 shrink-0"
                                     aria-hidden="true" />
                             </li>
                         </ul>
@@ -37,8 +37,8 @@
                     <h3 id="detail-heading" class="sr-only">Pathway tasks and schema object</h3>
                     <li class="relative">
                         <LocaleLink :to="`/group/pathway/${props.pathway.id}`"
-                            class="text-gray-700 hover:text-spring-600 group flex gap-x-1 p-2 font-semibold">
-                            <PhUsers class="text-gray-700 group-hover:text-spring-600 h-4 w-4 shrink-0"
+                            class="text-gray-700 hover:text-kashmir-600 group flex gap-x-1 p-2 font-semibold">
+                            <PhUsers class="text-gray-700 group-hover:text-kashmir-600 h-4 w-4 shrink-0"
                                 aria-hidden="true" />
                             <span class="hidden lg:block">Start</span>
                         </LocaleLink>

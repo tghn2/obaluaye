@@ -23,8 +23,8 @@
                         <td class="px-3 py-3.5 text-left text-sm text-gray-900">{{ invite.sender.email }}</td>
                         <td class="pl-3 py-3.5 justify-center items-center text-sm text-gray-900">
                             <button @click.prevent="removeInvitation(invite.id)"
-                                class="relative inline-flex items-center rounded-full p-2 text-xs hover:bg-rose-50">
-                                <PhTrashSimple class="md:-ml-0.5 h-4 w-4 text-rose-400" aria-hidden="true" />
+                                class="relative inline-flex items-center rounded-full p-2 text-xs hover:bg-cerise-50">
+                                <PhTrashSimple class="md:-ml-0.5 h-4 w-4 text-cerise-400" aria-hidden="true" />
                                 <span class="sr-only">
                                     {{ t("group.members.remove") }}
                                 </span>

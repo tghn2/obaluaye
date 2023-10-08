@@ -3,16 +3,16 @@
     <Menu as="div" class="relative ml-3">
         <div v-if="!authStore.loggedIn">
             <LocaleLink to="/login"
-                class="rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-spring-500 focus:ring-offset-2">
+                class="rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-kashmir-500 focus:ring-offset-2">
                 <PhSignIn class="block h-6 w-6" />
             </LocaleLink>
         </div>
         <div v-else>
             <MenuButton
-                class="flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-spring-500 focus:ring-offset-2">
+                class="flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-kashmir-500 focus:ring-offset-2">
                 <span class="sr-only">Open user menu</span>
                 <div class="rounded-lg">
-                    <PhUserCircle class="h-6 w-6 text-spring-500 shrink-0" alt="authStore.email" />
+                    <PhUserCircle class="h-6 w-6 text-kashmir-500 shrink-0" alt="authStore.email" />
                 </div>
             </MenuButton>
         </div>

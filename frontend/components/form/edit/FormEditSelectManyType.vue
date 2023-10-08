@@ -6,11 +6,11 @@
                     <tr v-for="(term, termIdx) in draft.terms" :key="`term-${term.id}`">
                         <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
                             <input type="text" v-model="draft.terms![termIdx].value"
-                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-spring-600 sm:text-sm sm:leading-6" />
+                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-kashmir-600 sm:text-sm sm:leading-6" />
                         </td>
                         <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
                             <button type="button" @click="removeTerm(termIdx)"
-                                class="relative items-center rounded-full p-1 text-rose-700 hover:bg-rose-50">
+                                class="relative items-center rounded-full p-1 text-cerise-700 hover:bg-cerise-50">
                                 <PhX class="h-5 w-5" aria-hidden="true" />
                             </button>
                         </td>
@@ -21,7 +21,7 @@
                         </td>
                         <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
                             <button type="button" @click="addTerm"
-                                class="relative items-center rounded-full p-1 text-spring-500 hover:bg-spring-100">
+                                class="relative items-center rounded-full p-1 text-kashmir-500 hover:bg-kashmir-100">
                                 <PhPlus class="h-5 w-5" aria-hidden="true" />
                             </button>
                         </td>
@@ -39,7 +39,7 @@
                     <Listbox v-if="draft.terms && draft.terms.length" v-model="manyLimit" id="form-selection-types">
                         <div class="relative mt-1">
                             <ListboxButton
-                                class="relative w-24 cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus-visible:border-spring-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-spring-300 sm:text-sm">
+                                class="relative w-24 cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus-visible:border-kashmir-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-kashmir-300 sm:text-sm">
                                 <span class="block truncate text-gray-900">
                                     {{ manyLimit }}
                                 </span>
@@ -55,7 +55,7 @@
                                         v-for="itype in [...Array(draft.terms.length).keys()]" :key="`itype-${itype}`"
                                         :value="itype + 1" as="template">
                                         <li :class="[
-                                            active ? 'bg-spring-100 text-spring-900' : 'text-gray-900',
+                                            active ? 'bg-kashmir-100 text-kashmir-900' : 'text-gray-900',
                                             'relative cursor-default select-none py-2 pl-10 pr-4',
                                         ]">
                                             <span :class="[
@@ -63,7 +63,7 @@
                                                 'block truncate',
                                             ]">{{ itype + 1 }}</span>
                                             <span v-if="selected"
-                                                class="absolute inset-y-0 left-0 flex items-center pl-3 text-spring-600">
+                                                class="absolute inset-y-0 left-0 flex items-center pl-3 text-kashmir-600">
                                                 <PhCheck class="h-5 w-5" aria-hidden="true" />
                                             </span>
                                         </li>
@@ -80,7 +80,7 @@
                             <span aria-hidden="true"
                                 class="pointer-events-none absolute h-full w-full rounded-md bg-white" />
                             <span aria-hidden="true"
-                                :class="[draft.randomise ? 'bg-spring-600' : 'bg-gray-200', 'pointer-events-none absolute mx-auto h-4 w-9 rounded-full transition-colors duration-200 ease-in-out']" />
+                                :class="[draft.randomise ? 'bg-kashmir-600' : 'bg-gray-200', 'pointer-events-none absolute mx-auto h-4 w-9 rounded-full transition-colors duration-200 ease-in-out']" />
                             <span aria-hidden="true"
                                 :class="[draft.randomise ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none absolute left-0 inline-block h-5 w-5 transform rounded-full border border-gray-200 bg-white shadow ring-0 transition-transform duration-200 ease-in-out']" />
                         </Switch>
@@ -94,7 +94,7 @@
                             <span aria-hidden="true"
                                 class="pointer-events-none absolute h-full w-full rounded-md bg-white" />
                             <span aria-hidden="true"
-                                :class="[draft.required ? 'bg-spring-600' : 'bg-gray-200', 'pointer-events-none absolute mx-auto h-4 w-9 rounded-full transition-colors duration-200 ease-in-out']" />
+                                :class="[draft.required ? 'bg-kashmir-600' : 'bg-gray-200', 'pointer-events-none absolute mx-auto h-4 w-9 rounded-full transition-colors duration-200 ease-in-out']" />
                             <span aria-hidden="true"
                                 :class="[draft.required ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none absolute left-0 inline-block h-5 w-5 transform rounded-full border border-gray-200 bg-white shadow ring-0 transition-transform duration-200 ease-in-out']" />
                         </Switch>

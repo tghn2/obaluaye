@@ -1,6 +1,6 @@
 <template>
     <div class="px-2 py-10 lg:px-4 lg:py-6 max-w-7xl mx-auto">
-        <div class="isolate mb-10">
+        <div class="mb-10">
             <svg class="absolute inset-0 -z-10 h-full w-full stroke-gray-200 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"
                 aria-hidden="true">
                 <defs>
@@ -26,7 +26,7 @@
                             </p>
                             <div class="mt-6 flex items-center justify-center gap-x-6">
                                 <LocaleLink v-if="!authStore.loggedIn" to="/login"
-                                    class="rounded-md bg-spring-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-spring-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-spring-600">
+                                    class="rounded-md bg-kashmir-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-kashmir-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-kashmir-600">
                                     Get started</LocaleLink>
                                 <LocaleLink to="/about" class="text-sm font-semibold leading-6 text-gray-900">Learn more
                                     <span aria-hidden="true">→</span>

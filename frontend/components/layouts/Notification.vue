@@ -13,9 +13,9 @@
                     <div class="p-4">
                         <div v-if="toasts.first" class="flex items-start">
                             <div class="flex-shrink-0">
-                                <PhCheckCircle v-if="toasts.first.icon === 'success'" class="h-6 w-6 text-green-500"
+                                <PhCheckCircle v-if="toasts.first.icon === 'success'" class="h-6 w-6 text-spring-500"
                                     aria-hidden="true" />
-                                <PhWarningCircle v-if="toasts.first.icon === 'error'" class="h-6 w-6 text-red-500"
+                                <PhWarningCircle v-if="toasts.first.icon === 'error'" class="h-6 w-6 text-cerise-500"
                                     aria-hidden="true" />
                                 <PhInfo v-if="toasts.first.icon === 'information'" class="h-6 w-6 text-blue-500"
                                     aria-hidden="true" />
@@ -26,7 +26,7 @@
                             </div>
                             <div class="ml-4 flex flex-shrink-0">
                                 <button type="button" @click="show = false"
-                                    class="inline-flex rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-spring-500 focus:ring-offset-2">
+                                    class="inline-flex rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-kashmir-500 focus:ring-offset-2">
                                     <span class="sr-only">Close</span>
                                     <PhX class="h-5 w-5" aria-hidden="true" />
                                 </button>

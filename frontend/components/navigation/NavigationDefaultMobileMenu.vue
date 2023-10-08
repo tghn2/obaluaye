@@ -3,11 +3,11 @@
         <!-- TOP BAR -->
         <div class="fixed top-0 z-30 w-full flex items-center gap-x-6 bg-white/90 px-4 py-4 sm:px-6 md:hidden">
             <div v-if="headingTerm && Object.keys(headingTerm).length !== 0"
-                class="group inline-flex gap-x-3 flex-1 text-md font-semibold leading-6 text-spring-600">
-                <component :is="headingTerm.icon" class="text-spring-600 h-6 w-6 shrink-0" aria-hidden="true" />
+                class="group inline-flex gap-x-3 flex-1 text-md font-semibold leading-6 text-kashmir-600">
+                <component :is="headingTerm.icon" class="text-kashmir-600 h-6 w-6 shrink-0" aria-hidden="true" />
                 {{ t(headingTerm.name) }}
             </div>
-            <div v-else class="group inline-flex gap-x-3 flex-1 text-md font-semibold leading-6 text-spring-600">
+            <div v-else class="group inline-flex gap-x-3 flex-1 text-md font-semibold leading-6 text-kashmir-600">
                 {{ t(settingsStore.current.pageName) }}
             </div>
             <AuthenticationNavigation />
@@ -19,18 +19,18 @@
                     <LocaleLink v-for="(item, i) in baseNavigation" :key="`basenav-${i}`" :to="item.to" :class="[!(authStore.loggedIn || !item.login)
                         ? 'pointer-events-none text-gray-500'
                         : item.name === settingsStore.current.pageName
-                            ? 'bg-gray-50 text-spring-600'
-                            : 'text-gray-700 hover:text-spring-600 hover:bg-gray-50',
+                            ? 'bg-gray-50 text-kashmir-600'
+                            : 'text-gray-700 hover:text-kashmir-600 hover:bg-gray-50',
                         'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold justify-center']"
                         :disabled="!(authStore.loggedIn || !item.login)">
                         <component :is="item.icon"
-                            :class="[item.name === settingsStore.current.pageName ? 'text-spring-600' : 'text-gray-400 group-hover:text-spring-600', 'h-6 w-6 shrink-0 inline-flex items-center']"
+                            :class="[item.name === settingsStore.current.pageName ? 'text-kashmir-600' : 'text-gray-400 group-hover:text-kashmir-600', 'h-6 w-6 shrink-0 inline-flex items-center']"
                             aria-hidden="true" />
                     </LocaleLink>
                     <PopoverButton
                         class="group flex-col inline-flex items-center gap-x-3 rounded-md p-2 text-sm font-semibold">
                         <span class="sr-only">Open user menu</span>
-                        <PhDotsThreeOutline class="block h-6 w-6 text-spring-500" />
+                        <PhDotsThreeOutline class="block h-6 w-6 text-kashmir-500" />
                     </PopoverButton>
                 </nav>
             </div>
@@ -43,26 +43,31 @@
                     <LocaleLink v-for="(item, i) in leadNavigation" :key="`scndrynav-${i}`" :to="item.to" :class="[!(authStore.loggedIn || !item.login)
                         ? 'pointer-events-none text-gray-500'
                         : item.name === settingsStore.current.pageName
-                            ? 'bg-gray-50 text-spring-600'
-                            : 'text-gray-700 hover:text-spring-600 hover:bg-gray-50',
+                            ? 'bg-gray-50 text-kashmir-600'
+                            : 'text-gray-700 hover:text-kashmir-600 hover:bg-gray-50',
                         'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold']"
                         :disabled="!(authStore.loggedIn || !item.login)">
                         <component :is="item.icon"
-                            :class="[item.name === settingsStore.current.pageName ? 'text-spring-600' : 'text-gray-400 group-hover:text-spring-600', 'h-6 w-6 shrink-0']"
+                            :class="[item.name === settingsStore.current.pageName ? 'text-kashmir-600' : 'text-gray-400 group-hover:text-kashmir-600', 'h-6 w-6 shrink-0']"
                             aria-hidden="true" />
                         {{ t(item.name) }}
                     </LocaleLink>
                     <LocaleLink v-for="(item, i) in secondaryNavigation" :key="`scndrynav-${i}`" :to="item.to" :class="[!(authStore.loggedIn || !item.login)
                         ? 'pointer-events-none text-gray-500'
                         : item.name === settingsStore.current.pageName
-                            ? 'bg-gray-50 text-spring-600'
-                            : 'text-gray-700 hover:text-spring-600 hover:bg-gray-50',
+                            ? 'bg-gray-50 text-kashmir-600'
+                            : 'text-gray-700 hover:text-kashmir-600 hover:bg-gray-50',
                         'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold']"
                         :disabled="!(authStore.loggedIn || !item.login)">
                         <component :is="item.icon"
-                            :class="[item.name === settingsStore.current.pageName ? 'text-spring-600' : 'text-gray-400 group-hover:text-spring-600', 'h-6 w-6 shrink-0']"
+                            :class="[item.name === settingsStore.current.pageName ? 'text-kashmir-600' : 'text-gray-400 group-hover:text-kashmir-600', 'h-6 w-6 shrink-0']"
                             aria-hidden="true" />
                         {{ t(item.name) }}
+                        <span v-if="item.showDot" class="relative">
+                            <svg viewBox="0 0 100 100" class="absolute -ml-5 z-10 h-[2rem] w-[2rem]" aria-hidden="true">
+                                <circle cx="50" cy="20" r="10" fill="#d93e8a" />
+                            </svg>
+                        </span>
                     </LocaleLink>
                     <div class="p-2">
                         <LocaleDropdown />
@@ -110,6 +115,7 @@ interface INav {
     to: string
     icon: any
     login: boolean
+    showDot: boolean
 }
 
 watch(() => pageName.value, () => {
@@ -117,18 +123,18 @@ watch(() => pageName.value, () => {
 })
 
 const baseNavigation: INav[] = [
-    { name: "nav.home", to: "/", icon: PhHouseSimple, login: false },
-    // { name: "nav.search", to: "/search", icon: PhMagnifyingGlass, login: false },
-    { name: "nav.pathways", to: "/pathway", icon: PhPath, login: false },
+    { name: "nav.home", to: "/", icon: PhHouseSimple, login: false, showDot: false },
+    // { name: "nav.search", to: "/search", icon: PhMagnifyingGlass, login: fals, showDot: falsee },
+    { name: "nav.pathways", to: "/pathway", icon: PhPath, login: false, showDot: false },
 ]
 const leadNavigation: INav[] = [
-    { name: "nav.home", to: "/", icon: PhHouseSimple, login: false },
-    { name: "nav.pathways", to: "/pathway", icon: PhPath, login: false },
+    { name: "nav.home", to: "/", icon: PhHouseSimple, login: false, showDot: false },
+    { name: "nav.pathways", to: "/pathway", icon: PhPath, login: false, showDot: false },
 ]
 const secondaryNavigation: INav[] = [
     // { name: "nav.comments", to: "/projects", icon: PhChatTeardropText, login: true },
-    { name: "nav.groups", to: "/group", icon: PhUsersThree, login: true },
-    { name: "nav.settings", to: "/settings", icon: PhGear, login: true },
+    { name: "nav.groups", to: "/group", icon: PhUsersThree, login: true, showDot: false },
+    { name: "nav.settings", to: "/settings", icon: PhGear, login: true, showDot: authStore.profile.invitationCount > 0 },
 ]
 const footerNavigation = [
     { name: "nav.about", to: "/about", dot: true },

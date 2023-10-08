@@ -26,6 +26,7 @@ export const useAuthStore = defineStore("authStore", {
         password: false,
         totp: false,
         completedPersonalPathway: false,
+        invitationCount: 0,
   }),
   persist: {
     storage: persistedState.cookiesWithOptions({
@@ -225,6 +226,7 @@ export const useAuthStore = defineStore("authStore", {
         this.password = payload.password
         this.totp = payload.totp
         this.completedPersonalPathway = payload.completedPersonalPathway
+        this.invitationCount = payload.invitationCount
     },
     async sendEmailValidation() {
       // @ts-ignore

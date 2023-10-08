@@ -1,5 +1,5 @@
 <template>
-    <div class="flex-auto mb-2 p-2 border-b-2 border-spring-200">
+    <div class="flex-auto mb-2 p-2 border-b-2 border-kashmir-200">
         <Disclosure v-slot="{ open, close }">
             <DisclosureButton @click="disclosureWatcher(open, close)"
                 class="w-full text-base font-semibold text-gray-900 pb-2">
@@ -18,7 +18,7 @@
                                 t("theme.field.title") }}</label>
                             <div class="mt-2">
                                 <input type="text" name="theme-title" id="theme-title" v-model="draft.title"
-                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-spring-600 sm:text-sm sm:leading-6" />
+                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-kashmir-600 sm:text-sm sm:leading-6" />
                             </div>
                             <p v-if="pathwayStore.isTranslatingDraft" class="mt-2 text-sm leading-6 text-gray-500">
                                 {{ props.initialDraft.title }}
@@ -29,7 +29,7 @@
                                 t("theme.field.description") }}</label>
                             <div class="mt-2">
                                 <textarea id="description" name="description" rows="3" v-model="draft.description"
-                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-spring-600 sm:text-sm sm:leading-6" />
+                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-kashmir-600 sm:text-sm sm:leading-6" />
                             </div>
                             <p class="mt-2 text-sm leading-6 text-gray-500">
                                 <span v-if="pathwayStore.isTranslatingDraft">{{ props.initialDraft.description }}</span>
@@ -42,7 +42,7 @@
                             </label>
                             <div class="mt-2">
                                 <input type="text" name="theme-subject-values" id="theme-subject-values" v-model="subjects"
-                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-spring-600 sm:text-sm sm:leading-6" />
+                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-kashmir-600 sm:text-sm sm:leading-6" />
                             </div>
                             <p class="mt-2 text-sm leading-6 text-gray-500">{{ t("theme.help.subjects") }}</p>
                         </div>
@@ -64,7 +64,7 @@
                             <div class="mt-2">
                                 <input type="text" name="theme-spatial-values" id="theme-spatial-values"
                                     v-model="draft.spatial"
-                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-spring-600 sm:text-sm sm:leading-6" />
+                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-kashmir-600 sm:text-sm sm:leading-6" />
                             </div>
                             <p class="mt-2 text-sm leading-6 text-gray-500">
                                 {{ t("theme.help.spatial") }}

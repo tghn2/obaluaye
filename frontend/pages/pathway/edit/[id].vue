@@ -8,58 +8,58 @@
             <div class="flex justify-between -mb-2 mt-2">
                 <div class="flex flex-inline items-center space-x-2">
                     <div
-                        class="text-xs font-medium leading-6 text-white bg-spring-700 mx-3 px-3 pt-0.5 -mb-0.5 mt-0.5 rounded-t-lg">
+                        class="text-xs font-medium leading-6 text-white bg-kashmir-700 mx-3 px-3 pt-0.5 -mb-0.5 mt-0.5 rounded-t-lg">
                         {{ t("pathway.metadata") }}
                     </div>
                     <div v-if="pathwayStore.isTranslatingDraft"
                         class="relative -ml-px inline-flex items-center gap-x-1.5 text-xs">
-                        <div class="rounded-full bg-cyan-600 p-1">
+                        <div class="rounded-full bg-spring-600 p-1">
                             <PhTranslate class="h-4 w-4 text-white" aria-hidden="true" />
                         </div>
-                        <span class="text-cyan-600 hidden md:block">{{ t("pathway.translate") }}</span>
+                        <span class="text-spring-600 hidden md:block">{{ t("pathway.translate") }}</span>
                     </div>
                 </div>
                 <div class="flex flex-inline items-center space-x-2 mb-1">
-                    <div class="rounded-full bg-spring-400 p-1">
+                    <div class="rounded-full bg-kashmir-400 p-1">
                         <PhPlus class="h-4 w-4 text-white" aria-hidden="true" />
                     </div>
                     <button type="button" @click.prevent="addTheme()"
-                        class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-md px-2 py-1 text-xs text-spring-900 ring-1 ring-inset ring-spring-300 hover:bg-spring-50">
-                        <PhTagSimple class="md:-ml-0.5 h-4 w-4 text-spring-400" aria-hidden="true" />
+                        class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-md px-2 py-1 text-xs text-kashmir-900 ring-1 ring-inset ring-kashmir-300 hover:bg-kashmir-50">
+                        <PhTagSimple class="md:-ml-0.5 h-4 w-4 text-kashmir-400" aria-hidden="true" />
                         <span class="hidden md:block">{{ t("theme.name") }}</span>
                     </button>
                 </div>
             </div>
-            <div class="rounded-lg my-2 border-t-2 border-spring-700">
+            <div class="rounded-lg my-2 border-t-2 border-kashmir-700">
                 <PathwayEditMetadataCard :initial-draft="draft" @set-draft="watchMetadataRequest" />
             </div>
             <ul role="list">
                 <li v-for="(theme, thIdx) in draft.themes" :key="`theme-${theme.id}`">
                     <div class="flex justify-between -mb-2">
                         <div
-                            class="block text-xs font-medium leading-6 text-white bg-spring-500 mx-3 px-3 pt-0.5 rounded-t-lg">
+                            class="block text-xs font-medium leading-6 text-white bg-kashmir-500 mx-3 px-3 pt-0.5 rounded-t-lg">
                             {{ t("theme.name") }}: {{ thIdx + 1 }} of {{ draft.themes!.length }}
                         </div>
                         <div class="flex flex-inline items-center space-x-2 mb-1">
-                            <div class="rounded-full bg-rose-400 p-1">
+                            <div class="rounded-full bg-cerise-400 p-1">
                                 <PhMinus class="h-4 w-4 text-white" aria-hidden="true" />
                             </div>
                             <button type="button" @click.prevent="removeTheme(theme.id as string)"
-                                class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-md px-2 py-1 text-xs text-rose-900 ring-1 ring-inset ring-rose-300 hover:bg-rose-50">
-                                <PhTrashSimple class="md:-ml-0.5 h-4 w-4 text-rose-400" aria-hidden="true" />
+                                class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-md px-2 py-1 text-xs text-cerise-900 ring-1 ring-inset ring-cerise-300 hover:bg-cerise-50">
+                                <PhTrashSimple class="md:-ml-0.5 h-4 w-4 text-cerise-400" aria-hidden="true" />
                                 <span class="hidden md:block">{{ t("header.delete") }}</span>
                             </button>
-                            <div class="rounded-full bg-spring-500 p-1">
+                            <div class="rounded-full bg-kashmir-500 p-1">
                                 <PhPlus class="h-4 w-4 text-white" aria-hidden="true" />
                             </div>
                             <button type="button" @click.prevent="addTheme(theme.id as string)"
-                                class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-md px-2 py-1 text-xs text-spring-900 ring-1 ring-inset ring-spring-300 hover:bg-spring-50">
-                                <PhTagSimple class="md:-ml-0.5 h-4 w-4 text-spring-400" aria-hidden="true" />
+                                class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-md px-2 py-1 text-xs text-kashmir-900 ring-1 ring-inset ring-kashmir-300 hover:bg-kashmir-50">
+                                <PhTagSimple class="md:-ml-0.5 h-4 w-4 text-kashmir-400" aria-hidden="true" />
                                 <span class="hidden md:block">{{ t("theme.name") }}</span>
                             </button>
                             <button type="button" @click.prevent="addNode(theme.id as string)"
-                                class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-md px-2 py-1 text-xs text-spring-900 ring-1 ring-inset ring-spring-300 hover:bg-spring-50">
-                                <PhLineSegments class="md:-ml-0.5 h-4 w-4 text-spring-400" aria-hidden="true" />
+                                class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-md px-2 py-1 text-xs text-kashmir-900 ring-1 ring-inset ring-kashmir-300 hover:bg-kashmir-50">
+                                <PhLineSegments class="md:-ml-0.5 h-4 w-4 text-kashmir-400" aria-hidden="true" />
                                 <span class="hidden md:block">{{ t("node.name") }}</span>
                             </button>
                         </div>
@@ -67,31 +67,31 @@
                     <div :id="`${theme.id}`" :draggable="theme.id !== pathwayStore.activeDraft" @dragstart="handleDragStart"
                         @dragenter="handleDragEnter" @dragover="handleDragOver" @dragleave="handleDragLeave"
                         @drop="handleDrop" @dragend="handleDragEnd"
-                        class="bg-gray-50 rounded-lg my-2 border-t-2 border-spring-500">
+                        class="bg-gray-50 rounded-lg my-2 border-t-2 border-kashmir-500">
                         <PathwayEditThemeCard :initial-draft="theme" @set-draft="watchThemeRequest" />
                     </div>
                     <ul role="list">
                         <li v-for="(node, ndIdx) in theme.nodes" :key="`node-${node.id}`">
                             <div class="flex justify-between -mb-2">
                                 <div
-                                    class="block text-xs font-medium leading-6 text-white bg-spring-300 mx-3 px-3 pt-0.5 rounded-t-lg">
+                                    class="block text-xs font-medium leading-6 text-white bg-kashmir-300 mx-3 px-3 pt-0.5 rounded-t-lg">
                                     {{ t("node.name") }}: {{ ndIdx + 1 }} of {{ theme.nodes!.length }}
                                 </div>
                                 <div class="flex flex-inline items-center space-x-2 mb-1">
-                                    <div class="rounded-full bg-rose-300 p-1">
+                                    <div class="rounded-full bg-cerise-300 p-1">
                                         <PhMinus class="h-4 w-4 text-white" aria-hidden="true" />
                                     </div>
                                     <button type="button" @click.prevent="removeNode(theme.id as string, node.id as string)"
-                                        class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-md px-2 py-1 text-xs text-rose-900 ring-1 ring-inset ring-rose-300 hover:bg-rose-50">
-                                        <PhTrashSimple class="md:-ml-0.5 h-4 w-4 text-rose-400" aria-hidden="true" />
+                                        class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-md px-2 py-1 text-xs text-cerise-900 ring-1 ring-inset ring-cerise-300 hover:bg-cerise-50">
+                                        <PhTrashSimple class="md:-ml-0.5 h-4 w-4 text-cerise-400" aria-hidden="true" />
                                         <span class="hidden md:block">{{ t("header.delete") }}</span>
                                     </button>
-                                    <div class="rounded-full bg-spring-300 p-1">
+                                    <div class="rounded-full bg-kashmir-300 p-1">
                                         <PhPlus class="h-4 w-4 text-white" aria-hidden="true" />
                                     </div>
                                     <button type="button" @click.prevent="addNode(theme.id as string, node.id as string)"
-                                        class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-md px-2 py-1 text-xs text-spring-900 ring-1 ring-inset ring-spring-300 hover:bg-spring-50">
-                                        <PhLineSegments class="md:-ml-0.5 h-4 w-4 text-spring-400" aria-hidden="true" />
+                                        class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-md px-2 py-1 text-xs text-kashmir-900 ring-1 ring-inset ring-kashmir-300 hover:bg-kashmir-50">
+                                        <PhLineSegments class="md:-ml-0.5 h-4 w-4 text-kashmir-400" aria-hidden="true" />
                                         <span class="hidden md:block">{{ t("node.name") }}</span>
                                     </button>
                                 </div>
@@ -99,7 +99,7 @@
                             <div :id="`${theme.id}|${node.id}`" :draggable="node.id !== pathwayStore.activeDraft"
                                 @dragstart="handleDragStart" @dragenter="handleDragEnter" @dragover="handleDragOver"
                                 @dragleave="handleDragLeave" @drop="handleDrop" @dragend="handleDragEnd"
-                                class="bg-gray-50 rounded-lg my-2 border-t-2 border-spring-300">
+                                class="bg-gray-50 rounded-lg my-2 border-t-2 border-kashmir-300">
                                 <PathwayEditNodeCard :initial-draft="node" @set-draft="watchNodeRequest" />
                             </div>
                         </li>
@@ -367,7 +367,7 @@ async function removeNode(themeID: string, nodeID: string) {
 function handleDragStart(e: any) {
     e.currentTarget.className = e.currentTarget.className.replace(
         "bg-gray-50",
-        "bg-rose-100"
+        "bg-cerise-100"
     )
     const dragIDs = e.currentTarget.id.split("|")
     dragThemeID.value = dragIDs[0]
@@ -383,7 +383,7 @@ function handleDragEnter(e: any) {
     if (e.target.id !== e.currentTarget.id) return false
     e.currentTarget.className = e.currentTarget.className.replace(
         "bg-gray-50",
-        "bg-rose-100"
+        "bg-cerise-100"
     )
 }
 
@@ -400,7 +400,7 @@ function handleDragLeave(e: any) {
     e.stopPropagation()
     if (e.target.id !== e.currentTarget.id) return false
     e.currentTarget.className = e.currentTarget.className.replace(
-        "bg-rose-100",
+        "bg-cerise-100",
         "bg-gray-50"
     )
 }
@@ -437,7 +437,7 @@ function handleDrop(e: any) {
         reorderNodes(dragTheme as ITheme, dragNodeID.value, dropNodeID)
     }
     e.currentTarget.className = e.currentTarget.className.replace(
-        "bg-rose-100",
+        "bg-cerise-100",
         "bg-gray-50"
     )
     return false
@@ -446,7 +446,7 @@ function handleDrop(e: any) {
 function handleDragEnd(e: any) {
     if (e.target.id !== e.currentTarget.id) return false
     e.currentTarget.className = e.currentTarget.className.replace(
-        "bg-rose-100",
+        "bg-cerise-100",
         "bg-gray-50"
     )
 }

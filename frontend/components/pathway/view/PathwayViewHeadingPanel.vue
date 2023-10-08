@@ -2,11 +2,14 @@
     <div class="sticky top-0 z-20 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white/75 sm:gap-x-6">
         <div class="flex w-full items-center justify-between gap-x-6 pb-2">
             <div class="flex items-center justify-left w-full space-x-4 truncate">
+                <div class="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-lg bg-kashmir-500">
+                    <PhPath class="h-5 w-5 text-white" aria-hidden="true" />
+                </div>
                 <h1 class="truncate text-lg font-semibold leading-7 text-gray-900">
-                    {{ props.purpose }}: {{ props.title }}
+                    {{ props.title }}
                 </h1>
             </div>
-            <div v-if="authStore.isAdmin" class="flex flex-inline items-center space-x-2">
+            <div v-if="pathwayStore.isCustodian" class="flex flex-inline items-center space-x-2">
                 <!-- Separator -->
                 <div class="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10" aria-hidden="true" />
                 <Menu as="div" class="relative inline-block text-left">
@@ -49,13 +52,12 @@
 
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/vue"
-import { PhCaretDown, PhWarningCircle, PhTrashSimple, PhLightning } from "@phosphor-icons/vue"
-import { useAuthStore } from "@/stores"
+import { PhPath, PhCaretDown, PhWarningCircle, PhTrashSimple, PhLightning } from "@phosphor-icons/vue"
+import { usePathwayStore } from "@/stores"
 
 const { t } = useI18n()
-const authStore = useAuthStore()
+const pathwayStore = usePathwayStore()
 const props = defineProps<{
-    purpose: string,
     title: string,
 }>()
 const emit = defineEmits<{ setEditRequest: [request: string] }>()

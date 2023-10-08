@@ -79,11 +79,14 @@ def update_user(
 @router.get("/", response_model=schemas.User)
 def read_user(
     *,
+    db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_active_user),
 ) -> Any:
     """
     Get current user.
     """
+    current_user.invitationCount = crud.invitation.get_count(db=db, email=current_user.email)
+    current_user.completedPersonalPathway = crud.user.has_completed_personal_pathway(user=current_user)
     return current_user
 
 
@@ -187,8 +190,8 @@ def accept_group_invitation(
         db=db,
         user=current_user,
         responsibility=schema_types.RoleType.VIEWER,
-        db_obj=invitation_obj.group,
-        is_validated=True,
+        group=invitation_obj.group,
+        pathway=invitation_obj.pathway,
     )
     crud.invitation.remove(db=db, id=invitation_id)
     return crud.invitation.get_multi_by_email(db=db, email=current_user.email)

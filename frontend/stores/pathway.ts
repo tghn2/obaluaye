@@ -29,6 +29,31 @@ export const usePathwayStore = defineStore("pathwayStore", {
         savingDraft: (state) => state.savingEdit,
         isTranslatingDraft: (state) => state.edit.language !== state.languageEdit,
         filters: (state) => state.facets,
+        isResearcher: (state) => {
+          return (
+                state.one
+                && (
+                    state.one.responsibility === "RESEARCHER"
+                    || state.one.responsibility === "CURATOR"
+                    || state.one.responsibility === "CUSTODIAN"
+                )
+            )
+        },
+        isCurator: (state) => {
+            return (
+                state.one
+                && (
+                    state.one.responsibility === "CURATOR"
+                    || state.one.responsibility === "CUSTODIAN"
+                )
+            )
+        },
+        isCustodian: (state) => {
+            return (
+                state.one
+                && state.one.responsibility === "CUSTODIAN"
+            )
+        },
         authTokens: () => {
             return ( useTokenStore() )
         },
@@ -111,10 +136,13 @@ export const usePathwayStore = defineStore("pathwayStore", {
                             await apiResource.updateTerm(this.authTokens.token, resource.id as string, resource)
                         }
                     }
+                    let branchList = new Set()
                     if (this.draft.themes && this.draft.themes.length) {
-                        for (const [themeIdx, theme] of this.draft.themes.entries()) {
-                            theme.pathway_id = this.draft.id
+                        let themeIdx = -1
+                        for (const theme of this.draft.themes) {
+                            if (!branchList.delete(theme.id)) themeIdx += 1
                             theme.order = themeIdx
+                            theme.pathway_id = this.draft.id
                             theme.language = this.draft.language
                             const { data: themeResponse } = await apiTheme.updateTerm(this.authTokens.token, theme.id as string, theme)
                             if (theme.resources && theme.resources.length) {
@@ -131,6 +159,12 @@ export const usePathwayStore = defineStore("pathwayStore", {
                                     node.theme_id = theme.id
                                     node.order = nodeIdx
                                     node.language = this.draft.language
+                                    if ((node.formType === "SELECTBRANCH") && (nodeIdx + 1 === theme.nodes.length)) {
+                                        // Get the list of theme ids, and increment the themeIdx since this will be for
+                                        // all of the matching ids
+                                        branchList = new Set(node.form.terms.map(({ branch }) => branch))
+                                        themeIdx += 1
+                                    }
                                     const { data: nodeResponse } = await apiNode.updateTerm(this.authTokens.token, node.id as string, node)
                                     if (node.resources && node.resources.length) {
                                         for (const resource of node.resources) {

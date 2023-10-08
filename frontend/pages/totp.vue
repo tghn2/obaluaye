@@ -6,7 +6,7 @@
                     <img class="h-12 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=rose&shade=500"
                         alt="Your Company" />
                     <h2 class="mt-6 text-3xl font-bold tracking-tight text-gray-900">Two-factor authentication</h2>
-                    <p class="text-sm font-medium text-spring-500 hover:text-spring-600 mt-6">
+                    <p class="text-sm font-medium text-kashmir-500 hover:text-kashmir-600 mt-6">
                         Enter the 6-digit verification code from your app.
                     </p>
                 </div>
@@ -18,13 +18,13 @@
                                 <label for="claim" class="block text-sm font-medium text-gray-700">Verification code</label>
                                 <div class="mt-1 group relative inline-block w-full">
                                     <Field id="claim" name="claim" type="text" autocomplete="off"
-                                        class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-spring-600 focus:outline-none focus:ring-spring-600 sm:text-sm" />
+                                        class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-kashmir-600 focus:outline-none focus:ring-kashmir-600 sm:text-sm" />
                                 </div>
                             </div>
 
                             <div>
                                 <button type="submit"
-                                    class="flex w-full justify-center rounded-md border border-transparent bg-spring-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-spring-700 focus:outline-none focus:ring-2 focus:ring-spring-600 focus:ring-offset-2">
+                                    class="flex w-full justify-center rounded-md border border-transparent bg-kashmir-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-kashmir-700 focus:outline-none focus:ring-2 focus:ring-kashmir-600 focus:ring-offset-2">
                                     Submit
                                 </button>
                             </div>

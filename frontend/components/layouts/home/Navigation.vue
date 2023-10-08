@@ -6,7 +6,7 @@
                     <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
                         <!-- Mobile menu button -->
                         <DisclosureButton
-                            class="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-spring-500">
+                            class="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-kashmir-500">
                             <span class="sr-only">Open main menu</span>
                             <PhList v-if="!open" class="block h-6 w-6" aria-hidden="true" />
                             <PhX v-else class="block h-6 w-6" aria-hidden="true" />
@@ -21,7 +21,7 @@
                         </div>
                         <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
                             <LocaleLink v-for="(nav, i) in navigation" :key="`nav-${i}`" :to="nav.to"
-                                class="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-900 hover:text-spring-500">
+                                class="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-900 hover:text-kashmir-500">
                                 {{ t(nav.name) }}</LocaleLink>
                         </div>
                     </div>
@@ -36,9 +36,9 @@
 
             <DisclosurePanel class="sm:hidden">
                 <div class="space-y-1 pt-2 pb-4">
-                    <!-- Current: "bg-spring-50 border-spring-500 text-spring-700", Default: "border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700" -->
+                    <!-- Current: "bg-kashmir-50 border-kashmir-500 text-kashmir-700", Default: "border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700" -->
                     <LocaleLink v-for="(nav, i) in navigation" :key="`nav-mobile-${i}`" :to="nav.to"
-                        class="block hover:border-l-4 hover:border-spring-500 hover:bg-spring-50 py-2 pl-3 pr-4 text-base font-medium text-spring-700">
+                        class="block hover:border-l-4 hover:border-kashmir-500 hover:bg-kashmir-50 py-2 pl-3 pr-4 text-base font-medium text-kashmir-700">
                         {{ t(nav.name) }}
                     </LocaleLink>
                 </div>

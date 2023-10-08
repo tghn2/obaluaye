@@ -84,6 +84,22 @@ class CRUDRole(CRUDBase[Role, RoleCreate, RoleUpdate, RoleOut]):
             return query.first() is not None
         return False
 
+    def highest_responsibility(
+        self,
+        db: Session,
+        *,
+        user: User,
+        group: Group | None = None,
+        pathway: Pathway | None = None,
+    ) -> RoleType | None:
+        if user.is_superuser:
+            return RoleType.CUSTODIAN
+        for responsibility in [RoleType.CUSTODIAN, RoleType.CURATOR, RoleType.RESEARCHER]:
+            query = self._get_filter(db=db, user=user, group=group, pathway=pathway, responsibility=responsibility)
+            if query and query.first() is not None:
+                return responsibility
+        return None
+
     def get_pathway_for_group(
         self,
         db: Session,

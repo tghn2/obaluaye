@@ -9,11 +9,11 @@
         <div class="inline-flex items-center space-x-1">
             <button type="button" @click="$pwa.install()">
                 <span class="sr-only">$t('pwa.install')</span>
-                <PhCheckCircle class="block h-5 w-5 text-green-500" aria-hidden="true" />
+                <PhCheckCircle class="block h-5 w-5 text-spring-500" aria-hidden="true" />
             </button>
             <button type="button" @click="$pwa.cancelInstall()">
                 <span class="sr-only">$t('pwa.dismiss')</span>
-                <PhXCircle class="block h-5 w-5 text-spring-500" aria-hidden="true" />
+                <PhXCircle class="block h-5 w-5 text-kashmir-500" aria-hidden="true" />
             </button>
         </div>
     </div>

@@ -32,7 +32,7 @@ def read_all_groups(
             page=page,
         )
     else:
-        db_objs = crud.role.get_multi_by_researcher(
+        db_objs = crud.role.get_multi(
             db=db,
             db_objs=current_user.roles,
             match=match,
@@ -41,8 +41,14 @@ def read_all_groups(
             page=page,
         )
     objs_out = []
+    group_uniques = set()
+    print("==========================================================================================================")
     for db_obj in db_objs:
         db_obj = db_obj.group
+        if db_obj.id in group_uniques:
+            continue
+        else:
+            group_uniques.add(db_obj.id)
         obj_out = crud.group.get_schema(db_obj=db_obj, language=db_obj.language, schema_out=schemas.Group)
         obj_out.roles = []
         pathway_obj = None
@@ -52,39 +58,16 @@ def read_all_groups(
             obj_out.roles.append(crud.role.get_schema(db_obj=role_obj))
         obj_out.pathway = crud.pathway.get_schema(db_obj=pathway_obj, language=db_obj.language, schema_out=schemas.PathwaySummary)
         objs_out.append(obj_out)
+    print(len(objs_out))
     return objs_out
 
-
-@router.get("/all", response_model=list[schemas.Group])
-def read_all_groups_for_admin(
-    *,
-    db: Session = Depends(deps.get_db),
-    match: Optional[str] = None,
-    date_from: Optional[str] = None,
-    date_to: Optional[str] = None,
-    descending: bool = True,
-    page: int = 0,
-    current_user: models.User = Depends(deps.get_current_active_superuser),
-) -> Any:
-    """
-    Get all groups - superuser only.
-    """
-    db_objs = crud.group.get_multi(
-        db=db,
-        match=match,
-        date_from=date_from,
-        date_to=date_to,
-        descending=descending,
-        page=page,
-    )
-    return [crud.group.get_schema_summary(db_obj=db_obj) for db_obj in db_objs]
 
 @router.get("/{id}", response_model=schemas.Group)
 def get_group(
     *,
     db: Session = Depends(deps.get_db),
     id: str,
-    current_user: models.User = Depends(deps.get_current_active_superuser),
+    current_user: models.User = Depends(deps.get_current_active_user),
 ) -> Any:
     """
     Get a group.

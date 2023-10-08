@@ -1,6 +1,6 @@
 export default {
     common: {
-        title: "App",
+        title: "Obaluaye",
     },
     nav: {
         home: "Home",
@@ -54,6 +54,9 @@ export default {
             submit: "Submit",
         },
         invitations: {
+            title: "Group invitations",
+            description: "Accept or reject invitations to join research groups.",
+            completePathway: "You cannot participate in groups until you have completed a personal pathway.",
             invited: "Invited",
             for: "For",
             by: "By",
@@ -110,6 +113,7 @@ export default {
         name: "Group",
         new: "New group",
         empty: "Nothing right now. Create a group to see them here.",
+        emptyIncomplete: "Once you complete a personal pathway, you can participate in groups.",
         create: "Create a group",
         creating: "Creating group",
         updating: "Updating group",

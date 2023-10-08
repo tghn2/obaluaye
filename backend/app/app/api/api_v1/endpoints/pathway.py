@@ -57,16 +57,20 @@ def get_pathway(
     Get a pathway.
     """
     db_obj = crud.pathway.get(db=db, id=id)
+    responsibility = None
+    if db_obj and current_user:
+        responsibility = crud.role.highest_responsibility(db=db, user=current_user, pathway=db_obj)
     # if not db_obj or (db_obj.isPrivate and (not current_user or (current_user and not crud.role.has_responsibility))
     if not db_obj or (db_obj.isPrivate and (
         not current_user
-        or (current_user and not crud.role.has_responsibility(db=db, user=current_user, pathway=db_obj, responsibility=schema_types.RoleType.CURATOR)))
+        or (current_user and responsibility not in [schema_types.RoleType.CURATOR, schema_types.RoleType.CUSTODIAN]))
     ):
         raise HTTPException(
             status_code=400,
             detail="Either pathway does not exist, or user does not have the rights for this request.",
         )
     response = crud.pathway.get_schema(db_obj=db_obj, language=language)
+    response.responsibility = responsibility
     response.resources = []
     for resource_obj in db_obj.resources.all():
         resources_out = crud.resource.get_schema(db_obj=resource_obj, language=language)
@@ -151,7 +155,7 @@ def remove_pathway(
     """
     db_obj = crud.pathway.get(db=db, id=id)
     if not db_obj or not crud.role.has_responsibility(
-        db=db, user=current_user, pathway=db_obj, responsibility=schema_types.RoleType.CURATOR
+        db=db, user=current_user, pathway=db_obj, responsibility=schema_types.RoleType.CUSTODIAN
     ):
         raise HTTPException(
             status_code=400,

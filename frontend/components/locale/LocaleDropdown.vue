@@ -2,7 +2,7 @@
     <Listbox as="div">
         <div class="relative mt-2 w-36">
             <ListboxButton
-                class="relative lg:w-full cursor-default rounded-md py-1.5 pr-10 text-left text-gray-900 focus:outline-none lg:focus:ring-2 lg:focus:ring-spring-500 sm:text-sm sm:leading-6">
+                class="relative lg:w-full cursor-default rounded-md py-1.5 pr-10 text-left text-gray-900 focus:outline-none lg:focus:ring-2 lg:focus:ring-kashmir-500 sm:text-sm sm:leading-6">
                 <span class="flex items-center">
                     <PhGlobeHemisphereWest class="h-6 w-6 flex-shrink-0 text-gray-400" aria-hidden="true" />
                     <span class="ml-3 font-semibold flex md:hidden lg:block">{{ currentLocale.name }}</span>
@@ -18,13 +18,13 @@
                     <ListboxOption as="template" v-for="loc in supportedLocales" :key="loc.code" :value="loc.code"
                         v-slot="{ active, selected }">
                         <li @click="onLocaleChanged(loc)"
-                            :class="[active ? 'bg-spring-600 text-white' : 'text-gray-900', 'relative cursor-default select-none py-2 pl-3 pr-9']">
+                            :class="[active ? 'bg-kashmir-600 text-white' : 'text-gray-900', 'relative cursor-default select-none py-2 pl-3 pr-9']">
                             <div class="flex items-center">
                                 <span :class="[selected ? 'font-semibold' : 'font-normal', 'ml-3 block truncate']">{{
                                     loc.name }}</span>
                             </div>
                             <span v-if="selected"
-                                :class="[active ? 'text-white' : 'text-spring-600', 'absolute inset-y-0 right-0 flex items-center pr-4']">
+                                :class="[active ? 'text-white' : 'text-kashmir-600', 'absolute inset-y-0 right-0 flex items-center pr-4']">
                                 <PhCheck class="h-5 w-5" aria-hidden="true" />
                             </span>
                         </li>

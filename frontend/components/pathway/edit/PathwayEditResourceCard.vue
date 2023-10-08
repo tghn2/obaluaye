@@ -16,7 +16,7 @@
                                 <div class="flex flex-inline items-center space-x-2 justify-end">
                                     <ResourceEditModal :initial-draft="resource" @set-draft="watchResourceUpdate" />
                                     <button type="button" @click="removeResource(resourceIdx)"
-                                        class="relative items-center rounded-full p-1 text-rose-700 hover:bg-rose-50">
+                                        class="relative items-center rounded-full p-1 text-cerise-700 hover:bg-cerise-50">
                                         <PhX class="h-5 w-5" aria-hidden="true" />
                                     </button>
                                 </div>

@@ -1,5 +1,5 @@
 <template>
-    <div class="p-2 border-b-2 border-spring-100">
+    <div class="p-2 border-b-2 border-kashmir-100">
         <Disclosure v-slot="{ open, close }">
             <DisclosureButton @click="disclosureWatcher(open, close)"
                 class="flex w-full justify-between items-center rounded-lg text-base font-semibold text-gray-900 px-2">
@@ -15,7 +15,7 @@
                                 t("pathway.field.title") }}</label>
                             <div class="mt-2">
                                 <input type="text" name="pathway-title" id="pathway-title" v-model="draft.title"
-                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-spring-600 sm:text-sm sm:leading-6" />
+                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-kashmir-600 sm:text-sm sm:leading-6" />
                             </div>
                             <p v-if="pathwayStore.isTranslatingDraft" class="mt-2 text-sm leading-6 text-gray-500">
                                 {{ pathwayStore.draft.title }}
@@ -34,7 +34,7 @@
                                 t("pathway.field.description") }}</label>
                             <div class="mt-2">
                                 <textarea id="description" name="description" rows="3" v-model="draft.description"
-                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-spring-600 sm:text-sm sm:leading-6" />
+                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-kashmir-600 sm:text-sm sm:leading-6" />
                             </div>
                             <p class="mt-2 text-sm leading-6 text-gray-500">
                                 <span v-if="pathwayStore.isTranslatingDraft">{{ pathwayStore.draft.description }}</span>
@@ -48,7 +48,7 @@
                             <div class="mt-2">
                                 <input type="text" name="pathway-subject-values" id="pathway-subject-values"
                                     v-model="subjects"
-                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-spring-600 sm:text-sm sm:leading-6" />
+                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-kashmir-600 sm:text-sm sm:leading-6" />
                             </div>
                             <p class="mt-2 text-sm leading-6 text-gray-500">{{ t("pathway.help.subjects") }}</p>
                         </div>
@@ -70,7 +70,7 @@
                             <div class="mt-2">
                                 <input type="text" name="pathway-spatial-values" id="pathway-spatial-values"
                                     v-model="draft.spatial"
-                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-spring-600 sm:text-sm sm:leading-6" />
+                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-kashmir-600 sm:text-sm sm:leading-6" />
                             </div>
                             <p class="mt-2 text-sm leading-6 text-gray-500">
                                 {{ t("pathway.help.spatial") }}
@@ -100,7 +100,7 @@
                             <div class="mt-2">
                                 <input type="text" name="pathway-bibliographic-citation-values"
                                     id="pathway-bibliographic-citation-values" v-model="draft.bibliographicCitation"
-                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-spring-600 sm:text-sm sm:leading-6" />
+                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-kashmir-600 sm:text-sm sm:leading-6" />
                             </div>
                             <p class="mt-2 text-sm leading-6 text-gray-500">
                                 {{ t("pathway.help.citation") }}

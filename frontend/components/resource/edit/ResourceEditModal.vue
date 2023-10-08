@@ -1,8 +1,8 @@
 <template>
     <div>
         <button type="button" @click="openModal"
-            class="rounded-full p-1 ring-1 ring-inset ring-spring-300 hover:bg-spring-50">
-            <PhBookmarkSimple class="h-4 w-4 text-spring-400" aria-hidden="true" />
+            class="rounded-full p-1 ring-1 ring-inset ring-kashmir-300 hover:bg-kashmir-50">
+            <PhBookmarkSimple class="h-4 w-4 text-kashmir-400" aria-hidden="true" />
         </button>
         <TransitionRoot appear :show="isOpen" as="template">
             <Dialog as="div" @close="closeModal" class="relative z-30">
@@ -29,7 +29,7 @@
                                             <div class="mt-1">
                                                 <input type="text" name="resource-title" id="resource-title"
                                                     v-model="draft.title"
-                                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-spring-600 sm:text-sm sm:leading-6" />
+                                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-kashmir-600 sm:text-sm sm:leading-6" />
                                             </div>
                                             <p v-if="pathwayStore.isTranslatingDraft"
                                                 class="mt-1 text-sm leading-6 text-gray-500">
@@ -57,10 +57,10 @@
                                             <div class="mt-1">
                                                 <textarea v-if="draft.resourceType === 'MARKDOWN'" id="resource-content"
                                                     name="resource-content" rows="3" v-model="draft.content"
-                                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-spring-600 sm:text-sm sm:leading-6" />
+                                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-kashmir-600 sm:text-sm sm:leading-6" />
                                                 <input v-if="draft.resourceType === 'WEBLINK'" type="text"
                                                     name="resource-content" id="resource-content" v-model="draft.content"
-                                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-spring-600 sm:text-sm sm:leading-6" />
+                                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-kashmir-600 sm:text-sm sm:leading-6" />
                                             </div>
                                         </div>
                                     </div>

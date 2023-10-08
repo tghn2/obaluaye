@@ -4,15 +4,15 @@
         <div class="col-start-1 row-start-1 py-4">
             <div class="relative flex justify-between items-center sm:ml-6 px-4 text-xs sm:px-6">
                 <div class="items-center flex max-w-7xl space-x-3 divide-x divide-gray-200">
-                    <DisclosureButton class="group flex items-center font-medium text-gray-700 hover:text-spring-600">
-                        <PhFunnel class="mr-2 h-5 w-5 flex-none text-gray-400 group-hover:text-spring-600"
+                    <DisclosureButton class="group flex items-center font-medium text-gray-700 hover:text-kashmir-600">
+                        <PhFunnel class="mr-2 h-5 w-5 flex-none text-gray-400 group-hover:text-kashmir-600"
                             aria-hidden="true" />
                         {{ t("filter.filters") }}
                     </DisclosureButton>
                     <div class="pl-3">
                         <span class="sr-only">{{ t("filter.clear") }}</span>
                         <button type="button" @click="resetFilters"
-                            class="text-gray-500 hover:text-spring-600">Clear</button>
+                            class="text-gray-500 hover:text-kashmir-600">Clear</button>
                     </div>
                 </div>
                 <div class="flex items-center justify-center sm:mx-4 px-2 w-full">
@@ -23,14 +23,14 @@
                                 <PhMagnifyingGlass class="h-5 w-5 text-gray-400" aria-hidden="true" />
                             </div>
                             <input id="search" name="search" v-model="searchTerm" @keydown="watchSearchTerm"
-                                class="block w-full rounded-md border-0 bg-white py-1.5 pl-10 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-spring-600 sm:text-sm sm:leading-6"
+                                class="block w-full rounded-md border-0 bg-white py-1.5 pl-10 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-kashmir-600 sm:text-sm sm:leading-6"
                                 :placeholder="t('filter.search')" type="search" />
                         </div>
                     </div>
                 </div>
                 <button type="button" @click="refreshPathways" class="group inline-flex justify-center">
                     <PhArrowsClockwise
-                        class="-mr-1 ml-1 mt-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-spring-600"
+                        class="-mr-1 ml-1 mt-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-kashmir-600"
                         aria-hidden="true" />
                     <span class="sr-only">{{ t("filter.refresh") }}</span>
                 </button>
@@ -45,7 +45,7 @@
                             <div v-for="(option, optionIdx) in pathType" :key="option.value" class="flex items-center">
                                 <input :id="`reference-${optionIdx}`" name="reference" :value="option.value" type="radio"
                                     v-model="filters.path_type"
-                                    class="h-4 w-4 flex-shrink-0 rounded-full border-gray-300 text-spring-600 focus:ring-spring-500"
+                                    class="h-4 w-4 flex-shrink-0 rounded-full border-gray-300 text-kashmir-600 focus:ring-kashmir-500"
                                     :checked="option.value === filters.path_type" />
                                 <label :for="`reference-${optionIdx}`" class="ml-3 min-w-0 flex-1 text-gray-600">
                                     {{ t(option.content) }}
@@ -65,7 +65,7 @@
             </div>
             <div class="flex flex-row justify-end pt-4">
                 <button type="submit" @click="refreshPathways"
-                    class="w-20 justify-center rounded-md border border-transparent bg-spring-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-spring-700 focus:outline-none focus:ring-2 focus:ring-spring-600 focus:ring-offset-2">
+                    class="w-20 justify-center rounded-md border border-transparent bg-kashmir-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-kashmir-700 focus:outline-none focus:ring-2 focus:ring-kashmir-600 focus:ring-offset-2">
                     {{ t("filter.filter") }}
                 </button>
             </div>

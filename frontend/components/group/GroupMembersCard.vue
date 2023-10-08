@@ -35,7 +35,7 @@
                             <Listbox>
                                 <div class="relative">
                                     <ListboxButton
-                                        class="relative w-full cursor-default rounded-lg bg-white py-1 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-spring-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-spring-300 sm:text-sm">
+                                        class="relative w-full cursor-default rounded-lg bg-white py-1 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-kashmir-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-kashmir-300 sm:text-sm">
                                         <span class="block truncate">{{ member.responsibility }}</span>
                                         <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                                             <PhCaretUpDown class="h-5 w-5 text-gray-400" aria-hidden="true" />
@@ -48,7 +48,7 @@
                                             <ListboxOption v-slot="{ active, selected }" v-for="rtype in parameters.role"
                                                 :key="`rtype-${rtype.value}`" :value="rtype.value" as="template">
                                                 <li :class="[
-                                                    active ? 'bg-spring-100 text-spring-900' : 'text-gray-900',
+                                                    active ? 'bg-kashmir-100 text-kashmir-900' : 'text-gray-900',
                                                     'relative cursor-default select-none py-2 pl-10 pr-4',
                                                 ]" @click="updateMemberRole(member.id, rtype.value as IRoleType)">
                                                     <span :class="[
@@ -56,7 +56,7 @@
                                                         'block truncate',
                                                     ]">{{ rtype.name }}</span>
                                                     <span v-if="selected"
-                                                        class="absolute inset-y-0 left-0 flex items-center pl-3 text-spring-600">
+                                                        class="absolute inset-y-0 left-0 flex items-center pl-3 text-kashmir-600">
                                                         <PhCheck class="h-5 w-5" aria-hidden="true" />
                                                     </span>
                                                 </li>
@@ -71,13 +71,13 @@
                         </td>
                         <td v-if="member.researcher.email === authStore.email"
                             class="pl-3 py-3.5 justify-center items-center text-sm text-gray-900">
-                            <PhCheckCircle class="text-spring-700 h-5 w-5" aria-hidden="true" />
+                            <PhCheckCircle class="text-kashmir-700 h-5 w-5" aria-hidden="true" />
                         </td>
                         <td v-if="member.researcher.email !== authStore.email && groupStore.isCustodian"
                             class="pl-3 py-3.5 justify-center items-center text-sm text-gray-900">
                             <button @click.prevent="removeMember(member.id)"
-                                class="relative inline-flex items-center rounded-full p-2 text-xs hover:bg-rose-50">
-                                <PhTrashSimple class="md:-ml-0.5 h-4 w-4 text-rose-400" aria-hidden="true" />
+                                class="relative inline-flex items-center rounded-full p-2 text-xs hover:bg-cerise-50">
+                                <PhTrashSimple class="md:-ml-0.5 h-4 w-4 text-cerise-400" aria-hidden="true" />
                                 <span class="sr-only">
                                     {{ t("group.members.remove") }}
                                 </span>

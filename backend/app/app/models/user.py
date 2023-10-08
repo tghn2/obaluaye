@@ -5,7 +5,6 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.ext.associationproxy import AssociationProxy
 from sqlalchemy import ForeignKey, DateTime, Table, Column, Computed, Index
-from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy_utils import TSVectorType, LocaleType, CountryType, Country
 from babel import Locale
 from sqlalchemy.sql import func
@@ -13,14 +12,12 @@ from sqlalchemy.dialects.postgresql import UUID, ARRAY
 from uuid import uuid4
 
 from app.db.base_class import Base
-from app.schema_types.pathway import PathwayType
-from app.models.pathway import Pathway
 from app.models.response import Response
+from app.models.invitation import Invitation
 
 if TYPE_CHECKING:
     from app.models.token import Token  # noqa: F401
     from app.models.subject import Subject  # noqa: F401
-    from app.models.invitation import Invitation  # noqa: F401
     from app.models.role import Role  # noqa: F401
     from app.models.comment import Comment  # noqa: F401
 
@@ -69,17 +66,6 @@ class User(Base):
     comments: Mapped[list["Comment"]] = relationship(
         order_by="Comment.created", back_populates="researcher", cascade="all, delete", lazy="dynamic"
     )
-
-    # Query-based hybrid properties
-    @hybrid_property
-    def completedPersonalPathway(self) -> bool:
-        last_response = self.responses.filter(
-            Pathway.pathType == PathwayType.PERSONAL
-        ).order_by(None).order_by(Response.created.desc()).first()
-        if not last_response or last_response.node.after.first():
-            # Either they've not filled in, or the response isn't for the last node
-            return False
-        return True
 
     __table_args__ = (
         Index("ix_user_description_vector", description_vector, postgresql_using="gin"),

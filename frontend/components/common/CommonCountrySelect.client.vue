@@ -2,7 +2,7 @@
     <Listbox v-model="choices" id="country-selection-codes" multiple>
         <div class="relative mt-1">
             <ListboxButton
-                class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus-visible:border-spring-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-spring-300 sm:text-sm">
+                class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus-visible:border-kashmir-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-kashmir-300 sm:text-sm">
                 <span v-if="choices && choices.length" class="block truncate text-gray-900">
                     {{ choices.map((choice) => countryList[choice]).join(', ') }}
                 </span>
@@ -20,14 +20,14 @@
                     <ListboxOption v-slot="{ active, selected }" v-for="code in countryCodes" :key="`country-code-${code}`"
                         :value="code" as="template">
                         <li :class="[
-                            active ? 'bg-spring-100 text-spring-900' : 'text-gray-900',
+                            active ? 'bg-kashmir-100 text-kashmir-900' : 'text-gray-900',
                             'relative cursor-default select-none py-2 pl-10 pr-4',
                         ]">
                             <span :class="[
                                 selected ? 'font-medium' : 'font-normal',
                                 'block truncate',
                             ]">{{ countryList[code] }}</span>
-                            <span v-if="selected" class="absolute inset-y-0 left-0 flex items-center pl-3 text-spring-600">
+                            <span v-if="selected" class="absolute inset-y-0 left-0 flex items-center pl-3 text-kashmir-600">
                                 <PhCheck class="h-5 w-5" aria-hidden="true" />
                             </span>
                         </li>

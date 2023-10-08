@@ -6,7 +6,7 @@
             <component :is="importer[props.reference].icon" class="mx-auto h-12 w-12 text-gray-300" aria-hidden="true" />
             <div class="mt-4 flex text-sm leading-6 text-gray-600">
                 <label for="file-upload"
-                    class="relative cursor-pointer rounded-md bg-white font-semibold text-spring-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-spring-600 focus-within:ring-offset-2 hover:text-spring-500">
+                    class="relative cursor-pointer rounded-md bg-white font-semibold text-kashmir-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-kashmir-600 focus-within:ring-offset-2 hover:text-kashmir-500">
                     <span>Upload <span v-if="props.reference !== 'DATA'">a</span> {{ props.reference.toLowerCase() }}</span>
                     <input id="file-upload" name="file-upload" type="file" class="sr-only" />
                 </label>

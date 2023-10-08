@@ -1,8 +1,8 @@
 <template>
     <div>
-        <component v-if="props.check" :is="PhCheckCircle" class="text-green-600 flex-shrink-0 -ml-1 mr-3 h-6 w-6"
+        <component v-if="props.check" :is="PhCheckCircle" class="text-spring-600 flex-shrink-0 -ml-1 mr-3 h-6 w-6"
             aria-hidden="true" />
-        <component v-else :is="PhXCircle" class="text-red-600 flex-shrink-0 -ml-1 mr-3 h-6 w-6" aria-hidden="true" />
+        <component v-else :is="PhXCircle" class="text-cerise-600 flex-shrink-0 -ml-1 mr-3 h-6 w-6" aria-hidden="true" />
     </div>
 </template>
 

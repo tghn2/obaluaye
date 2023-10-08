@@ -5,11 +5,10 @@
         </div>
         <div
             v-if="appSettings.current.pageState === 'done' && pathwayStore.term && pathwayStore.term.hasOwnProperty('name')">
-            <CommonHeadingView purpose="Pathway" :title="pathwayStore.term.title as string"
-                @set-edit-request="watchHeadingRequest" />
+            <PathwayViewHeadingPanel :title="pathwayStore.term.title as string" @set-edit-request="watchHeadingRequest" />
             <div class="flex justify-end">
-                <PathwayViewDownload />
-                <PathwayViewTogglePublish />
+                <PathwayViewDownload v-if="pathwayStore.isCustodian || pathwayStore.isCurator" />
+                <PathwayViewTogglePublish v-if="pathwayStore.isCustodian || pathwayStore.isCurator" />
             </div>
             <dl class="divide-y divide-gray-100">
                 <div v-if="pathwayStore.term.title" class="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">

@@ -8,11 +8,17 @@
                 <TabList class="flex space-x-4 border-b border-gray-200 text-xs">
                     <Tab v-for="tab in navigation" :key="`tab-${tab.id}`" as="template" v-slot="{ selected }">
                         <button
-                            :class="[selected ? 'border-spring-500 text-spring-600' : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700', 'group inline-flex items-center border-b-2 py-4 px-1 font-medium']">
+                            :class="[selected ? 'border-kashmir-500 text-kashmir-600' : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700', 'group inline-flex items-center border-b-2 py-4 px-1 font-medium']">
                             <component :is="tab.icon"
-                                :class="[selected ? 'text-spring-500' : 'text-gray-400 group-hover:text-gray-500', '-ml-0.5 mr-2 h-5 w-5']"
+                                :class="[selected ? 'text-kashmir-500' : 'text-gray-400 group-hover:text-gray-500', '-ml-0.5 mr-2 h-5 w-5']"
                                 aria-hidden="true" />
                             <span class="hidden xl:block">{{ t(tab.name) }}</span>
+                            <span v-if="tab.showDot" class="relative">
+                                <svg viewBox="0 0 100 100" class="absolute -ml-1 sm:-ml-0 -mt-2 z-10 h-[2rem] w-[2rem]"
+                                    aria-hidden="true">
+                                    <circle cx="10" cy="10" r="10" fill="#d93e8a" />
+                                </svg>
+                            </span>
                         </button>
                     </Tab>
                 </TabList>
@@ -26,7 +32,7 @@
                     <TabPanel>
                         <SettingsSecurity />
                     </TabPanel>
-                    <TabPanel>
+                    <TabPanel v-if="authStore.isAdmin">
                         <ModerationUserTable />
                     </TabPanel>
                 </TabPanels>
@@ -48,16 +54,18 @@ const { t } = useI18n()
 const appSettings = useSettingStore()
 const authStore = useAuthStore()
 
-const navigation = [
-    { name: "settings.nav.account", id: "ACCOUNT", icon: PhUserCircle, show: true },
-    { name: "settings.nav.invitations", id: "INVITATIONS", icon: PhEnvelopeSimple, show: true },
-    { name: "settings.nav.security", id: "SECURITY", icon: PhKey, show: true },
-    { name: "settings.nav.moderation", id: "MODERATION", icon: PhUsersThree, show: authStore.isAdmin },
+let navigation = [
+    { name: "settings.nav.account", id: "ACCOUNT", icon: PhUserCircle, showDot: false },
+    { name: "settings.nav.invitations", id: "INVITATIONS", icon: PhEnvelopeSimple, showDot: authStore.profile.invitationCount > 0 },
+    { name: "settings.nav.security", id: "SECURITY", icon: PhKey, showDot: false },
 ]
 const readyState = ref("loading")
 
 onMounted(() => {
-    appSettings.setPageName("settings.name")
+    appSettings.setPageName("nav.settings")
+    if (authStore.isAdmin) navigation.push(
+        { name: "settings.nav.moderation", id: "MODERATION", icon: PhUsersThree, showDot: false },
+    )
     readyState.value = "done"
 })
 </script>

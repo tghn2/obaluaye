@@ -2,7 +2,7 @@
     <div class="sticky top-0 z-20 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white/75 sm:gap-x-6">
         <div class="flex w-full items-center justify-between gap-x-6 pb-2">
             <div class="flex items-center justify-left w-full space-x-4 truncate">
-                <div class="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-lg bg-spring-500">
+                <div class="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-lg bg-kashmir-500">
                     <PhUsersThree class="h-5 w-5 text-white" aria-hidden="true" />
                 </div>
                 <h1 class="truncate text-lg font-semibold leading-7 text-gray-900">
@@ -16,7 +16,7 @@
                     <div>
                         <MenuButton
                             class="inline-flex items-center w-full justify-center -ml-px gap-x-1.5 rounded-md px-3 py-2 text-sm text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
-                            <PhWarningCircle class="md:-ml-0.5 h-4 w-4 text-rose-600" aria-hidden="true" />
+                            <PhWarningCircle class="md:-ml-0.5 h-4 w-4 text-cerise-600" aria-hidden="true" />
                             <span class="hidden md:block">{{ t("header.delete") }}</span>
                             <PhCaretDown class="md:-ml h-4 w-4 text-gray-400" aria-hidden="true" />
                         </MenuButton>
@@ -30,7 +30,7 @@
                             <div class="py-1">
                                 <MenuItem v-slot="{ active }">
                                 <button type="button" @click.prevent="watchEditRequest('remove')"
-                                    :class="[active ? 'bg-rose-100 text-gray-900' : 'text-gray-700', 'flex items-center w-full gap-x-1.5 px-4 py-2 text-sm']">
+                                    :class="[active ? 'bg-cerise-100 text-gray-900' : 'text-gray-700', 'flex items-center w-full gap-x-1.5 px-4 py-2 text-sm']">
                                     <PhTrashSimple class="-ml-0.5 h-5 w-5 text-gray-400" aria-hidden="true" />
                                     {{ t("header.delete") }}
                                 </button>

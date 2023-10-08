@@ -39,11 +39,11 @@ class Invitation(InvitationBase):
         default=InvitationResponseType.WAITING, description="Invitee current response."
     )
 
-    @validator("group", pre=True)
-    def evaluate_lazy_group(cls, v):
-        if isinstance(v, Base):
-            return None
-        return v
+    # @validator("group", pre=True)
+    # def evaluate_lazy_group(cls, v):
+    #     if isinstance(v, Base):
+    #         return None
+    #     return v
 
     @validator("pathway", pre=True)
     def evaluate_lazy_pathway(cls, v):

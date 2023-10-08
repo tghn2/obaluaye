@@ -10,9 +10,9 @@
                 <TabList class="flex space-x-8 border-b border-gray-200 text-xs">
                     <Tab v-for="tab in navigation" :key="`tab-${tab.id}`" as="template" v-slot="{ selected }">
                         <button
-                            :class="[selected ? 'border-spring-500 text-spring-600' : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700', 'group inline-flex items-center border-b-2 py-4 px-1 font-medium']">
+                            :class="[selected ? 'border-kashmir-500 text-kashmir-600' : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700', 'group inline-flex items-center border-b-2 py-4 px-1 font-medium']">
                             <component :is="tab.icon"
-                                :class="[selected ? 'text-spring-500' : 'text-gray-400 group-hover:text-gray-500', '-ml-0.5 mr-2 h-5 w-5']"
+                                :class="[selected ? 'text-kashmir-500' : 'text-gray-400 group-hover:text-gray-500', '-ml-0.5 mr-2 h-5 w-5']"
                                 aria-hidden="true" />
                             <span>{{ t(tab.name) }}</span>
                         </button>

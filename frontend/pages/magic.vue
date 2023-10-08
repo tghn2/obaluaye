@@ -3,20 +3,20 @@
         <div class="flex flex-1 flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
             <div class="mx-auto w-full max-w-sm lg:w-96">
                 <div>
-                    <PhEnvelopeSimple class="text-spring-500 h-12 w-12" aria-hidden="true" />
+                    <PhEnvelopeSimple class="text-kashmir-500 h-12 w-12" aria-hidden="true" />
                     <h2 class="mt-6 text-3xl font-bold tracking-tight text-gray-900">Check your email</h2>
-                    <p class="text-sm font-medium text-spring-500 hover:text-spring-600 mt-6">
+                    <p class="text-sm font-medium text-kashmir-500 hover:text-kashmir-600 mt-6">
                         We sent you an email with a magic link. Once you click that (or copy it into this browser) you'll be
                         signed in.
                     </p>
-                    <p class="text-sm font-medium text-spring-500 hover:text-spring-600 mt-2">
+                    <p class="text-sm font-medium text-kashmir-500 hover:text-kashmir-600 mt-2">
                         Make sure you use the same browser you requested the login from or it won't work.
                     </p>
                 </div>
 
                 <LocaleLink to="/login?oauth=true" class="mt-8 flex">
-                    <PhLinkSimple class="text-spring-500 h-4 w-4 mr-1" aria-hidden="true" />
-                    <p class="text-sm text-spring-500 align-middle">
+                    <PhLinkSimple class="text-kashmir-500 h-4 w-4 mr-1" aria-hidden="true" />
+                    <p class="text-sm text-kashmir-500 align-middle">
                         If you prefer, use your password & don't email.
                     </p>
                 </LocaleLink>

@@ -17,13 +17,13 @@
                 <ListboxOption as="template" v-for="loc in supportedLocales" :key="loc.code" :value="loc.code"
                     v-slot="{ active, selected }">
                     <li @click="watchLocaleSelect(loc)"
-                        :class="[active ? 'bg-spring-600 text-white' : 'text-gray-900', 'relative cursor-default select-none py-2 pl-3 pr-9']">
+                        :class="[active ? 'bg-kashmir-600 text-white' : 'text-gray-900', 'relative cursor-default select-none py-2 pl-3 pr-9']">
                         <div class="flex items-center">
                             <span :class="[selected ? 'font-semibold' : 'font-normal', 'ml-3 block truncate']">{{
                                 loc.name }}</span>
                         </div>
                         <span v-if="selected"
-                            :class="[active ? 'text-white' : 'text-spring-600', 'absolute inset-y-0 right-0 flex items-center pr-4']">
+                            :class="[active ? 'text-white' : 'text-kashmir-600', 'absolute inset-y-0 right-0 flex items-center pr-4']">
                             <PhCheck class="h-5 w-5" aria-hidden="true" />
                         </span>
                     </li>

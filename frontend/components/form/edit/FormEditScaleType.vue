@@ -18,7 +18,7 @@
                 <div class="col-span-5">
                     <input type="text" name="scale-start-label" id="scale-start-label" v-model="scaleStartLabel"
                         :placeholder="`${t('form.scaleLabel')}`"
-                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-spring-600 sm:text-sm sm:leading-6" />
+                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-kashmir-600 sm:text-sm sm:leading-6" />
                 </div>
                 <div class="col-span-1 flex items-center font-medium text-gray-900">
                     {{ scaleEndChoice }}
@@ -26,7 +26,7 @@
                 <div class="col-span-5">
                     <input type="text" name="scale-end-label" id="scale-end-label" v-model="scaleEndLabel"
                         :placeholder="`${t('form.scaleLabel')}`"
-                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-spring-600 sm:text-sm sm:leading-6" />
+                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-kashmir-600 sm:text-sm sm:leading-6" />
                 </div>
             </div>
         </div>
@@ -39,7 +39,7 @@
                             <span aria-hidden="true"
                                 class="pointer-events-none absolute h-full w-full rounded-md bg-white" />
                             <span aria-hidden="true"
-                                :class="[draft.required ? 'bg-spring-600' : 'bg-gray-200', 'pointer-events-none absolute mx-auto h-4 w-9 rounded-full transition-colors duration-200 ease-in-out']" />
+                                :class="[draft.required ? 'bg-kashmir-600' : 'bg-gray-200', 'pointer-events-none absolute mx-auto h-4 w-9 rounded-full transition-colors duration-200 ease-in-out']" />
                             <span aria-hidden="true"
                                 :class="[draft.required ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none absolute left-0 inline-block h-5 w-5 transform rounded-full border border-gray-200 bg-white shadow ring-0 transition-transform duration-200 ease-in-out']" />
                         </Switch>

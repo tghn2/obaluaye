@@ -7,7 +7,7 @@
                         <span v-if="!oauth">Login with email</span>
                         <span v-else>Login with password</span>
                     </h2>
-                    <p v-if="!oauth" class="text-sm font-medium text-spring-500 hover:text-spring-600 mt-6">
+                    <p v-if="!oauth" class="text-sm font-medium text-kashmir-500 hover:text-kashmir-600 mt-6">
                         We'll check if you have an account, and create one if you don't.
                     </p>
                 </div>
@@ -17,7 +17,7 @@
                             <label for="email" class="block text-sm font-medium text-gray-700">Email address</label>
                             <div class="mt-1 group relative inline-block w-full">
                                 <Field id="email" name="email" type="email" autocomplete="email"
-                                    class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-spring-600 focus:outline-none focus:ring-spring-600 sm:text-sm" />
+                                    class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-kashmir-600 focus:outline-none focus:ring-kashmir-600 sm:text-sm" />
                                 <ErrorMessage name="email"
                                     class="absolute left-5 top-5 translate-y-full w-48 px-2 py-1 bg-gray-700 rounded-lg text-center text-white text-sm after:content-[''] after:absolute after:left-1/2 after:bottom-[100%] after:-translate-x-1/2 after:border-8 after:border-x-transparent after:border-t-transparent after:border-b-gray-700" />
                             </div>
@@ -26,34 +26,34 @@
                             <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
                             <div class="mt-1 group relative inline-block w-full">
                                 <Field id="password" name="password" type="password" autocomplete="password"
-                                    class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-spring-600 focus:outline-none focus:ring-spring-600 sm:text-sm" />
+                                    class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-kashmir-600 focus:outline-none focus:ring-kashmir-600 sm:text-sm" />
                                 <ErrorMessage name="password"
                                     class="absolute left-5 top-0 translate-y-full w-48 px-2 py-1 bg-gray-700 rounded-lg text-center text-white text-sm after:content-[''] after:absolute after:left-1/2 after:bottom-[100%] after:-translate-x-1/2 after:border-8 after:border-x-transparent after:border-t-transparent after:border-b-gray-700" />
                             </div>
                             <div class="text-sm text-right">
                                 <LocaleLink to="/recover-password"
-                                    class="font-medium text-spring-500 hover:text-spring-600">Forgot your password?
+                                    class="font-medium text-kashmir-500 hover:text-kashmir-600">Forgot your password?
                                 </LocaleLink>
                             </div>
                         </div>
                         <div>
                             <button type="submit"
-                                class="flex w-full justify-center rounded-md border border-transparent bg-spring-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-spring-700 focus:outline-none focus:ring-2 focus:ring-spring-600 focus:ring-offset-2">
+                                class="flex w-full justify-center rounded-md border border-transparent bg-kashmir-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-kashmir-700 focus:outline-none focus:ring-2 focus:ring-kashmir-600 focus:ring-offset-2">
                                 Submit
                             </button>
                         </div>
                     </Form>
                 </div>
                 <div class="mt-8 flex items-center justify-between">
-                    <p class="text-sm text-spring-500 align-middle">
+                    <p class="text-sm text-kashmir-500 align-middle">
                         If you prefer, use your password & don't email.
                     </p>
                     <Switch v-model="oauth"
-                        class="group relative inline-flex h-5 w-10 flex-shrink-0 cursor-pointer items-center justify-center rounded-full focus:outline-none focus:ring-2 focus:ring-spring-600 focus:ring-offset-2">
+                        class="group relative inline-flex h-5 w-10 flex-shrink-0 cursor-pointer items-center justify-center rounded-full focus:outline-none focus:ring-2 focus:ring-kashmir-600 focus:ring-offset-2">
                         <span class="sr-only">Use setting</span>
                         <span aria-hidden="true" class="pointer-events-none absolute h-full w-full rounded-md bg-white" />
                         <span aria-hidden="true"
-                            :class="[oauth ? 'bg-spring-500' : 'bg-gray-200', 'pointer-events-none absolute mx-auto h-4 w-9 rounded-full transition-colors duration-200 ease-in-out']" />
+                            :class="[oauth ? 'bg-kashmir-500' : 'bg-gray-200', 'pointer-events-none absolute mx-auto h-4 w-9 rounded-full transition-colors duration-200 ease-in-out']" />
                         <span aria-hidden="true"
                             :class="[oauth ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none absolute left-0 inline-block h-5 w-5 transform rounded-full border border-gray-200 bg-white shadow ring-0 transition-transform duration-200 ease-in-out']" />
                     </Switch>

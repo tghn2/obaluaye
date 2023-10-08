@@ -50,7 +50,7 @@
                     </dl>
                     <p class="mt-6 text-sm leading-8 text-gray-600">
                         We care about your data. Read our <LocaleLink to="/privacy"
-                            class="font-semibold hover:text-spring-600">privacy
+                            class="font-semibold hover:text-kashmir-600">privacy
                             policy</LocaleLink>.
                     </p>
                 </div>
@@ -63,7 +63,7 @@
                             <div class="mt-2.5 group relative inline-block w-full">
                                 <Field id="email-address" name="email" type="email" autocomplete="email"
                                     placeholder="Enter your email"
-                                    class="block w-full rounded-md border-0 py-2 px-3.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-spring-600 sm:text-sm sm:leading-6" />
+                                    class="block w-full rounded-md border-0 py-2 px-3.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-kashmir-600 sm:text-sm sm:leading-6" />
                                 <ErrorMessage name="email"
                                     class="absolute left-5 top-5 translate-y-full w-48 px-2 py-1 bg-gray-700 rounded-lg text-center text-white text-sm after:content-[''] after:absolute after:left-1/2 after:bottom-[100%] after:-translate-x-1/2 after:border-8 after:border-x-transparent after:border-t-transparent after:border-b-gray-700" />
                             </div>
@@ -73,7 +73,7 @@
                             <div class="mt-2.5 group relative inline-block w-full">
                                 <Field id="contact-message" name="message" as="textarea" rows="4"
                                     placeholder="Enter your message"
-                                    class="block w-full rounded-md border-0 py-2 px-3.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-spring-600 sm:text-sm sm:leading-6" />
+                                    class="block w-full rounded-md border-0 py-2 px-3.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-kashmir-600 sm:text-sm sm:leading-6" />
                                 <ErrorMessage name="message"
                                     class="absolute left-5 top-5 translate-y-full w-48 px-2 py-1 bg-gray-700 rounded-lg text-center text-white text-sm after:content-[''] after:absolute after:left-1/2 after:bottom-[100%] after:-translate-x-1/2 after:border-8 after:border-x-transparent after:border-t-transparent after:border-b-gray-700" />
                             </div>
@@ -81,7 +81,7 @@
                     </div>
                     <div class="mt-8 flex justify-end">
                         <button type="submit"
-                            class="rounded-md bg-spring-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-spring-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-spring-600">Send
+                            class="rounded-md bg-kashmir-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-kashmir-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-kashmir-600">Send
                             message</button>
                     </div>
                 </div>

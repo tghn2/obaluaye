@@ -14,6 +14,7 @@ from app.schemas.theme import Theme
 # from app.schemas.node import Node
 from app.schemas.resource import Resource
 from app.schema_types.pathway import PathwayType
+from app.schema_types.role import RoleType
 
 
 class PathwayBase(BaseSchema):
@@ -85,6 +86,7 @@ class Pathway(PathwayBase):
     title: str = Field(..., description="A human-readable title given to the pathway.")
     themes: Optional[List[Theme]] = Field([], description="A list of themes which define the nodes in this pathway.")
     resources: Optional[List[Resource]] = Field([], description="A list of resources relevant to this pathway.")
+    responsibility: Optional[RoleType] = Field(None, description="Responsibility assigned to this researcher.")
 
     @validator("themes", pre=True)
     def evaluate_lazy_themes(cls, v):
@@ -101,6 +103,12 @@ class Pathway(PathwayBase):
         if isinstance(v, Query):
             return v.all()
         return v
+
+    @validator("responsibility", pre=True)
+    def evaluate_lazy_responsibility(cls, v):
+        if isinstance(v, RoleType):
+            return v
+        return None
 
 
 class PathwayAdmin(Pathway):

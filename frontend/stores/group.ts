@@ -96,21 +96,21 @@ export const useGroupStore = defineStore("groupStore", {
         }
       }
     },
-    async createTerm(payload: IGroup = {} as IGroup) {
-      await this.authTokens.refreshTokens()
-      if (this.authTokens.token) {
-        try {
-          if (payload && Object.keys(payload).length !== 0) this.setDraft(payload)
-          const { data: response } = await apiGroup.createTerm(this.authTokens.token, this.draft)
-          if (response.value) {
-            this.setTerm(response.value)
-            this.resetDraft()
-          } 
-        } catch (error) {
-          this.one = {} as IGroup
-        }
-      }
-    },
+    // async createTerm(payload: IGroup = {} as IGroup) {
+    //   await this.authTokens.refreshTokens()
+    //   if (this.authTokens.token) {
+    //     try {
+    //       if (payload && Object.keys(payload).length !== 0) this.setDraft(payload)
+    //       const { data: response } = await apiGroup.createTerm(this.authTokens.token, this.draft)
+    //     //   if (response.value) {
+    //     //     this.setTerm(response.value)
+    //     //     this.resetDraft()
+    //     //   } 
+    //     } catch (error) {
+    //     //   this.one = {} as IGroup
+    //     }
+    //   }
+    // },
     async updateTerm(key: string, payload: IGroup = {} as IGroup) {
       await this.authTokens.refreshTokens()
       if (this.authTokens.token) {
@@ -157,28 +157,6 @@ export const useGroupStore = defineStore("groupStore", {
             content: "Could not remove group. Please check your details, or internet connection, and try again.",
             icon: "error"
           })
-        }
-      }
-    },
-    async addTask(key: string, task_key: string) {
-      await this.authTokens.refreshTokens()
-      if (this.authTokens.token) {
-        try {
-          const { data: response } = await apiGroup.addTask(this.authTokens.token, key, task_key)
-          if (response.value) this.setTerm(response.value)
-        } catch (error) {
-          this.one = {} as IGroup
-        }
-      }
-    },
-    async removeTask(key: string, task_key: string) {
-      await this.authTokens.refreshTokens()
-      if (this.authTokens.token) {
-        try {
-          const { data: response } = await apiGroup.removeTask(this.authTokens.token, key, task_key)
-          if (response.value) this.setTerm(response.value)
-        } catch (error) {
-          this.one = {} as IGroup
         }
       }
     },

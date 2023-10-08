@@ -5,7 +5,7 @@
                 class="mt-6 flex justify-center space-x-10 border-b border-t border-gray-200 py-6 md:px-12">
                 <LocaleLink :to="`/pathway/edit/${generateUUID()}`"
                     class="flex items-center space-x-2 rounded-lg hover:bg-gray-50 pr-1">
-                    <div class="bg-spring-500 flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg">
+                    <div class="bg-kashmir-500 flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg">
                         <PhPath class="h-6 w-6 text-white" aria-hidden="true" />
                     </div>
                     <h3 class="text-sm font-bold text-gray-900">

@@ -1,5 +1,5 @@
 <template>
-    <div class="flex-auto mb-2 p-2 border-b-2 border-spring-200">
+    <div class="flex-auto mb-2 p-2 border-b-2 border-kashmir-200">
         <Disclosure v-slot="{ open, close }">
             <DisclosureButton @click="disclosureWatcher(open, close)"
                 class="w-full text-base font-semibold text-gray-900 pb-2">
@@ -18,7 +18,7 @@
                                 t("node.field.question") }}</label>
                             <div class="mt-2">
                                 <input type="text" name="node-question" id="node-question" v-model="draft.question"
-                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-spring-600 sm:text-sm sm:leading-6" />
+                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-kashmir-600 sm:text-sm sm:leading-6" />
                             </div>
                             <p v-if="pathwayStore.isTranslatingDraft" class="mt-2 text-sm leading-6 text-gray-500">
                                 {{ props.initialDraft.question }}
@@ -33,7 +33,7 @@
                                 <Listbox v-model="draft.formType" id="form-selection-types">
                                     <div class="relative mt-1">
                                         <ListboxButton
-                                            class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus-visible:border-spring-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-spring-300 sm:text-sm">
+                                            class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus-visible:border-kashmir-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-kashmir-300 sm:text-sm">
                                             <span class="block truncate text-gray-900">
                                                 {{ t(formType[draft.formType as INodeType].name) }}
                                             </span>
@@ -49,7 +49,7 @@
                                                 <ListboxOption v-slot="{ active, selected }" v-for="ftype in formSelect"
                                                     :key="`ftype-${ftype.value}`" :value="ftype.value" as="template">
                                                     <li :class="[
-                                                        active ? 'bg-spring-100 text-spring-900' : 'text-gray-900',
+                                                        active ? 'bg-kashmir-100 text-kashmir-900' : 'text-gray-900',
                                                         'relative cursor-default select-none py-2 pl-10 pr-4',
                                                     ]">
                                                         <span :class="[
@@ -57,7 +57,7 @@
                                                             'block truncate',
                                                         ]">{{ t(formType[ftype.value].name) }}</span>
                                                         <span v-if="selected"
-                                                            class="absolute inset-y-0 left-0 flex items-center pl-3 text-spring-600">
+                                                            class="absolute inset-y-0 left-0 flex items-center pl-3 text-kashmir-600">
                                                             <PhCheck class="h-5 w-5" aria-hidden="true" />
                                                         </span>
                                                     </li>
@@ -74,7 +74,7 @@
                             </label>
                             <div class="mt-2">
                                 <input type="text" name="node-subject-values" id="node-subject-values" v-model="subjects"
-                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-spring-600 sm:text-sm sm:leading-6" />
+                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-kashmir-600 sm:text-sm sm:leading-6" />
                             </div>
                             <p class="mt-2 text-sm leading-6 text-gray-500">{{ t("node.help.subjects") }}</p>
                         </div>

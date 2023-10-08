@@ -3,7 +3,7 @@
     <Menu as="div" class="relative ml-3 pb-8 lg:pl-6 overflow-x-visible">
         <div v-if="!authStore.loggedIn">
             <LocaleLink to="/login"
-                class="text-spring-600 hover:text-spring-500 focus:outline-none group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">
+                class="text-kashmir-600 hover:text-kashmir-500 focus:outline-none group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">
                 <PhSignIn class="h-6 w-6 shrink-0" />
                 <span class="hidden lg:block">Login</span>
             </LocaleLink>
@@ -12,7 +12,7 @@
             <LocaleLink to="#" class="hidden lg:group lg:block lg:flex-grow hover:bg-gray-50">
                 <div class="flex items-center">
                     <div class="rounded-lg -mx-2 w-12">
-                        <PhUserCircle class="h-6 w-6 text-spring-500 shrink-0" alt="authStore.email" />
+                        <PhUserCircle class="h-6 w-6 text-kashmir-500 shrink-0" alt="authStore.email" />
                     </div>
                     <div class="ml-3">
                         <p class="text-sm font-medium text-gray-700 group-hover:text-gray-900 truncate">{{
@@ -27,7 +27,7 @@
                 <PhDotsThreeVertical class="hidden lg:block h-6 w-6 text-gray-500" />
                 <div class="flex items-center lg:hidden">
                     <div class="rounded-lg w-12">
-                        <PhUserCircle class="h-6 w-6 text-spring-500 shrink-0" alt="authStore.email" />
+                        <PhUserCircle class="h-6 w-6 text-kashmir-500 shrink-0" alt="authStore.email" />
                     </div>
                 </div>
             </MenuButton>
@@ -58,7 +58,7 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue"
 import { PhSignIn, PhUserCircle, PhDotsThreeVertical } from "@phosphor-icons/vue"
 import {
-    useAuthStore,
+    useAuthStore, useToastStore, usePathwayStore, useGroupStore,
 } from "@/stores"
 
 const localePath = useLocalePath()
@@ -70,28 +70,12 @@ const navigation = [
 const redirectRoute = "/"
 
 async function logout() {
-    //   const toastStore = useToastStore()
-    //   const ogunStore = useOgunStore()
-    //   const activityStore = useActivityStore()
-    //   const referenceStore = useReferenceStore()
-    //   const schemaStore = useSchemaStore()
-    //   const crosswalkStore = useCrosswalkStore()
-    //   const templateStore = useTemplateStore()
-    //   const resourceStore = useResourceStore()
-    //   const taskStore = useTaskStore()
-    //   const projectStore = useProjectStore()
-    //   const subscriptionStore = useSubscriptionsStore()
-    //   toastStore.resetState()
-    //   ogunStore.resetState()
-    //   activityStore.resetState()
-    //   referenceStore.resetState()
-    //   schemaStore.resetState()
-    //   crosswalkStore.resetState()
-    //   templateStore.resetState()
-    //   resourceStore.resetState()
-    //   taskStore.resetState()
-    //   projectStore.resetState()
-    //   subscriptionStore.resetState()
+    const toastStore = useToastStore()
+    const pathwayStore = usePathwayStore()
+    const groupStore = useGroupStore()
+    toastStore.resetState()
+    pathwayStore.resetState()
+    groupStore.resetState()
     authStore.logOut()
     await navigateTo(localePath(redirectRoute))
 }

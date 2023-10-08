@@ -12,7 +12,7 @@
                             t("group.field.title") }}</label>
                         <div class="mt-2">
                             <input type="text" name="group-title" id="group-title" v-model="draft.title"
-                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-spring-600 sm:text-sm sm:leading-6" />
+                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-kashmir-600 sm:text-sm sm:leading-6" />
                         </div>
                     </div>
                     <div class="sm:col-span-1">
@@ -29,7 +29,7 @@
                             t("group.field.description") }}</label>
                         <div class="mt-2">
                             <textarea id="description" name="description" rows="3" v-model="draft.description"
-                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-spring-600 sm:text-sm sm:leading-6" />
+                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-kashmir-600 sm:text-sm sm:leading-6" />
                         </div>
                         <p class="mt-2 text-sm leading-6 text-gray-500">
                             <span>{{ t("group.help.description") }}</span>
@@ -41,7 +41,7 @@
                         </label>
                         <div class="mt-2">
                             <input type="text" name="group-subject-values" id="group-subject-values" v-model="subjects"
-                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-spring-600 sm:text-sm sm:leading-6" />
+                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-kashmir-600 sm:text-sm sm:leading-6" />
                         </div>
                         <p class="mt-2 text-sm leading-6 text-gray-500">{{ t("group.help.subjects") }}</p>
                     </div>
@@ -62,7 +62,7 @@
                         </label>
                         <div class="mt-2">
                             <input type="text" name="group-spatial-values" id="group-spatial-values" v-model="draft.spatial"
-                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-spring-600 sm:text-sm sm:leading-6" />
+                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-kashmir-600 sm:text-sm sm:leading-6" />
                         </div>
                         <p class="mt-2 text-sm leading-6 text-gray-500">
                             {{ t("group.help.spatial") }}

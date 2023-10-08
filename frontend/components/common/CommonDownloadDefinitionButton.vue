@@ -1,8 +1,8 @@
 <template>
     <div class="flex justify-left items-center">
         <button @click.prevent="getDownload(props.reference.id as string, props.reference.model_type, true)"
-            class="text-gray-700 hover:text-spring-600 group flex gap-x-1 p-2 font-semibold">
-            <PhDownloadSimple class="text-gray-700 group-hover:text-spring-600 h-4 w-4 shrink-0" aria-hidden="true" />
+            class="text-gray-700 hover:text-kashmir-600 group flex gap-x-1 p-2 font-semibold">
+            <PhDownloadSimple class="text-gray-700 group-hover:text-kashmir-600 h-4 w-4 shrink-0" aria-hidden="true" />
             <span class="hidden lg:block">Download data</span>
         </button>
     </div>

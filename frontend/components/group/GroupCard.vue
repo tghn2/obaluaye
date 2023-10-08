@@ -31,8 +31,9 @@
                     <h3 id="detail-heading" class="sr-only">Group tasks and schema object</h3>
                     <li class="relative">
                         <LocaleLink :to="`/group/group/${props.group.id}`"
-                            class="text-gray-700 hover:text-spring-600 group flex gap-x-1 p-2 font-semibold">
-                            <PhPath class="text-gray-700 group-hover:text-spring-600 h-4 w-4 shrink-0" aria-hidden="true" />
+                            class="text-gray-700 hover:text-kashmir-600 group flex gap-x-1 p-2 font-semibold">
+                            <PhPath class="text-gray-700 group-hover:text-kashmir-600 h-4 w-4 shrink-0"
+                                aria-hidden="true" />
                             <span class="hidden lg:block">{{ group!.pathway!.title }}</span>
                         </LocaleLink>
                     </li>

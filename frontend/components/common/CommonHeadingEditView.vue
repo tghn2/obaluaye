@@ -16,7 +16,7 @@
                     <div>
                         <MenuButton
                             class="inline-flex items-center w-full justify-center -ml-px gap-x-1.5 rounded-md px-3 py-2 text-sm text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
-                            <PhWarningCircle class="md:-ml-0.5 h-4 w-4 text-rose-600" aria-hidden="true" />
+                            <PhWarningCircle class="md:-ml-0.5 h-4 w-4 text-cerise-600" aria-hidden="true" />
                             <span class="hidden md:block">{{ t("header.reset") }}</span>
                             <PhCaretDown class="md:-ml h-4 w-4 text-gray-400" aria-hidden="true" />
                         </MenuButton>
@@ -30,7 +30,7 @@
                             <div class="py-1">
                                 <MenuItem v-slot="{ active }">
                                 <button type="button" @click.prevent="watchEditRequest('reset')"
-                                    :class="[active ? 'bg-rose-100 text-gray-900' : 'text-gray-700', 'flex items-center w-full gap-x-1.5 px-4 py-2 text-sm']">
+                                    :class="[active ? 'bg-cerise-100 text-gray-900' : 'text-gray-700', 'flex items-center w-full gap-x-1.5 px-4 py-2 text-sm']">
                                     <PhArrowsClockwise class="-ml-0.5 h-5 w-5 text-gray-400" aria-hidden="true" />
                                     {{ t("header.reset") }}
                                 </button>
