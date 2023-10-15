@@ -79,7 +79,6 @@ export const useJourneyStore = defineStore("journeyStore", {
                         response.language = this.term.language
                         await apiResponse.createTerm(this.authTokens.token, response.id as string, response)
                     }
-                    console.log("FETCHING")
                     await useAuthStore().getUserProfile(true)
                 } catch (error) {
                     const toasts = useToastStore()
