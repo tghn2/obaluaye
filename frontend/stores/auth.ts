@@ -127,8 +127,8 @@ export const useAuthStore = defineStore("authStore", {
         })
       }
     },
-    async getUserProfile() {
-      if (!this.loggedIn) {
+    async getUserProfile(force: boolean = false) {
+      if (!this.loggedIn || force) {
         await this.tokenStore.refreshTokens()
         if (this.tokenStore.token) {
           try {
@@ -141,7 +141,6 @@ export const useAuthStore = defineStore("authStore", {
       }
     },
     async updateUserProfile(payload: IUserProfileUpdate) {
-      // @ts-ignore
       const toasts = useToastStore()
       await this.tokenStore.refreshTokens()
       if (this.loggedIn && this.tokenStore.token) {
@@ -166,7 +165,6 @@ export const useAuthStore = defineStore("authStore", {
     },
     // MANAGING TOTP
     async enableTOTPAuthentication(payload: IEnableTOTP) {
-      // @ts-ignore
       const toasts = useToastStore()
       await this.tokenStore.refreshTokens()
       if (this.loggedIn && this.tokenStore.token) {
@@ -189,7 +187,6 @@ export const useAuthStore = defineStore("authStore", {
       }
     },
     async disableTOTPAuthentication(payload: IUserProfileUpdate) {
-      // @ts-ignore
       const toasts = useToastStore()
       await this.tokenStore.refreshTokens()
       if (this.loggedIn && this.tokenStore.token) {
@@ -212,7 +209,7 @@ export const useAuthStore = defineStore("authStore", {
       }
     },
     // mutations are actions, instead of `state` as first argument use `this`
-    setUserProfile (payload: IUserProfile) {
+    setUserProfile(payload: IUserProfile) {
         this.id = payload.id
         this.email = payload.email
         this.email_validated = payload.email_validated
@@ -230,7 +227,6 @@ export const useAuthStore = defineStore("authStore", {
         this.invitationCount = payload.invitationCount
     },
     async sendEmailValidation() {
-      // @ts-ignore
       const toasts = useToastStore()
       await this.tokenStore.refreshTokens()
       if (this.tokenStore.token && !this.email_validated) {
@@ -252,7 +248,6 @@ export const useAuthStore = defineStore("authStore", {
       }
     },
     async validateEmail(validationToken: string) {
-      // @ts-ignore
       const toasts = useToastStore()
       await this.tokenStore.refreshTokens()
       if (this.tokenStore.token && !this.email_validated) {
