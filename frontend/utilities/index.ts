@@ -1,5 +1,7 @@
 import {
     generateUUID,
+    shuffle,
+    isNumeric,
     getTimeInSeconds,
     tokenExpired,
     getKeyByValue,
@@ -15,6 +17,8 @@ import {
 
 export {
     generateUUID,
+    shuffle,
+    isNumeric,
     getTimeInSeconds,
     tokenExpired,
     getKeyByValue,

@@ -103,6 +103,7 @@ async function watchHeadingRequest(request: string) {
 
 onMounted(async () => {
     appSettings.setPageName("nav.groups")
+    appSettings.setPageState("loading")
     await groupStore.getTerm(route.params.id as string)
     if (!groupStore.term || Object.keys(groupStore.term).length === 0)
         throw createError({ statusCode: 404, statusMessage: "Page Not Found", fatal: true })

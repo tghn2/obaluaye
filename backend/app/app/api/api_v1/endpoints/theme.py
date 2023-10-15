@@ -1,4 +1,4 @@
-from typing import Any, Optional
+from typing import Any
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
@@ -8,108 +8,65 @@ from app.api import deps
 router = APIRouter()
 
 
-@router.get("/", response_model=list[schemas.Theme])
-def read_all_themes(
-    *,
-    db: Session = Depends(deps.get_db),
-    match: Optional[str] = None,
-    date_from: Optional[str] = None,
-    date_to: Optional[str] = None,
-    descending: bool = True,
-    page: int = 0,
-    language: str | None = None,
-    current_user: models.User = Depends(deps.get_current_active_user),
-) -> Any:
-    """
-    Get all themes.
-    """
-    db_objs = crud.theme.get_multi(
-        db=db,
-        match=match,
-        date_from=date_from,
-        date_to=date_to,
-        descending=descending,
-        page=page,
-    )
-    return [crud.theme.get_schema_summary(db_obj=db_obj, language=language) for db_obj in db_objs]
-
-
-@router.get("/pathway/{id}", response_model=list[schemas.Theme])
-def read_all_themes_for_pathway(
-    *,
-    db: Session = Depends(deps.get_db),
-    id: str,
-    match: Optional[str] = None,
-    date_from: Optional[str] = None,
-    date_to: Optional[str] = None,
-    descending: bool = True,
-    page: int = 0,
-    language: str | None = None,
-    current_user: models.User = Depends(deps.get_current_active_user),
-) -> Any:
-    """
-    Get all themes for a specified pathway.
-    """
-    db_obj = crud.pathway.get(db=db, id=id)
-    if not db_obj:
-        raise HTTPException(
-            status_code=400,
-            detail="Either pathway does not exist, or user does not have the rights for this request.",
-        )
-    db_objs = crud.theme.get_multi(
-        db=db,
-        db_objs=db_obj.themes,
-        match=match,
-        date_from=date_from,
-        date_to=date_to,
-        descending=descending,
-        page=page,
-    )
-    return [crud.theme.get_schema_summary(db_obj=db_obj, language=language) for db_obj in db_objs]
-
-@router.get("/{id}", response_model=schemas.Theme)
+@router.get("/{id}", response_model=schemas.ThemeJourney)
 def get_theme(
     *,
     db: Session = Depends(deps.get_db),
     id: str,
-    language: str | None = None
+    language: str | None = None,
+    current_user: models.User = Depends(deps.get_optional_current_user),
 ) -> Any:
     """
-    Get a theme.
+    Get a theme. Used for response. Also include current responses.
     """
     db_obj = crud.theme.get(db=db, id=id)
-    if not db_obj:
-        raise HTTPException(
-            status_code=400,
-            detail="Either theme does not exist, or user does not have the rights for this request.",
-        )
-    return crud.theme.get_schema(db_obj=db_obj, language=language)
-
-
-@router.post("/", response_model=schemas.Theme)
-def create_theme(
-    *,
-    db: Session = Depends(deps.get_db),
-    obj_in: schemas.ThemeCreate,
-    current_user: models.User = Depends(deps.get_current_active_superuser),
-) -> Any:
-    """
-    Create a theme.
-    """
-    db_obj = crud.pathway.get(db=db, id=obj_in.pathway_id)
-    if not obj_in.pathway_id or not db_obj or not crud.role.has_responsibility(
-        db=db, user=current_user, pathway=db_obj, responsibility=schema_types.RoleType.CURATOR
-    ):
+    group_obj = None
+    validated = False
+    if db_obj and db_obj.pathway and not db_obj.pathway.isPrivate:
+        if db_obj.pathway.pathType == "PERSONAL":
+            validated = crud.user.get_working_response(user=current_user, pathway=db_obj.pathway)
+        else:
+            group_obj = crud.role.get_group_for_pathway(db=db, user=current_user, pathway=db_obj.pathway, responsibility=schema_types.RoleType.RESEARCHER)
+            if group_obj:
+                # An individual can chop and choose, but a group has only one working language
+                validated = True
+                language = group_obj.language
+    if not validated:
         raise HTTPException(
             status_code=400,
             detail="Either root pathway does not exist, or user does not have the rights for this request.",
         )
-    theme_obj = crud.theme.create(db=db, obj_in=obj_in)
-    return crud.theme.get_schema(db_obj=theme_obj, language=obj_in.language)
+    # Validated, now return: pathway summary, theme -> node -> response
+    response = crud.theme.get_schema(db_obj=db_obj, language=language, schema_out=schemas.ThemeJourney)
+    response.pathway = crud.pathway.get_schema_summary(db_obj=db_obj.pathway, language=language)
+    response.pathway.order = crud.pathway.get_last_theme_order(pathway=db_obj.pathway)
+    if group_obj:
+        response.group = crud.group.get_schema_summary(db_obj=group_obj, language=language)
+    response.resources = []
+    for resource_obj in db_obj.resources.all():
+        resources_out = crud.resource.get_schema(db_obj=resource_obj, language=language)
+        response.resources.append(resources_out)
+    response.nodes = []
+    for node_obj in db_obj.nodes.all():
+        node_out = crud.node.get_schema(db_obj=node_obj, language=language, schema_out=schemas.NodeJourney)
+        node_out.resources = []
+        for resource_obj in node_obj.resources.all():
+            resources_out = crud.resource.get_schema(db_obj=resource_obj, language=language)
+            node_out.resources.append(resources_out)
+        # Get the response, if exists
+        if current_user:
+            response_obj = crud.response.get_from_node(node=node_obj, group=group_obj, user=current_user)
+            if response_obj:
+                node_out.response = crud.response.get_schema(db_obj=response_obj)
+                print(node_out.response)
+        response.nodes.append(node_out)
+    # Get next page in journey
+    response.journeyPath = crud.pathway.get_next_theme(theme=db_obj)
+    return response
 
 
-@router.put("/{id}", response_model=schemas.Theme)
-def update_theme(
+@router.post("/{id}", response_model=schemas.Theme)
+def create_theme(
     *,
     db: Session = Depends(deps.get_db),
     id: str,
@@ -117,7 +74,7 @@ def update_theme(
     current_user: models.User = Depends(deps.get_current_active_user),
 ) -> Any:
     """
-    Update a theme. Handles both create and update.
+    Create or update a theme.
     """
     # Check that pathway exists and user has appropriate auths
     pathway_obj = crud.pathway.get(db=db, id=obj_in.pathway_id)

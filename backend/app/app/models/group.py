@@ -30,7 +30,7 @@ class Group(Base):
         nullable=False,
     )
     isActive: Mapped[bool] = mapped_column(default=True)
-    # isComplete: Mapped[bool] = mapped_column(default=False)
+    isComplete: Mapped[bool] = mapped_column(default=False)
     # METADATA
     title: Mapped[str] = mapped_column(index=True, nullable=True)
     title_vector: Mapped[TSVectorType] = mapped_column(

@@ -44,7 +44,7 @@
                             </dd>
                         </div>
                         <div class="py-1 sm:px-6">
-                            <h4 class="text-sm font-medium text-gray-900 mb-2">Nodes</h4>
+                            <h4 class="text-sm font-medium text-gray-900 mb-2">{{ t("theme.field.nodes") }}</h4>
                             <div v-for="node in theme.nodes" :key="`node-${node.id}`" class="divide-y divide-gray-100">
                                 <PathwayViewNodeCard :node="node" />
                             </div>

@@ -20,6 +20,9 @@ class Settings(BaseSettings):
     # e.g: '["http://localhost", "http://localhost:4200", "http://localhost:3000", \
     # "http://localhost:8080", "http://local.dockertoolbox.tiangolo.com"]'
     BACKEND_CORS_ORIGINS: List[AnyHttpUrl] = []
+    # https://stackoverflow.com/a/70657621/295606
+    # Set to 1Mb ... Starlette has 1Mb as default, so only use this if different
+    CHUNK_SIZE: int = 1024 * 1024
 
     @validator("BACKEND_CORS_ORIGINS", pre=True)
     def assemble_cors_origins(cls, v: Union[str, List[str]]) -> Union[List[str], str]:
@@ -95,5 +98,25 @@ class Settings(BaseSettings):
     FIRST_SUPERUSER_PASSWORD: str
     USERS_OPEN_REGISTRATION: bool = True
 
+    # WORKING WITH REFERENCES
+    WORKING_PATH: str = "/app/working"
+
+    # DIGITALOCEAN SPACES KEYS
+    SPACES_ACCESS_KEY: Optional[str] = None
+    SPACES_SECRET_KEY: Optional[str] = None
+    SPACES_REGION_NAME: Optional[str] = None
+    SPACES_ENDPOINT_URL: Optional[HttpUrl] = None
+    SPACES_BUCKET: Optional[str] = None
+    USE_SPACES: bool = False
+
+    # @validator("USE_SPACES", pre=True)
+    # def get_use_spaces(cls, v: bool, values: Dict[str, Any]) -> bool:
+    #     return bool(
+    #         values.get("SPACES_ACCESS_KEY")
+    #         and values.get("SPACES_SECRET_KEY")
+    #         and values.get("SPACES_REGION_NAME")
+    #         and values.get("SPACES_ENDPOINT_URL")
+    #         and values.get("SPACES_BUCKET")
+    #     )
 
 settings = Settings()

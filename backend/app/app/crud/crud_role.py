@@ -114,6 +114,20 @@ class CRUDRole(CRUDBase[Role, RoleCreate, RoleUpdate, RoleOut]):
             return db_obj.pathway
         return None
 
+    def get_group_for_pathway(
+        self,
+        db: Session,
+        *,
+        user: User,
+        pathway: Pathway,
+        responsibility: RoleType = RoleType.VIEWER,
+    ) -> Pathway | None:
+        query = self._get_filter(db=db, user=user, pathway=pathway, responsibility=responsibility)
+        db_obj = query.first()
+        if db_obj:
+            return db_obj.group
+        return None
+
     def get_responsibility_for_group(
         self,
         db: Session,

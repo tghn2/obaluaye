@@ -136,6 +136,7 @@ const { locale } = useI18n()
 // SETUP
 onMounted(async () => {
     appSettings.setPageName("nav.pathways")
+    appSettings.setPageState("loading")
     await pathwayStore.getTerm(route.params.id as string, false)
     if (!pathwayStore.term || Object.keys(pathwayStore.term).length === 0) {
         // The pathway doesn't exist, so create a draft ...
@@ -194,7 +195,7 @@ async function watchHeadingRequest(request: string) {
     console.log("watchHeadingRequest", request)
     switch (request) {
         case "save":
-            await pathwayStore.updateTerm(route.params.id as string, draft.value)
+            await pathwayStore.createTerm(route.params.id as string, draft.value)
             break
         case "cancel":
             return await navigateTo(localePath(`/pathway/${route.params.id}`))

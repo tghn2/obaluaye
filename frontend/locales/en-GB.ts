@@ -186,6 +186,7 @@ export default {
             temporal: "Temporal range",
             language: "Language",
             citation: "Bibliographic citation",
+            resources: "Resources",
         },
         types: {
             personal: "Personal",
@@ -209,6 +210,16 @@ export default {
             toggleSuccessTitle: "Toggle success",
             toggleSuccessContent: "Publication state successfully changed.",
         },
+        journey: {
+            start: "Start",
+            continue: "Continue",
+            startPersonal: "Begin your personal journey.",
+            startResearch: "Begin your research journey.",
+            resources: "Help & resources",
+            save: "Save",
+            saveNext: "Save & next",
+            saving: "Saving",
+        },
     },
     theme: {
         name: "Theme",
@@ -220,6 +231,8 @@ export default {
             country: "Country",
             spatial: "Spatial",
             language: "Language",
+            nodes: "Nodes",
+            resources: "Resources",
         },
         help: {
             title: "",
@@ -235,6 +248,7 @@ export default {
         field: {
             question: "Question",
             subjects: "Subjects",
+            resources: "Resources",
         },
         help: {
             question: "",
@@ -287,6 +301,13 @@ export default {
             maximum: "Maximum",
         },
         example: "Example",
+        upload: {
+            upload: "Upload",
+            drag: "or drag and drop",
+            afile: "a single file to import it.",
+            download: "Download a file",
+            delete: "Delete a file",
+        }
     },
     resource: {
         name: "Resource",

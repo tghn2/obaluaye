@@ -23,4 +23,5 @@ export interface IPathway {
     themes?: ITheme[]
     resources?: IResource[]
     responsibility?: IRoleType
+    journeyPath?: string
 }

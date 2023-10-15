@@ -118,6 +118,7 @@ class BaseSummarySchema(BaseSchema):
         description="Specify the language of pathway. Controlled vocabulary defined by ISO 639-1, ISO 639-2 or ISO 639-3.",
     )
     country: Optional[CountryListType] = Field([], description="A list of countries, defined by country codes.")
+    order: Optional[int] = Field(None, description="Integer count for pathway themes, but can be overloaded for other uses.")
 
     @validator("name", always=True)
     def evaluate_name(cls, v, values):

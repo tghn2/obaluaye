@@ -12,6 +12,26 @@ function generateUUID(): string {
   })
 }
 
+/**
+ * Shuffles array in place. ES6 version
+ * @param {Array} a items An array containing the items.
+ */
+function shuffle(a: any[]) {
+    // https://stackoverflow.com/a/6274381/295606
+    for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+}
+
+function isNumeric(term: string) {
+    // https://stackoverflow.com/a/175787/295606
+    if (typeof term != "string") return false // we only process strings!  
+    return !isNaN(term) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
+           !isNaN(parseFloat(term)) // ...and ensure strings of whitespace fail
+  }
+
 function isValidHttpUrl(urlString: string) {
   // https://stackoverflow.com/a/43467144
   let url
@@ -50,6 +70,8 @@ function tokenParser(token: string) {
   
   export {
     generateUUID,
+    shuffle,
+    isNumeric,
     getTimeInSeconds,
     tokenExpired,
     getKeyByValue,

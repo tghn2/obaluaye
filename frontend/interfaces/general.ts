@@ -11,6 +11,7 @@ export interface ISummary {
     subjects?: string[]
     country?: string[]
     language?: string
+    order?: number
 }
 
 export interface IResource {

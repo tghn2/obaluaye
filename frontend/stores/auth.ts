@@ -27,32 +27,33 @@ export const useAuthStore = defineStore("authStore", {
         totp: false,
         completedPersonalPathway: false,
         invitationCount: 0,
-  }),
-  persist: {
-    storage: persistedState.cookiesWithOptions({
-      // https://prazdevs.github.io/pinia-plugin-persistedstate/frameworks/nuxt-3.html
-      // https://nuxt.com/docs/api/composables/use-cookie#options
-      // in seconds
-      path: "/",
-      secure: true,
-      maxAge: 60 * 60 * 24 * 90,
-      expires: new Date(new Date().getTime() + 60 * 60 * 24 * 90),
     }),
-  },
-  getters: {
-    isAdmin: (state) => {
-        return (
-          state.id &&
-          state.is_superuser &&
-          state.is_active
-        )
+    persist: {
+        storage: persistedState.cookiesWithOptions({
+            // https://prazdevs.github.io/pinia-plugin-persistedstate/frameworks/nuxt-3.html
+            // https://nuxt.com/docs/api/composables/use-cookie#options
+            // in seconds
+            path: "/",
+            secure: true,
+            maxAge: 60 * 60 * 24 * 90,
+            expires: new Date(new Date().getTime() + 60 * 60 * 24 * 90),
+        }),
     },
-    profile: (state) => state,
-    loggedIn: (state) => state.id !== "",
-    tokenStore: () => {
-      // @ts-ignore
-      return ( useTokenStore() )
-    }
+    getters: {
+        isAdmin: (state) => {
+            return (
+            state.id &&
+            state.is_superuser &&
+            state.is_active
+            )
+        },
+        profile: (state) => state,
+        loggedIn: (state) => state.id !== "",
+        completedPathway: (state) => state.completedPersonalPathway,
+        tokenStore: () => {
+            // @ts-ignore
+            return ( useTokenStore() )
+        }
   },
   actions: {
     // AUTHENTICATION

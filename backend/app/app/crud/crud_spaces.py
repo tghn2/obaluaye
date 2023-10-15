@@ -6,8 +6,6 @@ from botocore.exceptions import ClientError
 from uuid import UUID
 import base64
 import json
-from io import StringIO
-import pandas as pd
 from typing import BinaryIO
 
 from app.core.config import settings
@@ -97,22 +95,6 @@ class CRUDSpaces:
         except Exception as e:
             print("-----------------------------------------------------------")
             print(f"ERROR: Spaces Stream     -     {filename}")
-            print("-----------------------------------------------------------")
-            raise e
-
-    def save_stream(self, *, folder_id: UUID | str | None = None, filename: str, df: pd.DataFrame) -> None:
-        key = f"{filename}"
-        if folder_id:
-            key = f"{folder_id}/{filename}"
-        try:
-            obj = self.bucket.Object(key)
-            source = StringIO()
-            df.to_csv(source, index=False)
-            source.seek(0)
-            obj.put(Body=source.getvalue())
-        except Exception as e:
-            print("-----------------------------------------------------------")
-            print(f"Spaces Save     -     {filename}")
             print("-----------------------------------------------------------")
             raise e
 

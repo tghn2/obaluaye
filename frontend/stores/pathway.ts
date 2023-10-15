@@ -99,22 +99,7 @@ export const usePathwayStore = defineStore("pathwayStore", {
                 this.settings.setPageState("error")
             }
         },
-        async createTerm(payload: IPathway = {} as IPathway) {
-            await this.authTokens.refreshTokens()
-            if (this.authTokens.token) {
-                try {
-                    if (payload && Object.keys(payload).length !== 0) this.setDraft(payload)
-                    const { data: response } = await apiPathway.createTerm(this.authTokens.token, this.draft)
-                    if (response.value) {
-                        this.setTerm(response.value)
-                        this.resetDraft()
-                    } 
-                } catch (error) {
-                    this.one = {} as IPathway
-                }
-            }
-        },
-        async updateTerm(key: string, payload: IPathway = {} as IPathway) {
+        async createTerm(key: string, payload: IPathway = {} as IPathway) {
             this.savingEdit = true
             await this.authTokens.refreshTokens()
             if (this.authTokens.token) {
@@ -133,7 +118,7 @@ export const usePathwayStore = defineStore("pathwayStore", {
                         for (const resource of this.draft.resources) {
                             resource.pathway_id = this.draft.id
                             resource.language = this.draft.language
-                            await apiResource.updateTerm(this.authTokens.token, resource.id as string, resource)
+                            await apiResource.createTerm(this.authTokens.token, resource.id as string, resource)
                         }
                     }
                     let branchList = new Set()
@@ -144,13 +129,13 @@ export const usePathwayStore = defineStore("pathwayStore", {
                             theme.order = themeIdx
                             theme.pathway_id = this.draft.id
                             theme.language = this.draft.language
-                            const { data: themeResponse } = await apiTheme.updateTerm(this.authTokens.token, theme.id as string, theme)
+                            const { data: themeResponse } = await apiTheme.createTerm(this.authTokens.token, theme.id as string, theme)
                             if (theme.resources && theme.resources.length) {
                                 for (const resource of theme.resources) {
                                     resource.pathway_id = this.draft.id
                                     resource.theme_id = theme.id
                                     resource.language = this.draft.language
-                                    await apiResource.updateTerm(this.authTokens.token, resource.id as string, resource)
+                                    await apiResource.createTerm(this.authTokens.token, resource.id as string, resource)
                                 }
                             }
                             if (themeResponse.value && theme.nodes && theme.nodes.length) {
@@ -162,16 +147,17 @@ export const usePathwayStore = defineStore("pathwayStore", {
                                     if ((node.formType === "SELECTBRANCH") && (nodeIdx + 1 === theme.nodes.length)) {
                                         // Get the list of theme ids, and increment the themeIdx since this will be for
                                         // all of the matching ids
-                                        branchList = new Set(node.form.terms.map(({ branch }) => branch))
+                                        if (node.form && node.form.terms && node.form.terms.length)
+                                            branchList = new Set(node.form.terms.map(({ branch }) => branch))
                                         themeIdx += 1
                                     }
-                                    const { data: nodeResponse } = await apiNode.updateTerm(this.authTokens.token, node.id as string, node)
+                                    const { data: nodeResponse } = await apiNode.createTerm(this.authTokens.token, node.id as string, node)
                                     if (node.resources && node.resources.length) {
                                         for (const resource of node.resources) {
                                             resource.pathway_id = this.draft.id
                                             resource.node_id = node.id
                                             resource.language = this.draft.language
-                                            await apiResource.updateTerm(this.authTokens.token, resource.id as string, resource)
+                                            await apiResource.createTerm(this.authTokens.token, resource.id as string, resource)
                                         }
                                     }
                                 }

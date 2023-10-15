@@ -30,6 +30,7 @@ class Response(Base):
     # RESPONSE
     language: Mapped[Locale] = mapped_column(LocaleType, nullable=True)
     answer: Mapped[json] = mapped_column(JSONB)
+    validated: Mapped[bool] = mapped_column(default=False)
     # ANSWERS
     node_id: Mapped[UUID] = mapped_column(
         UUID(as_uuid=True), ForeignKey("node.id", onupdate="CASCADE", ondelete="CASCADE")

@@ -6,6 +6,7 @@ from uuid import UUID
 from datetime import datetime
 
 from app.schemas.base_schema import BaseSchema, LocaleType
+from app.schemas.response import Response
 from app.schemas.form import FormAttributeModel
 from app.schema_types.node import NodeType
 from app.schemas.resource import Resource
@@ -72,3 +73,7 @@ class Node(NodeBase):
         if isinstance(v, Query):
             return v.all()
         return v
+
+
+class NodeJourney(Node):
+    response: Optional[Response] = Field(None, description="A response for this node, if exists.")

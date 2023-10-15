@@ -10,6 +10,9 @@
                 <PathwayViewDownload v-if="pathwayStore.isCustodian || pathwayStore.isCurator" />
                 <PathwayViewTogglePublish v-if="pathwayStore.isCustodian || pathwayStore.isCurator" />
             </div>
+            <JourneyStartPersonalPathBanner
+                v-if="!authStore.profile.completedPersonalPathway && pathwayStore.term.journeyPath"
+                :journey-id="pathwayStore.term.journeyPath as string" />
             <dl class="divide-y divide-gray-100">
                 <div v-if="pathwayStore.term.title" class="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                     <dt class="text-sm font-medium text-gray-900">{{ t("pathway.field.title") }}</dt>
@@ -74,13 +77,14 @@
 
 <script setup lang="ts">
 import { readableDate } from "@/utilities"
-import { useSettingStore, usePathwayStore } from "@/stores"
+import { useAuthStore, useSettingStore, usePathwayStore } from "@/stores"
 
 const { t } = useI18n()
 const localePath = useLocalePath()
 const appSettings = useSettingStore()
 const route = useRoute()
 const pathwayStore = usePathwayStore()
+const authStore = useAuthStore()
 
 async function watchHeadingRequest(request: string) {
     switch (request) {
@@ -94,6 +98,7 @@ async function watchHeadingRequest(request: string) {
 
 onMounted(async () => {
     appSettings.setPageName("nav.pathways")
+    appSettings.setPageState("loading")
     await pathwayStore.getTerm(route.params.id as string)
     if (!pathwayStore.term || Object.keys(pathwayStore.term).length === 0)
         throw createError({ statusCode: 404, statusMessage: "Page Not Found", fatal: true })

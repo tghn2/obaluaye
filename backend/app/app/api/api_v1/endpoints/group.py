@@ -42,7 +42,6 @@ def read_all_groups(
         )
     objs_out = []
     group_uniques = set()
-    print("==========================================================================================================")
     for db_obj in db_objs:
         db_obj = db_obj.group
         if db_obj.id in group_uniques:
@@ -58,7 +57,6 @@ def read_all_groups(
             obj_out.roles.append(crud.role.get_schema(db_obj=role_obj))
         obj_out.pathway = crud.pathway.get_schema(db_obj=pathway_obj, language=db_obj.language, schema_out=schemas.PathwaySummary)
         objs_out.append(obj_out)
-    print(len(objs_out))
     return objs_out
 
 

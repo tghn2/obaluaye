@@ -1,4 +1,4 @@
-import { IResource } from "./general"
+import { IResource, ISummary } from "./general"
 import { INode } from "./node"
 
 export interface ITheme {
@@ -15,6 +15,9 @@ export interface ITheme {
     spatial?: string
     language?: string
     pathway_id?: string
+    pathway?: ISummary
+    group?: ISummary
     resources?: IResource[]
     nodes?: INode[]
+    journeyPath?: string[]
 }

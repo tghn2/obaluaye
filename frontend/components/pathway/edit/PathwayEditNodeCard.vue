@@ -24,7 +24,6 @@
                                 {{ props.initialDraft.question }}
                             </p>
                         </div>
-
                         <div class="sm:col-span-2">
                             <label for="form-selection-types" class="block text-sm font-semibold leading-6 text-gray-900">
                                 {{ t("form.name") }}
@@ -68,16 +67,6 @@
                                 </Listbox>
                             </div>
                         </div>
-                        <div class="col-span-full">
-                            <label for="node-subject-values" class="block text-sm font-semibold leading-6 text-gray-900">
-                                {{ t("node.field.subjects") }}
-                            </label>
-                            <div class="mt-2">
-                                <input type="text" name="node-subject-values" id="node-subject-values" v-model="subjects"
-                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-kashmir-600 sm:text-sm sm:leading-6" />
-                            </div>
-                            <p class="mt-2 text-sm leading-6 text-gray-500">{{ t("node.help.subjects") }}</p>
-                        </div>
                     </div>
                     <component :is="formType[draft.formType as INodeType].component" :initial-draft="draft.form"
                         :theme-id="draft.theme_id" @set-draft="watchFormRequest" />
@@ -105,7 +94,6 @@ const openState = ref(false)
 const draft = ref({} as INode)
 const subjects = ref("")
 const defaultType: INodeType = "SELECTONE"
-const formOfType = ref("SELECTONE" as INodeType)
 
 // https://nuxt.com/docs/guide/directory-structure/components#dynamic-components
 const formSelect: IKeyable = [

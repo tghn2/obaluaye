@@ -7,6 +7,7 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm.decl_api import DeclarativeAttributeIntercept
 from babel import Locale, UnknownLocaleError
 from datetime import datetime
+from uuid import UUID
 
 from app.db.base_class import Base
 from app.core.config import settings
@@ -82,7 +83,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType, OutputSche
         obj_out = self._get_schema(db_obj=db_obj, schema=schema_out, language=language)
         return schema_out(**obj_out)
 
-    def get(self, db: Session, id: Any) -> Optional[ModelType]:
+    def get(self, db: Session, id: str | UUID) -> Optional[ModelType]:
         return db.query(self.model).filter(self.model.id == id).first()
 
     def _filter_multi(
@@ -225,7 +226,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType, OutputSche
         db.refresh(db_obj)
         return db_obj
 
-    def remove(self, db: Session, *, id: int) -> ModelType:
+    def remove(self, db: Session, *, id: str | UUID) -> ModelType:
         obj = db.query(self.model).get(id)
         db.delete(obj)
         db.commit()

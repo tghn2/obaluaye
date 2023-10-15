@@ -28,7 +28,7 @@ import {
 } from "./utilities"
 
 import { IGroup, IGroupFilters, IGroupInvitation, IGroupRole } from "./group"
-import { IResponse, IAnswer, IComment } from "./response"
+import { IResponse, IPostResponse, IAnswer, IAnswerResponse, IComment } from "./response"
 import { INode, IConstraints, IForm, ITerm } from "./node"
 import { ITheme } from "./theme"
 import { IPathway } from "./pathway"
@@ -66,7 +66,9 @@ export {
     IGroupInvitation,
     IGroupRole,
     IResponse,
+    IPostResponse,
     IAnswer,
+    IAnswerResponse,
     IComment,
     INode,
     IConstraints,

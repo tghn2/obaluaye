@@ -7,7 +7,7 @@
             </p>
             <span class="text-sm leading-6 text-white" aria-hidden="true">&rarr;</span>
             <LocaleLink to="/pathway"
-                class="group flex gap-x-1 text-sm leading-6 font-semibold text-white ring-1 rounded-md p-1 px-1 ring-white hover:bg-cerise-700">
+                class="group flex items-center gap-x-1 text-sm leading-6 font-semibold text-white ring-1 rounded-md p-1 px-1 ring-white hover:bg-cerise-700">
                 <PhPath class="h-5 w-5" aria-hidden="true" />
                 <span>{{ t("nav.pathways") }}</span>
             </LocaleLink>

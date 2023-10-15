@@ -18,6 +18,7 @@ class ResponseBase(BaseSchema):
         {},
         description="Dictionary defining the answer response to a question raised in a `node`.",
     )
+    validated: Optional[bool] = Field(False, description="Answer meets formType validation requirements.")
     language: Optional[LocaleType] = Field(
         None,
         description="Specify the language of pathway. Controlled vocabulary defined by ISO 639-1, ISO 639-2 or ISO 639-3.",
@@ -25,6 +26,7 @@ class ResponseBase(BaseSchema):
 
 
 class ResponseCreate(ResponseBase):
+    id: UUID = Field(..., description="Automatically generated unique identity.")
     answer: FormAttributeModel = Field(..., description="Dictionary defining the answer response to a question raise in a `node`.")
     node_id: UUID = Field(..., description="Response associated node identity.")
     group_id: Optional[UUID] = Field(None, description="Response associated group identity.")
@@ -39,6 +41,9 @@ class ResponseUpdate(ResponseCreate):
 class Response(ResponseBase):
     id: UUID = Field(..., description="Automatically generated unique identity.")
     answer: FormAttributeModel = Field(..., description="Dictionary defining the answer response to a question raise in a `node`.")
+    node_id: UUID = Field(..., description="Response associated node identity.")
+    group_id: Optional[UUID] = Field(None, description="Response associated group identity.")
+    respondent_id: UUID = Field(..., description="Response associated respondent identity.")
 
 
 class ResponseCommented(Response):

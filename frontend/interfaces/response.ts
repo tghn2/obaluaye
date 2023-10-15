@@ -1,34 +1,47 @@
 import { IProfileSummary } from "./profile"
 import { ISummary } from "./general"
+import { IKeyable } from "./utilities"
 
 export interface IResponse {
     // https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#section-3
     id?: string
-    order?: number
     created?: string
     modified?: string
-    name?: string
-    title?: string
-    description?: string
-    subjects?: string[]
-    country?: string[]
-    spatial?: string
     language?: string
-    answer?: IAnswer
+    answer?: IAnswer | IAnswer[]
+    validated?: boolean
     node_id?: string
     comments?: IComment[]
     respondent?: ISummary
     respondent_id?: string
-    group?: ISummary
     group_id?: string
-    pathway?: ISummary
-    pathway_id?: string
+}
+
+export interface IPostResponse {
+    // https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#section-3
+    id?: string
+    created?: string
+    modified?: string
+    language?: string
+    answer?: string
+    validated?: boolean
+    node_id?: string
+    comments?: IComment[]
+    respondent?: ISummary
+    respondent_id?: string
+    group_id?: string
 }
 
 export interface IAnswer {
     id?: string
     value?: string
     dtype?: string
+}
+
+export interface IAnswerResponse {
+    // For use in FormResponse components for checking validation
+    answer?: IAnswer | IAnswer[]
+    validated?: boolean
 }
 
 export interface IComment {

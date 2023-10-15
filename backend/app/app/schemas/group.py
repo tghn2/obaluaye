@@ -29,6 +29,7 @@ class GroupBase(BaseSchema):
         None,
         description="Spatial characteristics of the pathway."
     )
+    isComplete: Optional[bool] = Field(False, description="Group manual validation of pathway completion.")
 
     @validator("name", always=True)
     def evaluate_name(cls, v, values):

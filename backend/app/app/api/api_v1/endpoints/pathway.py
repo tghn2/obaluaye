@@ -91,6 +91,20 @@ def get_pathway(
                 node_out.resources.append(resources_out)
             theme_out.nodes.append(node_out)
         response.themes.append(theme_out)
+    # Check if user, and user is busy with this pathway
+    journey_path = None
+    if current_user and not db_obj.isPrivate:
+        if db_obj.pathType == "PERSONAL":
+            journey_path = crud.user.get_working_response(user=current_user, pathway=db_obj)
+        else:
+            group_obj = crud.role.get_group_for_pathway(db=db, user=current_user, pathway=db_obj)
+            if group_obj:
+                journey_path = crud.group.get_working_response(group=group_obj)
+            else:
+                journey_path = crud.pathway.get_next_theme(pathway=db_obj)
+        if journey_path:
+            journey_path = journey_path.id
+    response.journeyPath = journey_path
     return response
 
 

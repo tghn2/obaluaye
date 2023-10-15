@@ -146,6 +146,7 @@ function createDraft() {
 
 onMounted(async () => {
     appSettings.setPageName("nav.groups")
+    appSettings.setPageState("loading")
     await groupStore.getTerm(route.params.id as string, false)
     if (!groupStore.term || Object.keys(groupStore.term).length === 0) {
         // The group doesn't exist, so create a draft ...

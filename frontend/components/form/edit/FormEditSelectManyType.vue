@@ -142,7 +142,7 @@ function removeTerm(term: number): void {
 }
 
 // WATCHERS
-watch(() => [manyLimit], () => {
+watch(() => [manyLimit.value], () => {
     draft.value = setDraft({ ...draft.value })
 })
 

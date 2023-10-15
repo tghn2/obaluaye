@@ -17,19 +17,10 @@ export const apiComment = {
       }
     )
   },
-  async createTerm(token: string, payload: IComment) {
-    return await useFetch<IComment>(`${apiCore.url()}/comment/`, 
-      {
-        method: "POST",
-        body: payload,
-        headers: apiCore.headers(token),
-      }
-    )
-  },
-  async updateTerm(token: string, key: string, payload: IComment) {
+  async createTerm(token: string, key: string, payload: IComment) {
     return await useFetch<IComment>(`${apiCore.url()}/comment/${key}`, 
       {
-        method: "PUT",
+        method: "POST",
         body: payload,
         headers: apiCore.headers(token),
       }

@@ -87,6 +87,7 @@ class Pathway(PathwayBase):
     themes: Optional[List[Theme]] = Field([], description="A list of themes which define the nodes in this pathway.")
     resources: Optional[List[Resource]] = Field([], description="A list of resources relevant to this pathway.")
     responsibility: Optional[RoleType] = Field(None, description="Responsibility assigned to this researcher.")
+    journeyPath: Optional[UUID] = Field(None, description="Next point in pathway response. None if not available.")
 
     @validator("themes", pre=True)
     def evaluate_lazy_themes(cls, v):

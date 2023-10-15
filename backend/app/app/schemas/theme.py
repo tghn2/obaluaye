@@ -6,9 +6,10 @@ from uuid import UUID
 from datetime import datetime
 import re
 
-from app.schemas.base_schema import BaseSchema, LocaleType, CountryListType
+from app.db.base_class import Base
+from app.schemas.base_schema import BaseSchema, BaseSummarySchema, LocaleType, CountryListType
 from app.schemas.resource import Resource
-from app.schemas.node import Node
+from app.schemas.node import Node, NodeJourney
 
 
 class ThemeBase(BaseSchema):
@@ -74,4 +75,17 @@ class Theme(ThemeBase):
     def evaluate_lazy_nodes(cls, v):
         if isinstance(v, Query):
             return v.all()
+        return v
+
+
+class ThemeJourney(Theme):
+    group: Optional[BaseSummarySchema] = Field(None, description="Research group for this journey.")
+    pathway: Optional[BaseSummarySchema] = Field(None, description="Research pathway objective for this journey.")
+    journeyPath: Optional[List[UUID]] = Field([], description="Next point in pathway response. None if not available.")
+    nodes: Optional[List[NodeJourney]] = Field([], description="A list of nodes which define this pathway.")
+
+    @validator("pathway", pre=True)
+    def evaluate_lazy_pathway(cls, v):
+        if isinstance(v, Base):
+            return None
         return v

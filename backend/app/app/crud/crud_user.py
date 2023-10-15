@@ -97,7 +97,7 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate, UserOut]):
     def is_email_validated(self, user: User) -> bool:
         return user.email_validated
 
-    def has_completed_personal_pathway(self, user: User) -> bool:
+    def has_completed_pathway(self, user: User) -> bool:
         # Get the pathway
         pathway_obj = user.responses.first()
         if not pathway_obj:
@@ -124,5 +124,21 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate, UserOut]):
             return True
         return False
 
+    def get_working_response(self, *, user: User, pathway: Pathway | None = None) -> Theme | None:
+        # Work through all the eventualities for finding the appropriate starting point
+        if not user.responses.first():
+            if not pathway:
+                return None
+            else:
+                try:
+                    return pathway.themes.first()
+                except Exception:
+                    return None
+        # Get last updated
+        response = user.responses.order_by(None).order_by(Response.modified.desc()).first()
+        if pathway and pathway.id != response.node.pathway_id:
+            # Case for viewing a personal pathway that isn't the one that the user is actually working on
+            return None
+        return response.node.theme
 
 user = CRUDUser(model=User)

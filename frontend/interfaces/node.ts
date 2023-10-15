@@ -1,6 +1,7 @@
 import { INodeType, IValueType } from "./schema_types"
 import { IResource } from "./general"
 import { ISummary } from "./general"
+import { IResponse } from "./response"
 
 export interface INode {
     // https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#section-3
@@ -19,6 +20,7 @@ export interface INode {
     pathway_id?: string
     pathway?: ISummary
     resources?: IResource[]
+    response?: IResponse
 }
 
 export interface ITerm {
