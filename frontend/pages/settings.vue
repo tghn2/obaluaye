@@ -23,6 +23,9 @@
                     </Tab>
                 </TabList>
                 <TabPanels>
+                    <TabPanel v-if="authStore.activePathway">
+                        <SettingsPathwayCard />
+                    </TabPanel>
                     <TabPanel>
                         <SettingsProfile />
                     </TabPanel>
@@ -43,7 +46,7 @@
 
 <script setup lang="ts">
 import { TabGroup, TabList, Tab, TabPanels, TabPanel } from "@headlessui/vue"
-import { PhKey, PhUserCircle, PhEnvelopeSimple, PhUsersThree } from "@phosphor-icons/vue"
+import { PhKey, PhUserCircle, PhEnvelopeSimple, PhUsersThree, PhPath } from "@phosphor-icons/vue"
 import { useAuthStore, useSettingStore } from "@/stores"
 
 definePageMeta({
@@ -63,6 +66,10 @@ const readyState = ref("loading")
 
 onMounted(() => {
     appSettings.setPageName("nav.settings")
+    appSettings.setPageState("loading")
+    if (authStore.activePathway) navigation.unshift(
+        { name: "settings.nav.pathway", id: "PATHWAY", icon: PhPath, showDot: false },
+    )
     if (authStore.isAdmin) navigation.push(
         { name: "settings.nav.moderation", id: "MODERATION", icon: PhUsersThree, showDot: false },
     )

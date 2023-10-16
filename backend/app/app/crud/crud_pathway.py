@@ -3,7 +3,7 @@ from datetime import datetime
 from uuid import UUID
 
 from app.crud.base import CRUDBase
-from app.models import User, Pathway, PathwayTitle, PathwayDescription, Theme  # noqa: F401
+from app.models import User, Pathway, PathwayTitle, PathwayDescription, Theme, Node, Response  # noqa: F401
 from app.schemas import PathwayCreate, PathwayUpdate, PathwayAdmin, Pathway as PathwayOut  # noqa: F401
 from app.schema_types import PathwayType, RoleType
 from app.core.config import settings  # noqa: F401
@@ -79,6 +79,37 @@ class CRUDPathway(CRUDBase[Pathway, PathwayCreate, PathwayUpdate, PathwayOut]):
                 & (Theme.order == theme.order + 1)
             ).all()
         ]
+
+    def get_previous_theme(self, *, theme: Theme, response: Response | None = None) -> UUID | None:
+        if theme.order == 0:
+            return None
+        pathway_obj = theme.pathway
+        previous_themes = [
+            t for t in pathway_obj.themes.filter(
+                (Theme.pathway_id == pathway_obj.id)
+                & (Theme.order == theme.order - 1)
+            ).all()
+        ]
+        if not previous_themes:
+            return None
+        if len(previous_themes) == 1:
+            return previous_themes[0].id
+        if response:
+            for theme in previous_themes:
+                # Get last node
+                node = theme.nodes.order_by(None).order_by(Node.order.desc()).first()
+                if node:
+                    # Check if node has a response from the same group or respondent
+                    check_response = node.responses.filter(
+                        (Response.node_id == node.id)
+                        & (
+                            (Response.respondent_id == response.respondent_id)
+                            | (Response.group_id == response.group_id)
+                        )
+                    ).first()
+                    if check_response:
+                        return theme.id
+        return None
 
     def get_last_theme_order(self, pathway: Pathway) -> int:
         theme_obj = pathway.themes.order_by(None).order_by(Theme.order.desc()).first()

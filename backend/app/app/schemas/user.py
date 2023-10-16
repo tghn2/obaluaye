@@ -73,6 +73,7 @@ class User(UserInDBBase):
     hashed_password: bool = Field(default=False, alias="password")
     totp_secret: bool = Field(default=False, alias="totp")
     completedPersonalPathway: bool = Field(default=False)
+    personalPathway: Optional[UUID] = Field(None, description="Pathway associated identity.")
     invitationCount: int = Field(default=0)
 
     class Config:

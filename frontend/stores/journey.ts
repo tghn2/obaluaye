@@ -56,7 +56,7 @@ export const useJourneyStore = defineStore("journeyStore", {
         async getTerm(key: string, manualState = true) {
             await this.authTokens.refreshTokens()
             try {
-                this.settings.setPageState("loading")
+                if (manualState) this.settings.setPageState("loading")
                 this.setTerm({} as ITheme)
                 const { data: response } = await apiTheme.getTerm(this.authTokens.token, key, this.settings.locale)
                 if (response.value) this.setTerm(response.value)

@@ -47,6 +47,10 @@ class CRUDGroup(CRUDBase[Group, GroupCreate, GroupUpdate, GroupOut]):
             return True
         return False
 
+    def get_pathway(self, *, group: Group) -> Pathway:
+        role_obj = group.roles.first()
+        return role_obj.pathway
+
     def get_working_response(self, group: Group) -> Theme | None:
         if not group.responses.first():
             try:

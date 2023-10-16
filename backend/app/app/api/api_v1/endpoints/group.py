@@ -87,10 +87,11 @@ def get_group(
     return obj_out
 
 
-@router.post("/", response_model=schemas.Msg)
+@router.post("/{id}", response_model=schemas.Msg)
 def create_group(
     *,
     db: Session = Depends(deps.get_db),
+    id: str,
     obj_in: schemas.GroupCreate,
     current_user: models.User = Depends(deps.get_current_active_user),
 ) -> Any:
@@ -98,22 +99,22 @@ def create_group(
     Create a group.
     """
     # To create a group, a researcher needs to have completed a personal pathway
-    if not crud.user.has_completed_personal_pathway(user=current_user):
+    if not crud.user.has_completed_pathway(user=current_user):
         raise HTTPException(
             status_code=400,
             detail="Researcher has yet to complete a personal pathway before they can create a group.",
         )
-    db_obj = crud.pathway.get(db=db, id=obj_in.pathway_id)
-    if not obj_in.pathway_id or not db_obj:
+    pathway_obj = crud.pathway.get(db=db, id=id)
+    if not pathway_obj:
         raise HTTPException(
             status_code=400,
             detail="Either root pathway does not exist, or researcher does not have the rights for this request.",
         )
     group_obj = crud.group.create(db=db, obj_in=obj_in)
     crud.role.create(
-        db=db, user=current_user, group=group_obj, pathway=db_obj, responsibility=schema_types.RoleType.RESEARCHER
+        db=db, user=current_user, group=group_obj, pathway=pathway_obj, responsibility=schema_types.RoleType.RESEARCHER
     )
-    return {"msg": "Group has been successfully created."}
+    return {"msg": str(group_obj.id)}
 
 
 @router.put("/{id}", response_model=schemas.Msg)

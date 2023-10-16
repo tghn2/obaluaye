@@ -11,8 +11,10 @@
                 <PathwayViewTogglePublish v-if="pathwayStore.isCustodian || pathwayStore.isCurator" />
             </div>
             <JourneyStartPersonalPathBanner
-                v-if="!authStore.profile.completedPersonalPathway && pathwayStore.term.journeyPath"
+                v-if="!authStore.activePathway && pathwayStore.term.pathType === 'PERSONAL' && pathwayStore.term.journeyPath"
                 :journey-id="pathwayStore.term.journeyPath as string" />
+            <JourneyStartResearchPathBanner v-if="authStore.completedPathway && pathwayStore.term.pathType === 'RESEARCH'"
+                :pathway-id="pathwayStore.term.id as string" :pathway-title="pathwayStore.term.title as string" />
             <dl class="divide-y divide-gray-100">
                 <div v-if="pathwayStore.term.title" class="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                     <dt class="text-sm font-medium text-gray-900">{{ t("pathway.field.title") }}</dt>

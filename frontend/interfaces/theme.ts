@@ -20,4 +20,5 @@ export interface ITheme {
     resources?: IResource[]
     nodes?: INode[]
     journeyPath?: string[]
+    journeyBack?: string
 }

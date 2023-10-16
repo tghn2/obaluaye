@@ -82,6 +82,7 @@ class ThemeJourney(Theme):
     group: Optional[BaseSummarySchema] = Field(None, description="Research group for this journey.")
     pathway: Optional[BaseSummarySchema] = Field(None, description="Research pathway objective for this journey.")
     journeyPath: Optional[List[UUID]] = Field([], description="Next point in pathway response. None if not available.")
+    journeyBack: Optional[UUID] = Field(None, description="Previous point in pathway response. None if not available.")
     nodes: Optional[List[NodeJourney]] = Field([], description="A list of nodes which define this pathway.")
 
     @validator("pathway", pre=True)

@@ -13,6 +13,7 @@ export interface IUserProfile {
     spatial?: string
     language?: string
     completedPersonalPathway: boolean
+    personalPathway?: string
     invitationCount: number
     password: boolean
     totp: boolean

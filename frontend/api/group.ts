@@ -17,8 +17,8 @@ export const apiGroup = {
       }
     )
   },
-  async createTerm(token: string, payload: IGroup) {
-    return await useFetch<IMsg>(`${apiCore.url()}/group/`, 
+  async createTerm(token: string, key: string, payload: IGroup) {
+    return await useFetch<IMsg>(`${apiCore.url()}/group/${key}`, 
       {
         method: "POST",
         body: payload,

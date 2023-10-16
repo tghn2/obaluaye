@@ -25,6 +25,28 @@ export const useGroupStore = defineStore("groupStore", {
     invitations: (state) => state.invitationships,
     createDraft: (state) => state.createEdit,
     members: (state) => state.memberships,
+    isMember: (state) => {
+      const authStore = useAuthStore()
+      return (
+            state.one
+            && state.one.roles
+            && state.one.roles.length
+            && state.one.roles.filter(member =>
+                member.researcher.email === authStore.email
+            ).length === 1
+        )
+      },
+    isLastMember: (state) => {
+        const authStore = useAuthStore()
+        return (
+            state.one
+            && state.one.roles
+            && state.one.roles.length === 1
+            && state.one.roles.filter(member =>
+                member.researcher.email === authStore.email
+            ).length === 1
+         )
+        },
     isResearcher: (state) => {
       const authStore = useAuthStore()
       return (
@@ -46,6 +68,13 @@ export const useGroupStore = defineStore("groupStore", {
           member.researcher.email === authStore.email
           && member.responsibility === "CUSTODIAN").length === 1
       )
+    },
+    activePathway: (state) => {
+        return (
+            state.one
+            && state.one.pathway
+            && state.one.pathway.id
+        )
     },
     filters: (state) => state.facets,
     authTokens: () => {
@@ -86,7 +115,7 @@ export const useGroupStore = defineStore("groupStore", {
       await this.authTokens.refreshTokens()
       if (this.authTokens.token) {
         try {
-          this.settings.setPageState("loading")
+          if (manualState) this.settings.setPageState("loading")
           this.setTerm({} as IGroup)
           const { data: response } = await apiGroup.getTerm(this.authTokens.token, key)
           if (response.value) this.setTerm(response.value)
@@ -96,21 +125,6 @@ export const useGroupStore = defineStore("groupStore", {
         }
       }
     },
-    // async createTerm(payload: IGroup = {} as IGroup) {
-    //   await this.authTokens.refreshTokens()
-    //   if (this.authTokens.token) {
-    //     try {
-    //       if (payload && Object.keys(payload).length !== 0) this.setDraft(payload)
-    //       const { data: response } = await apiGroup.createTerm(this.authTokens.token, this.draft)
-    //     //   if (response.value) {
-    //     //     this.setTerm(response.value)
-    //     //     this.resetDraft()
-    //     //   } 
-    //     } catch (error) {
-    //     //   this.one = {} as IGroup
-    //     }
-    //   }
-    // },
     async updateTerm(key: string, payload: IGroup = {} as IGroup) {
       await this.authTokens.refreshTokens()
       if (this.authTokens.token) {
@@ -317,6 +331,7 @@ export const useGroupStore = defineStore("groupStore", {
         try {
           const { data: response } = await apiAuth.acceptInvitation(this.authTokens.token, invitation_key, facets)
           if (response.value) this.setInvitations(response.value)
+          await useAuthStore().getUserProfile(true)
         } catch (error) {
           this.invitationships = []
         }
@@ -328,6 +343,7 @@ export const useGroupStore = defineStore("groupStore", {
         try {
           const { data: response } = await apiAuth.rejectInvitation(this.authTokens.token, invitation_key, facets)
           if (response.value) this.setInvitations(response.value)
+          await useAuthStore().getUserProfile(true)
         } catch (error) {
           this.invitationships = []
         }

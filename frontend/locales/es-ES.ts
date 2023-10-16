@@ -38,11 +38,16 @@ export default {
         name: "Settings",
         description: "Update your personal settings, or delete your account.",
         nav: {
+            pathway: "Pathway",
             profile: "Profile",
             account: "Account",
             invitations: "Invitations",
             security: "Security",
             moderation: "Moderation",
+        },
+        pathway: {
+            title: "Personal pathway",
+            description: "Review and manage your personal pathway.",
         },
         account: {
             title: "Personal settings",
@@ -126,9 +131,15 @@ export default {
             language: "Language",
         },
         nav: {
-            metadata: "Metadata",
+            pathway: "Pathway",
+            response: "Response",
+            metadata: "Group",
             members: "Members",
             invitations: "Invitations",
+        },
+        pathway: {
+            title: "Group pathway",
+            description: "Review and manage your research pathway.",
         },
         members: {
             since: "Since",
@@ -157,6 +168,8 @@ export default {
             language: "Specify group communication language.",
         },
         alert: {
+            createErrorTitle: "Creation error",
+            createErrorContent: "Group creation failed. Please check your details, or internet connection, and try again.",
             saveErrorTitle: "Save error",
             saveErrorContent: "Group failed to save. Please check your details, or internet connection, and try again.",
             removeErrorTitle: "Deletion error",
@@ -186,6 +199,7 @@ export default {
             temporal: "Temporal range",
             language: "Language",
             citation: "Bibliographic citation",
+            resources: "Resources",
         },
         types: {
             personal: "Personal",
@@ -209,6 +223,20 @@ export default {
             toggleSuccessTitle: "Toggle success",
             toggleSuccessContent: "Publication state successfully changed.",
         },
+        journey: {
+            start: "Start",
+            continue: "Continue",
+            groupFor: "Group for ",
+            review: "Review",
+            startPersonal: "Begin your personal journey.",
+            startResearch: "Create a new research group and begin your collaborative journey.",
+            resources: "Help & resources",
+            save: "Save & Close",
+            saveNext: "Save & Next",
+            saving: "Saving",
+            previous: "Back",
+            next: "Next",
+        },
     },
     theme: {
         name: "Theme",
@@ -220,6 +248,8 @@ export default {
             country: "Country",
             spatial: "Spatial",
             language: "Language",
+            nodes: "Nodes",
+            resources: "Resources",
         },
         help: {
             title: "",
@@ -235,6 +265,7 @@ export default {
         field: {
             question: "Question",
             subjects: "Subjects",
+            resources: "Resources",
         },
         help: {
             question: "",
@@ -287,6 +318,13 @@ export default {
             maximum: "Maximum",
         },
         example: "Example",
+        upload: {
+            upload: "Upload",
+            drag: "or drag and drop",
+            afile: "a single file to import it.",
+            download: "Download a file",
+            delete: "Delete a file",
+        }
     },
     resource: {
         name: "Resource",

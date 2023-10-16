@@ -20,40 +20,10 @@
                 </TabList>
                 <TabPanels>
                     <TabPanel>
-                        <dl class="divide-y divide-gray-100 mt-2">
-                            <div v-if="groupStore.term.title" class="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                                <dt class="text-sm font-medium text-gray-900">{{ t("group.field.title") }}</dt>
-                                <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{{
-                                    groupStore.term.title }}</dd>
-                            </div>
-                            <div v-if="groupStore.term.description"
-                                class="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                                <dt class="text-sm font-medium text-gray-900">{{ t("group.field.description") }}</dt>
-                                <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{{
-                                    groupStore.term.description }}
-                                </dd>
-                            </div>
-                            <div v-if="groupStore.term.subjects && groupStore.term.subjects.length"
-                                class="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                                <dt class="text-sm font-medium text-gray-900">{{ t("group.field.subjects") }}</dt>
-                                <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                                    {{ groupStore.term.subjects.join(", ") }}
-                                </dd>
-                            </div>
-                            <div v-if="groupStore.term.country && groupStore.term.country.length"
-                                class="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                                <dt class="text-sm font-medium text-gray-900">{{ t("group.field.country") }}</dt>
-                                <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                                    <CommonCountryView :current-country="groupStore.term.country" />
-                                </dd>
-                            </div>
-                            <div v-if="groupStore.term.spatial" class="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                                <dt class="text-sm font-medium text-gray-900">{{ t("group.field.spatial") }}</dt>
-                                <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{{
-                                    groupStore.term.spatial }}
-                                </dd>
-                            </div>
-                        </dl>
+                        <GroupMetadataCard :summary="groupStore.term" />
+                    </TabPanel>
+                    <TabPanel>
+                        <GroupPathwayResponseCard :group-id="(route.params.id as string)" />
                     </TabPanel>
                     <TabPanel>
                         <GroupMembersCard :group-id="(route.params.id as string)" />
@@ -69,7 +39,7 @@
 
 <script setup lang="ts">
 import { TabGroup, TabList, Tab, TabPanels, TabPanel } from "@headlessui/vue"
-import { PhEnvelopeSimple, PhUsersThree, PhGraph } from "@phosphor-icons/vue"
+import { PhEnvelopeSimple, PhUsersThree, PhGraph, PhPath } from "@phosphor-icons/vue"
 import { useSettingStore, useGroupStore } from "@/stores"
 
 definePageMeta({
@@ -83,6 +53,7 @@ const route = useRoute()
 const groupStore = useGroupStore()
 let navigation = [
     { name: "group.nav.metadata", id: "METADATA", icon: PhGraph },
+    { name: "group.nav.response", id: "RESPONSE", icon: PhPath },
     { name: "group.nav.members", id: "MEMBERS", icon: PhUsersThree },
     { name: "group.nav.invitations", id: "INVITATIONS", icon: PhEnvelopeSimple }
 ]
@@ -90,7 +61,7 @@ let navigation = [
 async function watchHeadingRequest(request: string) {
     switch (request) {
         case "remove":
-            if (groupStore.isCustodian) {
+            if (groupStore.isLastMember) {
                 await groupStore.removeTerm(route.params.id as string)
                 return await navigateTo(localePath("/group"))
             }

@@ -26,6 +26,7 @@ export const useAuthStore = defineStore("authStore", {
         password: false,
         totp: false,
         completedPersonalPathway: false,
+        personalPathway: "",
         invitationCount: 0,
     }),
     persist: {
@@ -50,6 +51,7 @@ export const useAuthStore = defineStore("authStore", {
         profile: (state) => state,
         loggedIn: (state) => state.id !== "",
         completedPathway: (state) => state.completedPersonalPathway,
+        activePathway: (state) => state.personalPathway,
         tokenStore: () => {
             // @ts-ignore
             return ( useTokenStore() )
@@ -224,6 +226,7 @@ export const useAuthStore = defineStore("authStore", {
         this.password = payload.password
         this.totp = payload.totp
         this.completedPersonalPathway = payload.completedPersonalPathway
+        this.personalPathway = payload.personalPathway
         this.invitationCount = payload.invitationCount
     },
     async sendEmailValidation() {

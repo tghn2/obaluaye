@@ -1,5 +1,5 @@
 from typing import Any, Dict, Optional, Union
-
+from uuid import UUID
 from sqlalchemy.orm import Session
 
 from app.core.security import get_password_hash, verify_password
@@ -140,5 +140,11 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate, UserOut]):
             # Case for viewing a personal pathway that isn't the one that the user is actually working on
             return None
         return response.node.theme
+
+    def get_pathway(self, *, user: User) -> UUID | None:
+        response_obj = user.responses.first()
+        if not response_obj:
+            return None
+        return response_obj.node.pathway_id
 
 user = CRUDUser(model=User)

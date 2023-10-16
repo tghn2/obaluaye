@@ -12,7 +12,7 @@
             <div v-if="groupStore.isCustodian || groupStore.isResearcher" class="flex flex-inline items-center space-x-2">
                 <!-- Separator -->
                 <div class="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10" aria-hidden="true" />
-                <Menu v-if="groupStore.isCustodian" as="div" class="relative inline-block text-left">
+                <Menu v-if="groupStore.isLastMember" as="div" class="relative inline-block text-left">
                     <div>
                         <MenuButton
                             class="inline-flex items-center w-full justify-center -ml-px gap-x-1.5 rounded-md px-3 py-2 text-sm text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50">

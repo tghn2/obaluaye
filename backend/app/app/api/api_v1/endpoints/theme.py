@@ -20,17 +20,28 @@ def get_theme(
     Get a theme. Used for response. Also include current responses.
     """
     db_obj = crud.theme.get(db=db, id=id)
+    # Could be trying to get first theme of pathway by called pathway itself
+    if not db_obj:
+        db_obj = crud.pathway.get(db=db, id=id)
+        if db_obj:
+            db_obj = db_obj.themes.first()
     group_obj = None
+    # Could be a group trying to reach the first step in its pathway
+    if not db_obj:
+        group_obj = crud.group.get(db=db, id=id)
+        if group_obj:
+            db_obj = crud.group.get_pathway(group=group_obj).themes.first()
+    response_obj = None
     validated = False
     if db_obj and db_obj.pathway and not db_obj.pathway.isPrivate:
         if db_obj.pathway.pathType == "PERSONAL":
             validated = crud.user.get_working_response(user=current_user, pathway=db_obj.pathway)
-        else:
-            group_obj = crud.role.get_group_for_pathway(db=db, user=current_user, pathway=db_obj.pathway, responsibility=schema_types.RoleType.RESEARCHER)
-            if group_obj:
-                # An individual can chop and choose, but a group has only one working language
-                validated = True
-                language = group_obj.language
+        elif group_obj:
+            validated = crud.role.has_responsibility(
+                db=db, user=current_user, group=group_obj, responsibility=schema_types.RoleType.VIEWER
+            )
+            # An individual can chop and choose, but a group has only one working language
+            language = group_obj.language
     if not validated:
         raise HTTPException(
             status_code=400,
@@ -58,10 +69,10 @@ def get_theme(
             response_obj = crud.response.get_from_node(node=node_obj, group=group_obj, user=current_user)
             if response_obj:
                 node_out.response = crud.response.get_schema(db_obj=response_obj)
-                print(node_out.response)
         response.nodes.append(node_out)
     # Get next page in journey
     response.journeyPath = crud.pathway.get_next_theme(theme=db_obj)
+    response.journeyBack = crud.pathway.get_previous_theme(theme=db_obj, response=response_obj)
     return response
 
 
