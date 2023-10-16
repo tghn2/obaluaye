@@ -99,7 +99,7 @@ def create_group(
     Create a group.
     """
     # To create a group, a researcher needs to have completed a personal pathway
-    if not crud.user.has_completed_pathway(user=current_user):
+    if not crud.user.has_completed_pathway(db=db, user=current_user):
         raise HTTPException(
             status_code=400,
             detail="Researcher has yet to complete a personal pathway before they can create a group.",

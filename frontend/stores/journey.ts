@@ -55,10 +55,24 @@ export const useJourneyStore = defineStore("journeyStore", {
     actions: {
         async getTerm(key: string, manualState = true) {
             await this.authTokens.refreshTokens()
+            if (this.authTokens.token) {
+                try {
+                    if (manualState) this.settings.setPageState("loading")
+                    this.setTerm({} as ITheme)
+                    const { data: response } = await apiTheme.getTerm(this.authTokens.token, key, this.settings.locale)
+                    if (response.value) this.setTerm(response.value)
+                    if (manualState) this.settings.setPageState("done")
+                } catch (error) {
+                    this.settings.setPageState("error")
+                }
+            }
+        },
+        async getGroupTerm(key: string, group_key: string, manualState = true) {
+            await this.authTokens.refreshTokens()
             try {
                 if (manualState) this.settings.setPageState("loading")
                 this.setTerm({} as ITheme)
-                const { data: response } = await apiTheme.getTerm(this.authTokens.token, key, this.settings.locale)
+                const { data: response } = await apiTheme.getGroupTerm(this.authTokens.token, group_key, key, this.settings.locale)
                 if (response.value) this.setTerm(response.value)
                 if (manualState) this.settings.setPageState("done")
             } catch (error) {

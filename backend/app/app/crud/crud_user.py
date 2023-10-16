@@ -97,14 +97,19 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate, UserOut]):
     def is_email_validated(self, user: User) -> bool:
         return user.email_validated
 
-    def has_completed_pathway(self, user: User) -> bool:
+    def _get_pathway(self, db: Session, *, user: User) -> Pathway | None:
+        node_obj = db.query(Node).filter(
+            (Node.pathway.has(Pathway.pathType == PathwayType.PERSONAL))
+            & (Node.responses.any(Response.respondent_id == user.id))
+        ).first()
+        if not node_obj:
+            return None
+        return node_obj.pathway
+
+    def has_completed_pathway(self, db: Session, *, user: User) -> bool:
         # Get the pathway
-        pathway_obj = user.responses.first()
+        pathway_obj = self._get_pathway(db=db, user=user)
         if not pathway_obj:
-            return False
-        try:
-            pathway_obj = pathway_obj.node.pathway
-        except Exception:
             return False
         # Get the last theme index for the pathway
         order = pathway_obj.themes.order_by(None).order_by(Theme.order.desc()).first().order
@@ -115,36 +120,26 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate, UserOut]):
                 & (Theme.pathway_id == pathway_obj.id)
             ).all()
         ]
-        completed = user.responses.filter(
-            (Pathway.pathType == PathwayType.PERSONAL)
-            & (Response.respondent_id == user.id)
-            & (Response.node_id.in_(last))
+        completed = db.query(Node).filter(
+            (Node.pathway.has(Pathway.pathType == PathwayType.PERSONAL))
+            & (Node.responses.any(Response.respondent_id == user.id))
+            & (Node.id.in_(last))
         ).first()
         if completed:
             return True
         return False
 
-    def get_working_response(self, *, user: User, pathway: Pathway | None = None) -> Theme | None:
-        # Work through all the eventualities for finding the appropriate starting point
-        if not user.responses.first():
-            if not pathway:
-                return None
-            else:
-                try:
-                    return pathway.themes.first()
-                except Exception:
-                    return None
-        # Get last updated
-        response = user.responses.order_by(None).order_by(Response.modified.desc()).first()
-        if pathway and pathway.id != response.node.pathway_id:
+    def validate_pathway(self, db: Session, *, user: User, pathway: Pathway) -> Theme | None:
+        pathway_obj = self._get_pathway(db=db, user=user)
+        if not pathway_obj or pathway_obj.id != pathway.id:
             # Case for viewing a personal pathway that isn't the one that the user is actually working on
-            return None
-        return response.node.theme
+            return False
+        return True
 
-    def get_pathway(self, *, user: User) -> UUID | None:
-        response_obj = user.responses.first()
-        if not response_obj:
+    def get_pathway(self, db: Session, *, user: User) -> UUID | None:
+        pathway_obj = self._get_pathway(db=db, user=user)
+        if not pathway_obj:
             return None
-        return response_obj.node.pathway_id
+        return pathway_obj.id
 
 user = CRUDUser(model=User)

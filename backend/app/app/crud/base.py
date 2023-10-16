@@ -197,7 +197,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType, OutputSche
         language = update_data.pop("language", None)
         # Seems to commit to db as lowercase, so ensure this when checking for updates
         language = self._fix_language(language)
-        if not db_obj.language and language:
+        if hasattr(db_obj, "language") and not db_obj.language and language:
             db_obj.language = language
         # UPDATE LOOP
         for field in update_data:

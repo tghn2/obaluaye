@@ -36,6 +36,20 @@ export const useGroupStore = defineStore("groupStore", {
             ).length === 1
         )
       },
+    memberRole: (state) => {
+        const authStore = useAuthStore()
+        return (
+              state.one
+              && state.one.roles
+              && state.one.roles.length
+              && state.one.roles.filter(member =>
+                  member.researcher.email === authStore.email
+              ).length === 1
+              && state.one.roles.filter(member =>
+                  member.researcher.email === authStore.email
+              )[0].responsibility
+          )
+    },
     isLastMember: (state) => {
         const authStore = useAuthStore()
         return (

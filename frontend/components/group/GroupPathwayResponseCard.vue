@@ -10,7 +10,7 @@
                 </div>
                 <LocaleLink
                     v-if="journeyStore.term && journeyStore.term.id && (groupStore.isResearcher || groupStore.isCustodian)"
-                    :to="`/journey/${journeyStore.term.id}`"
+                    :to="`/journey/${groupStore.term.id as string}/${journeyStore.term.id}`"
                     class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-md px-3 my-1 text-sm text-kashmir-900 ring-1 ring-inset ring-gray-300 hover:bg-kashmir-50">
                     <PhPencilSimple class="md:-ml-0.5 h-4 w-4 text-gray-400" aria-hidden="true" />
                     <span class="hidden md:block">{{ t("pathway.journey.review") }}</span>
@@ -53,7 +53,8 @@ async function watchPageRequest(request: string) {
 }
 
 async function getPathwayPage(key: string) {
-    await journeyStore.getTerm(key, false)
+    // use any uuid because we don't need it to get the first theme
+    await journeyStore.getGroupTerm(key, groupStore.term.id as string, false)
     if (journeyStore.term.journeyPath && journeyStore.term.journeyPath.length) nextPage.value = true
     else nextPage.value = false
     if (journeyStore.term.journeyBack) lastPage.value = true

@@ -25,11 +25,9 @@
 
 <script setup lang="ts">
 import { Switch, SwitchGroup, SwitchLabel } from "@headlessui/vue"
-import { usePathwayStore } from "@/stores"
 import { IForm, IConstraints, INodeType, IValueType } from "@/interfaces"
 
 const { t } = useI18n()
-const pathwayStore = usePathwayStore()
 const draft = ref({} as IForm)
 const formEditType: INodeType = "BOOLEAN"
 const defaultType: IValueType = "BOOLEAN"

@@ -86,8 +86,8 @@ def read_user(
     Get current user.
     """
     current_user.invitationCount = crud.invitation.get_count(db=db, email=current_user.email)
-    current_user.completedPersonalPathway = crud.user.has_completed_pathway(user=current_user)
-    current_user.personalPathway = crud.user.get_pathway(user=current_user)
+    current_user.completedPersonalPathway = crud.user.has_completed_pathway(db=db, user=current_user)
+    current_user.personalPathway = crud.user.get_pathway(db=db, user=current_user)
     return current_user
 
 

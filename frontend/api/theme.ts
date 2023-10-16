@@ -2,14 +2,22 @@ import { ITheme } from "@/interfaces"
 import { apiCore } from "./core"
 
 export const apiTheme = {
-    async getTerm(token: string = "", key: string, language: string) {
-        if (token) return await useFetch<ITheme>(`${apiCore.url()}/theme/${key}`, 
+    async getTerm(token: string, key: string, language: string) {
+        return await useFetch<ITheme>(`${apiCore.url()}/theme/${key}`, 
             {
                 query: { language },
                 headers: apiCore.headers(token),
             }
         )
-        else return await useFetch<ITheme>(`${apiCore.url()}/theme/${key}`, 
+    },
+    async getGroupTerm(token: string = "", group_key: string, key: string, language: string) {
+        if (token) return await useFetch<ITheme>(`${apiCore.url()}/theme/${group_key}/${key}`, 
+            {
+                query: { language },
+                headers: apiCore.headers(token),
+            }
+        )
+        else return await useFetch<ITheme>(`${apiCore.url()}/theme/${group_key}/${key}`, 
             {
                 query: { language },
             }

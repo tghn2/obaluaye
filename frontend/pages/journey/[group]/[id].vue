@@ -31,7 +31,7 @@ const lastPage = ref(false)
 onMounted(async () => {
     appSettings.setPageName("nav.pathways")
     appSettings.setPageState("loading")
-    await journeyStore.getTerm(route.params.id as string)
+    await journeyStore.getGroupTerm(route.params.id as string, route.params.group as string)
     if (!journeyStore.term || Object.keys(journeyStore.term).length === 0)
         throw createError({ statusCode: 404, statusMessage: "Page Not Found", fatal: true })
     if (journeyStore.term.journeyPath && journeyStore.term.journeyPath.length) nextPage.value = true
@@ -45,15 +45,20 @@ async function watchPageRequest(request: string) {
     switch (request) {
         case "last":
             if (journeyStore.term.journeyBack)
-                return await navigateTo(localePath(`/journey/${journeyStore.term.journeyBack}`))
+                return await navigateTo(localePath(`/journey/${route.params.group as string}/${journeyStore.term.journeyBack}`))
             break
         case "next":
             await journeyStore.createTerm(draftResponse.value)
             if (journeyStore.term.journeyPath && journeyStore.term.journeyPath.length === 1)
-                return await navigateTo(localePath(`/journey/${journeyStore.term.journeyPath[0]}`))
+                return await navigateTo(localePath(`/journey/${route.params.group as string}/${journeyStore.term.journeyPath[0]}`))
             if (journeyStore.term.journeyPath && journeyStore.term.journeyPath.length > 1)
                 await navigateToSelectedBranch()
-            return await navigateTo(localePath("/settings"))
+            if (
+                journeyStore.term.journeyPath
+                && journeyStore.term.journeyPath.length === 0
+                && journeyStore.sourceGroup
+            ) return await navigateTo(localePath(`/group/${journeyStore.sourceGroup}`))
+            else return await navigateTo(localePath("/group"))
         default:
             break
     }
