@@ -24,7 +24,9 @@
                 <tbody class="divide-y divide-gray-200 bg-white">
                     <tr v-for="member in groupStore.members" :key="member.id">
                         <td class="px-3 py-3.5 text-left text-sm text-gray-900">
-                            <time :datetime="member.created">{{ readableDate(member.created as string) }}</time>
+                            <time :datetime="member.created">
+                                {{ readableDate(member.created as string, true, groupStore.settings.locale) }}
+                            </time>
                         </td>
                         <td class="px-3 py-3.5 text-left text-sm text-gray-900">
                             {{ member.researcher.full_name }}

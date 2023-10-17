@@ -51,11 +51,13 @@
                     class="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                     <dt class="text-sm font-medium text-gray-900">{{ t("pathway.field.temporal") }}</dt>
                     <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                        <span v-if="pathwayStore.term.temporalStart">{{
-                            readableDate(pathwayStore.term.temporalStart) }}</span>
+                        <span v-if="pathwayStore.term.temporalStart">
+                            {{ readableDate(pathwayStore.term.temporalStart, true, appSettings.locale) }}
+                        </span>
                         &mdash;
-                        <span v-if="pathwayStore.term.temporalEnd">{{
-                            readableDate(pathwayStore.term.temporalEnd) }}</span>
+                        <span v-if="pathwayStore.term.temporalEnd">
+                            {{ readableDate(pathwayStore.term.temporalEnd, true, appSettings.locale) }}
+                        </span>
                     </dd>
                 </div>
                 <div v-if="pathwayStore.term.bibliographicCitation"

@@ -1,12 +1,12 @@
 <template>
-    <div class="mt-4 p-2">
+    <div>
         <div class="flex-auto">
-            <div v-if="props.theme.description" class="py-1 sm:px-6">
+            <div v-if="props.theme.description" class="py-1">
                 <div class="mt-1 text-sm leading-6 text-gray-700 sm:mt-0">
                     {{ props.theme.description }}
                 </div>
             </div>
-            <div v-if="props.theme.subjects && props.theme.subjects.length" class="py-1 sm:px-6">
+            <div v-if="props.theme.subjects && props.theme.subjects.length" class="py-1">
                 <div class="group inline-flex text-xs font-medium text-gray-700">
                     <PhTag class="text-gray-700 h-4 w-4 shrink-0" aria-hidden="true" />
                     <span class="ml-1">
@@ -14,7 +14,7 @@
                     </span>
                 </div>
             </div>
-            <div class="py-1 sm:px-6">
+            <div class="py-1">
                 <div v-if="props.theme.language" class="group inline-flex text-xs font-medium text-gray-700">
                     <PhTranslate class="text-gray-700 h-4 w-4 shrink-0" aria-hidden="true" />
                     <span class="ml-1">
@@ -29,7 +29,7 @@
                     </span>
                 </div>
             </div>
-            <div v-if="props.theme.spatial" class="py-1 sm:px-6">
+            <div v-if="props.theme.spatial" class="py-1">
                 <div class="group inline-flex text-xs font-medium text-gray-700">
                     <PhNote class="text-gray-700 h-4 w-4 shrink-0" aria-hidden="true" />
                     <span class="ml-1">
@@ -37,7 +37,7 @@
                     </span>
                 </div>
             </div>
-            <div v-if="props.theme.resources && props.theme.resources.length" class="py-1 sm:px-6">
+            <div v-if="props.theme.resources && props.theme.resources.length" class="py-1">
                 <h4 class="mt-1 text-sm font-medium text-gray-900 bg-spring-50 border-t border-spring-200 p-2">
                     {{ t("pathway.journey.resources") }}
                 </h4>

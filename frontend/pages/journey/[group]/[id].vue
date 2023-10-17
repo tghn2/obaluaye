@@ -6,7 +6,9 @@
         <div
             v-if="appSettings.current.pageState === 'done' && journeyStore.term && journeyStore.term.hasOwnProperty('name')">
             <JourneyResponseHeadingPanel :title="journeyStore.term.pathway!.title as string" />
-            <JourneyResponseThemeCard :theme="journeyStore.term" />
+            <div class="mt-4 sm:px-6">
+                <JourneyResponseThemeCard :theme="journeyStore.term" />
+            </div>
             <div v-for="node in journeyStore.term.nodes" :key="`node-${node.id}`" class="sm:px-6">
                 <JourneyResponseNodeCard :node="node" @set-response="watchResponseUpdate" />
             </div>

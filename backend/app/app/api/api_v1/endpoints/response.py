@@ -135,8 +135,9 @@ async def get_upload_response(
             status_code=400,
             detail="Either the source response does not exist, or you do not have the rights for this request.",
         )
+    print(stream)
     # Get the answer dict: {id: , value: , dtype: }
-    source_in = db_obj.answer[db_obj.language].answer
+    source_in = db_obj.answer  # [db_obj.language].answer
     media_type = source_in.get("dtype")
     if not media_type:
         media_type = "application/octet-stream"

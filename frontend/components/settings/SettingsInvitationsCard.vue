@@ -28,7 +28,9 @@
                     <tbody class="divide-y divide-gray-200 bg-white">
                         <tr v-for="invite in groupStore.invitations" :key="invite.id">
                             <td class="px-3 py-3.5 text-left text-sm text-gray-900">
-                                <time :datetime="invite.created">{{ readableDate(invite.created as string) }}</time>
+                                <time :datetime="invite.created">
+                                    {{ readableDate(invite.created as string, true, groupStore.settings.locale) }}
+                                </time>
                             </td>
                             <td class="px-3 py-3.5 text-left text-sm truncate text-gray-900">
                                 <span v-if="invite.group">{{ invite.group.title }}</span>
