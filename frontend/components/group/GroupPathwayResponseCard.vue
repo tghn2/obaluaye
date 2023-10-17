@@ -16,8 +16,39 @@
                     <span class="hidden md:block">{{ t("pathway.journey.review") }}</span>
                 </LocaleLink>
             </div>
-            <div class="flex-auto p-3">
-                {{ journeyStore.term }}
+            <div v-if="journeyStore.term.pathway" class="py-1 mt-4 sm:px-6 border-t border-gray-200">
+                <CommonSummaryCard :summary="journeyStore.term.pathway" :pathway="true" />
+                <div class="bg-gray-100 p-1">
+                    <div class="group inline-flex text-xs font-medium text-gray-700">
+                        <PhSwatches class="text-gray-700 h-4 w-4 shrink-0" aria-hidden="true" />
+                        <span class="ml-1">
+                            {{ journeyStore.term.title }}
+                        </span>
+                    </div>
+                </div>
+                <JourneyResponseThemeCard :theme="journeyStore.term" />
+                <div v-if="journeyStore.term.resources && journeyStore.term.resources.length" class="py-1 sm:px-1">
+                    <dd class="mt-1 text-sm font-medium text-gray-900 bg-spring-50 border-t border-spring-200 p-2">
+                        {{ t("pathway.journey.resources") }}
+                    </dd>
+                    <ul class="mt-1">
+                        <li v-for="resource in journeyStore.term.resources" :key="resource.id">
+                            <dl v-if="resource.resourceType === 'WEBLINK'" class="px-2 py-1">
+                                <a :href="resource.content" target="_blank"
+                                    class="inline-flex items-center group test-sm font-medium text-kashmir-800 hover:text-kashmir-600">
+                                    <span>{{ resource.title }}</span>
+                                    <PhArrowSquareOut class="ml-1 h-4 w-4" aria-hidden="true" />
+                                </a>
+                            </dl>
+                            <dl v-if="resource.resourceType === 'MARKDOWN'" class="px-2 py-1">
+                                <ResourceViewModal :resource="resource" />
+                            </dl>
+                        </li>
+                    </ul>
+                </div>
+                <div v-for="node in journeyStore.term.nodes" :key="`node-${node.id}`">
+                    <JourneyReviewNodeCard :node="node" />
+                </div>
             </div>
             <JourneyResponsePagination :last-page="lastPage" :next-page="nextPage" :editing="false"
                 @set-page-response="watchPageRequest" />
@@ -26,7 +57,7 @@
 </template>
 
 <script setup lang="ts">
-import { PhPencilSimple } from "@phosphor-icons/vue"
+import { PhPencilSimple, PhSwatches, PhArrowSquareOut } from "@phosphor-icons/vue"
 import { useJourneyStore, useGroupStore } from "@/stores"
 
 const { t } = useI18n()
