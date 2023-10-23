@@ -5,7 +5,8 @@ import { useSettingStore } from "./settings"
 import { useGroupStore } from "./group"
 import { usePathwayStore } from "./pathway"
 import { useJourneyStore } from "./journey"
+import { useCommentStore } from "./comment"
 
 export {
-    useAuthStore, useTokenStore, useToastStore, useSettingStore, useGroupStore, usePathwayStore, useJourneyStore
+    useAuthStore, useTokenStore, useToastStore, useSettingStore, useGroupStore, usePathwayStore, useJourneyStore, useCommentStore
 }

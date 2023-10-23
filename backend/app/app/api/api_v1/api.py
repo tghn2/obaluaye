@@ -9,6 +9,7 @@ from app.api.api_v1.endpoints import (
     node,
     resource,
     response,
+    comment,
     services,
 )
 
@@ -21,4 +22,5 @@ api_router.include_router(theme.router, prefix="/theme", tags=["theme"])
 api_router.include_router(node.router, prefix="/node", tags=["node"])
 api_router.include_router(resource.router, prefix="/resource", tags=["resource"])
 api_router.include_router(response.router, prefix="/response", tags=["response"])
+api_router.include_router(comment.router, prefix="/comment", tags=["comment"])
 api_router.include_router(services.router, prefix="/services", tags=["services"])

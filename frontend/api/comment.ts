@@ -11,14 +11,14 @@ export const apiComment = {
     )
   },
   async getTerm(token: string, key: string) {
-    return await useFetch<IComment>(`${apiCore.url()}/comment/${key}`, 
+    return await useFetch<IComment[]>(`${apiCore.url()}/comment/${key}`, 
       {
         headers: apiCore.headers(token),
       }
     )
   },
   async createTerm(token: string, key: string, payload: IComment) {
-    return await useFetch<IComment>(`${apiCore.url()}/comment/${key}`, 
+    return await useFetch<IComment[]>(`${apiCore.url()}/comment/${key}`, 
       {
         method: "POST",
         body: payload,
@@ -26,16 +26,25 @@ export const apiComment = {
       }
     )
   },
-  async removeTerm(token: string, key: string) {
-    return await useFetch<IComment>(`${apiCore.url()}/comment/${key}`, 
+  async updateTerm(token: string, key: string, payload: IComment) {
+    return await useFetch<IComment[]>(`${apiCore.url()}/comment/${key}`, 
       {
-        method: "DELETE",
+        method: "PUT",
+        body: payload,
         headers: apiCore.headers(token),
       }
     )
   },
+//   async removeTerm(token: string, key: string) {
+//     return await useFetch<IComment[]>(`${apiCore.url()}/comment/${key}`, 
+//       {
+//         method: "DELETE",
+//         headers: apiCore.headers(token),
+//       }
+//     )
+//   },
   async resolveTerm(token: string, key: string) {
-    return await useFetch<IComment>(`${apiCore.url()}/comment/${key}/resolve`, 
+    return await useFetch<IComment[]>(`${apiCore.url()}/comment/resolve/${key}`, 
       {
         method: "PUT",
         headers: apiCore.headers(token),

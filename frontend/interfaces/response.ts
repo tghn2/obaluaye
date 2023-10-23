@@ -11,7 +11,7 @@ export interface IResponse {
     answer?: IAnswer | IAnswer[]
     validated?: boolean
     node_id?: string
-    comments?: IComment[]
+    comments?: number
     respondent?: ISummary
     respondent_id?: string
     group_id?: string
@@ -26,7 +26,7 @@ export interface IPostResponse {
     answer?: string
     validated?: boolean
     node_id?: string
-    comments?: IComment[]
+    comments?: number
     respondent?: ISummary
     respondent_id?: string
     group_id?: string
@@ -47,13 +47,13 @@ export interface IAnswerResponse {
 export interface IComment {
     // https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#section-3
     id?: string
-    order?: number
     created?: string
     modified?: string
     content?: string
     resolved?: boolean
     language?: string
     response_id?: string
-    creator_id?: string
-    creator?: IProfileSummary
+    researcher_id?: string
+    researcher?: IProfileSummary
+    group?: ISummary
 }

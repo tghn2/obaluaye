@@ -345,6 +345,12 @@ export default {
             content: "Content",
         },
     },
+    comment: {
+        name: "Comments",
+        placeholder: "Add your comment",
+        close: "Close",
+        empty: "Nothing right now. Once your groups start becoming active, you should see comments here.",
+    },
     pwa: {
         dismiss: "Dismiss",
         install: "Install",

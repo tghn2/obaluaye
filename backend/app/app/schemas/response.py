@@ -44,6 +44,17 @@ class Response(ResponseBase):
     node_id: UUID = Field(..., description="Response associated node identity.")
     group_id: Optional[UUID] = Field(None, description="Response associated group identity.")
     respondent_id: UUID = Field(..., description="Response associated respondent identity.")
+    comments: Optional[int] = Field(default=0, description="A count of comments to this response.")
+
+    @validator("comments", pre=True)
+    def evaluate_lazy_comments(cls, v):
+        # https://github.com/samuelcolvin/pydantic/issues/1334#issuecomment-745434257
+        # Call PydanticModel.from_orm(dbQuery)
+        if isinstance(v, Query):
+            return v.count()
+        if isinstance(v, int):
+            return v
+        return 0
 
 
 class ResponseCommented(Response):

@@ -24,7 +24,7 @@ from .totp import NewTOTP, EnableTOTP  # noqa: F401
 from .role import Role, RoleCreate, RoleUpdate  # noqa: F401
 from .invitation import Invitation, InvitationCreate, InvitationUpdate  # noqa: F401
 from .subject import Subject, SubjectCreate, SubjectUpdate  # noqa: F401
-from .comment import Comment, CommentCreate, CommentUpdate  # noqa: F401
+from .comment import Comment, CommentCreate, CommentUpdate, CommentJourney  # noqa: F401
 from .response import Response, ResponseCreate, ResponseUpdate, ResponseCommented  # noqa: F401
 from .node import Node, NodeCreate, NodeUpdate, NodeJourney  # noqa: F401
 from .resource import Resource, ResourceCreate, ResourceUpdate  # noqa: F401
