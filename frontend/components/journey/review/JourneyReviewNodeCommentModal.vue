@@ -81,7 +81,7 @@ async function watchCreatePost(payload: IComment) {
         try {
             comments.value = []
             const { data: response } = await apiComment.createTerm(tokenStore.token, props.responseId, payload)
-            if (response.value) updateComments(response.value)
+            if (response.value) await getResponseComments()
         } catch (error) { }
     }
     resetComments()

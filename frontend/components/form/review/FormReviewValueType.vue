@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import { INode } from "@/interfaces"
+import { INode, IValueType } from "@/interfaces"
 import { readableDate } from "@/utilities"
 
 const { t } = useI18n()
@@ -35,7 +35,7 @@ function setReview() {
         && props.node.response.answer
         && !Array.isArray(props.node.response.answer)
     ) {
-        term.value = props.node.response.answer.value
+        term.value = props.node.response.answer.value as string
     }
     if (
         props.node.form
