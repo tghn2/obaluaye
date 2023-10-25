@@ -13,6 +13,10 @@
                                 <PhUsers class="text-gray-700 h-4 w-4 shrink-0" aria-hidden="true" />
                                 {{ props.group.roles.length }}
                             </li>
+                            <li v-if="props.group.isComplete"
+                                class="relative group flex flex-row text-xs font-medium text-gray-500 gap-x-1 pl-2">
+                                <PhChecks class="text-spring-600 h-4 w-4 shrink-0" aria-hidden="true" />
+                            </li>
                             <li v-if="props.group.isFeatured"
                                 class="relative group flex flex-row text-xs font-medium text-gray-500 gap-x-1 pl-2">
                                 <PhFeather class="text-yellow-600 h-4 w-4 shrink-0" aria-hidden="true" />
@@ -49,7 +53,7 @@
 </template>
 
 <script setup lang="ts">
-import { PhPath, PhTag, PhUsers, PhFeather } from "@phosphor-icons/vue"
+import { PhPath, PhTag, PhUsers, PhFeather, PhChecks } from "@phosphor-icons/vue"
 import { IGroup } from "@/interfaces"
 
 const { t } = useI18n()

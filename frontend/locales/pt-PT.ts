@@ -129,6 +129,7 @@ export default {
         create: "Create a group",
         creating: "Creating group",
         updating: "Updating group",
+        complete: "Complete",
         field: {
             title: "Title",
             description: "Description",
