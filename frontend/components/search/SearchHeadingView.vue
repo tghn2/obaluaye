@@ -8,6 +8,8 @@
                 <h1 class="truncate text-lg font-semibold leading-7 text-gray-900">
                     {{ props.title }}
                 </h1>
+                <PhChecks v-if="props.isComplete" class="text-spring-600 h-6 w-6 shrink-0" aria-hidden="true" />
+                <PhFeather v-if="props.isFeatured" class="text-yellow-600 h-6 w-6 shrink-0" aria-hidden="true" />
             </div>
         </div>
     </div>
@@ -15,9 +17,11 @@
 
 
 <script setup lang="ts">
-import { PhUsersThree } from "@phosphor-icons/vue"
+import { PhUsersThree, PhChecks, PhFeather } from "@phosphor-icons/vue"
 
 const props = defineProps<{
     title: string,
+    isComplete: boolean,
+    isFeatured: boolean,
 }>()
 </script>

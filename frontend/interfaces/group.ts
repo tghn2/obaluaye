@@ -23,6 +23,7 @@ export interface IGroup {
     responses?: IResponse[]
     isComplete?: boolean
     isFeatured?: boolean
+    readyToComplete?: boolean
 }
 
 export interface IGroupFilters {

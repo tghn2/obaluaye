@@ -8,6 +8,8 @@
                 <h1 class="truncate text-lg font-semibold leading-7 text-gray-900">
                     {{ props.title }}
                 </h1>
+                <PhChecks v-if="groupStore.term.isComplete" class="text-spring-600 h-6 w-6 shrink-0" aria-hidden="true" />
+                <PhFeather v-if="groupStore.term.isFeatured" class="text-yellow-600 h-6 w-6 shrink-0" aria-hidden="true" />
             </div>
             <div v-if="groupStore.isCustodian || groupStore.isResearcher || authStore.isAdmin"
                 class="flex flex-inline items-center space-x-2">
@@ -45,7 +47,7 @@
                     <PhLightning class="md:-ml-0.5 h-4 w-4 text-gray-400" aria-hidden="true" />
                     <span class="hidden md:block">{{ t("header.edit") }}</span>
                 </button>
-                <Switch @click="watchFeatured"
+                <Switch v-if="authStore.isAdmin" @click="watchFeatured"
                     class="group relative inline-flex h-5 w-10 flex-shrink-0 cursor-pointer items-center justify-center rounded-full focus:outline-none focus:ring-2 focus:ring-yellow-600 focus:ring-offset-2">
                     <span class="sr-only">{{ t("filter.featured") }}</span>
                     <span aria-hidden="true" class="pointer-events-none absolute h-full w-full rounded-md bg-white" />
@@ -53,6 +55,16 @@
                         :class="[isFeatured ? 'bg-yellow-600' : 'bg-gray-200', 'pointer-events-none absolute mx-auto h-4 w-9 rounded-full transition-colors duration-200 ease-in-out']" />
                     <span aria-hidden="true"
                         :class="[isFeatured ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none absolute left-0 inline-block h-5 w-5 transform rounded-full border border-gray-200 bg-white shadow ring-0 transition-transform duration-200 ease-in-out']" />
+                </Switch>
+                <Switch v-if="groupStore.term.readyToComplete && (groupStore.isCustodian || groupStore.isResearcher)"
+                    @click="watchCompleted"
+                    class="group relative inline-flex h-5 w-10 flex-shrink-0 cursor-pointer items-center justify-center rounded-full focus:outline-none focus:ring-2 focus:ring-spring-600 focus:ring-offset-2">
+                    <span class="sr-only">{{ t("filter.complete") }}</span>
+                    <span aria-hidden="true" class="pointer-events-none absolute h-full w-full rounded-md bg-white" />
+                    <span aria-hidden="true"
+                        :class="[isCompleted ? 'bg-spring-600' : 'bg-gray-200', 'pointer-events-none absolute mx-auto h-4 w-9 rounded-full transition-colors duration-200 ease-in-out']" />
+                    <span aria-hidden="true"
+                        :class="[isCompleted ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none absolute left-0 inline-block h-5 w-5 transform rounded-full border border-gray-200 bg-white shadow ring-0 transition-transform duration-200 ease-in-out']" />
                 </Switch>
             </div>
         </div>
@@ -62,11 +74,12 @@
 
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItems, MenuItem, Switch } from "@headlessui/vue"
-import { PhCaretDown, PhWarningCircle, PhTrashSimple, PhLightning, PhUsersThree } from "@phosphor-icons/vue"
+import { PhCaretDown, PhWarningCircle, PhTrashSimple, PhLightning, PhUsersThree, PhFeather, PhChecks } from "@phosphor-icons/vue"
 import { useGroupStore, useAuthStore } from "@/stores"
 
 const { t } = useI18n()
 const isFeatured = ref(false)
+const isCompleted = ref(false)
 const groupStore = useGroupStore()
 const authStore = useAuthStore()
 const props = defineProps<{
@@ -79,11 +92,17 @@ function watchFeatured() {
     emit("setEditRequest", "feature")
 }
 
+function watchCompleted() {
+    isCompleted.value = !isCompleted.value
+    emit("setEditRequest", "complete")
+}
+
 async function watchEditRequest(request: string) {
     emit("setEditRequest", request)
 }
 
 onMounted(async () => {
     if (groupStore.term && groupStore.term.isFeatured) isFeatured.value = groupStore.term.isFeatured
+    if (groupStore.term && groupStore.term.isCompleted) isCompleted.value = groupStore.term.isCompleted
 })
 </script>

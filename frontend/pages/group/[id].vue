@@ -65,6 +65,9 @@ async function watchHeadingRequest(request: string) {
             await groupStore.toggleFeatured(route.params.id as string)
             // await groupStore.getTerm(route.params.id as string, false)
             break
+        case "complete":
+            await groupStore.toggleCompleted(route.params.id as string)
+            break
         case "remove":
             if (groupStore.isLastMember || authStore.isAdmin) {
                 await groupStore.removeTerm(route.params.id as string)

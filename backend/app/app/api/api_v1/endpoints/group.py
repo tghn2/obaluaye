@@ -141,6 +141,7 @@ def get_group(
             pathway_obj = role_obj.pathway
         obj_out.roles.append(crud.role.get_schema(db_obj=role_obj))
     obj_out.pathway = crud.pathway.get_schema(db_obj=pathway_obj, language=db_obj.language, schema_out=schemas.PathwaySummary)
+    obj_out.readyToComplete = crud.group.has_completed_pathway(group=db_obj)
     return obj_out
 
 

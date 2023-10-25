@@ -4,7 +4,8 @@
             <LoadingCardSkeleton />
         </div>
         <div v-if="appSettings.current.pageState === 'done' && searchStore.term && searchStore.term.hasOwnProperty('name')">
-            <SearchHeadingView :title="searchStore.term.title as string" />
+            <SearchHeadingView :title="searchStore.term.title as string" :is-complete="searchStore.term.isComplete"
+                :is-featured="searchStore.term.isFeatured" />
             <TabGroup>
                 <TabList class="flex space-x-8 border-b border-gray-200 text-xs">
                     <Tab v-for="tab in navigation" :key="`tab-${tab.id}`" as="template" v-slot="{ selected }">

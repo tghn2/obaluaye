@@ -62,6 +62,7 @@ class Group(GroupBase):
     pathway: Optional[BaseSummarySchema] = Field(None, description="Research pathway objective for this group.")
     roles: Optional[List[Role]] = Field([], description="Group members.")
     roleCount: Optional[int] = Field(default=0, description="Count of group members.")
+    readyToComplete: Optional[bool] = Field(False, description="Group pathway is algorithmically complete.")
 
     @validator("roles", pre=True)
     def evaluate_lazy_roles(cls, v):
