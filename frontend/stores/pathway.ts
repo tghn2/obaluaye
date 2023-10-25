@@ -201,6 +201,14 @@ export const usePathwayStore = defineStore("pathwayStore", {
             }
             this.savingEdit = false
         },
+        async toggleFeatured(key: string) {
+            await this.authTokens.refreshTokens()
+            if (this.authTokens.token) {
+                try {
+                    await apiPathway.toggleTermFeatured(this.authTokens.token, key)
+                } catch (error) {}
+            }
+        },
         setDraft(payload: IPathway) {
             this.edit = payload
         },

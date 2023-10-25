@@ -9,6 +9,7 @@ export interface IPathway {
     modified?: string
     isPrivate: boolean
     isProtected: boolean
+    isFeatured?: boolean
     name?: string
     title?: string
     description?: string

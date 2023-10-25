@@ -30,6 +30,7 @@ class GroupBase(BaseSchema):
         description="Spatial characteristics of the pathway."
     )
     isComplete: Optional[bool] = Field(False, description="Group manual validation of pathway completion.")
+    isFeatured: Optional[bool] = Field(False, description="Group featured as exemplar.")
 
     @validator("name", always=True)
     def evaluate_name(cls, v, values):
@@ -44,6 +45,7 @@ class GroupBase(BaseSchema):
 
 class GroupCreate(GroupBase):
     title: str = Field(..., description="A human-readable title given to the group.")
+    isActive: Optional[bool] = Field(True, description="Group is public. False for admin groups.")
     # pathway_id: UUID = Field(..., description="Pathway associated identity.")
 
 
@@ -59,6 +61,7 @@ class Group(GroupBase):
     title: str = Field(..., description="A human-readable title given to the group.")
     pathway: Optional[BaseSummarySchema] = Field(None, description="Research pathway objective for this group.")
     roles: Optional[List[Role]] = Field([], description="Group members.")
+    roleCount: Optional[int] = Field(default=0, description="Count of group members.")
 
     @validator("roles", pre=True)
     def evaluate_lazy_roles(cls, v):

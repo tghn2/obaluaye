@@ -18,6 +18,8 @@ class CRUDPathway(CRUDBase[Pathway, PathwayCreate, PathwayUpdate, PathwayOut]):
         date_from: datetime | str | None = None,
         date_to: datetime | str | None = None,
         path_type: PathwayType | str | None = None,
+        private: bool | None = None,
+        featured: bool | None = None,
         user: User | None = None,
         responsibility: RoleType = RoleType.VIEWER,
     ) -> list[Pathway]:
@@ -33,6 +35,10 @@ class CRUDPathway(CRUDBase[Pathway, PathwayCreate, PathwayUpdate, PathwayOut]):
             db_objs = db_objs.filter(self.model.isPrivate.is_(False))
         if path_type:
             db_objs = db_objs.filter(self.model.pathType == path_type)
+        if isinstance(private, bool):
+            db_objs = db_objs.filter(self.model.isPrivate.is_(private))
+        if isinstance(featured, bool):
+            db_objs = db_objs.filter(self.model.isFeatured.is_(featured))
         return db_objs
 
     def get_multi(
@@ -46,6 +52,8 @@ class CRUDPathway(CRUDBase[Pathway, PathwayCreate, PathwayUpdate, PathwayOut]):
         date_from: datetime | str | None = None,
         date_to: datetime | str | None = None,
         path_type: PathwayType | str | None = None,
+        private: bool | None = None,
+        featured: bool | None = None,
         user: User | None = None,
         responsibility: RoleType = RoleType.VIEWER,
     ) -> list[Pathway]:
@@ -58,6 +66,8 @@ class CRUDPathway(CRUDBase[Pathway, PathwayCreate, PathwayUpdate, PathwayOut]):
             date_from=date_from,
             date_to=date_to,
             path_type=path_type,
+            private=private,
+            featured=featured,
             user=user,
             responsibility=responsibility
         )
@@ -116,6 +126,14 @@ class CRUDPathway(CRUDBase[Pathway, PathwayCreate, PathwayUpdate, PathwayOut]):
         if theme_obj:
             return theme_obj.order
         return 0
+
+    def toggle_featured(self, db: Session, *, db_obj: Pathway) -> Pathway:
+        obj_in = PathwayUpdate(**PathwayOut.from_orm(db_obj).dict())
+        isFeatured = False
+        if db_obj.isFeatured:
+            isFeatured = db_obj.isFeatured
+        obj_in.isFeatured = not isFeatured
+        return self.update(db=db, db_obj=db_obj, obj_in=obj_in)
 
 
 pathway = CRUDPathway(

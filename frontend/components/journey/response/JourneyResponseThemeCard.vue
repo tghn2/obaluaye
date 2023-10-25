@@ -15,12 +15,6 @@
                 </div>
             </div>
             <div class="py-1">
-                <div v-if="props.theme.language" class="group inline-flex text-xs font-medium text-gray-700">
-                    <PhTranslate class="text-gray-700 h-4 w-4 shrink-0" aria-hidden="true" />
-                    <span class="ml-1">
-                        <CommonLocaleView :language="props.theme.language" />
-                    </span>
-                </div>
                 <div v-if="props.theme.country && props.theme.country.length"
                     class="group inline-flex text-xs font-medium text-gray-700 ml-3">
                     <PhGlobeHemisphereEast class="text-gray-700 h-4 w-4 shrink-0" aria-hidden="true" />

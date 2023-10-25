@@ -60,6 +60,63 @@ def read_all_groups(
     return objs_out
 
 
+@router.get("/search", response_model=list[schemas.Group])
+def search_all_groups(
+    *,
+    db: Session = Depends(deps.get_db),
+    match: Optional[str] = None,
+    date_from: Optional[str] = None,
+    date_to: Optional[str] = None,
+    language: str | None = None,
+    complete: bool | None = None,
+    featured: bool | None = None,
+    page: int = 0,
+) -> Any:
+    """
+    Get all searchable groups.
+    """
+    db_objs = crud.group.get_multi(
+        db=db,
+        match=match,
+        date_from=date_from,
+        date_to=date_to,
+        language=language,
+        complete=complete,
+        featured=featured,
+        public=True,
+        page=page,
+    )
+    objs_out = []
+    for db_obj in db_objs:
+        obj_out = crud.group.get_schema(db_obj=db_obj, language=db_obj.language, schema_out=schemas.Group)
+        pathway_obj = crud.group.get_pathway(group=db_obj)
+        obj_out.pathway = crud.pathway.get_schema(db_obj=pathway_obj, language=db_obj.language, schema_out=schemas.PathwaySummary)
+        obj_out.roleCount = db_obj.roles.count()
+        objs_out.append(obj_out)
+    return objs_out
+
+
+@router.get("/search/{id}", response_model=schemas.Group)
+def get_search_group(
+    *,
+    db: Session = Depends(deps.get_db),
+    id: str,
+) -> Any:
+    """
+    Get a searchable group.
+    """
+    db_obj = crud.group.get(db=db, id=id)
+    if not db_obj:
+        raise HTTPException(
+            status_code=400,
+            detail="Either group does not exist, or researcher does not have the rights for this request.",
+        )
+    obj_out = crud.group.get_schema(db_obj=db_obj, language=db_obj.language, schema_out=schemas.Group)
+    pathway_obj = crud.group.get_pathway(group=db_obj)
+    obj_out.pathway = crud.pathway.get_schema(db_obj=pathway_obj, language=db_obj.language, schema_out=schemas.PathwaySummary)
+    return obj_out
+
+
 @router.get("/{id}", response_model=schemas.Group)
 def get_group(
     *,
@@ -162,6 +219,48 @@ def remove_group(
         )
     crud.group.remove(db=db, id=id)
     return {"msg": "Group has been successfully removed."}
+
+
+@router.put("/{id}/featured", response_model=schemas.Msg)
+def toggle_feature_state(
+    *,
+    db: Session = Depends(deps.get_db),
+    id: str,
+    current_user: models.User = Depends(deps.get_current_active_superuser),
+) -> Any:
+    """
+    Toggle group featured state.
+    """
+    db_obj = crud.group.get(db=db, id=id)
+    if not db_obj:
+        raise HTTPException(
+            status_code=400,
+            detail="Either group does not exist, or researcher does not have the rights for this request.",
+        )
+    crud.group.toggle_featured(db=db, db_obj=db_obj)
+    return {"msg": str(db_obj.id)}
+
+
+@router.put("/{id}/completed", response_model=schemas.Msg)
+def toggle_completed_state(
+    *,
+    db: Session = Depends(deps.get_db),
+    id: str,
+    current_user: models.User = Depends(deps.get_current_active_user),
+) -> Any:
+    """
+    Toggle group featured state.
+    """
+    db_obj = crud.group.get(db=db, id=id)
+    if not db_obj or not crud.group.has_completed_pathway(group=db_obj) or not crud.role.has_responsibility(
+        db=db, user=current_user, group=db_obj, responsibility=schema_types.RoleType.RESEARCHER
+    ):
+        raise HTTPException(
+            status_code=400,
+            detail="Either group does not exist, or researcher does not have the rights for this request.",
+        )
+    crud.group.toggle_completed(db=db, db_obj=db_obj)
+    return {"msg": str(db_obj.id)}
 
 
 @router.get("/{id}/members", response_model=list[schemas.Role])

@@ -188,6 +188,22 @@ export const useGroupStore = defineStore("groupStore", {
         }
       }
     },
+    async toggleFeatured(key: string) {
+        await this.authTokens.refreshTokens()
+        if (this.authTokens.token) {
+            try {
+                await apiGroup.toggleTermFeatured(this.authTokens.token, key)
+            } catch (error) {}
+        }
+    },
+    async toggleCompleted(key: string) {
+        await this.authTokens.refreshTokens()
+        if (this.authTokens.token) {
+            try {
+                await apiGroup.toggleTermCompleted(this.authTokens.token, key)
+            } catch (error) {}
+        }
+    },
     async getMembers(key: string, facets: IFilters = {}) {
       // For the group
       await this.authTokens.refreshTokens()

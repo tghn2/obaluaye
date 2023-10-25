@@ -9,7 +9,9 @@
                     <span v-show="item.dot" class="text-sm text-gray-400 px-2">&middot;</span>
                 </div>
             </nav>
-            <p class="mt-5 text-center text-xs text-gray-400">&copy; 2023 {{ t("common.title") }}. All rights reserved.</p>
+            <p class="mt-5 text-center text-xs text-gray-400">
+                &copy; 2023 {{ t("common.title") }}. {{ t("footer.rights") }}
+            </p>
         </div>
     </footer>
 </template>

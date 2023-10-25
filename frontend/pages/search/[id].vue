@@ -3,9 +3,8 @@
         <div v-if="appSettings.current.pageState === 'loading'">
             <LoadingCardSkeleton />
         </div>
-        <div v-if="appSettings.current.pageState === 'done' && groupStore.term && groupStore.term.hasOwnProperty('name')">
-            <GroupHeadingView purpose="Group" :title="groupStore.term.title as string"
-                @set-edit-request="watchHeadingRequest" />
+        <div v-if="appSettings.current.pageState === 'done' && searchStore.term && searchStore.term.hasOwnProperty('name')">
+            <SearchHeadingView :title="searchStore.term.title as string" />
             <TabGroup>
                 <TabList class="flex space-x-8 border-b border-gray-200 text-xs">
                     <Tab v-for="tab in navigation" :key="`tab-${tab.id}`" as="template" v-slot="{ selected }">
@@ -20,16 +19,10 @@
                 </TabList>
                 <TabPanels>
                     <TabPanel>
-                        <GroupMetadataCard :summary="groupStore.term" />
+                        <SearchPathwayResponseCard :group-id="(route.params.id as string)" />
                     </TabPanel>
                     <TabPanel>
-                        <GroupPathwayResponseCard :group-id="(route.params.id as string)" />
-                    </TabPanel>
-                    <TabPanel>
-                        <GroupMembersCard :group-id="(route.params.id as string)" />
-                    </TabPanel>
-                    <TabPanel>
-                        <GroupInvitationsCard :group-id="(route.params.id as string)" />
+                        <GroupMetadataCard :summary="searchStore.term" />
                     </TabPanel>
                 </TabPanels>
             </TabGroup>
@@ -39,49 +32,23 @@
 
 <script setup lang="ts">
 import { TabGroup, TabList, Tab, TabPanels, TabPanel } from "@headlessui/vue"
-import { PhEnvelopeSimple, PhUsersThree, PhGraph, PhPath } from "@phosphor-icons/vue"
-import { useSettingStore, useGroupStore, useAuthStore } from "@/stores"
-
-definePageMeta({
-    middleware: ["authenticated"],
-})
+import { PhGraph, PhPath } from "@phosphor-icons/vue"
+import { useSettingStore, useSearchStore } from "@/stores"
 
 const { t } = useI18n()
-const localePath = useLocalePath()
 const appSettings = useSettingStore()
 const route = useRoute()
-const groupStore = useGroupStore()
-const authStore = useAuthStore()
+const searchStore = useSearchStore()
 let navigation = [
-    { name: "group.nav.metadata", id: "METADATA", icon: PhGraph },
     { name: "group.nav.response", id: "RESPONSE", icon: PhPath },
-    { name: "group.nav.members", id: "MEMBERS", icon: PhUsersThree },
-    { name: "group.nav.invitations", id: "INVITATIONS", icon: PhEnvelopeSimple }
+    { name: "group.nav.metadata", id: "METADATA", icon: PhGraph },
 ]
 
-async function watchHeadingRequest(request: string) {
-    switch (request) {
-        case "feature":
-            await groupStore.toggleFeatured(route.params.id as string)
-            // await groupStore.getTerm(route.params.id as string, false)
-            break
-        case "remove":
-            if (groupStore.isLastMember || authStore.isAdmin) {
-                await groupStore.removeTerm(route.params.id as string)
-                return await navigateTo(localePath("/group"))
-            }
-        case "edit":
-            if (groupStore.isResearcher || groupStore.isCustodian || authStore.isAdmin) {
-                return await navigateTo(localePath(`/group/edit/${route.params.id}`))
-            }
-    }
-}
-
 onMounted(async () => {
-    appSettings.setPageName("nav.groups")
+    appSettings.setPageName("nav.search")
     appSettings.setPageState("loading")
-    await groupStore.getTerm(route.params.id as string)
-    if (!groupStore.term || Object.keys(groupStore.term).length === 0)
+    await searchStore.getTerm(route.params.id as string)
+    if (!searchStore.term || Object.keys(searchStore.term).length === 0)
         throw createError({ statusCode: 404, statusMessage: "Page Not Found", fatal: true })
 })
 

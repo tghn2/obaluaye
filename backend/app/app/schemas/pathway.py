@@ -23,6 +23,7 @@ class PathwayBase(BaseSchema):
     modified: Optional[datetime] = Field(None, description="Automatically generated date pathway was last modified.")
     isPrivate: Optional[bool] = Field(True, description="Whether the pathway is private to roleplayers.")
     isProtected: Optional[bool] = Field(False, description="Whether the pathway is protected to require views from logged-in users.")
+    isFeatured: Optional[bool] = Field(False, description="Pathway featured as exemplar.")
     # https://www.w3.org/TR/vocab-dcat-3/#Class:Dataset
     # https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#section-2
     title: Optional[str] = Field(None, description="A human-readable title given to the pathway.")

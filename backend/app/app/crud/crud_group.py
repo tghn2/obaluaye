@@ -1,3 +1,7 @@
+from babel import Locale
+from sqlalchemy.orm import Session, Query
+from datetime import datetime
+
 from app.crud.base import CRUDBase
 from app.models import User, Group, Role
 from app.models.pathway import Pathway
@@ -6,9 +10,84 @@ from app.models.node import Node
 from app.models.response import Response
 from app.schemas import GroupCreate, GroupUpdate, Group as GroupOut
 from app.schema_types import RoleType, PathwayType
+from app.core.config import settings  # noqa: F401
 
 
 class CRUDGroup(CRUDBase[Group, GroupCreate, GroupUpdate, GroupOut]):
+    def _filter_multi(
+        self,
+        *,
+        db_objs: Query,
+        match: str | None = None,
+        date_from: datetime | str | None = None,
+        date_to: datetime | str | None = None,
+        language: str | Locale | None = None,
+        complete: bool | None = None,
+        featured: bool | None = None,
+        public: bool | None = None,
+        user: User | None = None,
+        responsibility: RoleType = RoleType.VIEWER,
+    ) -> list[Group]:
+        if match:
+            db_objs = db_objs.filter(
+                (
+                    self.model.title_vector.match(str(match))
+                    | self.model.description_vector.match(str(match))
+                )
+            )
+        if language:
+            language = self._fix_language(language)
+            db_objs = db_objs.filter(self.model.language == language)
+        if isinstance(public, bool):
+            db_objs = db_objs.filter(self.model.isActive.is_(public))
+        if isinstance(complete, bool):
+            db_objs = db_objs.filter(self.model.isComplete.is_(complete))
+        if isinstance(featured, bool):
+            db_objs = db_objs.filter(self.model.isFeatured.is_(featured))
+        return super()._filter_multi(
+            db_objs=db_objs,
+            date_from=date_from,
+            date_to=date_to,
+        )
+
+    def get_multi(
+        self,
+        db: Session,
+        *,
+        db_objs: Query | None = None,
+        page: int = 0,
+        page_break: bool = False,
+        match: str | None = None,
+        date_from: datetime | str | None = None,
+        date_to: datetime | str | None = None,
+        language: str | Locale | None = None,
+        complete: bool | None = None,
+        featured: bool | None = None,
+        public: bool | None = None,
+        user: User | None = None,
+        responsibility: RoleType = RoleType.VIEWER,
+    ) -> list[Group]:
+        if not db_objs:
+            # Permits foreign key lists to be filtered
+            db_objs = db.query(self.model)
+        db_objs = self._filter_multi(
+            db_objs=db_objs,
+            match=match,
+            date_from=date_from,
+            date_to=date_to,
+            language=language,
+            complete=complete,
+            featured=featured,
+            public=public,
+            user=user,
+            responsibility=responsibility
+        )
+        if not page_break:
+            if page > 0:
+                db_objs = db_objs.offset(page * settings.MULTI_MAX)
+            db_objs = db_objs.limit(settings.MULTI_MAX)
+        return db_objs.all()
+
     def can_remove(self, *, user: User, group: Group, responsibility: RoleType = RoleType.VIEWER) -> bool:
         # ASSUMPTION: responsibility is calculated from:
         #   `crud.role.get_responsibility_for_group(db=db, user=user, group=group)`
@@ -61,6 +140,23 @@ class CRUDGroup(CRUDBase[Group, GroupCreate, GroupUpdate, GroupOut]):
         response = group.responses.order_by(None).order_by(Response.modified.desc()).first()
         return response.node.theme
 
+    def toggle_featured(self, db: Session, *, db_obj: Group) -> Group:
+        obj_in = GroupUpdate(**GroupOut.from_orm(db_obj).dict())
+        isFeatured = False
+        if db_obj.isFeatured:
+            isFeatured = db_obj.isFeatured
+        obj_in.isFeatured = not isFeatured
+        return self.update(db=db, db_obj=db_obj, obj_in=obj_in)
+
+    def toggle_completed(self, db: Session, *, db_obj: Group) -> Group:
+        if not self.has_completed_pathway(group=db_obj):
+            return db_obj
+        obj_in = GroupUpdate(**GroupOut.from_orm(db_obj).dict())
+        isComplete = False
+        if db_obj.isComplete:
+            isComplete = db_obj.isComplete
+        obj_in.isComplete = not isComplete
+        return self.update(db=db, db_obj=db_obj, obj_in=obj_in)
 
 group = CRUDGroup(
     model=Group,

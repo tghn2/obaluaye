@@ -9,10 +9,11 @@
                     {{ props.title }}
                 </h1>
             </div>
-            <div v-if="groupStore.isCustodian || groupStore.isResearcher" class="flex flex-inline items-center space-x-2">
+            <div v-if="groupStore.isCustodian || groupStore.isResearcher || authStore.isAdmin"
+                class="flex flex-inline items-center space-x-2">
                 <!-- Separator -->
                 <div class="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10" aria-hidden="true" />
-                <Menu v-if="groupStore.isLastMember" as="div" class="relative inline-block text-left">
+                <Menu v-if="groupStore.isLastMember || authStore.isAdmin" as="div" class="relative inline-block text-left">
                     <div>
                         <MenuButton
                             class="inline-flex items-center w-full justify-center -ml-px gap-x-1.5 rounded-md px-3 py-2 text-sm text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
@@ -44,6 +45,15 @@
                     <PhLightning class="md:-ml-0.5 h-4 w-4 text-gray-400" aria-hidden="true" />
                     <span class="hidden md:block">{{ t("header.edit") }}</span>
                 </button>
+                <Switch @click="watchFeatured"
+                    class="group relative inline-flex h-5 w-10 flex-shrink-0 cursor-pointer items-center justify-center rounded-full focus:outline-none focus:ring-2 focus:ring-yellow-600 focus:ring-offset-2">
+                    <span class="sr-only">{{ t("filter.featured") }}</span>
+                    <span aria-hidden="true" class="pointer-events-none absolute h-full w-full rounded-md bg-white" />
+                    <span aria-hidden="true"
+                        :class="[isFeatured ? 'bg-yellow-600' : 'bg-gray-200', 'pointer-events-none absolute mx-auto h-4 w-9 rounded-full transition-colors duration-200 ease-in-out']" />
+                    <span aria-hidden="true"
+                        :class="[isFeatured ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none absolute left-0 inline-block h-5 w-5 transform rounded-full border border-gray-200 bg-white shadow ring-0 transition-transform duration-200 ease-in-out']" />
+                </Switch>
             </div>
         </div>
     </div>
@@ -51,18 +61,29 @@
 
 
 <script setup lang="ts">
-import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/vue"
+import { Menu, MenuButton, MenuItems, MenuItem, Switch } from "@headlessui/vue"
 import { PhCaretDown, PhWarningCircle, PhTrashSimple, PhLightning, PhUsersThree } from "@phosphor-icons/vue"
-import { useGroupStore } from "@/stores"
+import { useGroupStore, useAuthStore } from "@/stores"
 
 const { t } = useI18n()
+const isFeatured = ref(false)
 const groupStore = useGroupStore()
+const authStore = useAuthStore()
 const props = defineProps<{
     title: string,
 }>()
 const emit = defineEmits<{ setEditRequest: [request: string] }>()
 
+function watchFeatured() {
+    isFeatured.value = !isFeatured.value
+    emit("setEditRequest", "feature")
+}
+
 async function watchEditRequest(request: string) {
     emit("setEditRequest", request)
 }
+
+onMounted(async () => {
+    if (groupStore.term && groupStore.term.isFeatured) isFeatured.value = groupStore.term.isFeatured
+})
 </script>

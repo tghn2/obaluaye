@@ -55,6 +55,14 @@ export const apiPathway = {
             }
         )
     },
+    async toggleTermFeatured(token: string, key: string) {
+        return await useFetch<IMsg>(`${apiCore.url()}/pathway/${key}/featured`, 
+            {
+                method: "PUT",
+                headers: apiCore.headers(token),
+            }
+        )
+    },
     async getSchemaDownload(key: string, language: string) {
         return await useFetch<IKeyable>(`${apiCore.url()}/pathway/${key}/download`,
             {

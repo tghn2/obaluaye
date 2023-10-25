@@ -3,8 +3,8 @@ from datetime import datetime
 from sqlalchemy.orm import Mapped, mapped_column, relationship, attribute_keyed_dict
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.ext.associationproxy import AssociationProxy
-from sqlalchemy import ForeignKey, Table, Column, Computed, Index
-from sqlalchemy_utils import TSVectorType, LocaleType, CountryType, Country
+from sqlalchemy import ForeignKey, Table, Column  # , Computed, Index
+from sqlalchemy_utils import LocaleType, CountryType, Country  # , TSVectorType
 from babel import Locale
 from sqlalchemy.dialects.postgresql import UUID, ENUM, ARRAY
 from sqlalchemy import DateTime
@@ -33,6 +33,7 @@ class Pathway(Base):
     )
     isPrivate: Mapped[bool] = mapped_column(default=False)
     isProtected: Mapped[bool] = mapped_column(default=False)
+    isFeatured: Mapped[bool] = mapped_column(default=False)
     pathType: Mapped[ENUM[PathwayType]] = mapped_column(ENUM(PathwayType), nullable=False, default=PathwayType.RESEARCH)
     # i18n SEARCH FIELDS
     title: Mapped[dict[str | Locale, "PathwayTitle"]] = relationship(
@@ -93,15 +94,16 @@ class PathwayTitle(Base):
     pathway: Mapped["Pathway"] = relationship(back_populates="title")
     title: Mapped[Optional[str]] = mapped_column(index=True)
     language: Mapped[Locale] = mapped_column(LocaleType)
-    title_vector: Mapped[TSVectorType] = mapped_column(
-        TSVectorType("title", regconfig="pg_catalog.simple"),
-        Computed("to_tsvector('pg_catalog.simple', \"title\")", persisted=True),
-    )
+    # title_vector: Mapped[TSVectorType] = mapped_column(
+    #     TSVectorType("title", regconfig="pg_catalog.simple"),
+    #     Computed("to_tsvector('pg_catalog.simple', \"title\")", persisted=True),
+    #     nullable=True,
+    # )
 
-    __table_args__ = (
-        # Indexing the TSVector column
-        Index("ix_pathway_title_vector", title_vector, postgresql_using="gin"),
-    )
+    # __table_args__ = (
+    #     # Indexing the TSVector column
+    #     Index("ix_pathway_title_vector", title_vector, postgresql_using="gin"),
+    # )
 
     def __init__(self, language: str | Locale, title: str, back_ref: Pathway | None = None):
         self.language = language
@@ -116,14 +118,15 @@ class PathwayDescription(Base):
     pathway: Mapped["Pathway"] = relationship(back_populates="description")
     description: Mapped[Optional[str]] = mapped_column(index=True)
     language: Mapped[Locale] = mapped_column(LocaleType)
-    description_vector: Mapped[TSVectorType] = mapped_column(
-        TSVectorType("description", regconfig="pg_catalog.simple"),
-        Computed("to_tsvector('pg_catalog.simple', \"description\")", persisted=True),
-    )
+    # description_vector: Mapped[TSVectorType] = mapped_column(
+    #     TSVectorType("description", regconfig="pg_catalog.simple"),
+    #     Computed("to_tsvector('pg_catalog.simple', \"description\")", persisted=True),
+    #     nullable=True,
+    # )
 
-    __table_args__ = (
-        Index("ix_pathway_description_vector", description_vector, postgresql_using="gin"),
-    )
+    # __table_args__ = (
+    #     Index("ix_pathway_description_vector", description_vector, postgresql_using="gin"),
+    # )
 
     def __init__(self, language: str | Locale, description: str, back_ref: Pathway | None = None):
         self.language = language

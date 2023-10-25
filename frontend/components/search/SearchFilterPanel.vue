@@ -59,7 +59,7 @@
                     <legend class="block font-bold pb-4">{{ t("filter.featured") }}</legend>
                     <Switch v-model="filters.featured"
                         class="group relative inline-flex h-5 w-10 flex-shrink-0 cursor-pointer items-center justify-center rounded-full focus:outline-none focus:ring-2 focus:ring-kashmir-600 focus:ring-offset-2">
-                        <span class="sr-only">{{ t("filter.featured") }}</span>
+                        <span class="sr-only">Use setting</span>
                         <span aria-hidden="true" class="pointer-events-none absolute h-full w-full rounded-md bg-white" />
                         <span aria-hidden="true"
                             :class="[filters.featured ? 'bg-kashmir-600' : 'bg-gray-200', 'pointer-events-none absolute mx-auto h-4 w-9 rounded-full transition-colors duration-200 ease-in-out']" />
@@ -105,7 +105,6 @@ const filters = ref({} as IFilters)
 const searchTerm = ref("")
 const dateFrom = ref("")
 const dateTo = ref("")
-const language = ref("")
 const formatter = ref({
     date: "YYYY-MM-DD",
     month: "MMM"

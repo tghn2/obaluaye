@@ -2,6 +2,10 @@ export default {
     common: {
         title: "Obaluaye",
     },
+    seo: {
+        title: "TGHN Nursing Now Challenge Learning Delivery Platform",
+        description: "The 1,000 Nurse-led Research Global Challenge is intended to reach nurses, midwives, and community health workers in low-resource settings, managing diseases of poverty to enable them to design and complete a pragmatic and achievable study within their care setting: from setting the research question, running the study, right through to taking the findings up into practice and sharing their recommendations. The program is a joint initiative of the Nursing Now Challenge and The Global Health Network, leveraging their extensive global communities.",
+    },
     nav: {
         home: "Home",
         search: "Search",
@@ -108,6 +112,9 @@ export default {
         refresh: "Refresh filters",
         dates: "Date range",
         to: "to",
+        complete: "Pathway complete",
+        featured: "Featured",
+        language: "Language",
     },
     multi: {
         untagged: "untagged",
@@ -350,6 +357,10 @@ export default {
         placeholder: "Add your comment",
         close: "Close",
         empty: "Nothing right now. Once your groups start becoming active, you should see comments here.",
+    },
+    search: {
+        name: "Search",
+        empty: "Search for groups for their research pathways.",
     },
     pwa: {
         dismiss: "Dismiss",

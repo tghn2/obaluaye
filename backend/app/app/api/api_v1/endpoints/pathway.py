@@ -18,8 +18,10 @@ def read_all_public_pathways(
     date_from: Optional[str] = None,
     date_to: Optional[str] = None,
     path_type: Optional[str] = None,
-    page: int = 0,
+    featured: bool | None = None,
+    private: bool | None = None,
     language: str | None = None,
+    page: int = 0,
     current_user: models.User | None = Depends(deps.get_optional_current_user),
 ) -> Any:
     """
@@ -31,6 +33,8 @@ def read_all_public_pathways(
         date_from=date_from,
         date_to=date_to,
         path_type=path_type,
+        featured=featured,
+        private=private,
         page=page,
         user=current_user,
     )
@@ -125,8 +129,9 @@ def create_pathway(
     pathway_obj = crud.pathway.create(db=db, obj_in=obj_in)
     # Create a group
     group_in = schemas.GroupCreate(**{
-        "title": f"Group for {obj_in.title}",
+        "title": f"Admin group for {obj_in.title}",
         "language": obj_in.language,
+        "isActive": False,
     })
     group_obj = crud.group.create(db=db, obj_in=group_in)
     # And assign the custodial role to the pathway creator
@@ -206,6 +211,27 @@ def toggle_state(
             detail="Either pathway does not exist, or user does not have the rights for this request.",
         )
     return {"msg": "Publication state toggled successfully."}
+
+
+@router.put("/{id}/featured", response_model=schemas.Msg)
+def toggle_feature_state(
+    *,
+    db: Session = Depends(deps.get_db),
+    id: str,
+    current_user: models.User = Depends(deps.get_current_active_superuser),
+) -> Any:
+    """
+    Toggle pathway featured state.
+    """
+    db_obj = crud.pathway.get(db=db, id=id)
+    if not db_obj:
+        raise HTTPException(
+            status_code=400,
+            detail="Either pathway does not exist, or researcher does not have the rights for this request.",
+        )
+    crud.pathway.toggle_featured(db=db, db_obj=db_obj)
+    return {"msg": str(db_obj.id)}
+
 
 @router.get("/{id}/download", response_class=StreamingResponse)
 def download_pathway_model(

@@ -34,6 +34,8 @@ export interface IFilters {
     date_from?: string
     date_to?: string
     language?: string
+    featured?: boolean
+    complete?: boolean
     path_type?: IPathwayType
     page?: number
 }

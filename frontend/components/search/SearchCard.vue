@@ -1,6 +1,6 @@
 <template>
     <div class="min-w-full hover:bg-gray-100">
-        <LocaleLink :to="`/group/${props.group.id}`">
+        <LocaleLink :to="`/search/${props.group.id}`">
             <div class="flex w-full items-center">
                 <div class="flex-1">
                     <div class="flex justify-between gap-x-4">
@@ -8,10 +8,9 @@
                             <h2 class="font-bold text-gray-900">{{ props.group.title }}</h2>
                         </div>
                         <ul role="list" class="flex flex-row justify-end text-xs leading-5 py-0.5">
-                            <li v-if="props.group && props.group.roles"
-                                class="relative group flex flex-row text-xs font-medium text-gray-500 gap-x-1 pl-2">
+                            <li class="relative group flex flex-row text-xs font-medium text-gray-500 gap-x-1 pl-2">
                                 <PhUsers class="text-gray-700 h-4 w-4 shrink-0" aria-hidden="true" />
-                                {{ props.group.roles.length }}
+                                {{ props.group!.roleCount }}
                             </li>
                             <li v-if="props.group.isFeatured"
                                 class="relative group flex flex-row text-xs font-medium text-gray-500 gap-x-1 pl-2">

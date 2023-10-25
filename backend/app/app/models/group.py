@@ -31,16 +31,19 @@ class Group(Base):
     )
     isActive: Mapped[bool] = mapped_column(default=True)
     isComplete: Mapped[bool] = mapped_column(default=False)
+    isFeatured: Mapped[bool] = mapped_column(default=False)
     # METADATA
     title: Mapped[str] = mapped_column(index=True, nullable=True)
     title_vector: Mapped[TSVectorType] = mapped_column(
         TSVectorType("title", regconfig="pg_catalog.simple"),
         Computed("to_tsvector('pg_catalog.simple', \"title\")", persisted=True),
+        nullable=True,
     )
     description: Mapped[Optional[str]] = mapped_column(index=True)
     description_vector: Mapped[TSVectorType] = mapped_column(
         TSVectorType("description", regconfig="pg_catalog.simple"),
         Computed("to_tsvector('pg_catalog.simple', \"description\")", persisted=True),
+        nullable=True,
     )
     subject: Mapped[set["Subject"]] = relationship(secondary=lambda: group_subject_table)
     subjects: AssociationProxy[list[str]] = association_proxy("subject", "term")

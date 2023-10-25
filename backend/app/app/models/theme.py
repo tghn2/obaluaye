@@ -69,14 +69,15 @@ class ThemeTitle(Base):
     theme: Mapped["Theme"] = relationship(back_populates="title")
     title: Mapped[Optional[str]] = mapped_column(index=True)
     language: Mapped[Locale] = mapped_column(LocaleType)
-    title_vector: Mapped[TSVectorType] = mapped_column(
-        TSVectorType("title", regconfig="pg_catalog.simple"),
-        Computed("to_tsvector('pg_catalog.simple', \"title\")", persisted=True),
-    )
+    # title_vector: Mapped[TSVectorType] = mapped_column(
+    #     TSVectorType("title", regconfig="pg_catalog.simple"),
+    #     Computed("to_tsvector('pg_catalog.simple', \"title\")", persisted=True),
+    #     nullable=True,
+    # )
 
-    __table_args__ = (
-        Index("ix_theme_title_vector", title_vector, postgresql_using="gin"),
-    )
+    # __table_args__ = (
+    #     Index("ix_theme_title_vector", title_vector, postgresql_using="gin"),
+    # )
 
     def __init__(self, language: str | Locale, title: str, back_ref: Theme | None = None):
         self.language = language
@@ -91,14 +92,15 @@ class ThemeDescription(Base):
     theme: Mapped["Theme"] = relationship(back_populates="description")
     description: Mapped[Optional[str]] = mapped_column(index=True)
     language: Mapped[Locale] = mapped_column(LocaleType)
-    description_vector: Mapped[TSVectorType] = mapped_column(
-        TSVectorType("description", regconfig="pg_catalog.simple"),
-        Computed("to_tsvector('pg_catalog.simple', \"description\")", persisted=True),
-    )
+    # description_vector: Mapped[TSVectorType] = mapped_column(
+    #     TSVectorType("description", regconfig="pg_catalog.simple"),
+    #     Computed("to_tsvector('pg_catalog.simple', \"description\")", persisted=True),
+    #     nullable=True,
+    # )
 
-    __table_args__ = (
-        Index("ix_theme_description_vector", description_vector, postgresql_using="gin"),
-    )
+    # __table_args__ = (
+    #     Index("ix_theme_description_vector", description_vector, postgresql_using="gin"),
+    # )
 
     def __init__(self, language: str | Locale, description: str, back_ref: Theme | None = None):
         self.language = language

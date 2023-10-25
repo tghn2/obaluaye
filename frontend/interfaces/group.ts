@@ -18,8 +18,11 @@ export interface IGroup {
     pathway?: ISummary
     pathway_id?: string
     roles?: IGroupRole[]
+    roleCount?: number
     invitations?: IGroupInvitation[]
     responses?: IResponse[]
+    isComplete?: boolean
+    isFeatured?: boolean
 }
 
 export interface IGroupFilters {

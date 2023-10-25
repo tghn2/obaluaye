@@ -22,6 +22,7 @@
 import { useSettingStore, useJourneyStore } from "@/stores"
 import { IResponse, INode, ITerm } from "@/interfaces"
 
+const { t } = useI18n()
 const localePath = useLocalePath()
 const appSettings = useSettingStore()
 const route = useRoute()
@@ -105,8 +106,8 @@ async function navigateToSelectedBranch() {
 
 // METADATA - START
 // https://nuxt.com/docs/getting-started/seo-meta
-const title = "whyqd.com — more research, less wrangling"
-const description = "Perform schema-to-schema transforms for interoperability and data reuse. Transform messy data into structured schemas using readable, auditable methods."
+const title = t("seo.title")
+const description = t("seo.description")
 useHead({
     title,
     meta: [{

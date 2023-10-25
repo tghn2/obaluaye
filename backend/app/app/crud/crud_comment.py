@@ -36,7 +36,7 @@ class CRUDComment(CRUDBase[Comment, CommentCreate, CommentUpdate, CommentOut]):
         return db_objs.all()
 
     def resolve_comment(self, db: Session, *, db_obj: Comment) -> Comment:
-        obj_in = CommentUpdate(**Comment.from_orm(db_obj).dict())
+        obj_in = CommentUpdate(**CommentOut.from_orm(db_obj).dict())
         resolved = False
         if db_obj.resolved:
             resolved = db_obj.resolved

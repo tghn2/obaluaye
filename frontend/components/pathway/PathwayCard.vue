@@ -15,9 +15,13 @@
                                 <PhUser v-else class="text-gray-700 h-4 w-4 shrink-0" aria-hidden="true" />
                                 {{ pathTypeText[props.pathway.pathType].toUpperCase() }}
                             </li>
-                            <li class="relative group flex flex-row text-xs font-medium text-gray-500 gap-x-1 pl-2">
-                                <PhEyeSlash v-if="props.pathway.isPrivate" class="text-cerise-700 h-4 w-4 shrink-0"
-                                    aria-hidden="true" />
+                            <li v-if="props.pathway.isFeatured"
+                                class="relative group flex flex-row text-xs font-medium text-gray-500 gap-x-1 pl-2">
+                                <PhFeather class="text-yellow-600 h-4 w-4 shrink-0" aria-hidden="true" />
+                            </li>
+                            <li v-if="props.pathway.isPrivate"
+                                class="relative group flex flex-row text-xs font-medium text-gray-500 gap-x-1 pl-2">
+                                <PhEyeSlash class="text-cerise-700 h-4 w-4 shrink-0" aria-hidden="true" />
                             </li>
                         </ul>
                     </div>
@@ -40,7 +44,7 @@
 </template>
 
 <script setup lang="ts">
-import { PhFlask, PhUser, PhTag, PhEyeSlash } from "@phosphor-icons/vue"
+import { PhFlask, PhUser, PhTag, PhEyeSlash, PhFeather } from "@phosphor-icons/vue"
 import { IPathway } from "@/interfaces"
 import { useAuthStore } from "@/stores"
 

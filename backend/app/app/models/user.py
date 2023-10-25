@@ -39,6 +39,7 @@ class User(Base):
     description_vector: Mapped[TSVectorType] = mapped_column(
         TSVectorType("description", regconfig="pg_catalog.simple"),
         Computed("to_tsvector('pg_catalog.simple', \"description\")", persisted=True),
+        nullable=True,
     )
     subject: Mapped[set["Subject"]] = relationship(secondary=lambda: user_subject_table)
     subjects: AssociationProxy[list[str]] = association_proxy("subject", "term")
