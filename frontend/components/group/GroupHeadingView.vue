@@ -55,9 +55,9 @@
                         <span class="sr-only">{{ t("group.complete") }}</span>
                         <span aria-hidden="true" class="pointer-events-none absolute h-full w-full rounded-md bg-white" />
                         <span aria-hidden="true"
-                            :class="[isCompleted ? 'bg-spring-600' : 'bg-gray-200', 'pointer-events-none absolute mx-auto h-3 w-8 rounded-full transition-colors duration-200 ease-in-out']" />
+                            :class="[isComplete ? 'bg-spring-600' : 'bg-gray-200', 'pointer-events-none absolute mx-auto h-3 w-8 rounded-full transition-colors duration-200 ease-in-out']" />
                         <span aria-hidden="true"
-                            :class="[isCompleted ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none absolute left-0 inline-block h-4 w-4 transform rounded-full border border-gray-200 bg-white shadow ring-0 transition-transform duration-200 ease-in-out']" />
+                            :class="[isComplete ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none absolute left-0 inline-block h-4 w-4 transform rounded-full border border-gray-200 bg-white shadow ring-0 transition-transform duration-200 ease-in-out']" />
                     </Switch>
                 </div>
                 <div v-if="authStore.isAdmin" class="flex flex-wrap justify-center mx-3 my-2">
@@ -85,7 +85,7 @@ import { useGroupStore, useAuthStore } from "@/stores"
 
 const { t } = useI18n()
 const isFeatured = ref(false)
-const isCompleted = ref(false)
+const isComplete = ref(false)
 const groupStore = useGroupStore()
 const authStore = useAuthStore()
 const props = defineProps<{
@@ -99,7 +99,7 @@ function watchFeatured() {
 }
 
 function watchCompleted() {
-    isCompleted.value = !isCompleted.value
+    isComplete.value = !isComplete.value
     emit("setEditRequest", "complete")
 }
 
@@ -109,6 +109,6 @@ async function watchEditRequest(request: string) {
 
 onMounted(async () => {
     if (groupStore.term && groupStore.term.isFeatured) isFeatured.value = groupStore.term.isFeatured
-    if (groupStore.term && groupStore.term.isCompleted) isCompleted.value = groupStore.term.isCompleted
+    if (groupStore.term && groupStore.term.isComplete) isComplete.value = groupStore.term.isComplete
 })
 </script>

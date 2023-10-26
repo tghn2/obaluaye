@@ -1,12 +1,8 @@
 <template>
-    <div class="flex items-center p-3 mt-3 -ml-2">
-        <button @click="getDownload"
-            class="text-sm font-medium text-gray-900 hover:text-kashmir-600 group flex gap-x-1 p-2">
-            <PhDownloadSimple class="text-gray-700 group-hover:text-kashmir-600 h-5 w-5 shrink-0" aria-hidden="true" />
-            <span class="hidden sm:block">{{ t("pathway.download") }}</span>
-        </button>
-
-    </div>
+    <button @click="getDownload" class="group flex flex-wrap justify-center mx-3 my-2 text-gray-900 hover:text-kashmir-600">
+        <span class="hidden sm:block text-xs">{{ t("pathway.download") }}</span>
+        <PhDownloadSimple class="h-5 w-4 shrink-0" aria-hidden="true" />
+    </button>
 </template>
 
 <script setup lang="ts">

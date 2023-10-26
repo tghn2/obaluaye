@@ -7,7 +7,7 @@
                         <div class="py-0.5 text-sm leading-6 text-gray-500">
                             <h2 class="font-bold text-gray-900">{{ props.pathway.title }}</h2>
                         </div>
-                        <ul role="list" class="flex flex-row justify-end text-xs py-0.5">
+                        <ul role="list" class="flex flex-row justify-end text-xs leading-5 py-0.5">
                             <li
                                 :class="[!authStore.completedPathway && props.pathway.pathType === 'PERSONAL' ? 'bg-cerise-100 rounded-md text-gray-700' : 'text-gray-500', 'relative group flex flex-row items-center leading-6 text-xs font-medium gap-x-1 px-1']">
                                 <PhFlask v-if="props.pathway.pathType === 'RESEARCH'" class="text-gray-700 h-4 w-4 shrink-0"
@@ -15,12 +15,10 @@
                                 <PhUser v-else class="text-gray-700 h-4 w-4 shrink-0" aria-hidden="true" />
                                 {{ pathTypeText[props.pathway.pathType].toUpperCase() }}
                             </li>
-                            <li v-if="props.pathway.isFeatured"
-                                class="relative group flex flex-row text-xs font-medium text-gray-500 gap-x-1 pl-2">
+                            <li v-if="props.pathway.isFeatured" class="flex items-center pl-2">
                                 <PhFeather class="text-yellow-600 h-4 w-4 shrink-0" aria-hidden="true" />
                             </li>
-                            <li v-if="props.pathway.isPrivate"
-                                class="relative group flex flex-row text-xs font-medium text-gray-500 gap-x-1 pl-2">
+                            <li v-if="props.pathway.isPrivate" class="flex items-center pl-2">
                                 <PhEyeSlash class="text-cerise-700 h-4 w-4 shrink-0" aria-hidden="true" />
                             </li>
                         </ul>

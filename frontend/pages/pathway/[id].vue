@@ -6,10 +6,6 @@
         <div
             v-if="appSettings.current.pageState === 'done' && pathwayStore.term && pathwayStore.term.hasOwnProperty('name')">
             <PathwayViewHeadingPanel :title="pathwayStore.term.title as string" @set-edit-request="watchHeadingRequest" />
-            <div class="flex justify-end">
-                <PathwayViewDownload v-if="pathwayStore.isCustodian || pathwayStore.isCurator" />
-                <PathwayViewTogglePublish v-if="pathwayStore.isCustodian || pathwayStore.isCurator" />
-            </div>
             <JourneyStartPersonalPathBanner
                 v-if="!authStore.activePathway && pathwayStore.term.pathType === 'PERSONAL' && pathwayStore.term.journeyPath"
                 :journey-id="pathwayStore.term.journeyPath as string" />
@@ -92,6 +88,9 @@ const authStore = useAuthStore()
 
 async function watchHeadingRequest(request: string) {
     switch (request) {
+        case "feature":
+            await pathwayStore.toggleFeatured(route.params.id as string)
+            break
         case "remove":
             await pathwayStore.removeTerm(route.params.id as string)
             return await navigateTo(localePath("/pathway"))

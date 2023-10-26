@@ -69,6 +69,7 @@ class PathwayBase(BaseSchema):
 
 class PathwaySummary(BaseSummarySchema):
     pathType: PathwayType = Field(default=PathwayType.RESEARCH, description="The type of pathway this represents.")
+    isFeatured: Optional[bool] = Field(False, description="Pathway featured as exemplar.")
 
 
 class PathwayCreate(PathwayBase):

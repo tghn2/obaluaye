@@ -10,7 +10,7 @@ from app.api import deps
 router = APIRouter()
 
 
-@router.get("/", response_model=list[schemas.Pathway])
+@router.get("/", response_model=list[schemas.PathwaySummary])
 def read_all_public_pathways(
     *,
     db: Session = Depends(deps.get_db),

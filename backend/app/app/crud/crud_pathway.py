@@ -128,12 +128,14 @@ class CRUDPathway(CRUDBase[Pathway, PathwayCreate, PathwayUpdate, PathwayOut]):
         return 0
 
     def toggle_featured(self, db: Session, *, db_obj: Pathway) -> Pathway:
-        obj_in = PathwayUpdate(**PathwayOut.from_orm(db_obj).dict())
         isFeatured = False
         if db_obj.isFeatured:
             isFeatured = db_obj.isFeatured
-        obj_in.isFeatured = not isFeatured
-        return self.update(db=db, db_obj=db_obj, obj_in=obj_in)
+        db_obj.isFeatured = not isFeatured
+        db.add(db_obj)
+        db.commit()
+        db.refresh(db_obj)
+        return db_obj
 
 
 pathway = CRUDPathway(
