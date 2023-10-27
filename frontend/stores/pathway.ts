@@ -99,6 +99,13 @@ export const usePathwayStore = defineStore("pathwayStore", {
                 this.settings.setPageState("error")
             }
         },
+        async getFeaturedTerm() {
+            try {
+                this.setTerm({} as IPathway)
+                const { data: response } = await apiPathway.getFeaturedTerm(this.settings.locale)
+                if (response.value) this.setTerm(response.value)
+            } catch (error) {}
+        },
         async createTerm(key: string, payload: IPathway = {} as IPathway) {
             this.savingEdit = true
             await this.authTokens.refreshTokens()

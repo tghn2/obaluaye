@@ -1,10 +1,10 @@
 <template>
     <div class="hidden md:fixed md:inset-y-0 md:z-30 md:flex md:flex-col md:w-24 lg:w-60">
         <div class="flex grow flex-col gap-y-5 px-6">
-            <div class="flex h-16 shrink-0 items-center">
-                <PhStethoscope class="block h-8 w-auto lg:hidden text-kashmir-600" alt="Obaluaye.com" aria-hidden="true" />
-                <PhStethoscope class="hidden h-8 w-auto lg:block text-kashmir-600" alt="Obaluaye.com" aria-hidden="true" />
-            </div>
+            <!-- <div class="flex h-16 shrink-0 items-center">
+                <img class="block h-12 w-auto lg:hidden" src="/img/mark.svg" alt="Obaluaye.com" />
+                <img class="hidden h-14 w-auto lg:block" src="/img/mark.svg" alt="Obaluaye.com" />
+            </div> -->
             <nav class="flex flex-1 flex-col">
                 <ul role="list" class="flex flex-1 flex-col gap-y-7">
                     <li class="-mx-2 space-y-1">
@@ -78,7 +78,6 @@
 
 <script setup lang="ts">
 import {
-    PhStethoscope,
     PhHouseSimple,
     PhGear,
     PhChatTeardropText,

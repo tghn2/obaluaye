@@ -8,7 +8,7 @@
                             <h2 class="font-bold text-gray-900">{{ props.pathway.title }}</h2>
                         </div>
                         <ul role="list" class="flex flex-row justify-end text-xs leading-5 py-0.5">
-                            <li
+                            <li v-if="props.pathway.pathType"
                                 :class="[!authStore.completedPathway && props.pathway.pathType === 'PERSONAL' ? 'bg-cerise-100 rounded-md text-gray-700' : 'text-gray-500', 'relative group flex flex-row items-center leading-6 text-xs font-medium gap-x-1 px-1']">
                                 <PhFlask v-if="props.pathway.pathType === 'RESEARCH'" class="text-gray-700 h-4 w-4 shrink-0"
                                     aria-hidden="true" />

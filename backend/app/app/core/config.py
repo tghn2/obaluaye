@@ -44,6 +44,7 @@ class Settings(BaseSettings):
     # GENERAL SETTINGS
 
     MULTI_MAX: int = 20
+    FEATURED_MAX: int = 6
     DEFAULT_LANGUAGE: str = "en"
 
     # COMPONENT SETTINGS

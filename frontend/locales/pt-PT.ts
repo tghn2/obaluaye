@@ -363,6 +363,16 @@ export default {
         name: "Search",
         empty: "Search for groups for their research pathways.",
     },
+    frontpage: {
+        title: "TGHN Nursing Now Challenge Learning Delivery Platform",
+        description: "The 1,000 Nurse-led Research Global Challenge supports nurses, midwives, and community health workers in low-resource settings, managing diseases of poverty, to design and complete a pragmatic and achievable study within their care setting: from setting the research question, running the study, right through to taking the findings up into practice and sharing their recommendations.",
+        tghnFull: "The Global Health Network",
+        tghn: "TGHN",
+        getstarted: "Get started",
+        learnmore: "Learn more",
+        pathwayTitle: "Pathway response report",
+        groupTitle: "Featured responses",
+    },
     pwa: {
         dismiss: "Dismiss",
         install: "Install",

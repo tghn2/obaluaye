@@ -60,6 +60,26 @@ def read_all_groups(
     return objs_out
 
 
+@router.get("/featured", response_model=list[schemas.Group])
+def read_featured_group(
+    *,
+    db: Session = Depends(deps.get_db),
+    language: str | None = None,
+) -> Any:
+    """
+    Get a featured group.
+    """
+    db_objs = crud.group.get_featured(db=db, language=language)
+    objs_out = []
+    for db_obj in db_objs:
+        obj_out = crud.group.get_schema(db_obj=db_obj, language=db_obj.language, schema_out=schemas.Group)
+        pathway_obj = crud.group.get_pathway(group=db_obj)
+        obj_out.pathway = crud.pathway.get_schema(db_obj=pathway_obj, language=db_obj.language, schema_out=schemas.PathwaySummary)
+        obj_out.roleCount = db_obj.roles.count()
+        objs_out.append(obj_out)
+    return objs_out
+
+
 @router.get("/search", response_model=list[schemas.Group])
 def search_all_groups(
     *,

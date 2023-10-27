@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session, Query  # noqa: F401
+from sqlalchemy.sql.expression import func
 from datetime import datetime
 from uuid import UUID
 
@@ -89,6 +90,15 @@ class CRUDPathway(CRUDBase[Pathway, PathwayCreate, PathwayUpdate, PathwayOut]):
                 & (Theme.order == theme.order + 1)
             ).all()
         ]
+
+    def get_featured(self, db: Session) -> Pathway:
+        db_objs = db.query(self.model)
+        db_objs = db_objs.filter(
+            (self.model.isFeatured.is_(True))
+            & (self.model.isPrivate.is_(False))
+            & (self.model.pathType == PathwayType.RESEARCH)
+        )
+        return db_objs.order_by(func.random()).first()
 
     def get_previous_theme(self, *, theme: Theme, response: Response | None = None) -> UUID | None:
         if theme.order == 0:

@@ -1,5 +1,6 @@
 from babel import Locale
 from sqlalchemy.orm import Session, Query
+from sqlalchemy.sql.expression import func
 from datetime import datetime
 
 from app.crud.base import CRUDBase
@@ -87,6 +88,14 @@ class CRUDGroup(CRUDBase[Group, GroupCreate, GroupUpdate, GroupOut]):
                 db_objs = db_objs.offset(page * settings.MULTI_MAX)
             db_objs = db_objs.limit(settings.MULTI_MAX)
         return db_objs.all()
+
+    def get_featured(self, db: Session, *, language: str | Locale | None = None) -> Pathway:
+        db_objs = db.query(self.model)
+        db_objs = db_objs.filter(
+            (self.model.isFeatured.is_(True))
+            & (self.model.isActive.is_(True))
+        )
+        return db_objs.order_by(func.random()).limit(settings.FEATURED_MAX).all()
 
     def can_remove(self, *, user: User, group: Group, responsibility: RoleType = RoleType.VIEWER) -> bool:
         # ASSUMPTION: responsibility is calculated from:

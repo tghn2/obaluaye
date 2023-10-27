@@ -93,7 +93,6 @@
 import { storeToRefs } from "pinia"
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue"
 import {
-    PhStethoscope,
     PhHouseSimple,
     PhGear,
     PhChatTeardropText,

@@ -122,6 +122,13 @@ export const useGroupStore = defineStore("groupStore", {
         }
       }
     },
+    async getFeaturedMulti() {
+        try {
+            this.setMulti([])
+            const { data: response } = await apiGroup.getFeaturedMulti()
+            if (response.value && response.value.length) this.setMulti(response.value)
+        } catch (error) {}
+    },
     setMulti(payload: IGroup[]) {
       this.board = payload
     },

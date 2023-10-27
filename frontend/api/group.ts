@@ -20,6 +20,13 @@ export const apiGroup = {
             }
         )
     },
+    async getFeaturedMulti(payload: IFilters = {}) {
+        return await useFetch<IGroup[]>(`${apiCore.url()}/group/featured`, 
+            {
+                query: payload,
+            }
+        )
+    },
     async getTerm(token: string, key: string) {
         return await useFetch<IGroup>(`${apiCore.url()}/group/${key}`, 
             {
