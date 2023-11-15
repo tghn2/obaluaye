@@ -7,7 +7,8 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm.decl_api import DeclarativeAttributeIntercept
 from babel import Locale, UnknownLocaleError
 from datetime import datetime
-from uuid import UUID
+from uuid import UUID, uuid4
+from collections.abc import MutableMapping
 
 from app.db.base_class import Base
 from app.core.config import settings
@@ -43,11 +44,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType, OutputSche
         self.i18n_terms = i18n_terms
 
     def _get_schema(
-        self,
-        *,
-        db_obj: ModelType,
-        schema: BaseModel,
-        language: str | Locale | None = None
+        self, *, db_obj: ModelType, schema: BaseModel, language: str | Locale | None = None
     ) -> dict[str, Any]:
         obj_out = {}
         if language:
@@ -75,7 +72,9 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType, OutputSche
         obj_out = self._get_schema(db_obj=db_obj, schema=BaseSummarySchema, language=language)
         return BaseSummarySchema(**obj_out)
 
-    def get_schema(self, *, db_obj: ModelType, language: str | Locale | None = None, schema_out: BaseSchema | None = None) -> OutputSchemaType:
+    def get_schema(
+        self, *, db_obj: ModelType, language: str | Locale | None = None, schema_out: BaseSchema | None = None
+    ) -> OutputSchemaType:
         if not schema_out:
             schema_out = self.schema
         if not schema_out:
@@ -125,12 +124,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType, OutputSche
             # Permits foreign key lists to be filtered
             db_objs = db.query(self.model)
         db_objs = self._filter_multi(
-            db_objs=db_objs,
-            match=match,
-            date_from=date_from,
-            date_to=date_to,
-            user=user,
-            responsibility=responsibility
+            db_objs=db_objs, match=match, date_from=date_from, date_to=date_to, user=user, responsibility=responsibility
         )
         if not page_break:
             if page > 0:
@@ -179,13 +173,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType, OutputSche
         db.refresh(db_obj)
         return db_obj
 
-    def update(
-        self,
-        db: Session,
-        *,
-        db_obj: ModelType,
-        obj_in: Union[UpdateSchemaType, Dict[str, Any]]
-    ) -> ModelType:
+    def update(self, db: Session, *, db_obj: ModelType, obj_in: Union[UpdateSchemaType, Dict[str, Any]]) -> ModelType:
         if isinstance(obj_in, dict):
             update_data = obj_in
         else:
@@ -231,6 +219,28 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType, OutputSche
         db.delete(obj)
         db.commit()
         return obj
+
+    def update_uuids(self, *, model: BaseModel | dict):
+        # Influenced by https://stackoverflow.com/a/49723101/295606
+        # Used to clone a pathway, mostly
+        if isinstance(model, BaseModel):
+            model = model.dict(by_alias=True, exclude_defaults=True, exclude_none=True)
+        modified_model = {}
+        for key, field in model.items():
+            if key != "id":
+                if isinstance(field, MutableMapping):
+                    modified_model[key] = self.update_uuids(model=field)
+                elif field and isinstance(field, list) and isinstance(field[0], MutableMapping):
+                    # Assuming field consistency ... no mixed Mutables and non-Mutables
+                    # Mutables being dictionaries here
+                    modified_model[key] = []
+                    for f in field:
+                        modified_model[key].append(self.update_uuids(model=f))
+                else:
+                    modified_model[key] = field
+            else:
+                modified_model[key] = str(uuid4())
+        return modified_model
 
     def _fix_language(self, language: str | Locale | None) -> Optional[Locale]:
         # Locale is saved as lowercase to the db

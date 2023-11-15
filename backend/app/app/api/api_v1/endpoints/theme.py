@@ -29,12 +29,7 @@ def get_personal_theme(
     if db_obj:
         validated = True
     response_obj = None
-    if (
-        db_obj
-        and db_obj.pathway
-        and not db_obj.pathway.isPrivate
-        and db_obj.pathway.pathType == "PERSONAL"
-    ):
+    if db_obj and db_obj.pathway and not db_obj.pathway.isPrivate and db_obj.pathway.pathType == "PERSONAL":
         validated = crud.user.validate_pathway(db=db, user=current_user, pathway=db_obj.pathway)
     if not validated:
         raise HTTPException(
@@ -65,6 +60,7 @@ def get_personal_theme(
     response.journeyPath = crud.pathway.get_next_theme(theme=db_obj)
     response.journeyBack = crud.pathway.get_previous_theme(theme=db_obj, response=response_obj)
     return response
+
 
 @router.get("/{group_id}/{id}", response_model=schemas.ThemeJourney)
 def get_research_theme(
@@ -144,8 +140,12 @@ def create_theme(
     """
     # Check that pathway exists and user has appropriate auths
     pathway_obj = crud.pathway.get(db=db, id=obj_in.pathway_id)
-    if not obj_in.pathway_id or not pathway_obj or not crud.role.has_responsibility(
-        db=db, user=current_user, pathway=pathway_obj, responsibility=schema_types.RoleType.CURATOR
+    if (
+        not obj_in.pathway_id
+        or not pathway_obj
+        or not crud.role.has_responsibility(
+            db=db, user=current_user, pathway=pathway_obj, responsibility=schema_types.RoleType.CURATOR
+        )
     ):
         raise HTTPException(
             status_code=400,

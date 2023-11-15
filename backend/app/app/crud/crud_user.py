@@ -98,10 +98,14 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate, UserOut]):
         return user.email_validated
 
     def _get_pathway(self, db: Session, *, user: User) -> Pathway | None:
-        node_obj = db.query(Node).filter(
-            (Node.pathway.has(Pathway.pathType == PathwayType.PERSONAL))
-            & (Node.responses.any(Response.respondent_id == user.id))
-        ).first()
+        node_obj = (
+            db.query(Node)
+            .filter(
+                (Node.pathway.has(Pathway.pathType == PathwayType.PERSONAL))
+                & (Node.responses.any(Response.respondent_id == user.id))
+            )
+            .first()
+        )
         if not node_obj:
             return None
         return node_obj.pathway
@@ -116,22 +120,25 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate, UserOut]):
         last = [
             theme_obj.nodes.order_by(None).order_by(Node.order.desc()).first().id
             for theme_obj in pathway_obj.themes.filter(
-                (Theme.order == order)
-                & (Theme.pathway_id == pathway_obj.id)
+                (Theme.order == order) & (Theme.pathway_id == pathway_obj.id)
             ).all()
         ]
-        completed = db.query(Node).filter(
-            (Node.pathway.has(Pathway.pathType == PathwayType.PERSONAL))
-            & (Node.responses.any(Response.respondent_id == user.id))
-            & (Node.id.in_(last))
-        ).first()
+        completed = (
+            db.query(Node)
+            .filter(
+                (Node.pathway.has(Pathway.pathType == PathwayType.PERSONAL))
+                & (Node.responses.any(Response.respondent_id == user.id))
+                & (Node.id.in_(last))
+            )
+            .first()
+        )
         if completed:
             return True
         return False
 
     def validate_pathway(self, db: Session, *, user: User, pathway: Pathway) -> Theme | None:
         pathway_obj = self._get_pathway(db=db, user=user)
-        if not pathway_obj or pathway_obj.id != pathway.id:
+        if pathway_obj and pathway_obj.id != pathway.id:
             # Case for viewing a personal pathway that isn't the one that the user is actually working on
             return False
         return True
@@ -141,5 +148,6 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate, UserOut]):
         if not pathway_obj:
             return None
         return pathway_obj.id
+
 
 user = CRUDUser(model=User)
