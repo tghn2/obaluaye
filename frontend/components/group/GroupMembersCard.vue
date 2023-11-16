@@ -1,7 +1,7 @@
 <template>
     <div class="flex-auto p-3">
         <div class="shadow sm:rounded-md min-w-max">
-            <GroupInvitationPanel v-if="groupStore.isCustodian" :group-id="props.groupId" />
+            <GroupInvitationPanel v-if="groupStore.isResearcher" :group-id="props.groupId" />
             <table class="min-w-full divide-y divide-gray-300">
                 <thead class="bg-gray-50">
                     <tr>
