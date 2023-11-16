@@ -90,9 +90,6 @@ export default {
             totpHelp3Code: "6-digit verification code",
             cancel: "Cancel",
         },
-        moderation: {
-
-        },
     },
     start: {
         pathwayTitle: "Study pathways",
