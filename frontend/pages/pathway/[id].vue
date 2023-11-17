@@ -4,7 +4,7 @@
             <LoadingCardSkeleton />
         </div>
         <div
-            v-if="appSettings.current.pageState === 'done' && pathwayStore.term && pathwayStore.term.hasOwnProperty('name')">
+            v-if="appSettings.current.pageState === 'done' && pathwayStore.term && pathwayStore.term.hasOwnProperty('title')">
             <PathwayViewHeadingPanel :title="pathwayStore.term.title as string" @set-edit-request="watchHeadingRequest" />
             <JourneyStartPersonalPathBanner
                 v-if="!authStore.activePathway && pathwayStore.term.pathType === 'PERSONAL' && pathwayStore.term.journeyPath"

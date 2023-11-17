@@ -24,10 +24,10 @@
 
 <script setup lang="ts">
 import { PhSwatches } from "@phosphor-icons/vue"
-import { useJourneyStore, useGroupStore } from "@/stores"
+import { useJourneyStore } from "@/stores"
 
 const journeyStore = useJourneyStore()
-const groupStore = useGroupStore()
+const route = useRoute()
 const nextPage = ref(false)
 const lastPage = ref(false)
 
@@ -50,7 +50,7 @@ async function watchPageRequest(request: string) {
 
 async function getPathwayPage(key: string) {
     // use any uuid because we don't need it to get the first theme
-    await journeyStore.getGroupTerm(key, groupStore.term.id as string, false)
+    await journeyStore.getGroupTerm(key, route.params.id as string, false)
     if (journeyStore.term.journeyPath && journeyStore.term.journeyPath.length) nextPage.value = true
     else nextPage.value = false
     if (journeyStore.term.journeyBack) lastPage.value = true
@@ -58,6 +58,6 @@ async function getPathwayPage(key: string) {
 }
 
 onMounted(async () => {
-    await getPathwayPage(groupStore.term.id as string)
+    await getPathwayPage(route.params.id as string)
 })
 </script>
