@@ -35,7 +35,7 @@
                         </div>
                     </div>
                     <!-- Featured Pathway -->
-                    <div v-if="pathwayStore.term && pathwayStore.term.title" class="mt-12 sm:mt-18">
+                    <div v-if="pathwayStore.term && pathwayStore.term.title" class="mx-auto max-w-2xl mt-12 sm:mt-18">
                         <div class="mx-auto max-w-3xl text-center mb-8">
                             <h2 class="text-xl font-bold tracking-tight text-gray-900 sm:text-2xl">
                                 {{ t("frontpage.pathwayTitle") }}
@@ -43,7 +43,7 @@
                         </div>
                         <div class="flow-root">
                             <div
-                                class="-m-2 rounded-xl bg-gray-900/5 p-2 ring-1 ring-inset ring-gray-900/10 lg:-m-4 lg:rounded-2xl lg:p-4">
+                                class="-m-2 rounded-xl bg-gray-900/5 p-2 ring-1 ring-inset ring-gray-900/10 lg:rounded-2xl lg:p-4">
                                 <PathwayCard :pathway="pathwayStore.term" />
                             </div>
                         </div>
@@ -61,7 +61,7 @@
                 <div class="mt-8 space-y-6">
                     <div v-for="featured in  groupStore.multi" :key="featured.id" class="flow-root space-y-8">
                         <div
-                            class="-m-2 rounded-xl bg-gray-900/5 p-2 ring-1 ring-inset ring-gray-900/10 lg:-m-4 lg:rounded-2xl lg:p-4">
+                            class="-m-2 rounded-xl bg-gray-900/5 p-2 ring-1 ring-inset ring-gray-900/10 lg:rounded-2xl lg:p-4">
                             <SearchCard :group="featured" />
                         </div>
                     </div>
