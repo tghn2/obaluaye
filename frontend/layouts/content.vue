@@ -2,8 +2,8 @@
     <Html :lang="htmlAttrs.lang" :dir="htmlAttrs.dir">
 
     <Body>
-        <div class="flex min-h-full flex-col">
-            <div class="mx-auto w-full max-w-5xl grow lg:flex">
+        <div class="flex flex-col">
+            <div class="mx-auto w-full max-w-5xl grow">
                 <slot name="header">
                     <!-- Responsive menus -->
                     <NavigationDefaultSidebarMenu />
