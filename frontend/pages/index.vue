@@ -1,16 +1,6 @@
 <template>
     <div class="px-2 py-10 lg:px-4 lg:py-6 max-w-7xl mx-auto">
         <div class="mb-10">
-            <svg class="absolute inset-0 -z-10 h-full w-full stroke-gray-200 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"
-                aria-hidden="true">
-                <defs>
-                    <pattern id="0787a7c5-978c-4f66-83c7-11c213f99cb7" width="90" height="30" x="50%" y="-1"
-                        patternUnits="userSpaceOnUse">
-                        <path d="M.5 200V.5H200" fill="none" />
-                    </pattern>
-                </defs>
-                <rect width="100%" height="100%" stroke-width="0" fill="url(#0787a7c5-978c-4f66-83c7-11c213f99cb7)" />
-            </svg>
             <div class="relative py-12 sm:py-16">
                 <div class="mx-auto max-w-7xl px-6 lg:px-8">
                     <div class="mx-auto max-w-2xl text-center">

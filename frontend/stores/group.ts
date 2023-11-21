@@ -151,7 +151,7 @@ export const useGroupStore = defineStore("groupStore", {
       if (this.authTokens.token) {
         try {
           if (payload && Object.keys(payload).length !== 0) this.setDraft(payload)
-          if (this.createEdit) await apiGroup.createTerm(this.authTokens.token, this.draft)
+          if (this.createEdit) await apiGroup.createTerm(this.authTokens.token, key, this.draft)
           else await apiGroup.updateTerm(this.authTokens.token, key, this.draft)
           this.createEdit = false
         } catch (error) {

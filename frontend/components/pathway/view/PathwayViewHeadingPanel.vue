@@ -47,6 +47,7 @@
                     <span class="hidden md:block">{{ t("header.edit") }}</span>
                 </button>
                 <PathwayViewDownload v-if="pathwayStore.isCustodian || pathwayStore.isCurator" />
+                <PathwayViewImport v-if="pathwayStore.isCustodian || pathwayStore.isCurator" />
                 <PathwayViewTogglePublish v-if="pathwayStore.isCustodian || pathwayStore.isCurator" />
                 <div v-if="authStore.isAdmin" class="flex flex-wrap justify-center mx-3 my-2">
                     <legend class="block text-xs">{{ t("filter.featured") }}</legend>
@@ -78,7 +79,7 @@ const pathwayStore = usePathwayStore()
 const props = defineProps<{
     title: string,
 }>()
-const emit = defineEmits<{ setEditRequest: [request: string] }>()
+const emit = defineEmits<{ setEditRequest: [request: string], setImport: [request: any] }>()
 
 function watchFeatured() {
     isFeatured.value = !isFeatured.value

@@ -1,18 +1,7 @@
 <template>
     <div class="px-2 py-10 lg:px-4 lg:py-6">
         <ClientOnly>
-            <div v-if="authStore.isAdmin"
-                class="mt-6 flex justify-center space-x-10 border-b border-t border-gray-200 py-6 md:px-12">
-                <LocaleLink :to="`/pathway/edit/${generateUUID()}`"
-                    class="flex items-center space-x-2 rounded-lg hover:bg-gray-50 pr-1">
-                    <div class="bg-kashmir-500 flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg">
-                        <PhPath class="h-6 w-6 text-white" aria-hidden="true" />
-                    </div>
-                    <h3 class="text-sm font-bold text-gray-900">
-                        {{ t("pathway.create") }}
-                    </h3>
-                </LocaleLink>
-            </div>
+            <PathwayImportCard v-if="authStore.isAdmin" @set-import="watchImport" />
         </ClientOnly>
         <div v-if="appSettings.current.pageState === 'loading'">
             <LoadingCardSkeleton />
@@ -34,11 +23,11 @@
 </template>
 
 <script setup lang="ts">
-import { PhPath } from "@phosphor-icons/vue"
 import { useSettingStore, usePathwayStore, useAuthStore } from "@/stores"
-import { generateUUID } from "@/utilities"
+import { IPathway } from "@/interfaces"
 
 const { t } = useI18n()
+const localePath = useLocalePath()
 const route = useRoute()
 const appSettings = useSettingStore()
 const authStore = useAuthStore()
@@ -51,6 +40,12 @@ watch(() => [route.query], async () => {
 async function updateMulti() {
     if (route.query && route.query.page) pathwayStore.setPage(route.query.page as string)
     await pathwayStore.getMulti()
+}
+
+async function watchImport(payload: IPathway) {
+    await pathwayStore.createImportTerm(payload)
+    if (!pathwayStore.savingDraft && pathwayStore.term && pathwayStore.term.hasOwnProperty('id'))
+        return await navigateTo(localePath(`/pathway/${pathwayStore.term.id}`))
 }
 
 onMounted(async () => {

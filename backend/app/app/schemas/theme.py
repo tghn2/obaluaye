@@ -9,12 +9,15 @@ import re
 from app.db.base_class import Base
 from app.schemas.base_schema import BaseSchema, BaseSummarySchema, LocaleType, CountryListType
 from app.schemas.resource import Resource
-from app.schemas.node import Node, NodeJourney
+from app.schemas.node import NodeJourney
 
 
 class ThemeBase(BaseSchema):
     id: Optional[UUID] = Field(None, description="Automatically generated unique identity.")
-    order: Optional[int] = Field(None, description="Sorting order for multiple themes. Items with the same order value are sorted alphabetically.")
+    order: Optional[int] = Field(
+        None,
+        description="Sorting order for multiple themes. Items with the same order value are sorted alphabetically.",
+    )
     created: Optional[datetime] = Field(None, description="Automatically generated date theme was created.")
     modified: Optional[datetime] = Field(None, description="Automatically generated date theme was last modified.")
     title: Optional[str] = Field(None, description="A human-readable title given to the theme.")
@@ -42,24 +45,32 @@ class ThemeBase(BaseSchema):
 
 class ThemeCreate(ThemeBase):
     # title: str = Field(..., description="A human-readable title given to the theme.")
-    order: int = Field(..., description="Sorting order for multiple themes. Items with the same order value are sorted alphabetically.",)
+    order: int = Field(
+        ...,
+        description="Sorting order for multiple themes. Items with the same order value are sorted alphabetically.",
+    )
     pathway_id: UUID = Field(..., description="Pathway associated identity.")
 
 
 class ThemeUpdate(ThemeCreate):
     id: UUID = Field(..., description="Automatically generated unique identity.")
     title: Optional[str] = Field(None, description="A human-readable title given to the theme.")
-    order: Optional[int] = Field(None, description="Sorting order for multiple themes. Items with the same order value are sorted alphabetically.")
+    order: Optional[int] = Field(
+        None,
+        description="Sorting order for multiple themes. Items with the same order value are sorted alphabetically.",
+    )
     pathway_id: Optional[UUID] = Field(None, description="Pathway associated identity.")
 
 
 class Theme(ThemeBase):
     id: UUID = Field(..., description="Automatically generated unique identity.")
-    order: int = Field(..., description="Sorting order for multiple themes. Items with the same order value are sorted alphabetically.")
+    order: int = Field(
+        ..., description="Sorting order for multiple themes. Items with the same order value are sorted alphabetically."
+    )
     created: datetime = Field(..., description="Automatically generated date theme was created.")
     modified: datetime = Field(..., description="Automatically generated date theme was last modified.")
     # title: str = Field(..., description="A human-readable title given to the theme.")
-    nodes: Optional[List[Node]] = Field([], description="A list of nodes which define this pathway.")
+    nodes: Optional[List[NodeJourney]] = Field([], description="A list of nodes which define this pathway.")
     resources: Optional[List[Resource]] = Field([], description="A list of resources relevant to this theme.")
     pathway_id: UUID = Field(..., description="Pathway associated identity.")
 

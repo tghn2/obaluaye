@@ -157,7 +157,7 @@ export default defineNuxtConfig({
         installPrompt: true,
       },
       devOptions: {
-        envabled: true,
+        enabled: true,
         suppressWarnings: true,
         navigateFallbackAllowlist: [/^\/$/],
         type: "module",

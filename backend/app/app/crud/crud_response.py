@@ -1,23 +1,46 @@
 from __future__ import annotations
+from uuid import uuid4
 
 from app.crud.base import CRUDBase
 from app.models import Response, Node, Group, User
 from app.schemas import ResponseCreate, ResponseUpdate, Response as ResponseOut
+from app.schema_types import NodeType
 from .crud_files import files
 
 
 class CRUDResponse(CRUDBase[Response, ResponseCreate, ResponseUpdate, ResponseOut]):
     def get_from_node(self, *, node: Node, group: Group | None = None, user: User | None = None) -> Response | None:
         if group:
-            return group.responses.filter(
-                (Response.group_id == group.id)
-                & (Response.node_id == node.id)
-            ).first()
+            return group.responses.filter((Response.group_id == group.id) & (Response.node_id == node.id)).first()
         if user:
-            return user.responses.filter(
-                (Response.respondent_id == user.id)
-                & (Response.node_id == node.id)
-            ).first()
+            return user.responses.filter((Response.respondent_id == user.id) & (Response.node_id == node.id)).first()
+        return None
+
+    def get_formatted_response(self, *, db_obj: Node, user: User = None) -> ResponseOut | None:
+        if user:
+            db_obj = self.get_from_node(node=db_obj, user=user)
+            if db_obj:
+                return self.get_schema(db_obj=db_obj)
+        elif db_obj.formType not in [NodeType.VALUE, NodeType.VALUERANGE, NodeType.UPLOAD]:
+            response_objs = db_obj.responses.all()
+            if response_objs:
+                obj_in = {}
+                for response in response_objs:
+                    if response.answer:
+                        answer = {**response.answer}
+                        obj_in[answer["id"]] = obj_in.get(answer["id"], answer)
+                        obj_in[answer["id"]]["count"] = obj_in[answer["id"]].get("count", 0) + 1
+                if obj_in:
+                    # Neither of `id` or `respondent_id` matter here
+                    return ResponseOut(
+                        **{
+                            "id": str(uuid4()),
+                            "answer": obj_in,
+                            "language": db_obj.language,
+                            "node_id": db_obj.id,
+                            "respondent_id": str(uuid4()),
+                        }
+                    )
         return None
 
     ###################################################################################################
@@ -45,7 +68,9 @@ class CRUDResponse(CRUDBase[Response, ResponseCreate, ResponseUpdate, ResponseOu
     def _has_term(self, *, node: Node, term_id: str) -> bool:
         # language doesn't matter since all the IDs match
         if node.form[node.language].form and node.form[node.language].form.get("terms", []):
-            return next((True for term in node.form[node.language].form.get("terms", []) if term["id"] == term_id), False)
+            return next(
+                (True for term in node.form[node.language].form.get("terms", []) if term["id"] == term_id), False
+            )
         return False
 
     def _within_limit(self, *, node: Node, limit: int) -> int | bool:
@@ -62,23 +87,22 @@ class CRUDResponse(CRUDBase[Response, ResponseCreate, ResponseUpdate, ResponseOu
             and node.form[node.language].form.get("constraints", {})
             and any([node.form[node.language].form.get("constraints", {}).get(m) for m in ["minimum", "maximum"]])
         ):
-            if (
-                node.form[node.language].form.get("constraints", {}).get("minimum")
-                and any([float(node.form[node.language].form["constraints"]["minimum"]) > m for m in [minimum, maximum] if m])
+            if node.form[node.language].form.get("constraints", {}).get("minimum") and any(
+                [float(node.form[node.language].form["constraints"]["minimum"]) > m for m in [minimum, maximum] if m]
             ):
                 return False
-            if (
-                node.form[node.language].form.get("constraints", {}).get("maximum")
-                and any([float(node.form[node.language].form["constraints"]["maximum"]) < m for m in [minimum, maximum] if m])
+            if node.form[node.language].form.get("constraints", {}).get("maximum") and any(
+                [float(node.form[node.language].form["constraints"]["maximum"]) < m for m in [minimum, maximum] if m]
             ):
                 return False
         return True
 
     def _of_stringtype(self, *, node: Node) -> bool:
-        return (
-            node.form[node.language].form.get("formType")
-            and node.form[node.language].form.get("formType") not in ["NUMBER", "INTEGER", "YEAR"]
-        )
+        return node.form[node.language].form.get("formType") and node.form[node.language].form.get("formType") not in [
+            "NUMBER",
+            "INTEGER",
+            "YEAR",
+        ]
 
     def validateSelectOne(self, *, node: Node, response: ResponseCreate) -> bool:
         return (
@@ -121,9 +145,7 @@ class CRUDResponse(CRUDBase[Response, ResponseCreate, ResponseUpdate, ResponseOu
             and all([r.get("id") for r in answerList])
             and all([self._has_term(node=node, term_id=r.get("id")) for r in answerList])
             and self._within_min_max(
-                node=node,
-                minimum=float(answerList[0].get("value")),
-                maximum=float(answerList[1].get("value"))
+                node=node, minimum=float(answerList[0].get("value")), maximum=float(answerList[1].get("value"))
             )
         )
 
@@ -154,7 +176,4 @@ class CRUDResponse(CRUDBase[Response, ResponseCreate, ResponseUpdate, ResponseOu
         )
 
 
-response = CRUDResponse(
-    model=Response,
-    schema=ResponseOut
-)
+response = CRUDResponse(model=Response, schema=ResponseOut)

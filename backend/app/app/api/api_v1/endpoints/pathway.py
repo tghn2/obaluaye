@@ -10,6 +10,94 @@ from app.api import deps
 router = APIRouter()
 
 
+def create_or_update_from_import(
+    *, db: Session, obj_in: schemas.Pathway, user: models.User, db_obj: models.Pathway = None
+) -> models.Pathway:
+    """
+    Create or update a pathway from an imported JSON file. Assumes that updates are for language changes rather than generic updates.
+    """
+    interim_in = crud.pathway.get_obj_as_dict(obj_in=obj_in)
+    if not db_obj:
+        pathway_in = schemas.PathwayCreate(**interim_in)
+        pathway_obj = crud.pathway.create(db=db, obj_in=pathway_in)
+        # Create a group
+        group_in = schemas.GroupCreate(
+            **{
+                "title": f"Admin group for {obj_in.title}",
+                "language": obj_in.language,
+                "isActive": False,
+            }
+        )
+        group_obj = crud.group.create(db=db, obj_in=group_in)
+        # And assign the custodial role to the pathway creator
+        crud.role.create(
+            db=db, user=user, group=group_obj, pathway=pathway_obj, responsibility=schema_types.RoleType.CUSTODIAN
+        )
+    else:
+        pathway_in = schemas.PathwayUpdate(**interim_in)
+        pathway_obj = crud.pathway.update(
+            db=db,
+            db_obj=db_obj,
+            obj_in=pathway_in,
+        )
+    # Resources
+    if obj_in.resources and isinstance(obj_in.resources, list):
+        for resource_obj in obj_in.resources:
+            interim_in = crud.resource.get_obj_as_dict(obj_in=resource_obj)
+            interim_in = schemas.ResourceUpdate(**interim_in)
+            db_interim = crud.resource.get(db=db, id=resource_obj.id)
+            if not db_interim:
+                interim_in.pathway_id = obj_in.id
+                crud.resource.create(db=db, obj_in=interim_in)
+            else:
+                crud.resource.update(db=db, db_obj=db_interim, obj_in=interim_in)
+    # Themes
+    if obj_in.themes and isinstance(obj_in.themes, list):
+        for theme_obj in obj_in.themes:
+            interim_in = crud.theme.get_obj_as_dict(obj_in=theme_obj)
+            interim_in = schemas.ThemeUpdate(**interim_in)
+            db_interim = crud.theme.get(db=db, id=theme_obj.id)
+            if not db_interim:
+                interim_in.pathway_id = obj_in.id
+                crud.theme.create(db=db, obj_in=interim_in)
+            else:
+                crud.theme.update(db=db, db_obj=db_interim, obj_in=interim_in)
+            # Resources
+            if theme_obj.resources and isinstance(theme_obj.resources, list):
+                for resource_obj in theme_obj.resources:
+                    interim_in = crud.resource.get_obj_as_dict(obj_in=resource_obj)
+                    interim_in = schemas.ResourceUpdate(**interim_in)
+                    db_interim = crud.resource.get(db=db, id=resource_obj.id)
+                    if not db_interim:
+                        interim_in.pathway_id = obj_in.id
+                        crud.resource.create(db=db, obj_in=interim_in)
+                    else:
+                        crud.resource.update(db=db, db_obj=db_interim, obj_in=interim_in)
+            # Nodes
+            if theme_obj.nodes and isinstance(theme_obj.nodes, list):
+                for node_obj in theme_obj.nodes:
+                    interim_in = crud.node.get_obj_as_dict(obj_in=node_obj)
+                    interim_in = schemas.NodeUpdate(**interim_in)
+                    db_interim = crud.node.get(db=db, id=node_obj.id)
+                    if not db_interim:
+                        interim_in.pathway_id = obj_in.id
+                        crud.node.create(db=db, obj_in=interim_in)
+                    else:
+                        crud.node.update(db=db, db_obj=db_interim, obj_in=interim_in)
+                    # Resources
+                    if node_obj.resources and isinstance(node_obj.resources, list):
+                        for resource_obj in node_obj.resources:
+                            interim_in = crud.resource.get_obj_as_dict(obj_in=resource_obj)
+                            interim_in = schemas.ResourceUpdate(**interim_in)
+                            db_interim = crud.resource.get(db=db, id=resource_obj.id)
+                            if not db_interim:
+                                interim_in.pathway_id = obj_in.id
+                                crud.resource.create(db=db, obj_in=interim_in)
+                            else:
+                                crud.resource.update(db=db, db_obj=db_interim, obj_in=interim_in)
+    return crud.pathway.get(db=db, id=obj_in.id)
+
+
 @router.get("/", response_model=list[schemas.PathwaySummary])
 def read_all_public_pathways(
     *,
@@ -46,7 +134,11 @@ def read_all_public_pathways(
             ):
                 validated_objs.append(db_obj)
         db_objs = validated_objs
-    return [crud.pathway.get_schema(db_obj=db_obj, language=language, schema_out=schemas.PathwaySummary) for db_obj in db_objs]
+    return [
+        crud.pathway.get_schema(db_obj=db_obj, language=language, schema_out=schemas.PathwaySummary)
+        for db_obj in db_objs
+    ]
+
 
 @router.get("/featured", response_model=schemas.PathwaySummary)
 def read_featured_pathway(
@@ -59,6 +151,7 @@ def read_featured_pathway(
     """
     db_obj = crud.pathway.get_featured(db=db)
     return crud.pathway.get_schema(db_obj=db_obj, language=language, schema_out=schemas.PathwaySummary)
+
 
 @router.get("/{id}", response_model=schemas.Pathway)
 def get_pathway(
@@ -76,9 +169,12 @@ def get_pathway(
     if db_obj and current_user:
         responsibility = crud.role.highest_responsibility(db=db, user=current_user, pathway=db_obj)
     # if not db_obj or (db_obj.isPrivate and (not current_user or (current_user and not crud.role.has_responsibility))
-    if not db_obj or (db_obj.isPrivate and (
-        not current_user
-        or (current_user and responsibility not in [schema_types.RoleType.CURATOR, schema_types.RoleType.CUSTODIAN]))
+    if not db_obj or (
+        db_obj.isPrivate
+        and (
+            not current_user
+            or (current_user and responsibility not in [schema_types.RoleType.CURATOR, schema_types.RoleType.CUSTODIAN])
+        )
     ):
         raise HTTPException(
             status_code=400,
@@ -99,11 +195,14 @@ def get_pathway(
             theme_out.resources.append(resources_out)
         theme_out.nodes = []
         for node_obj in theme_obj.nodes.all():
-            node_out = crud.node.get_schema(db_obj=node_obj, language=language)
+            node_out = crud.node.get_schema(db_obj=node_obj, language=language, schema_out=schemas.NodeJourney)
             node_out.resources = []
             for resource_obj in node_obj.resources.all():
                 resources_out = crud.resource.get_schema(db_obj=resource_obj, language=language)
                 node_out.resources.append(resources_out)
+            response_out = crud.response.get_formatted_response(db_obj=node_obj)
+            if response_out:
+                node_out.response = response_out
             theme_out.nodes.append(node_out)
         response.themes.append(theme_out)
     # Check if user, and user is busy with this pathway
@@ -139,11 +238,13 @@ def create_pathway(
     # This automatically generates a group for further management
     pathway_obj = crud.pathway.create(db=db, obj_in=obj_in)
     # Create a group
-    group_in = schemas.GroupCreate(**{
-        "title": f"Admin group for {obj_in.title}",
-        "language": obj_in.language,
-        "isActive": False,
-    })
+    group_in = schemas.GroupCreate(
+        **{
+            "title": f"Admin group for {obj_in.title}",
+            "language": obj_in.language,
+            "isActive": False,
+        }
+    )
     group_obj = crud.group.create(db=db, obj_in=group_in)
     # And assign the custodial role to the pathway creator
     crud.role.create(
@@ -196,6 +297,7 @@ def remove_pathway(
     crud.pathway.remove(db=db, id=id)
     return {"msg": "Pathway has been successfully removed."}
 
+
 @router.put("/{id}/toggle-state", response_model=schemas.Msg)
 def toggle_state(
     *,
@@ -245,12 +347,7 @@ def toggle_feature_state(
 
 
 @router.get("/{id}/download", response_class=StreamingResponse)
-def download_pathway_model(
-    *,
-    db: Session = Depends(deps.get_db),
-    id: str,
-    language: str | None = None
-) -> Any:
+def download_pathway_model(*, db: Session = Depends(deps.get_db), id: str, language: str | None = None) -> Any:
     """
     Download a JSON model of a pathway.
     """
@@ -291,3 +388,63 @@ def download_pathway_model(
             "Access-Control-Expose-Headers": "Content-Disposition",
         },
     )
+
+
+@router.post("/import", response_model=schemas.Pathway)
+def import_and_create_pathway(
+    *,
+    db: Session = Depends(deps.get_db),
+    obj_in: schemas.Pathway,
+    current_user: models.User = Depends(deps.get_current_active_superuser),
+) -> Any:
+    """
+    Create a pathway from a saved JSON import. MUST be new to this database.
+    """
+    db_obj = crud.pathway.get(db=db, id=obj_in.id)
+    if db_obj:
+        raise HTTPException(
+            status_code=400,
+            detail="Either pathway exists, or user does not have the rights for this request.",
+        )
+    try:
+        db_obj = create_or_update_from_import(db=db, obj_in=obj_in, user=current_user)
+    except ValueError as e:
+        raise HTTPException(
+            status_code=400,
+            detail=e,
+        )
+    return crud.pathway.get_schema(db_obj=db_obj, language=obj_in.language)
+
+
+@router.put("/import/{id}", response_model=schemas.Pathway)
+def import_and_update_pathway(
+    *,
+    db: Session = Depends(deps.get_db),
+    id: str,
+    obj_in: schemas.Pathway,
+    current_user: models.User = Depends(deps.get_current_active_user),
+) -> Any:
+    """
+    Update a pathway from a saved JSON import. Tends to be for alternative language models.
+    Updating a full pathway is likely to lead to a very tangled response.
+    """
+    db_obj = crud.pathway.get(db=db, id=str(obj_in.id))
+    if (
+        str(obj_in.id) != id
+        or not db_obj
+        or not crud.role.has_responsibility(
+            db=db, user=current_user, pathway=db_obj, responsibility=schema_types.RoleType.CURATOR
+        )
+    ):
+        raise HTTPException(
+            status_code=400,
+            detail="Either pathway does not exist, or user does not have the rights for this request.",
+        )
+    try:
+        db_obj = create_or_update_from_import(db=db, obj_in=obj_in, user=current_user, db_obj=db_obj)
+    except ValueError as e:
+        raise HTTPException(
+            status_code=400,
+            detail=e,
+        )
+    return crud.pathway.get_schema(db_obj=db_obj, language=obj_in.language)

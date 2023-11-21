@@ -77,6 +77,24 @@ export const apiPathway = {
             }
         )
     },
+    async createImportTerm(token: string, payload: IPathway) {
+        return await useFetch<IPathway>(`${apiCore.url()}/pathway/import`, 
+            {
+                method: "POST",
+                body: payload,
+                headers: apiCore.headers(token),
+            }
+        )
+    },
+    async updateImportTerm(token: string, key: string, payload: IPathway) {
+        return await useFetch<IPathway>(`${apiCore.url()}/pathway/import/${key}`, 
+            {
+                method: "PUT",
+                body: payload,
+                headers: apiCore.headers(token),
+            }
+        )
+    },
     async removeTerm(token: string, key: string) {
         return await useFetch<IPathway>(`${apiCore.url()}/pathway/${key}`, 
             {

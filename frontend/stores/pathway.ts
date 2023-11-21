@@ -102,6 +102,7 @@ export const usePathwayStore = defineStore("pathwayStore", {
         async getFeaturedTerm() {
             try {
                 this.setTerm({} as IPathway)
+                await apiPathway.getFeaturedTerm(this.settings.locale)
                 const { data: response } = await apiPathway.getFeaturedTerm(this.settings.locale)
                 if (response.value) this.setTerm(response.value)
             } catch (error) {}
@@ -181,6 +182,42 @@ export const usePathwayStore = defineStore("pathwayStore", {
                 }
                 this.savingEdit = false
             }
+        },
+        async createImportTerm(payload: IPathway) {
+            this.savingEdit = true
+            await this.authTokens.refreshTokens()
+            if (this.authTokens.token) {
+                try {
+                    this.setTerm({} as IPathway)
+                    const { data: response } = await apiPathway.createImportTerm(this.authTokens.token, payload)
+                    if (response.value) this.setTerm(response.value)
+                } catch (error) {
+                    const toasts = useToastStore()
+                    toasts.addNotice({
+                        title: "pathway.alert.saveErrorTitle",
+                        content: "pathway.alert.saveErrorContent",
+                        icon: "error"
+                    })
+                }
+            }
+            this.savingEdit = false
+        },
+        async updateImportTerm(payload: IPathway) {
+            this.savingEdit = true
+            await this.authTokens.refreshTokens()
+            if (this.authTokens.token && payload.id) {
+                try {
+                    await apiPathway.updateImportTerm(this.authTokens.token, payload.id, payload)
+                } catch (error) {
+                    const toasts = useToastStore()
+                    toasts.addNotice({
+                        title: "pathway.alert.saveErrorTitle",
+                        content: "pathway.alert.saveErrorContent",
+                        icon: "error"
+                    })
+                }
+            }
+            this.savingEdit = false
         },
         async toggleTerm(key: string) {
             this.savingEdit = true

@@ -242,6 +242,11 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType, OutputSche
                 modified_model[key] = str(uuid4())
         return modified_model
 
+    def get_obj_as_dict(self, *, obj_in: BaseModel) -> dict:
+        obj_in = obj_in.dict(exclude_unset=True, exclude_none=True)
+        obj_in.pop("name", None)
+        return obj_in
+
     def _fix_language(self, language: str | Locale | None) -> Optional[Locale]:
         # Locale is saved as lowercase to the db
         if language and isinstance(language, Locale):
