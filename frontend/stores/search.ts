@@ -22,8 +22,8 @@ export const useSearchStore = defineStore("searchStore", {
   actions: {
     async getMulti(facets: IFilters = {}) {
         try {
-        //   this.settings.setPageState("loading")
-        //   this.setMulti([])
+          this.settings.setPageState("loading")
+          this.setMulti([])
           if (!facets || Object.keys(facets).length === 0) facets = this.facets
           const { data: response } = await apiGroup.getSearch(facets)
           if (response.value) {
@@ -35,7 +35,7 @@ export const useSearchStore = defineStore("searchStore", {
               this.settings.setPageNext(false)
             }
           }
-        //   this.settings.setPageState("done")
+          this.settings.setPageState("done")
         } catch (error) {
           this.settings.setPageState("error")
           this.board = []
@@ -64,12 +64,14 @@ export const useSearchStore = defineStore("searchStore", {
     setPage(payload: string) {
       if (!isNaN(+payload)) {
         this.facets.page = +payload 
+      } else {
+        this.facets.page = 0
       }
     },
     resetFilters() {
-      const page = this.facets.page
+      // const page = this.facets.page
       this.facets = {}
-      this.setPage("" + page)
+      this.setPage("" + 0)
     },
     // reset state using `$reset`
     resetState () {

@@ -55,7 +55,9 @@ def read_all_groups(
             if not pathway_obj:
                 pathway_obj = role_obj.pathway
             obj_out.roles.append(crud.role.get_schema(db_obj=role_obj))
-        obj_out.pathway = crud.pathway.get_schema(db_obj=pathway_obj, language=db_obj.language, schema_out=schemas.PathwaySummary)
+        obj_out.pathway = crud.pathway.get_schema(
+            db_obj=pathway_obj, language=db_obj.language, schema_out=schemas.PathwaySummary
+        )
         objs_out.append(obj_out)
     return objs_out
 
@@ -74,7 +76,9 @@ def read_featured_group(
     for db_obj in db_objs:
         obj_out = crud.group.get_schema(db_obj=db_obj, language=db_obj.language, schema_out=schemas.Group)
         pathway_obj = crud.group.get_pathway(group=db_obj)
-        obj_out.pathway = crud.pathway.get_schema(db_obj=pathway_obj, language=db_obj.language, schema_out=schemas.PathwaySummary)
+        obj_out.pathway = crud.pathway.get_schema(
+            db_obj=pathway_obj, language=db_obj.language, schema_out=schemas.PathwaySummary
+        )
         obj_out.roleCount = db_obj.roles.count()
         objs_out.append(obj_out)
     return objs_out
@@ -110,7 +114,9 @@ def search_all_groups(
     for db_obj in db_objs:
         obj_out = crud.group.get_schema(db_obj=db_obj, language=db_obj.language, schema_out=schemas.Group)
         pathway_obj = crud.group.get_pathway(group=db_obj)
-        obj_out.pathway = crud.pathway.get_schema(db_obj=pathway_obj, language=db_obj.language, schema_out=schemas.PathwaySummary)
+        obj_out.pathway = crud.pathway.get_schema(
+            db_obj=pathway_obj, language=db_obj.language, schema_out=schemas.PathwaySummary
+        )
         obj_out.roleCount = db_obj.roles.count()
         objs_out.append(obj_out)
     return objs_out
@@ -133,7 +139,9 @@ def get_search_group(
         )
     obj_out = crud.group.get_schema(db_obj=db_obj, language=db_obj.language, schema_out=schemas.Group)
     pathway_obj = crud.group.get_pathway(group=db_obj)
-    obj_out.pathway = crud.pathway.get_schema(db_obj=pathway_obj, language=db_obj.language, schema_out=schemas.PathwaySummary)
+    obj_out.pathway = crud.pathway.get_schema(
+        db_obj=pathway_obj, language=db_obj.language, schema_out=schemas.PathwaySummary
+    )
     return obj_out
 
 
@@ -160,7 +168,9 @@ def get_group(
         if not pathway_obj:
             pathway_obj = role_obj.pathway
         obj_out.roles.append(crud.role.get_schema(db_obj=role_obj))
-    obj_out.pathway = crud.pathway.get_schema(db_obj=pathway_obj, language=db_obj.language, schema_out=schemas.PathwaySummary)
+    obj_out.pathway = crud.pathway.get_schema(
+        db_obj=pathway_obj, language=db_obj.language, schema_out=schemas.PathwaySummary
+    )
     obj_out.readyToComplete = crud.group.has_completed_pathway(group=db_obj)
     return obj_out
 
@@ -273,8 +283,12 @@ def toggle_completed_state(
     Toggle group featured state.
     """
     db_obj = crud.group.get(db=db, id=id)
-    if not db_obj or not crud.group.has_completed_pathway(group=db_obj) or not crud.role.has_responsibility(
-        db=db, user=current_user, group=db_obj, responsibility=schema_types.RoleType.RESEARCHER
+    if (
+        not db_obj
+        or not crud.group.has_completed_pathway(group=db_obj)
+        or not crud.role.has_responsibility(
+            db=db, user=current_user, group=db_obj, responsibility=schema_types.RoleType.RESEARCHER
+        )
     ):
         raise HTTPException(
             status_code=400,
@@ -422,12 +436,9 @@ def add_invitation(
             detail="Either group does not exist, or researcher does not have the rights for this request.",
         )
     pathway_id = db_obj.roles.first().pathway_id
-    obj_in = schemas.InvitationCreate(**{
-        "email": email_id,
-        "sender_id": current_user.id,
-        "group_id": db_obj.id,
-        "pathway_id": pathway_id
-    })
+    obj_in = schemas.InvitationCreate(
+        **{"email": email_id, "sender_id": current_user.id, "group_id": db_obj.id, "pathway_id": pathway_id}
+    )
     try:
         crud.invitation.create(db=db, obj_in=obj_in)
     except IntegrityError:

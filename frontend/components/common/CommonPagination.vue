@@ -30,7 +30,11 @@ const pagePrevious = ref("")
 const showPrevious = ref(false)
 const path = ref("")
 
-onMounted(async () => {
+watch(() => [route.query], async () => {
+    await updatePagination()
+})
+
+async function updatePagination() {
     path.value = route.path as string
     let page = 0
     if (route.query && route.query.page) {
@@ -45,5 +49,9 @@ onMounted(async () => {
     if (page > 0) showPrevious.value = true
     pageNext.value = "" + (page + 1)
     pagePrevious.value = page > 0 ? "" + (page - 1) : "0"
+}
+
+onMounted(async () => {
+    await updatePagination()
 })
 </script>
