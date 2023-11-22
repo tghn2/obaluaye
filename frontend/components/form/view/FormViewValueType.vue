@@ -12,7 +12,7 @@
 
 <script setup lang="ts">
 import { PhCircle } from "@phosphor-icons/vue"
-import { IForm, IKeyable } from "@/interfaces"
+import { IForm, IKeyable, IResponse } from "@/interfaces"
 
 const { t } = useI18n()
 const inputType: IKeyable = {
@@ -27,5 +27,6 @@ const inputType: IKeyable = {
 }
 const props = defineProps<{
     form: IForm,
+    response: IResponse,
 }>()
 </script>

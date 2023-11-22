@@ -1,7 +1,7 @@
 <template>
     <div>
         <button type="button" @click="openModal"
-            class="inline-flex items-center group test-sm font-medium text-kashmir-800 hover:text-kashmir-500">
+            class="inline-flex items-center group text-xs font-medium text-kashmir-800 hover:text-kashmir-500">
             <span>{{ props.resource.title }}</span>
             <PhArticle class="ml-1 h-4 w-4" aria-hidden="true" />
         </button>
@@ -18,10 +18,10 @@
                             leave-to="opacity-0 scale-95">
                             <DialogPanel
                                 class="w-full max-w-md transform overflow-hidden rounded-md bg-white p-6 text-left align-middle shadow-xl transition-all">
-                                <DialogTitle as="h3" class="text-lg font-medium leading-6 text-gray-900">
+                                <DialogTitle as="h3" class="text-base font-medium leading-6 text-gray-900">
                                     {{ props.resource.title }}
                                 </DialogTitle>
-                                <div class="flex-auto mt-2">
+                                <div class="flex-auto text-sm mt-2">
                                     {{ props.resource.content }}
                                 </div>
                                 <div class="flex flex-inline items-center space-x-2 justify-end mt-4">

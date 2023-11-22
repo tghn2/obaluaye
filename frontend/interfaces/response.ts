@@ -36,6 +36,7 @@ export interface IAnswer {
     id?: string
     value?: string
     dtype?: string
+    count?: number
 }
 
 export interface IAnswerResponse {

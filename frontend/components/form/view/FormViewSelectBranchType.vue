@@ -17,12 +17,13 @@
 <script setup lang="ts">
 import { PhCircle } from "@phosphor-icons/vue"
 import { usePathwayStore } from "@/stores"
-import { IForm } from "@/interfaces"
+import { IForm, IResponse } from "@/interfaces"
 
 const { t } = useI18n()
 const pathwayStore = usePathwayStore()
 
 const props = defineProps<{
     form: IForm,
+    response: IResponse,
 }>()
 </script>

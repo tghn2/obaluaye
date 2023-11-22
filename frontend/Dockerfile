@@ -50,6 +50,7 @@ COPY --from=build /frontend/.output/ ./.output
 COPY --from=build /frontend/api ./api
 COPY --from=build /frontend/assets ./assets
 COPY --from=build /frontend/components ./components
+COPY --from=build /frontend/composables ./composables
 COPY --from=build /frontend/config ./config
 COPY --from=build /frontend/content ./content
 COPY --from=build /frontend/interfaces ./interfaces

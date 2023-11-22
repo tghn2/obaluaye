@@ -35,7 +35,7 @@ class CRUDResponse(CRUDBase[Response, ResponseCreate, ResponseUpdate, ResponseOu
                     return ResponseOut(
                         **{
                             "id": str(uuid4()),
-                            "answer": obj_in,
+                            "answer": list(obj_in.values()),
                             "language": db_obj.language,
                             "node_id": db_obj.id,
                             "respondent_id": str(uuid4()),

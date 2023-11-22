@@ -1,7 +1,7 @@
 <template>
     <fieldset>
         <button @click="getSource"
-            class="inline-flex items-center group test-sm font-medium text-kashmir-800 hover:text-kashmir-600">
+            class="inline-flex items-center group text-sm font-medium text-kashmir-800 hover:text-kashmir-600">
             <PhLinkSimple class="h-4 w-4 mr-1" aria-hidden="true" />
             <span>{{ term.value }}</span>
         </button>

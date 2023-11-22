@@ -12,18 +12,19 @@
 
 <script setup lang="ts">
 import { PhCircle } from "@phosphor-icons/vue"
-import { IForm } from "@/interfaces"
+import { IForm, IResponse } from "@/interfaces"
 
 const { t } = useI18n()
 const scaleList = ref([] as string[])
 
 const props = defineProps<{
     form: IForm,
+    response: IResponse,
 }>()
 
 onMounted(() => {
-    if (props.form.terms.length === 2) {
-        for (let i = parseInt(props.form.terms[0].value); i <= parseInt(props.form.terms[1].value); i++)
+    if (props.form.terms && props.form.terms.length === 2) {
+        for (let i = parseInt(props.form.terms[0].value as string); i <= parseInt(props.form.terms[1].value as string); i++)
             scaleList.value.push(i + '')
     }
 })

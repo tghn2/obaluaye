@@ -10,11 +10,12 @@
 
 <script setup lang="ts">
 import { PhSquare } from "@phosphor-icons/vue"
-import { IForm } from "@/interfaces"
+import { IForm, IResponse } from "@/interfaces"
 
 const { t } = useI18n()
 
 const props = defineProps<{
     form: IForm,
+    response: IResponse,
 }>()
 </script>

@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import Optional, List
+from typing import Optional, List, Union
 from pydantic import Field, validator
 from sqlalchemy.orm import Query
 from uuid import UUID
@@ -14,7 +14,7 @@ class ResponseBase(BaseSchema):
     id: Optional[UUID] = Field(None, description="Automatically generated unique identity.")
     created: Optional[datetime] = Field(None, description="Automatically generated date response was created.")
     modified: Optional[datetime] = Field(None, description="Automatically generated date response was last modified.")
-    answer: Optional[FormAttributeModel] = Field(
+    answer: Optional[Union[List[FormAttributeModel], FormAttributeModel]] = Field(
         {},
         description="Dictionary defining the answer response to a question raised in a `node`.",
     )
@@ -27,7 +27,9 @@ class ResponseBase(BaseSchema):
 
 class ResponseCreate(ResponseBase):
     id: UUID = Field(..., description="Automatically generated unique identity.")
-    answer: FormAttributeModel = Field(..., description="Dictionary defining the answer response to a question raise in a `node`.")
+    answer: Union[List[FormAttributeModel], FormAttributeModel] = Field(
+        ..., description="Dictionary defining the answer response to a question raise in a `node`."
+    )
     node_id: UUID = Field(..., description="Response associated node identity.")
     group_id: Optional[UUID] = Field(None, description="Response associated group identity.")
     respondent_id: UUID = Field(..., description="Response associated respondent identity.")
@@ -40,7 +42,9 @@ class ResponseUpdate(ResponseCreate):
 
 class Response(ResponseBase):
     id: UUID = Field(..., description="Automatically generated unique identity.")
-    answer: FormAttributeModel = Field(..., description="Dictionary defining the answer response to a question raise in a `node`.")
+    answer: Union[List[FormAttributeModel], FormAttributeModel] = Field(
+        ..., description="Dictionary defining the answer response to a question raise in a `node`."
+    )
     node_id: UUID = Field(..., description="Response associated node identity.")
     group_id: Optional[UUID] = Field(None, description="Response associated group identity.")
     respondent_id: UUID = Field(..., description="Response associated respondent identity.")

@@ -31,31 +31,15 @@
                     </span>
                 </div>
             </div>
-            <div v-if="props.theme.resources && props.theme.resources.length" class="py-1">
-                <h4 class="mt-1 text-sm font-medium text-gray-900 bg-spring-50 border-t border-spring-200 p-2">
-                    {{ t("pathway.journey.resources") }}
-                </h4>
-                <ul class="mt-1">
-                    <li v-for="resource in props.theme.resources" :key="resource.id">
-                        <dl v-if="resource.resourceType === 'WEBLINK'" class="px-2 py-1">
-                            <a :href="resource.content" target="_blank"
-                                class="inline-flex items-center group test-sm font-medium text-kashmir-800 hover:text-kashmir-600">
-                                <span>{{ resource.title }}</span>
-                                <PhArrowSquareOut class="ml-1 h-4 w-4" aria-hidden="true" />
-                            </a>
-                        </dl>
-                        <dl v-if="resource.resourceType === 'MARKDOWN'" class="px-2 py-1">
-                            <ResourceViewModal :resource="resource" />
-                        </dl>
-                    </li>
-                </ul>
+            <div v-if="props.theme.resources && props.theme.resources.length" class="py-1 text-sm">
+                <ResourceViewDisclosureCard :resources="props.theme.resources" />
             </div>
         </div>
     </div>
 </template>
   
 <script setup lang="ts">
-import { PhArrowSquareOut, PhTag, PhGlobeHemisphereEast, PhTranslate, PhNote } from "@phosphor-icons/vue"
+import { PhTag, PhGlobeHemisphereEast, PhNote } from "@phosphor-icons/vue"
 import { ITheme } from "@/interfaces"
 
 const { t } = useI18n()
