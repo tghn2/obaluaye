@@ -13,6 +13,10 @@
                         <p class="mt-6 text-lg leading-8 text-gray-600">
                             {{ t("frontpage.description") }}
                         </p>
+                        <!-- Pathway Steps -->
+                        <div class="mt-6">
+                            <PathwayFrontpageSteps />
+                        </div>
                         <div class="mt-6 flex items-center justify-center gap-x-6">
                             <LocaleLink v-if="!authStore.loggedIn" to="/login"
                                 class="rounded-md bg-kashmir-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-kashmir-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-kashmir-600">

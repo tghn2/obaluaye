@@ -119,6 +119,7 @@ def search_all_groups(
                 db_obj=pathway_obj, language=db_obj.language, schema_out=schemas.PathwaySummary
             )
         except AttributeError:
+            # Trying to find the group causing the crash
             print("--------------------------------------------------------------------------------------------------")
             print(obj_out.id, obj_out.title)
             print("--------------------------------------------------------------------------------------------------")

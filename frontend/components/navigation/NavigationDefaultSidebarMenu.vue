@@ -94,12 +94,12 @@ const { t } = useI18n()
 
 const leadNavigation = [
     { name: "nav.home", to: "/", icon: PhHouseSimple, login: false, showDot: false },
-    { name: "nav.comments", to: "/comment", icon: PhChatTeardropText, login: true, showDot: false },
     { name: "nav.groups", to: "/group", icon: PhUsersThree, login: true, showDot: false },
 ]
 
 const secondaryNavigation = [
     { name: "nav.pathways", to: "/pathway", icon: PhPath, login: false, showDot: false },
+    { name: "nav.comments", to: "/comment", icon: PhChatTeardropText, login: true, showDot: false },
     { name: "nav.settings", to: "/settings", icon: PhGear, login: true, showDot: authStore.profile.invitationCount > 0 },
 ]
 </script>
