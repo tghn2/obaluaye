@@ -11,6 +11,7 @@ export const useGroupStore = defineStore("groupStore", {
     one: {} as IGroup,
     edit: {} as IGroup,
     createEdit: false,
+    savingEdit: false,
     invitationships: {} as IGroupInvitation[],
     memberships: {} as IGroupRole[],
     facets: {} as IFilters,
@@ -24,6 +25,7 @@ export const useGroupStore = defineStore("groupStore", {
     draft: (state) => state.edit,
     invitations: (state) => state.invitationships,
     createDraft: (state) => state.createEdit,
+    savingDraft: (state) => state.savingEdit,
     members: (state) => state.memberships,
     isMember: (state) => {
       const authStore = useAuthStore()
@@ -147,6 +149,7 @@ export const useGroupStore = defineStore("groupStore", {
       }
     },
     async updateTerm(key: string, payload: IGroup = {} as IGroup) {
+      this.savingEdit = true
       await this.authTokens.refreshTokens()
       if (this.authTokens.token) {
         try {
@@ -163,6 +166,7 @@ export const useGroupStore = defineStore("groupStore", {
             })
         }
       }
+      this.savingEdit = false
     },
     setDraft(payload: IGroup) {
       this.edit = payload
