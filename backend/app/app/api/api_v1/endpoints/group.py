@@ -113,10 +113,15 @@ def search_all_groups(
     objs_out = []
     for db_obj in db_objs:
         obj_out = crud.group.get_schema(db_obj=db_obj, language=db_obj.language, schema_out=schemas.Group)
-        pathway_obj = crud.group.get_pathway(group=db_obj)
-        obj_out.pathway = crud.pathway.get_schema(
-            db_obj=pathway_obj, language=db_obj.language, schema_out=schemas.PathwaySummary
-        )
+        try:
+            pathway_obj = crud.group.get_pathway(group=db_obj)
+            obj_out.pathway = crud.pathway.get_schema(
+                db_obj=pathway_obj, language=db_obj.language, schema_out=schemas.PathwaySummary
+            )
+        except AttributeError:
+            print("--------------------------------------------------------------------------------------------------")
+            print(obj_out.id, obj_out.title)
+            print("--------------------------------------------------------------------------------------------------")
         obj_out.roleCount = db_obj.roles.count()
         objs_out.append(obj_out)
     return objs_out
