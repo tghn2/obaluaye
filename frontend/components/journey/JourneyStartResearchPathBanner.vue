@@ -40,6 +40,11 @@ async function submit() {
             }
             const { data: response } = await apiGroup.createTerm(tokenStore.token, props.pathwayId, data)
             if (response.value) {
+                toastStore.addNotice({
+                    title: t("group.alert.createSuccessTitle"),
+                    content: t("group.alert.createSuccessContent"),
+                    icon: "success"
+                })
                 return await navigateTo(localePath(`/group/${response.value.msg}`))
             } else {
                 toastStore.addNotice({

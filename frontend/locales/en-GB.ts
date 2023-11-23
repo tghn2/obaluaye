@@ -173,6 +173,8 @@ export default {
             language: "Specify study team communication language.",
         },
         alert: {
+            createSuccessTitle: "Success",
+            createSuccessContent: "Study created.",
             createErrorTitle: "Creation error",
             createErrorContent: "Study team creation failed. Please check your details, or internet connection, and try again.",
             saveErrorTitle: "Save error",

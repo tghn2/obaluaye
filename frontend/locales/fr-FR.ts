@@ -173,6 +173,8 @@ export default {
             language: "Spécifier la langue de communication de l'équipe d'étude.",
         },
         alert: {
+            createSuccessTitle: "Success",
+            createSuccessContent: "Study created.",
             createErrorTitle: "Erreur de création",
             createErrorContent: "La création d'une équipe d'étude a échoué. Veuillez vérifier vos coordonnées ou votre connexion Internet et réessayer.",
             saveErrorTitle: "Erreur de sauvegarde",

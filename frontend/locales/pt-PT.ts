@@ -221,6 +221,8 @@ export default {
             citation: "Uma referência bibliográfica para a via de estudo.",
         },
         alert: {
+            createSuccessTitle: "Success",
+            createSuccessContent: "Study created.",
             saveErrorTitle: "Erro ao guardar",
             saveErrorContent: "Não foi possível guardar o percurso do estudo. Verifique os seus dados ou a ligação à Internet e tente novamente.",
             removeErrorTitle: "Erro de eliminação",

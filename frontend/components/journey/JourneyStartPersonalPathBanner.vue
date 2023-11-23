@@ -5,20 +5,32 @@
             <p class="text-sm leading-6 text-gray-900">
                 {{ t("pathway.journey.startPersonal") }}
             </p>
-            <LocaleLink :to="`/journey/${props.journeyId}`"
+            <button @click.prevent="submit"
                 class="group flex items-center gap-x-1 text-sm leading-6 font-semibold text-white rounded-md p-1 px-1 bg-spring-500 hover:bg-spring-700">
                 <PhPlay class="h-4 w-4" aria-hidden="true" />
                 <span>{{ t("pathway.journey.start") }}</span>
-            </LocaleLink>
+            </button>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
 import { PhPlay } from "@phosphor-icons/vue"
+import { useToastStore} from "@/stores"
 
 const { t } = useI18n()
+const localePath = useLocalePath()
+const toastStore = useToastStore()
 const props = defineProps<{
     journeyId: string,
 }>()
+
+async function submit() {
+    toastStore.addNotice({
+        title: t("group.alert.createSuccessTitle"),
+        content: t("group.alert.createSuccessContent"),
+        icon: "success"
+    })
+    return await navigateTo(localePath(`/group/${props.journeyId}`))
+}
 </script>
