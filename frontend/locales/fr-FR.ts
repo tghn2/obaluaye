@@ -378,6 +378,11 @@ export default {
             four: "Inviter des membres de l'éequipe ou suivre le parcours d'étude seul",
         },
     },
+    errorpage: {
+        error: "404 error",
+        description: "Sorry, something went wrong. This page isn't available.",
+        gohome: "Go back home",
+    },
     pwa: {
         dismiss: "Rejeter",
         install: "Installer",

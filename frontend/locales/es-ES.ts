@@ -378,6 +378,11 @@ export default {
             four: "Invite a miembros de su equipo o complete el itinerario de estudio por su cuenta",
         },
     },
+    errorpage: {
+        error: "404 error",
+        description: "Sorry, something went wrong. This page isn't available.",
+        gohome: "Go back home",
+    },
     pwa: {
         dismiss: "Despedir",
         install: "Instalar",

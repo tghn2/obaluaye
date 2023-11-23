@@ -378,6 +378,11 @@ export default {
             four: "Invite team members, or complete a study pathway on your own",
         },
     },
+    errorpage: {
+        error: "404 error",
+        description: "Sorry, something went wrong. This page isn't available.",
+        gohome: "Go back home",
+    },
     pwa: {
         dismiss: "Dismiss",
         install: "Install",
