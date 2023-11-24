@@ -1,20 +1,23 @@
 <template>
     <main class="flex min-h-full mx-auto">
-        <div class="flex flex-1 flex-col justify-center py-12 px-10 md:px-36">
+        <div class="flex flex-1 flex-col justify-center py-12 px-10 md:px-30">
             <div class="mx-auto w-full">
                 <div>
                     <h2 class="mt-6 text-3xl font-bold tracking-tight text-gray-900">
-                        <span v-if="!oauth">Login with email</span>
-                        <span v-else>Login with password</span>
+                        <span v-if="!oauth">{{ t("loginpage.login.titleEmail") }}</span>
+                        <span v-else>{{ t("loginpage.login.titlePassword") }}</span>
                     </h2>
                     <p v-if="!oauth" class="text-sm font-medium text-kashmir-500 hover:text-kashmir-600 mt-6">
-                        We'll check if you have an account, and create one if you don't.
+                        {{ t("loginpage.login.descriptionEmail") }}
+                    </p>
+                    <p v-else class="text-sm font-medium text-kashmir-500 hover:text-kashmir-600 mt-6">
+                        {{ t("loginpage.login.descriptionPassword") }}
                     </p>
                 </div>
                 <div class="mt-6">
                     <Form @submit="submit" :validation-schema="schema" class="space-y-6">
                         <div>
-                            <label for="email" class="block text-sm font-medium text-gray-700">Email address</label>
+                            <label for="email" class="block text-sm font-medium text-gray-700">{{ t("loginpage.login.emailLabel") }}</label>
                             <div class="mt-1 group relative inline-block w-full">
                                 <Field id="email" name="email" type="email" autocomplete="email"
                                     class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-kashmir-600 focus:outline-none focus:ring-kashmir-600 sm:text-sm" />
@@ -23,7 +26,7 @@
                             </div>
                         </div>
                         <div v-if="oauth" class="space-y-1">
-                            <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                            <label for="password" class="block text-sm font-medium text-gray-700">{{ t("loginpage.login.passwordLabel") }}</label>
                             <div class="mt-1 group relative inline-block w-full">
                                 <Field id="password" name="password" type="password" autocomplete="password"
                                     class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-kashmir-600 focus:outline-none focus:ring-kashmir-600 sm:text-sm" />
@@ -32,21 +35,21 @@
                             </div>
                             <div class="text-sm text-right">
                                 <LocaleLink to="/recover-password"
-                                    class="font-medium text-kashmir-500 hover:text-kashmir-600">Forgot your password?
+                                    class="font-medium text-kashmir-500 hover:text-kashmir-600">{{ t("loginpage.login.passwordForgot") }}
                                 </LocaleLink>
                             </div>
                         </div>
                         <div>
                             <button type="submit"
                                 class="flex w-full justify-center rounded-md border border-transparent bg-kashmir-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-kashmir-700 focus:outline-none focus:ring-2 focus:ring-kashmir-600 focus:ring-offset-2">
-                                Submit
+                                {{ t("loginpage.submit") }}
                             </button>
                         </div>
                     </Form>
                 </div>
                 <div class="mt-8 flex items-center justify-between">
                     <p class="text-sm text-kashmir-500 align-middle">
-                        If you prefer, use your password & don't email.
+                        {{ t("loginpage.login.passwordPrefer") }}
                     </p>
                     <Switch v-model="oauth"
                         class="group relative inline-flex h-5 w-10 flex-shrink-0 cursor-pointer items-center justify-center rounded-full focus:outline-none focus:ring-2 focus:ring-kashmir-600 focus:ring-offset-2">
@@ -73,6 +76,7 @@ definePageMeta({
     middleware: ["anonymous"],
 });
 
+const { t } = useI18n()
 const localePath = useLocalePath()
 const authStore = useAuthStore()
 const tokenStore = useTokenStore()

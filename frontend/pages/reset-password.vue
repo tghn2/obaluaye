@@ -3,16 +3,13 @@
         <div class="flex flex-1 flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
             <div class="mx-auto w-full max-w-sm lg:w-96">
                 <div>
-                    <img class="h-12 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=rose&shade=500"
-                        alt="Your Company" />
-                    <h2 class="mt-6 text-3xl font-bold tracking-tight text-gray-900">Reset your password</h2>
+                    <h2 class="mt-6 text-3xl font-bold tracking-tight text-gray-900">{{ t("loginpage.reset.title") }}</h2>
                 </div>
-
                 <div class="mt-8">
                     <div class="mt-6">
                         <Form @submit="submit" :validation-schema="schema" class="space-y-6">
                             <div>
-                                <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                                <label for="password" class="block text-sm font-medium text-gray-700">{{ t("loginpage.reset.passwordLabel") }}</label>
                                 <div class="mt-1 group relative inline-block w-full">
                                     <Field id="password" name="password" type="password" autocomplete="password"
                                         class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-kashmir-600 focus:outline-none focus:ring-kashmir-600 sm:text-sm" />
@@ -22,8 +19,9 @@
                             </div>
 
                             <div class="space-y-1">
-                                <label for="confirmation" class="block text-sm font-medium text-gray-700">Repeat
-                                    password</label>
+                                <label for="confirmation" class="block text-sm font-medium text-gray-700">
+                                    {{ t("loginpage.reset.passwordConfirm") }}
+                                </label>
                                 <div class="mt-1 group relative inline-block w-full">
                                     <Field id="confirmation" name="confirmation" type="password" autocomplete="confirmation"
                                         class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-kashmir-600 focus:outline-none focus:ring-kashmir-600 sm:text-sm" />
@@ -34,18 +32,13 @@
                             <div>
                                 <button type="submit"
                                     class="flex w-full justify-center rounded-md border border-transparent bg-kashmir-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-kashmir-700 focus:outline-none focus:ring-2 focus:ring-kashmir-600 focus:ring-offset-2">
-                                    Submit
+                                    {{ t("loginpage.submit") }}
                                 </button>
                             </div>
                         </Form>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="relative hidden w-0 flex-1 lg:block">
-            <img class="absolute inset-0 h-full w-full object-cover"
-                src="https://images.unsplash.com/photo-1561487138-99ccf59b135c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80"
-                alt="" />
         </div>
     </main>
 </template>
@@ -58,6 +51,7 @@ definePageMeta({
     middleware: ["anonymous"],
 });
 
+const { t } = useI18n()
 const localePath = useLocalePath()
 const schema = {
     password: { required: true, min: 8 },

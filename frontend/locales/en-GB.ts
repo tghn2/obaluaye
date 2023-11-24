@@ -383,6 +383,40 @@ export default {
         description: "Sorry, something went wrong. This page isn't available.",
         gohome: "Go back home",
     },
+    loginpage: {
+        submit: "Submit",
+        login: {
+            titleEmail: "Login with email",
+            titlePassword: "Login with password",
+            descriptionEmail: "We'll check if you have an account, and create one if you don't.",
+            descriptionPassword: "You'll need to have set a password in your settings after first creating an account.",
+            emailLabel: "Email address",
+            passwordLabel: "Password",
+            passwordForgot: "Forgot your password?",
+            passwordPrefer: "If you prefer, use your password & don't email.",
+        },
+        magic: {
+            title: "Check your email",
+            description1: "We sent you an email with a magic link. Once you click that (or copy it into this browser) you'll be signed in.",
+            description2: "Make sure you use the same browser you requested the login from or it won't work.",
+            alternative: "If you prefer, use your password & don't email.",
+        },
+        recover: {
+            title: "Recover your account",
+            emailLabel: "Email address",
+            login: "Login to your account",
+        },
+        reset: {
+            title: "Reset your password",
+            passwordLabel: "Password",
+            passwordConfirm: "Repeat password",
+        },
+        totp: {
+            title: "Two-factor authentication",
+            description: "Enter the 6-digit verification code from your app.",
+            label: "Verification code",
+        },
+    },
     pwa: {
         dismiss: "Dismiss",
         install: "Install",

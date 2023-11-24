@@ -4,28 +4,21 @@
             <div class="mx-auto w-full max-w-sm lg:w-96">
                 <div>
                     <PhEnvelopeSimple class="text-kashmir-500 h-12 w-12" aria-hidden="true" />
-                    <h2 class="mt-6 text-3xl font-bold tracking-tight text-gray-900">Check your email</h2>
-                    <p class="text-sm font-medium text-kashmir-500 hover:text-kashmir-600 mt-6">
-                        We sent you an email with a magic link. Once you click that (or copy it into this browser) you'll be
-                        signed in.
+                    <h2 class="mt-6 text-3xl font-bold tracking-tight text-gray-900">{{ t("loginpage.magic.title") }}</h2>
+                    <p class="text-sm font-medium text-gray-600 mt-6">
+                        {{ t("loginpage.magic.description1") }}
                     </p>
-                    <p class="text-sm font-medium text-kashmir-500 hover:text-kashmir-600 mt-2">
-                        Make sure you use the same browser you requested the login from or it won't work.
+                    <p class="text-sm font-medium text-gray-600 mt-2">
+                        {{ t("loginpage.magic.description2") }}
                     </p>
                 </div>
-
                 <LocaleLink to="/login?oauth=true" class="mt-8 flex">
                     <PhLinkSimple class="text-kashmir-500 h-4 w-4 mr-1" aria-hidden="true" />
                     <p class="text-sm text-kashmir-500 align-middle">
-                        If you prefer, use your password & don't email.
+                        {{ t("loginpage.magic.alternative") }}
                     </p>
                 </LocaleLink>
             </div>
-        </div>
-        <div class="relative hidden w-0 flex-1 lg:block">
-            <img class="absolute inset-0 h-full w-full object-cover"
-                src="https://images.unsplash.com/photo-1561487138-99ccf59b135c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80"
-                alt="" />
         </div>
     </main>
 </template>
@@ -40,6 +33,7 @@ definePageMeta({
     middleware: ["anonymous"],
 });
 
+const { t } = useI18n()
 const localePath = useLocalePath()
 const tokenStore = useTokenStore()
 const redirectRoute = "/login"
