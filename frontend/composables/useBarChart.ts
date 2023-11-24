@@ -1,9 +1,12 @@
 // Copyright 2021 Observable, Inc.
 // Released under the ISC license.
+// https://observablehq.com/@mbostock/u-s-population-by-age/2
 // https://observablehq.com/@d3/bar-line-chart
 // https://observablehq.com/@d3/bar-chart
 // https://observablehq.com/@d3/diverging-bar-chart
 // https://observablehq.com/@d3/line-chart
+// https://observablehq.com/d/09ce6504a55ab5c6
+// https://dev.to/muratkemaldar/using-vue-3-with-d3-composition-api-3h1g
 // @ts-nocheck
 
 import * as d3 from "d3"
