@@ -102,8 +102,8 @@ export const useJourneyStore = defineStore("journeyStore", {
                         icon: "error"
                     })
                 }
-                this.savingEdit = false
             }
+            this.savingEdit = false
         },
         setSavingEdit(payload: boolean) {
             this.savingEdit = payload

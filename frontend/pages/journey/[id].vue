@@ -5,7 +5,7 @@
         </div>
         <div
             v-if="appSettings.current.pageState === 'done' && journeyStore.term && journeyStore.term.hasOwnProperty('name')">
-            <JourneyResponseHeadingPanel :title="journeyStore.term.pathway!.title as string" />
+            <JourneyResponseHeadingPanel :title="journeyStore.term.pathway!.title as string" @set-save-request="watchPageRequest" />
             <div class="mt-4 sm:px-6">
                 <JourneyResponseThemeCard :theme="journeyStore.term" />
             </div>
@@ -46,6 +46,9 @@ onMounted(async () => {
 // WATCHERS
 async function watchPageRequest(request: string) {
     switch (request) {
+        case "save":
+            await journeyStore.createTerm(draftResponse.value)
+            break
         case "last":
             if (journeyStore.term.journeyBack)
                 return await navigateTo(localePath(`/journey/${journeyStore.term.journeyBack}`))
@@ -65,7 +68,6 @@ async function watchPageRequest(request: string) {
 function watchResponseUpdate(response: IResponse) {
     if (response.node_id) {
         const responseIdx = draftResponse.value.findIndex(rspns => rspns.node_id === response.node_id)
-        // console.log("watch", appSettings.current.pageState, responseIdx, response.id, response.node_id)
         if (responseIdx >= 0) {
             draftResponse.value[responseIdx] = { ...response }
         } else {
