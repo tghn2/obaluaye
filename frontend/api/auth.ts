@@ -16,10 +16,11 @@ import { apiCore } from "./core"
 
 export const apiAuth = {
   // LOGIN WITH MAGIC LINK OR OAUTH2 (USERNAME/PASSWORD)
-  async loginWithMagicLink(email: string) {
+  async loginWithMagicLink(email: string, language: string) {
     return await useFetch<IWebToken>(`${apiCore.url()}/login/magic/${email}`,
       {
         method: "POST",
+        query: { language },
       }
     )
   },

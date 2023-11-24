@@ -9,6 +9,7 @@ import { apiAuth } from "@/api"
 import { tokenIsTOTP, tokenParser } from "@/utilities"
 import { useToastStore } from "./toasts"
 import { useTokenStore } from "./tokens"
+import { useSettingStore } from "./settings"
 
 export const useAuthStore = defineStore("authStore", {
     state: (): IUserProfile => ({
@@ -55,7 +56,10 @@ export const useAuthStore = defineStore("authStore", {
         tokenStore: () => {
             // @ts-ignore
             return ( useTokenStore() )
-        }
+        },
+        settings: () => {
+            return ( useSettingStore() )
+        },
   },
   actions: {
     // AUTHENTICATION
@@ -63,7 +67,7 @@ export const useAuthStore = defineStore("authStore", {
       // @ts-ignore
       const toasts = useToastStore()
       try {
-        await this.tokenStore.getTokens(payload)
+        await this.tokenStore.getTokens(payload, this.settings.locale)
         if (this.tokenStore.token && 
             !tokenIsTOTP(this.tokenStore.token)
             ) await this.getUserProfile()

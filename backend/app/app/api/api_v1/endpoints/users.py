@@ -142,6 +142,7 @@ def create_user(
     *,
     db: Session = Depends(deps.get_db),
     user_in: schemas.UserCreate,
+    language: str = "",
     current_user: models.User = Depends(deps.get_current_active_superuser),
 ) -> Any:
     """
@@ -155,8 +156,11 @@ def create_user(
         )
     user = crud.user.create(db, obj_in=user_in)
     if settings.EMAILS_ENABLED and user_in.email:
-        send_new_account_email(email_to=user_in.email, username=user_in.email, password=user_in.password)
+        send_new_account_email(
+            email_to=user_in.email, username=user_in.email, password=user_in.password, language=language
+        )
     return user
+
 
 @router.get("/invitations", response_model=List[schemas.Invitation])
 def read_group_invitations(

@@ -32,7 +32,7 @@ See `security.py` for other requirements.
 
 
 @router.post("/magic/{email}", response_model=schemas.WebToken)
-def login_with_magic_link(*, db: Session = Depends(deps.get_db), email: str) -> Any:
+def login_with_magic_link(*, db: Session = Depends(deps.get_db), email: str, language: str = "") -> Any:
     """
     First step of a 'magic link' login. Check if the user exists and generate a magic link. Generates two short-duration
     jwt tokens, one for validation, one for email. Creates user if not exist.
@@ -47,7 +47,7 @@ def login_with_magic_link(*, db: Session = Depends(deps.get_db), email: str) -> 
     tokens = security.create_magic_tokens(subject=user.id)
     if settings.EMAILS_ENABLED and user.email:
         # Send email with user.email as subject
-        send_magic_login_email(email_to=user.email, token=tokens[0])
+        send_magic_login_email(email_to=user.email, token=tokens[0], language=language)
     return {"claim": tokens[1]}
 
 
@@ -212,7 +212,7 @@ def revoke_token(
 
 
 @router.post("/recover/{email}", response_model=Union[schemas.WebToken, schemas.Msg])
-def recover_password(email: str, db: Session = Depends(deps.get_db)) -> Any:
+def recover_password(email: str, db: Session = Depends(deps.get_db), language: str = "") -> Any:
     """
     Password Recovery
     """
@@ -220,7 +220,7 @@ def recover_password(email: str, db: Session = Depends(deps.get_db)) -> Any:
     if user and crud.user.is_active(user):
         tokens = security.create_magic_tokens(subject=user.id)
         if settings.EMAILS_ENABLED:
-            send_reset_password_email(email_to=user.email, email=email, token=tokens[0])
+            send_reset_password_email(email_to=user.email, email=email, token=tokens[0], language=language)
             return {"claim": tokens[1]}
     return {"msg": "If that login exists, we'll send you an email to reset your password."}
 

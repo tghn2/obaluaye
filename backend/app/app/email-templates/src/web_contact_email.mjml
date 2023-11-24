@@ -2,7 +2,7 @@
   <mj-body>
     <mj-section>
       <mj-column>
-        <mj-image width="60px" src="{{ server_host }}/img/flat-logo.svg" href="{{ server_host }}"></mj-image>
+        <mj-image width="120px" src="https://globalhealthstudybuilder.org/img/flat-logo.svg" href="{{ server_host }}"></mj-image>
         <mj-divider border-color="#749bbd"></mj-divider>
         <mj-text font-size="16px" font-weight="bold" color="#635246">Email from: {{ email }}</mj-text>
         <mj-text font-size="16px" color="#635246" font-family="helvetica">{{ content }}</mj-text>

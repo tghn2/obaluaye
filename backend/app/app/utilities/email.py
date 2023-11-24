@@ -37,11 +37,13 @@ def send_email(
     logging.info(f"send email result: {response}")
 
 
-def send_email_validation_email(data: EmailValidation) -> None:
+def send_email_validation_email(data: EmailValidation, language: str = "") -> None:
     subject = f"{settings.PROJECT_NAME} - {data.subject}"
     server_host = settings.SERVER_HOST
+    if language:
+        language = f"_{language}"
     link = f"{server_host}?token={data.token}"
-    with open(Path(settings.EMAIL_TEMPLATES_DIR) / "confirm_email.html") as f:
+    with open(Path(settings.EMAIL_TEMPLATES_DIR) / f"confirm_email{language}.html") as f:
         template_str = f.read()
     send_email(
         email_to=data.email,
@@ -76,10 +78,12 @@ def send_test_email(email_to: str) -> None:
     )
 
 
-def send_magic_login_email(email_to: str, token: str) -> None:
+def send_magic_login_email(email_to: str, token: str, language: str = "") -> None:
     project_name = settings.PROJECT_NAME
-    subject = f"Your {project_name} magic login"
-    with open(Path(settings.EMAIL_TEMPLATES_DIR) / "magic_login.html") as f:
+    subject = f"{project_name} magic login"
+    if language:
+        language = f"_{language}"
+    with open(Path(settings.EMAIL_TEMPLATES_DIR) / f"magic_login{language}.html") as f:
         template_str = f.read()
     server_host = settings.SERVER_HOST
     link = f"{server_host}?magic={token}"
@@ -95,10 +99,12 @@ def send_magic_login_email(email_to: str, token: str) -> None:
     )
 
 
-def send_reset_password_email(email_to: str, email: str, token: str) -> None:
+def send_reset_password_email(email_to: str, email: str, token: str, language: str = "") -> None:
     project_name = settings.PROJECT_NAME
     subject = f"{project_name} - Password recovery for user {email}"
-    with open(Path(settings.EMAIL_TEMPLATES_DIR) / "reset_password.html") as f:
+    if language:
+        language = f"_{language}"
+    with open(Path(settings.EMAIL_TEMPLATES_DIR) / f"reset_password{language}.html") as f:
         template_str = f.read()
     server_host = settings.SERVER_HOST
     link = f"{server_host}/reset-password?token={token}"
@@ -116,10 +122,12 @@ def send_reset_password_email(email_to: str, email: str, token: str) -> None:
     )
 
 
-def send_new_account_email(email_to: str, username: str, password: str) -> None:
+def send_new_account_email(email_to: str, username: str, password: str, language: str = "") -> None:
     project_name = settings.PROJECT_NAME
+    if language:
+        language = f"_{language}"
     subject = f"{project_name} - New account for user {username}"
-    with open(Path(settings.EMAIL_TEMPLATES_DIR) / "new_account.html") as f:
+    with open(Path(settings.EMAIL_TEMPLATES_DIR) / f"new_account{language}.html") as f:
         template_str = f.read()
     link = settings.SERVER_HOST
     send_email(
