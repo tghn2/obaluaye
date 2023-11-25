@@ -70,7 +70,7 @@ class CRUDPathway(CRUDBase[Pathway, PathwayCreate, PathwayUpdate, PathwayOut]):
             private=private,
             featured=featured,
             user=user,
-            responsibility=responsibility
+            responsibility=responsibility,
         )
         if not page_break:
             if page > 0:
@@ -85,9 +85,9 @@ class CRUDPathway(CRUDBase[Pathway, PathwayCreate, PathwayUpdate, PathwayOut]):
             return pathway.themes.first().id
         pathway_obj = theme.pathway
         return [
-            t.id for t in pathway_obj.themes.filter(
-                (Theme.pathway_id == pathway_obj.id)
-                & (Theme.order == theme.order + 1)
+            t.id
+            for t in pathway_obj.themes.filter(
+                (Theme.pathway_id == pathway_obj.id) & (Theme.order == theme.order + 1)
             ).all()
         ]
 
@@ -105,9 +105,9 @@ class CRUDPathway(CRUDBase[Pathway, PathwayCreate, PathwayUpdate, PathwayOut]):
             return None
         pathway_obj = theme.pathway
         previous_themes = [
-            t for t in pathway_obj.themes.filter(
-                (Theme.pathway_id == pathway_obj.id)
-                & (Theme.order == theme.order - 1)
+            t
+            for t in pathway_obj.themes.filter(
+                (Theme.pathway_id == pathway_obj.id) & (Theme.order == theme.order - 1)
             ).all()
         ]
         if not previous_themes:
@@ -147,9 +147,18 @@ class CRUDPathway(CRUDBase[Pathway, PathwayCreate, PathwayUpdate, PathwayOut]):
         db.refresh(db_obj)
         return db_obj
 
+    def remove(self, db: Session, *, id: str | UUID) -> Pathway:
+        obj = db.query(self.model).get(id)
+        for role_obj in obj.authorisations.all():
+            # Difficult to cascade the group delete, so force it
+            if role_obj.group_id:
+                db.delete(role_obj.group)
+                db.commit()
+        db.delete(obj)
+        db.commit()
+        return obj
+
 
 pathway = CRUDPathway(
-    model=Pathway,
-    schema=PathwayOut,
-    i18n_terms={"title": PathwayTitle, "description": PathwayDescription}
+    model=Pathway, schema=PathwayOut, i18n_terms={"title": PathwayTitle, "description": PathwayDescription}
 )
