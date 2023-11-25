@@ -168,7 +168,7 @@ function watchInputPathType(response: IPathwayType) {
 }
 
 function watchResourcesUpdate(update: IResource[]) {
-    console.log("watchResourcesUpdate", update)
+    // console.log("watchResourcesUpdate", update)
     draft.value.resources = update
 }
 

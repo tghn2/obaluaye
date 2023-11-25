@@ -192,7 +192,7 @@ function resetDraft() {
 
 // WATCHERS
 async function watchHeadingRequest(request: string) {
-    console.log("watchHeadingRequest", request)
+    // console.log("watchHeadingRequest", request)
     switch (request) {
         case "save":
             await pathwayStore.createTerm(route.params.id as string, draft.value)

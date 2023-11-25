@@ -46,6 +46,7 @@ class Settings(BaseSettings):
     MULTI_MAX: int = 20
     FEATURED_MAX: int = 6
     DEFAULT_LANGUAGE: str = "en"
+    REPORT_MINIMUM: int = 6
 
     # COMPONENT SETTINGS
 
@@ -88,11 +89,7 @@ class Settings(BaseSettings):
 
     @validator("EMAILS_ENABLED", pre=True)
     def get_emails_enabled(cls, v: bool, values: Dict[str, Any]) -> bool:
-        return bool(
-            values.get("SMTP_HOST")
-            and values.get("SMTP_PORT")
-            and values.get("EMAILS_FROM_EMAIL")
-        )
+        return bool(values.get("SMTP_HOST") and values.get("SMTP_PORT") and values.get("EMAILS_FROM_EMAIL"))
 
     EMAIL_TEST_USER: EmailStr = "test@example.com"  # type: ignore
     FIRST_SUPERUSER: EmailStr
@@ -119,5 +116,6 @@ class Settings(BaseSettings):
             and values.get("SPACES_ENDPOINT_URL")
             and values.get("SPACES_BUCKET")
         )
+
 
 settings = Settings()

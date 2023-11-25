@@ -6,6 +6,7 @@ from app.models import Response, Node, Group, User
 from app.schemas import ResponseCreate, ResponseUpdate, Response as ResponseOut
 from app.schema_types import NodeType
 from .crud_files import files
+from app.core.config import settings  # noqa: F401
 
 
 class CRUDResponse(CRUDBase[Response, ResponseCreate, ResponseUpdate, ResponseOut]):
@@ -23,19 +24,41 @@ class CRUDResponse(CRUDBase[Response, ResponseCreate, ResponseUpdate, ResponseOu
                 return self.get_schema(db_obj=db_obj)
         elif db_obj.formType not in [NodeType.VALUE, NodeType.VALUERANGE, NodeType.UPLOAD]:
             response_objs = db_obj.responses.all()
-            if response_objs:
+            if response_objs and len(response_objs) >= settings.REPORT_MINIMUM:
+                # Prep with db_obj
                 obj_in = {}
+                order = []
+                obj_terms = db_obj.form[db_obj.language].form.get("terms")
+                if obj_terms and isinstance(obj_terms, list) and len(obj_terms):
+                    if db_obj.formType in [NodeType.SELECTONE, NodeType.SELECTMANY, NodeType.SELECTBRANCH]:
+                        obj_in = {t["id"]: t for t in obj_terms}
+                        order = [t["id"] for t in obj_terms]
+                        for o in order:
+                            obj_in[o]["count"] = 0
+                    else:
+                        # It's a scale
+                        order = [str(i) for i in range(int(obj_terms[0]["value"]), int(obj_terms[1]["value"]) + 1)]
+                        obj_in = {o: {"id": o, "value": o, "count": 0} for o in order}
+                    order.reverse()
+                # Tally the responses
                 for response in response_objs:
                     if response.answer:
-                        answer = {**response.answer}
-                        obj_in[answer["id"]] = obj_in.get(answer["id"], answer)
-                        obj_in[answer["id"]]["count"] = obj_in[answer["id"]].get("count", 0) + 1
+                        if db_obj.formType == NodeType.SELECTMANY:
+                            answers = [{**a} for a in response.answer]
+                        else:
+                            answers = [{**response.answer}]
+                        for answer in answers:
+                            obj_in[answer["id"]] = obj_in.get(answer["id"], answer)
+                            obj_in[answer["id"]]["count"] = obj_in[answer["id"]].get("count", 0) + 1
                 if obj_in:
                     # Neither of `id` or `respondent_id` matter here
-                    return ResponseOut(
+                    answers = list(obj_in.values())
+                    if order:
+                        answers.sort(key=lambda x: order.index(x["id"]))
+                    return Response(
                         **{
                             "id": str(uuid4()),
-                            "answer": list(obj_in.values()),
+                            "answer": answers,
                             "language": db_obj.language,
                             "node_id": db_obj.id,
                             "respondent_id": str(uuid4()),
