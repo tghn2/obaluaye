@@ -121,9 +121,9 @@ export default defineNuxtConfig({
       //   node node_modules/@vite-pwa/assets-generator/bin/pwa-assets-generator.mjs --preset minimal public/images/logo.svg
       registerType: "autoUpdate",
       manifest: {
-        name: "Nuxt FastAPI Base App",
-        short_name: "NuxtFastAPIApp",
-        theme_color: "#f43f5e",
+        name: "TGHN Study Builder",
+        short_name: "TGHN",
+        theme_color: "#749bbd",
         icons: [
           {
             src: 'pwa-64x64.png',
