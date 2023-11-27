@@ -374,7 +374,7 @@ export default {
         steps: {
             one: "Create account",
             two: "Complete personal profile",
-            three: "Create study pathway as an indivual, for a team, or join an existing team",
+            three: "Create study pathway as an individual, for a team, or join an existing team",
             four: "Invite team members, or complete a study pathway on your own",
         },
     },

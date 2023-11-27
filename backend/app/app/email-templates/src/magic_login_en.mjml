@@ -14,8 +14,8 @@
         <mj-text font-size="16px" color="#635246"><a href="{{ link }}">{{ link }}</a></mj-text>
         <mj-divider border-color="#635246" border-width="2px" />
         <mj-text font-size="16px" color="#635246">Make sure you use this code on the <span style="font-weight: bold">same device</span> and in the <span style="font-weight: bold">same browser</span> where you made this request or it won't work.</mj-text>
-        <mj-text font-size="16px" color="#635246" font-family="helvetica">For any concerns or queries, especially if you didn't make this request or feel you received it by mistake, just email me.</mj-text>
-        <mj-text font-size="16px" font-weight="bold" color="#635246" font-family="helvetica">1000challenge @ tghn2.org</mj-text>
+        <mj-text font-size="16px" color="#635246" font-family="helvetica">For any concerns or queries, especially if you didn't make this request or feel you received it by mistake, please email.</mj-text>
+        <mj-text font-size="16px" font-weight="bold" color="#635246" font-family="helvetica">1000challenge@tghn2.org</mj-text>
       </mj-column>
     </mj-section>
   </mj-body>

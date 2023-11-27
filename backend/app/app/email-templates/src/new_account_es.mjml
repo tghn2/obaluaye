@@ -1,0 +1,19 @@
+<mjml>
+  <mj-body>
+    <mj-section>
+      <mj-column>
+        <mj-image width="60px" src="{{ server_host }}/img/flat-logo.svg" href="{{ server_host }}"></mj-image>
+        <mj-divider border-color="#749bbd"></mj-divider>
+        <mj-text font-size="20px" color="#635246" font-family="helvetica">{{ project_name }} - Cuenta nueva</mj-text>
+        <mj-text font-size="16px" color="#635246" font-family="helvetica">Hola,</mj-text>
+        <mj-text font-size="16px" color="#635246">Tiene una cuenta nueva:</mj-text>
+        <mj-text font-size="16px" color="#635246">Nombre de usuario: {{ username }}</mj-text>
+        <mj-text font-size="16px" color="#635246">Contraseña: {{ password }}</mj-text>
+        <mj-button background-color="#749bbd" color="white" font-family="helvetica" href="{{ link }}">Ir al panel de control</mj-button>
+        <mj-text font-size="16px" color="#635246" font-family="helvetica">Si no sabe de qué se trata, no se preocupe. Puede ignorar y eliminar este correo electrónico.</mj-text>
+        <mj-text font-size="16px" color="#635246" font-family="helvetica">Para cualquier duda o consulta, envíe un correo electrónico a.</mj-text>
+        <mj-text font-size="16px" font-weight="bold" color="#635246" font-family="helvetica">1000challenge@tghn2.org</mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

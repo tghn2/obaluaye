@@ -7,14 +7,14 @@ navigation: false
 
 ## Step 1: Create an account
 - Go to **[globalhealthstudybuilder.org](/)**
-- Select the language you want to work in from the sidebar dropdown menu (currently English, Spanish and Portuguese are available with French to come).
+- Select the language you want to work in from the sidebar dropdown menu (currently English is available with Spanish, Portuguese and French to come).
 - Click on **Login** or **Get started**
 - Create an account: Enter email address and you will be sent a link to your inbox (check your spam or junk folder if the email has not arrived within a few minutes). Open the link in the same web browser you are currently using the Study Builder in. If you use the same web browser and don’t clear your cache, it will remember you next time.
 - If you would like to create a password for your account, go to **Settings > Security** and add a password in the **New password** field and add again in the **Repeat new password** field, then **Submit**. You can also select two-factor security here. Next time you need to login, check the **If you prefer, use your password & don’t email option** underneath the submit button and enter your email and password.
 
 ## Step 2: Complete Personal Profile
 - Before you can create a group or begin a Study Pathway, you need to complete your profile using the Personal Profile pathway.
-- Select **Study pathways** on the sidebar menu and select **1000 Challenge Personal Profile Pilot**
+- Select **Study pathways** on the sidebar menu and select **1000 Challenge Personal Profile**
 - Select **Start** and read the form carefully before completing each question. When complete, select **Save and close**.
 
 ## Step 3: Join existing Study Team, create new Study Team, or begin as individual researcher
@@ -25,7 +25,7 @@ navigation: false
 - Navigate to **Study teams** in the sidebar and use the search function or filter to find and select the team you are now a member of and ready to collaborate.
 
 ### Create new Study Team or new Study Pathway as an individual researcher
-- If you are an individual researcher without a team or you are the nominated Team Lead for your Study Team and want to create a new Study Pathway, navigate to **Study pathways** on the sidebar and select **1000 Challenge Study Pathway Pilot**. Select **Start**.
+- If you are an individual researcher without a team or you are the nominated Team Lead for your Study Team and want to create a new Study Pathway, navigate to **Study pathways** on the sidebar and select **1000 Challenge Study Pathway**. Select **Start**.
 - This will create a new Study Team under the **Study teams** section in the sidebar. 
 - Select **Edit** and change the **name** of your Study Team, add a **Description**, **Keywords** tags, **Country** and **Region**. Click **Save** once.
 - To invite members to join your study, select **Study members** and enter their email address into the field and select **Invite**.

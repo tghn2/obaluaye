@@ -1,0 +1,22 @@
+<mjml>
+  <mj-body>
+    <mj-section>
+      <mj-column>
+        <mj-image width="120px" src="https://globalhealthstudybuilder.org/img/flat-logo.svg" href="{{ server_host }}"></mj-image>
+        <mj-divider border-color="#749bbd"></mj-divider>
+        <mj-text font-size="16px" font-weight="bold" color="#635246">Bienvenue!</mj-text>
+        <mj-text font-size="16px" color="#635246" font-family="helvetica">Il s'agit d'un courriel automatisé de <span style="font-weight : bold">The Global Health Network Study Builder</span>, un compagnon de soutien et d'élaboration d'études de recherche en santé mondiale.</mj-text>
+        <mj-text font-size="16px" color="#635246">Connectez-vous à votre compte en cliquant sur le bouton ci-dessous dans les prochaines {{ valid_minutes }} minutes:</mj-text>
+        <mj-button background-color="#749bbd" color="white" font-family="helvetica" href="{{ link }}">
+          Connexion
+        </mj-button>
+        <mj-text font-size="16px" color="#635246">Ou copiez le lien suivant et collez-le dans votre navigateur:</mj-text>
+        <mj-text font-size="16px" color="#635246"><a href="{{ link }}">{{ link }}</a></mj-text>
+        <mj-divider border-color="#635246" border-width="2px" />
+        <mj-text font-size="16px" color="#635246">Veillez à utiliser ce code sur le <span style="font-weight : bold">même appareil</span> et dans le <span style="font-weight : bold">même navigateur</span> où vous avez effectué cette demande, sinon cela ne fonctionnera pas.</mj-text>
+        <mj-text font-size="16px" color="#635246" font-family="helvetica">Pour toute préoccupation ou question, en particulier si vous n'avez pas fait cette demande ou si vous pensez l'avoir reçue par erreur, veuillez envoyer un courrier électronique à l'adresse suivante.</mj-text>
+        <mj-text font-size="16px" font-weight="bold" color="#635246" font-family="helvetica">1000challenge@tghn2.org</mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>
