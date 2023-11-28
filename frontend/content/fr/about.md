@@ -10,7 +10,8 @@ navigation: false
 - Sélectionnez la langue dans laquelle vous souhaitez travailler dans le menu déroulant de la barre latérale (l'anglais est actuellement disponible, l'espagnol, le portugais et le français le seront bientôt).
 - Cliquez sur **Login** ou **Get started**.
 - Créer un compte : Saisissez votre adresse électronique et vous recevrez un lien dans votre boîte de réception (vérifiez votre dossier de spam ou de courrier indésirable si l'e-mail n'est pas arrivé au bout de quelques minutes). Ouvrez le lien dans le même navigateur web que celui dans lequel vous utilisez actuellement le Study Builder. Si vous utilisez le même navigateur web et que vous ne videz pas votre cache, il se souviendra de vous la prochaine fois.
-- Si vous souhaitez créer un mot de passe pour votre compte, allez à sur **Paramètres > Sécurité** et ajoutez un mot de passe dans le champ **Nouveau mot de passe** et ajoutez-en un autre dans le champ **Répétition du nouveau mot de passe**, puis **Soumettre**. Vous pouvez également sélectionner la sécurité à deux facteurs ici. La prochaine fois que vous devrez vous connecter, cochez l'option **Si vous préférez, utilisez votre mot de passe et n'envoyez pas d'e-mail** sous le bouton d'envoi et entrez votre e-mail et votre mot de passe.
+- Créez un mot de passe pour votre compte, allez dans **Paramètres > Sécurité** et ajoutez un mot de passe dans le champ **Nouveau mot de passe** et ajoutez-en un autre dans le champ **Répétition du nouveau mot de passe**, puis **Soumettre**. Vous pouvez également sélectionner la sécurité à deux facteurs ici. La prochaine fois que vous devrez vous connecter, cochez l'option **Si vous préférez, utilisez votre mot de passe et n'envoyez pas d'e-mail** sous le bouton d'envoi et entrez votre e-mail et votre mot de passe.
+- Dans **Paramètres > Compte**, veuillez entrer votre **nom**, **Description**, **Mots clés**, **Pays** et **Région**. Saisissez votre mot de passe pour confirmer et cliquez une fois sur **Submit**.
 
 ## Étape 2 : Compléter le profil personnel
 - Avant de pouvoir créer un groupe ou de commencer un parcours d'études, vous devez compléter votre profil à l'aide du parcours Profil personnel.
@@ -22,7 +23,7 @@ navigation: false
 ### Rejoindre l'équipe d'étude existante
 - Si vous souhaitez rejoindre une équipe d'étude existante, contactez le chef d'équipe qui l'a créée pour qu'il vous invite en utilisant l'adresse électronique avec laquelle vous avez ouvert un compte. 
 - Lorsque le chef d'équipe vous a envoyé une invitation, vous pouvez la consulter et l'accepter dans **Réglages > Invitations**. Sélectionnez la **coche** pour accepter. 
-- Naviguez vers **Équipes d'étude** dans la barre latérale et utilisez la fonction de recherche ou le filtre pour trouver et sélectionner l'équipe dont vous êtes maintenant membre et qui est prête à collaborer.
+- Naviguez vers **Équipes d'étude** dans la barre latérale et utilisez la fonction de recherche ou le filtre pour trouver et sélectionner l'équipe dont vous êtes maintenant membre et prête à collaborer.
 
 ### Créer une nouvelle équipe d'étude ou une nouvelle voie d'étude en tant que chercheur individuel
 - Si vous êtes un chercheur individuel sans équipe ou si vous êtes le chef d'équipe désigné pour votre équipe d'étude et que vous souhaitez créer une nouvelle voie d'étude, naviguez vers **Voie d'étude** dans la barre latérale et sélectionnez **Voie d'étude du 1000e défi**. Sélectionnez **Démarrer**.

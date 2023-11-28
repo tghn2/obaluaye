@@ -11,7 +11,7 @@ export default {
         search: "Search",
         pathways: "Study pathways",
         comments: "Comments",
-        groups: "Study teams",
+        groups: "My studies",
         settings: "Settings",
         about: "About",
         privacy: "Privacy",
@@ -42,7 +42,7 @@ export default {
         name: "Settings",
         description: "Update your personal settings, or delete your account.",
         nav: {
-            pathway: "Personal pathway",
+            pathway: "Personal profile",
             profile: "Profile",
             account: "Account",
             invitations: "Invitations",
@@ -50,8 +50,8 @@ export default {
             moderation: "Moderation",
         },
         pathway: {
-            title: "Personal pathway",
-            description: "Review and manage your personal pathway.",
+            title: "Personal profile",
+            description: "Review and manage your personal profile.",
         },
         account: {
             title: "User settings",
@@ -136,15 +136,15 @@ export default {
             language: "Language",
         },
         nav: {
-            pathway: "Study pathway",
+            pathway: "My study",
             response: "Review your study",
             metadata: "Study team",
             members: "Study members",
             invitations: "Invitations",
         },
         pathway: {
-            title: "Study pathway",
-            description: "Review and manage your study pathway.",
+            title: "My study",
+            description: "Review and manage your study.",
         },
         members: {
             since: "Since",

@@ -11,7 +11,7 @@ export default {
         search: "Buscar",
         pathways: "Caminhos de estudo",
         comments: "Comentários",
-        groups: "Equipe de pesquisa",
+        groups: "Os meus estudos",
         settings: "Âmbito",
         about: "Sobre",
         privacy: "Privacidade",
@@ -136,15 +136,15 @@ export default {
             language: "Língua",
         },
         nav: {
-            pathway: "Percurso do estudo",
+            pathway: "O meu estudo",
             response: "Rever o seu estudo",
             metadata: "Equipa do estudo",
             members: "Membros do estudo",
             invitations: "Convites",
         },
         pathway: {
-            title: "Percurso do estudo",
-            description: "Rever e gerir o seu percurso de estudo.",
+            title: "O meu estudo",
+            description: "Rever e gerir o seu estudo.",
         },
         members: {
             since: "Desde",

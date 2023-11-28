@@ -9,9 +9,9 @@ export default {
     nav: {
         home: "Accueil",
         search: "Recherche",
-        pathways: "Parcours d'études",
+        pathways: "Filières d'études",
         comments: "Commentaires",
-        groups: "Équipes d'étude",
+        groups: "Mes études",
         settings: "Paramètres",
         about: "A propos",
         privacy: "La vie privée",
@@ -136,15 +136,15 @@ export default {
             language: "Langue",
         },
         nav: {
-            pathway: "Filière d'étude",
+            pathway: "Mon étude",
             response: "Révisez votre étude",
             metadata: "Équipe d'étude",
             members: "Membres de l'étude",
             invitations: "Invitations",
         },
         pathway: {
-            title: "Filière d'étude",
-            description: "Examinez et gérez votre parcours d'études.",
+            title: "Mon étude",
+            description: "Réviser et gérer votre étude.",
         },
         members: {
             since: "Depuis",
