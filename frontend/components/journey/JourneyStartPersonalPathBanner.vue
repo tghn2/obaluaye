@@ -31,6 +31,6 @@ async function submit() {
         content: t("group.alert.createSuccessContent"),
         icon: "success"
     })
-    return await navigateTo(localePath(`/group/${props.journeyId}`))
+    return await navigateTo(localePath(`/journey/${props.journeyId}`))
 }
 </script>
