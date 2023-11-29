@@ -90,6 +90,14 @@ export default {
             totpHelp3Code: "Code de vérification à 6 chiffres",
             cancel: "Annuler",
         },
+        field: {
+            subjects: "Search terms that describe your skills",
+        },
+        help: {
+            description: "A description of the work you do and strengths you bring to research.",
+            subjects: "A list of search terms you would use to describe yourself professionally.",
+            country: "A list of one or more countries where you work.",
+        },
     },
     start: {
         pathwayTitle: "Parcours d'études",
@@ -237,6 +245,7 @@ export default {
             review: "Révision",
             startPersonal: "Commencez votre profil personnel.",
             startResearch: "Créer un nouveau parcours d'étude pour vous ou une équipe.",
+            manageResearch: "Continue or manage your studies.",
             resources: "Aide et ressources",
             save: "Enregistrer et fermer",
             saveNext: "Sauvegarder & Suivant",

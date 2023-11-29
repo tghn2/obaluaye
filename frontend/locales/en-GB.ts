@@ -90,6 +90,14 @@ export default {
             totpHelp3Code: "6-digit verification code",
             cancel: "Cancel",
         },
+        field: {
+            subjects: "Search terms that describe your skills",
+        },
+        help: {
+            description: "A description of the work you do and strengths you bring to research.",
+            subjects: "A list of search terms you would use to describe yourself professionally.",
+            country: "A list of one or more countries where you work.",
+        },
     },
     start: {
         pathwayTitle: "Study pathways",
@@ -237,6 +245,7 @@ export default {
             review: "Review",
             startPersonal: "Begin your personal profile.",
             startResearch: "Create a new study pathway for you or a team.",
+            manageResearch: "Continue or manage your studies.",
             resources: "Help & resources",
             save: "Save & Close",
             saveNext: "Save & Next",
@@ -374,7 +383,7 @@ export default {
         steps: {
             one: "Create account",
             two: "Complete personal profile",
-            three: "Create study pathway as an individual, for a team, or join an existing team",
+            three: "Create or manage a study",
             four: "Invite team members, or complete a study pathway on your own",
         },
     },

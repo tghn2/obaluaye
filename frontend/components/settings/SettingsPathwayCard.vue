@@ -15,6 +15,7 @@
                     <span class="hidden md:block">{{ t("pathway.journey.review") }}</span>
                 </LocaleLink>
             </div>
+            <GuidepathStartStudyJourney v-if="authStore.completedPathway" />
             <div v-if="journeyStore.term.pathway" class="py-1 mt-4 sm:px-6 border-t border-gray-200">
                 <CommonSummaryCard :summary="journeyStore.term.pathway" :pathway="true" />
                 <div class="bg-gray-100 p-1">

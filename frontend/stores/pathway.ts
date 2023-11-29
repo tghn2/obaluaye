@@ -10,6 +10,8 @@ export const usePathwayStore = defineStore("pathwayStore", {
         one: {} as IPathway,
         edit: {} as IPathway,
         activeEdit: "" as string,
+        oneStudy: "" as string,
+        onePersonal: "" as string,
         translatingEdit: false,
         languageEdit: "" as string,
         createEdit: false,
@@ -24,6 +26,8 @@ export const usePathwayStore = defineStore("pathwayStore", {
         term: (state) => state.one,
         draft: (state) => state.edit,
         activeDraft: (state) => state.activeEdit,
+        termStudy: (state) => state.oneStudy,
+        termPersonal: (state) => state.onePersonal,
         languageDraft: (state) => state.languageEdit,
         createDraft: (state) => state.createEdit,
         savingDraft: (state) => state.savingEdit,
@@ -102,9 +106,21 @@ export const usePathwayStore = defineStore("pathwayStore", {
         async getFeaturedTerm() {
             try {
                 this.setTerm({} as IPathway)
+                this.oneStudy = ""
                 await apiPathway.getFeaturedTerm(this.settings.locale)
                 const { data: response } = await apiPathway.getFeaturedTerm(this.settings.locale)
-                if (response.value) this.setTerm(response.value)
+                if (response.value) {
+                    this.setTerm(response.value)
+                    this.oneStudy = this.one.id
+                }
+            } catch (error) {}
+        },
+        async getPersonalTerm() {
+            try {
+                this.onePersonal = ""
+                await apiPathway.getPersonalTerm(this.settings.locale)
+                const { data: response } = await apiPathway.getPersonalTerm(this.settings.locale)
+                if (response.value) this.onePersonal = response.value.id
             } catch (error) {}
         },
         async createTerm(key: string, payload: IPathway = {} as IPathway) {

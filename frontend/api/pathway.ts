@@ -35,6 +35,13 @@ export const apiPathway = {
             }
         )
     },
+    async getPersonalTerm(language: string) {
+        return await useFetch<IPathway>(`${apiCore.url()}/pathway/personal`, 
+            {
+                query: { language },
+            }
+        )
+    },
     async createTerm(token: string, payload: IPathway) {
         return await useFetch<IPathway>(`${apiCore.url()}/pathway/`, 
             {

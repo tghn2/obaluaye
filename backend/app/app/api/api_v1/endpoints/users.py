@@ -36,6 +36,9 @@ def create_user_profile(
     # Create user auth
     user_in = schemas.UserCreate(password=password, email=email, full_name=full_name)
     user = crud.user.create(db, obj_in=user_in)
+    user.invitationCount = crud.invitation.get_count(db=db, email=user.email)
+    user.completedPersonalPathway = crud.user.has_completed_pathway(db=db, user=user)
+    user.personalPathway = crud.user.get_pathway(db=db, user=user)
     return user
 
 
@@ -73,6 +76,9 @@ def update_user(
     user_in.spatial = obj_in.spatial
     user_in.language = obj_in.language
     user = crud.user.update(db, db_obj=current_user, obj_in=user_in)
+    user.invitationCount = crud.invitation.get_count(db=db, email=user.email)
+    user.completedPersonalPathway = crud.user.has_completed_pathway(db=db, user=user)
+    user.personalPathway = crud.user.get_pathway(db=db, user=user)
     return user
 
 

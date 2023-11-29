@@ -8,6 +8,7 @@
                         {{ t("settings.account.description") }}
                     </p>
                 </div>
+                <GuidepathStartPersonalJourney v-if="!authStore.completedPathway" />
                 <div class="space-y-1 grid grid-cols-1 gap-x-3 gap-y-4 sm:grid-cols-6">
                     <div class="sm:col-span-5">
                         <label for="full_name" class="block text-sm font-semibold leading-6 text-gray-900">
@@ -49,18 +50,18 @@
                                 class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-kashmir-600 sm:text-sm sm:leading-6" />
                         </div>
                         <p class="mt-1 text-sm leading-6 text-gray-500">
-                            <span>{{ t("group.help.description") }}</span>
+                            <span>{{ t("settings.help.description") }}</span>
                         </p>
                     </div>
                     <div class="col-span-full">
                         <label for="group-subject-values" class="block text-sm font-semibold leading-6 text-gray-900">
-                            {{ t("group.field.subjects") }}
+                            {{ t("settings.field.subjects") }}
                         </label>
                         <div class="mt-1">
                             <input type="text" name="group-subject-values" id="group-subject-values" v-model="subjects"
                                 class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-kashmir-600 sm:text-sm sm:leading-6" />
                         </div>
-                        <p class="mt-1 text-sm leading-6 text-gray-500">{{ t("group.help.subjects") }}</p>
+                        <p class="mt-1 text-sm leading-6 text-gray-500">{{ t("settings.help.subjects") }}</p>
                     </div>
                     <div class="col-span-full">
                         <label for="group-country-values" class="block text-sm font-semibold leading-6 text-gray-900">
@@ -70,20 +71,7 @@
                             <CommonCountrySelect :initial-choices="profile.country" @set-select="watchCountrySelect" />
                         </div>
                         <p class="mt-1 text-sm leading-6 text-gray-500">
-                            {{ t("group.help.country") }}
-                        </p>
-                    </div>
-                    <div class="col-span-full">
-                        <label for="group-spatial-values" class="block text-sm font-semibold leading-6 text-gray-900">
-                            {{ t("group.field.spatial") }}
-                        </label>
-                        <div class="mt-1">
-                            <input type="text" name="group-spatial-values" id="group-spatial-values"
-                                v-model="profile.spatial"
-                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-kashmir-600 sm:text-sm sm:leading-6" />
-                        </div>
-                        <p class="mt-1 text-sm leading-6 text-gray-500">
-                            {{ t("group.help.spatial") }}
+                            {{ t("settings.help.country") }}
                         </p>
                     </div>
                     <div class="col-span-full">

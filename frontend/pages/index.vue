@@ -15,7 +15,7 @@
                         </p>
                         <!-- Pathway Steps -->
                         <div class="mt-6">
-                            <PathwayFrontpageSteps />
+                            <GuidepathFrontpageSteps />
                         </div>
                         <div class="mt-6 flex items-center justify-center gap-x-6">
                             <LocaleLink v-if="!authStore.loggedIn" to="/login"

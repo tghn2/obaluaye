@@ -91,12 +91,12 @@ class CRUDPathway(CRUDBase[Pathway, PathwayCreate, PathwayUpdate, PathwayOut]):
             ).all()
         ]
 
-    def get_featured(self, db: Session) -> Pathway:
+    def get_featured(self, db: Session, pathtype: PathwayType = PathwayType.RESEARCH) -> Pathway:
         db_objs = db.query(self.model)
         db_objs = db_objs.filter(
             (self.model.isFeatured.is_(True))
             & (self.model.isPrivate.is_(False))
-            & (self.model.pathType == PathwayType.RESEARCH)
+            & (self.model.pathType == pathtype)
         )
         return db_objs.order_by(func.random()).first()
 

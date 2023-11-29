@@ -153,6 +153,19 @@ def read_featured_pathway(
     return crud.pathway.get_schema(db_obj=db_obj, language=language, schema_out=schemas.PathwaySummary)
 
 
+@router.get("/personal", response_model=schemas.PathwaySummary)
+def read_personal_pathway(
+    *,
+    db: Session = Depends(deps.get_db),
+    language: str | None = None,
+) -> Any:
+    """
+    Get a personal pathway to start.
+    """
+    db_obj = crud.pathway.get_featured(db=db, pathtype=schema_types.PathwayType.PERSONAL)
+    return crud.pathway.get_schema(db_obj=db_obj, language=language, schema_out=schemas.PathwaySummary)
+
+
 @router.get("/{id}", response_model=schemas.Pathway)
 def get_pathway(
     *,

@@ -5,6 +5,8 @@
         </div>
         <div v-if="appSettings.current.pageState === 'done'">
             <GroupFilterPanel />
+            <GuidepathStartPersonalJourney v-if="authStore.loggedIn && !authStore.completedPathway" />
+            <GuidepathStartStudyJourney v-if="authStore.loggedIn && authStore.completedPathway" />
             <div v-if="groupStore.multi.length === 0" class="space-y-2">
                 <CommonEmptyCard v-if="authStore.completedPersonalPathway" :term="`${t('group.empty')}`" />
                 <CommonEmptyCard v-else :term="`${t('group.emptyIncomplete')}`" />
