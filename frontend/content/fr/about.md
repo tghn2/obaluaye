@@ -1,6 +1,6 @@
 ---
 title: 1000 Challenge Study Builder
-description: "1000 Challenge Study Builder Quick Start Guide."
+description: "1000 Challenge Study Builder Guide de démarrage rapide."
 navigation: false
 ---
 # Guide de démarrage rapide
@@ -23,11 +23,11 @@ navigation: false
 ### Rejoindre l'équipe d'étude existante
 - Si vous souhaitez rejoindre une équipe d'étude existante, contactez le chef d'équipe qui l'a créée pour qu'il vous invite en utilisant l'adresse électronique avec laquelle vous avez ouvert un compte. 
 - Lorsque le chef d'équipe vous a envoyé une invitation, vous pouvez la consulter et l'accepter dans **Réglages > Invitations**. Sélectionnez la **coche** pour accepter. 
-- Naviguez vers **Équipes d'étude** dans la barre latérale et utilisez la fonction de recherche ou le filtre pour trouver et sélectionner l'équipe dont vous êtes maintenant membre et prête à collaborer.
+- Naviguez vers **Mes études** dans la barre latérale et utilisez la fonction de recherche ou le filtre pour trouver et sélectionner l'équipe dont vous êtes maintenant membre et prête à collaborer.
 
 ### Créer une nouvelle équipe d'étude ou une nouvelle voie d'étude en tant que chercheur individuel
 - Si vous êtes un chercheur individuel sans équipe ou si vous êtes le chef d'équipe désigné pour votre équipe d'étude et que vous souhaitez créer une nouvelle voie d'étude, naviguez vers **Voie d'étude** dans la barre latérale et sélectionnez **Voie d'étude du 1000e défi**. Sélectionnez **Démarrer**.
-- Cela créera une nouvelle équipe d'étude dans la section **Équipes d'étude** de la barre latérale. 
+- Cela créera une nouvelle équipe d'étude dans la section **Mes études** de la barre latérale. 
 - Sélectionnez **Editer** et changez le **nom** de votre équipe d'étude, ajoutez une **description**, des **mots clés**, un **pays** et une **région**. Cliquez une fois sur **Sauvegarder**.
 - Pour inviter des membres à rejoindre votre étude, sélectionnez **Membres de l'étude**, saisissez leur adresse électronique dans le champ et sélectionnez **Inviter**.
 - Pour voir le statut de toutes les personnes invitées, naviguez vers l'onglet "Invitations".

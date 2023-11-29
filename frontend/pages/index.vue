@@ -5,7 +5,7 @@
                 <div class="mx-auto max-w-7xl px-6 lg:px-8">
                     <div class="mx-auto max-w-2xl text-center">
                         <div class="inline-flex items-center">
-                            <img class="h-28 sm:h-32 w-auto" src="/img/mark.svg" :alt="t('common.title')" />
+                            <!-- <img class="h-28 sm:h-32 w-auto" src="/img/mark.svg" :alt="t('common.title')" />  -->
                             <h1 class="text-2xl px-1 font-bold tracking-tight text-gray-900 sm:text-4xl">
                                 {{ t("frontpage.title") }}
                             </h1>

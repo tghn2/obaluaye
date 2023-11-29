@@ -1,9 +1,9 @@
 export default {
     common: {
-        title: "Plataforma de Investigación. Red de salud Global",
+        title: "The 1000 Challenge Study Builder",
     },
     seo: {
-        title: "Plataforma de Investigación. Red de salud Global",
+        title: "The 1000 Challenge Study Builder",
         description: "Plataforma de investigación colaborativa para apoyo al desarrollo de estudios en salud global",
     },
     nav: {
@@ -363,7 +363,7 @@ export default {
         empty: "Buscar equipos de estudio para sus vías de estudio.",
     },
     frontpage: {
-        title: "The Global Health Network Study Builder",
+        title: "The 1000 Challenge Study Builder",
         description: "El constructor colaborativo de estudios de investigación en salud global y compañero de apoyo",
         tghnFull: "The Global Health Network",
         tghn: "TGHN",

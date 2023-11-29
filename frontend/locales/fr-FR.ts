@@ -1,9 +1,9 @@
 export default {
     common: {
-        title: "The Global Health Network Study Builder",
+        title: "The 1000 Challenge Study Builder",
     },
     seo: {
-        title: "The Global Health Network Study Builder",
+        title: "The 1000 Challenge Study Builder",
         description: "Le compagnon de soutien et de construction d'études de recherche collaborative en santé mondiale",
     },
     nav: {
@@ -363,7 +363,7 @@ export default {
         empty: "Rechercher les équipes d'étude pour leurs filières d'études.",
     },
     frontpage: {
-        title: "The Global Health Network Study Builder",
+        title: "The 1000 Challenge Study Builder",
         description: "Le compagnon de soutien et de construction d'études de recherche collaborative en santé mondiale",
         tghnFull: "The Global Health Network",
         tghn: "TGHN",

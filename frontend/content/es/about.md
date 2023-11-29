@@ -23,11 +23,11 @@ navigation: false
 ### Join existing Study Team
 - Si desea unirse a un Equipo de Estudio existente, póngase en contacto con el Jefe de Equipo que lo creó para que le invite utilizando la dirección de correo electrónico con la que registró una cuenta. 
 - Cuando el jefe de equipo le haya enviado una invitación, podrá verla y aceptarla en **Configuración > Invitaciones**. Seleccione la **marca** para aceptar. 
-- Vaya a **Equipos de estudio** en la barra lateral y utilice la función de búsqueda o filtro para encontrar y seleccionar el equipo del que ahora es miembro y está listo para colaborar.
+- Vaya a **Mis estudios** en la barra lateral y utilice la función de búsqueda o filtro para encontrar y seleccionar el equipo del que ahora es miembro y está listo para colaborar.
 
 ### Crear un nuevo Equipo de Estudio o una nueva Vía de Estudio como investigador individual
 - Si usted es un investigador individual sin equipo o es el jefe de equipo designado para su equipo de estudio y desea crear un nuevo itinerario de estudio, vaya a **ITINERARIOS DE ESTUDIO** en la barra lateral y seleccione **ITINERARIO DE ESTUDIO DEL DESAFÍO 1000**. Seleccione **Iniciar**.
-- Esto creará un nuevo Equipo de estudio en la sección **Equipos de estudio** de la barra lateral. 
+- Esto creará un nuevo Equipo de estudio en la sección **Mis estudios** de la barra lateral. 
 - Seleccione **Editar** y cambie el **nombre** de su Equipo de Estudio, añada una **Descripción**, **etiquetas de palabras clave**, **país** y **región**. Pulse **Guardar** una vez.
 - Para invitar a miembros a unirse a su estudio, seleccione **Miembros del estudio** e introduzca su dirección de correo electrónico en el campo y seleccione **Invitar**.
 - Para ver el estado de todos los invitados, vaya a la pestaña "Invitaciones".

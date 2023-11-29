@@ -23,11 +23,11 @@ navigation: false
 ### Juntar-se à equipa de estudo existente
 - Se quiser juntar-se a uma equipa de estudo existente, contacte o chefe de equipa que a criou para o convidar utilizando o endereço de correio eletrónico com que registou uma conta. 
 - Quando o chefe de equipa lhe tiver enviado um convite, poderá ver e aceitar o convite em **Configurações > Convites**. Seleccione o **marcador** para aceitar. 
-- Navegue até **Equipas de estudo** na barra lateral e utilize a função de pesquisa ou o filtro para encontrar e selecionar a equipa de que é agora membro e que está pronta para colaborar.
+- Navegue até **Os meus estudos** na barra lateral e utilize a função de pesquisa ou o filtro para encontrar e selecionar a equipa de que é agora membro e que está pronta para colaborar.
 
 ### Criar uma nova equipa de estudo ou um novo percurso de estudo como investigador individual
 - Se for um investigador individual sem equipa ou se for o chefe de equipa nomeado para a sua equipa de estudo e pretender criar um novo percurso de estudo, navegue para **Caminhos de estudo** na barra lateral e seleccione **Caminho de estudo do Desafio 1000**. Seleccione **Iniciar**.
-- Isto criará uma nova equipa de estudo na secção **Equipas de estudo** na barra lateral. 
+- Isto criará uma nova equipa de estudo na secção **Os meus estudos** na barra lateral. 
 - Seleccione **Editar** e altere o **nome** da sua equipa de estudo, adicione uma **Descrição**, **palavras-chave**, **País** e **Região**. Clique em **Guardar** uma vez.
 - Para convidar membros a juntarem-se ao seu estudo, seleccione **Membros do estudo** e introduza o respetivo endereço de correio eletrónico no campo e seleccione **Convidar**.
 - Para ver o estado de todos os convidados, navegue até ao separador "Convites"

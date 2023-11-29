@@ -1,9 +1,9 @@
 export default {
     common: {
-        title: "The Global Health Network Study Builder",
+        title: "The 1000 Challenge Study Builder",
     },
     seo: {
-        title: "The Global Health Network Study Builder",
+        title: "The 1000 Challenge Study Builder",
         description: "The collaborative global health research study builder and support companion",
     },
     nav: {
@@ -130,7 +130,7 @@ export default {
         field: {
             title: "Title",
             description: "Description",
-            subjects: "Keywords",
+            subjects: "Search terms about your team",
             country: "Country",
             spatial: "Region",
             language: "Language",
@@ -167,10 +167,10 @@ export default {
         help: {
             title: "",
             description: "A complete description of the study team.",
-            subjects: "A list of keywords for the study team. Comma-separated.",
+            subjects: "A list of search terms to describe the study.",
             country: "A list of one or more countries appropriate to this study team.",
-            spatial: "Regional characteristics of the study team.",
-            language: "Specify study team communication language.",
+            spatial: "Region",
+            language: "Specify study language.",
         },
         alert: {
             createSuccessTitle: "Success",
@@ -200,7 +200,7 @@ export default {
             title: "Title",
             type: "Type",
             description: "Description",
-            subjects: "Keywords",
+            subjects: "Search terms",
             country: "Country",
             spatial: "Region",
             temporal: "Time period",
@@ -215,9 +215,9 @@ export default {
         help: {
             title: "",
             description: "A complete description of the study pathway.",
-            subjects: "A list of keywords of the study pathway. Comma-separated. Contains all languages.",
+            subjects: "A list of search terms.",
             country: "A list of one or more countries appropriate to this study pathway.",
-            spatial: "Regional information of the study pathway.",
+            spatial: "Region.",
             temporal: "Time period of the study pathway.",
             language: "Specify study pathway base language. Permits translation.",
             citation: "A bibliographic reference for the study pathway.",
@@ -251,7 +251,7 @@ export default {
         field: {
             title: "Title",
             description: "Description",
-            subjects: "Keywords",
+            subjects: "Search terms",
             country: "Country",
             spatial: "Region",
             language: "Language",
@@ -261,9 +261,9 @@ export default {
         help: {
             title: "",
             description: "A complete description of the study step.",
-            subjects: "A list of keywords of the study step. Comma-separated. Contains all languages.",
-            country: "A list of one or more languages appropriate to this study step.",
-            spatial: "Region of the study step.",
+            subjects: "A list of search terms.",
+            country: "Languages.",
+            spatial: "Region.",
         },
     },
     node: {
@@ -271,12 +271,12 @@ export default {
         new: "New node",
         field: {
             question: "Question",
-            subjects: "Keywords",
+            subjects: "Search terms",
             resources: "Resources",
         },
         help: {
             question: "",
-            subjects: "A list of keywords of the node. Comma-separated. Contains all languages.",
+            subjects: "A list of search terms.",
         },
     },
     form: {
@@ -363,7 +363,7 @@ export default {
         empty: "Search for study teams for their study pathways.",
     },
     frontpage: {
-        title: "The Global Health Network Study Builder",
+        title: "The 1000 Challenge Study Builder",
         description: "The collaborative global health research study builder and support companion",
         tghnFull: "The Global Health Network",
         tghn: "TGHN",
