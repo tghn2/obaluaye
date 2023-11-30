@@ -20,10 +20,10 @@
                 </TabList>
                 <TabPanels>
                     <TabPanel>
-                        <GroupMetadataCard :summary="groupStore.term" />
+                        <GroupPathwayResponseCard :group-id="(route.params.id as string)" />
                     </TabPanel>
                     <TabPanel>
-                        <GroupPathwayResponseCard :group-id="(route.params.id as string)" />
+                        <GroupMetadataCard :summary="groupStore.term" />
                     </TabPanel>
                     <TabPanel>
                         <GroupMembersCard :group-id="(route.params.id as string)" />
@@ -53,8 +53,8 @@ const route = useRoute()
 const groupStore = useGroupStore()
 const authStore = useAuthStore()
 let navigation = [
-    { name: "group.nav.metadata", id: "METADATA", icon: PhGraph },
     { name: "group.nav.response", id: "RESPONSE", icon: PhPath },
+    { name: "group.nav.metadata", id: "METADATA", icon: PhGraph },
     { name: "group.nav.members", id: "MEMBERS", icon: PhUsersThree },
     { name: "group.nav.invitations", id: "INVITATIONS", icon: PhEnvelopeSimple }
 ]

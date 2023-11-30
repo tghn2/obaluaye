@@ -29,7 +29,7 @@
                         </div>
                     </div>
                     <!-- Featured Pathway -->
-                    <div v-if="pathwayStore.term && pathwayStore.term.title" class="mx-auto max-w-2xl mt-12 sm:mt-18">
+                    <!-- <div v-if="pathwayStore.term && pathwayStore.term.title" class="mx-auto max-w-2xl mt-12 sm:mt-18">
                         <div class="mx-auto max-w-3xl text-center mb-8">
                             <h2 class="text-xl font-bold tracking-tight text-gray-900 sm:text-2xl">
                                 {{ t("frontpage.pathwayTitle") }}
@@ -41,7 +41,7 @@
                                 <PathwayCard :pathway="pathwayStore.term" />
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <!-- Featured Groups -->
