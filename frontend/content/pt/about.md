@@ -7,31 +7,31 @@ navigation: false
 
 ## Passo 1: Criar uma conta
 - Aceder a **[globalhealthstudybuilder.org](/)**
-- Seleccione a língua em que pretende trabalhar a partir do menu pendente da barra lateral (atualmente, está disponível o inglês e, em seguida, o espanhol, o português e o francês).
-- Clique em **Login** ou **Iniciar**
-- Criar uma conta: Introduza o endereço de correio eletrónico e ser-lhe-á enviada uma ligação para a caixa de entrada (verifique a pasta de spam ou de lixo eletrónico se a mensagem não tiver chegado dentro de alguns minutos). Abra a ligação no mesmo navegador Web em que está a utilizar atualmente o Study Builder. Se utilizar o mesmo navegador Web e não limpar a cache, ele lembrar-se-á de si da próxima vez.
-- Crie uma palavra-passe para a sua conta, vá a **Definições > Segurança** e adicione uma palavra-passe no campo **Nova palavra-passe** e adicione novamente no campo **Repete nova palavra-passe** e, em seguida, **Enviar**. Também pode selecionar a segurança de dois factores aqui. Da próxima vez que precisar de iniciar sessão, seleccione a opção **Se preferir, utilize a sua palavra-passe e não envie um e-mail** por baixo do botão Enviar e introduza o seu e-mail e a sua palavra-passe.
-- Em **Configurações > Conta**, introduza o seu **nome**, **Descrição**, **Palavras-chave**, **País** e **Região**. Introduza a sua palavra-passe para confirmar e clique em **Enviar** uma vez.
+- Select the language you want to work in from the sidebar dropdown menu (currently English is available with Spanish, Portuguese and French to come).
+- Click on **Login** or **Get started**
+- Create an account: Enter email address and you will be sent a link to your inbox (check your spam or junk folder if the email has not arrived within a few minutes). Open the link in the same web browser you are currently using the Study Builder in. If you use the same web browser and don’t clear your cache, it will remember you next time.
+- Create a password for your account, go to **Profile > Security** and add a password in the **New password** field and add again in the **Repeat new password** field, then **Submit**. You can also select two-factor security here. Next time you need to login, check the **If you prefer, use your password & don’t email option** underneath the submit button and enter your email and password.
+- In **Profile > Personal profile**, please enter your **Name**, **Description**, **Search terms**, **Country** and **Region**. Enter your password to confirm and click **Submit** once.
 
-## Passo 2: Preencher o perfil pessoal
-- Antes de poder criar um grupo ou iniciar um percurso de estudo, o utilizador tem de completar o seu perfil utilizando o percurso do perfil pessoal.
-- Seleccione **Caminhos de estudo** no menu da barra lateral e seleccione **Perfil pessoal do Desafio 1000**
-- Seleccione **Iniciar** e leia atentamente o formulário antes de preencher cada pergunta. Quando terminar, seleccione **Guardar e fechar**.
+## Step 2: Complete Professional Profile
+- Before you can create a team or begin a Study Pathway, you need to complete your profile using the Professional Profile pathway.
+- Select **Study pathways** on the sidebar menu and select **1000 Challenge Professional Profile**
+- Select **Start** and read the form carefully before completing each question. When complete, select **Save and close**.
 
-## Passo 3: Juntar-se a uma equipa de estudo existente, criar uma nova equipa de estudo ou começar como investigador individual
+## Step 3: Join existing Study Team, create new Study Team, or begin as individual researcher
 
-### Juntar-se à equipa de estudo existente
-- Se quiser juntar-se a uma equipa de estudo existente, contacte o chefe de equipa que a criou para o convidar utilizando o endereço de correio eletrónico com que registou uma conta. 
-- Quando o chefe de equipa lhe tiver enviado um convite, poderá ver e aceitar o convite em **Configurações > Convites**. Seleccione o **marcador** para aceitar. 
-- Navegue até **Os meus estudos** na barra lateral e utilize a função de pesquisa ou o filtro para encontrar e selecionar a equipa de que é agora membro e que está pronta para colaborar.
+### Join existing Study Team
+- If you are wanting to join an existing Study Team, contact the Team Lead who created it to invite you using the email address you registered an account with. 
+- When the Team Lead has sent you an invite, you will be able to view and accept the invite in **Profile > Invitations**. Select the **tick** to accept. 
+- Navigate to **My studies** in the sidebar and use the search function or filter to find and select the team you are now a member of and ready to collaborate.
 
-### Criar uma nova equipa de estudo ou um novo percurso de estudo como investigador individual
-- Se for um investigador individual sem equipa ou se for o chefe de equipa nomeado para a sua equipa de estudo e pretender criar um novo percurso de estudo, navegue para **Caminhos de estudo** na barra lateral e seleccione **Caminho de estudo do Desafio 1000**. Seleccione **Iniciar**.
-- Isto criará uma nova equipa de estudo na secção **Os meus estudos** na barra lateral. 
-- Seleccione **Editar** e altere o **nome** da sua equipa de estudo, adicione uma **Descrição**, **palavras-chave**, **País** e **Região**. Clique em **Guardar** uma vez.
-- Para convidar membros a juntarem-se ao seu estudo, seleccione **Membros do estudo** e introduza o respetivo endereço de correio eletrónico no campo e seleccione **Convidar**.
-- Para ver o estado de todos os convidados, navegue até ao separador "Convites"
-- Não se esqueça de contactar também os membros separadamente para que saibam que fazem parte do percurso.
-- Depois de o convite ter sido aceite, a pessoa aparecerá como **Visitante**. Para que a pessoa possa contribuir ativamente e fazer comentários ao longo do percurso de estudo, mude-a para **Membro da equipa** no separador **Membros do estudo**.
-- Para iniciar o percurso do estudo e começar a capturar o seu estudo, seleccione **Rever o seu estudo** e, em seguida, **Rever**.
-- Complete as perguntas passo a passo e lembre-se de **Guardar** frequentemente; não tem de terminar todo o percurso de uma só vez. **Ajuda e recursos** estão disponíveis para si em cada passo do caminho.
+### Create new Study Team or new Study Pathway as an individual researcher
+- If you are an individual researcher without a team or you are the nominated Team Lead for your Study Team and want to create a new Study Pathway, navigate to **Study pathways** on the sidebar and select **1000 Challenge Study Pathway**. Select **Start**.
+- This will create a new Study Team under the **My studies** section in the sidebar. 
+- Select **Edit** and change the **name** of your Study Team, add a **Description**, **Search terms**, **Country** and **Region**. Click **Save** once.
+- To invite members to join your study, select **Study members** and enter their email address into the field and select **Invite**.
+- To view the status of all those invited, navigate to the “Invitations” tab
+- Remember to also contact members separately so they know they are aware they are now part of the pathway.
+- Once the invite has been accepted, they will appear as a **Viewer**. To enable the person to actively contribute and make comments throughout the journey through the Study pathway, change them to **Team member** under the **Study members** tab.
+- To begin the Study pathway and start capturing your study, Select **Complete your study** and then **Review**.
+- Complete the questions step by step and remember to **Save** often; you don’t have to finish the whole pathway in one go. **Help and resources** are available for you at each step of the way.
