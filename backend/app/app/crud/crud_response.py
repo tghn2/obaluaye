@@ -54,7 +54,11 @@ class CRUDResponse(CRUDBase[Response, ResponseCreate, ResponseUpdate, ResponseOu
                     # Neither of `id` or `respondent_id` matter here
                     answers = list(obj_in.values())
                     if order:
-                        answers.sort(key=lambda x: order.index(x["id"]))
+                        try:
+                            answers.sort(key=lambda x: order.index(x["id"]))
+                        except ValueError:
+                            # Seems to be some user error where something got deleted from the pathway?
+                            pass
                     return Response(
                         **{
                             "id": str(uuid4()),

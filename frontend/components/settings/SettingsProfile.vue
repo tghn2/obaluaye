@@ -8,7 +8,7 @@
                         {{ t("settings.account.description") }}
                     </p>
                 </div>
-                <GuidepathStartPersonalJourney v-if="!authStore.completedPathway" />
+                <!-- <GuidepathStartPersonalJourney v-if="!authStore.completedPathway" /> -->
                 <div class="space-y-1 grid grid-cols-1 gap-x-3 gap-y-4 sm:grid-cols-6">
                     <div class="sm:col-span-5">
                         <label for="full_name" class="block text-sm font-semibold leading-6 text-gray-900">
