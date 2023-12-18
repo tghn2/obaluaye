@@ -55,8 +55,8 @@ export default {
         },
         account: {
             title: "Perfil personal",
-            description: "Cambiar tu dirección de correo electrónico cambiará tu inicio de sesión. Cualquier cambio requerirá que introduzcas tu contraseña original.",
-            passwordRequired: "Tendrás que establecer una contraseña ('Seguridad') antes de guardar los cambios.",
+            description: "Deberá establecer una contraseña (vaya a 'Seguridad') antes de poder guardar los cambios en su perfil. Ten en cuenta que si cambias tu dirección de correo electrónico, también cambiará tu nombre de usuario.",
+            passwordRequired: "Tendrás que establecer una contraseña (vaya a 'Seguridad') antes de guardar los cambios.",
             accountPassword: "Contraseña original",
             profileName: "Tu nombre",
             email: "Dirección de correo electrónico",
@@ -381,7 +381,7 @@ export default {
         pathwayTitle: "Vías de estudio",
         groupTitle: "Estudios destacados",
         steps: {
-            one: "Crear una cuenta",
+            one: "Crear cuenta/iniciar sesión",
             two: "Perfil profesional completo",
             three: "Crear o gestionar un estudio",
             four: "Invita a miembros de tu equipo o completa un itinerario de estudio por tu cuenta",

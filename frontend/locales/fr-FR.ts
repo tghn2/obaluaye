@@ -55,8 +55,8 @@ export default {
         },
         account: {
             title: "Profil personnel",
-            description: "Le changement de votre adresse électronique modifiera votre login. Pour toute modification, vous devrez saisir votre mot de passe original.",
-            passwordRequired: "Vous devrez définir un mot de passe ('Security') avant de pouvoir enregistrer vos modifications.",
+            description: "Vous devrez définir un mot de passe (voir 'Sécurité') avant de pouvoir enregistrer les modifications apportées à votre profil. Notez que si vous changez d'adresse électronique, vous changerez de nom d'utilisateur et de mot de passe.",
+            passwordRequired: "Vous devrez définir un mot de passe (voir 'Sécurité') avant de pouvoir enregistrer vos modifications.",
             accountPassword: "Mot de passe original",
             profileName: "Votre nom",
             email: "Adresse électronique",
@@ -381,7 +381,7 @@ export default {
         pathwayTitle: "Filières d'études",
         groupTitle: "Études en vedette",
         steps: {
-            one: "Créer un compte",
+            one: "Créer un compte/login",
             two: "Profil professionnel complet",
             three: "Créer ou gérer une étude",
             four: "Invitez des membres de l'équipe ou complétez un parcours d'étude par vous-même.",

@@ -55,8 +55,8 @@ export default {
         },
         account: {
             title: "Personal profile",
-            description: "Changing your email address will change your login. Any changes will require you to enter your original password.",
-            passwordRequired: "You will need to set a password ('Security') before you can save your profile changes.",
+            description: "You will need to set a password (go to 'Security') before you can save your profile changes. Note, changing your email address will change your login. ",
+            passwordRequired: "You will need to set a password (go to 'Security') before you can save your profile changes.",
             accountPassword: "Original password",
             profileName: "Your name",
             email: "Email address",
@@ -381,7 +381,7 @@ export default {
         pathwayTitle: "Study pathways",
         groupTitle: "Featured studies",
         steps: {
-            one: "Create account",
+            one: "Create account/login",
             two: "Complete professional profile",
             three: "Create or manage a study",
             four: "Invite team members, or complete a study pathway on your own",

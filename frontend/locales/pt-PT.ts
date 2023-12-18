@@ -55,8 +55,8 @@ export default {
         },
         account: {
             title: "Perfil pessoal",
-            description: "Se alterar o seu endereço de correio eletrónico, o seu início de sessão será alterado. Qualquer alteração implica a introdução da palavra-passe original.",
-            passwordRequired: "Terá de definir uma palavra-passe ('Segurança') antes de poder guardar as suas alterações.",
+            description: "Terá de definir uma palavra-passe (vá a 'Segurança') antes de poder guardar as alterações ao seu perfil. Nota: se alterar o seu endereço de correio eletrónico, o seu início de sessão será alterado",
+            passwordRequired: "Terá de definir uma palavra-passe (vá a 'Segurança') antes de poder guardar as suas alterações.",
             accountPassword: "Palavra-passe original",
             profileName: "O seu nome",
             email: "Endereço de correio eletrónico",
@@ -381,7 +381,7 @@ export default {
         pathwayTitle: "Percursos de estudo",
         groupTitle: "Estudos em destaque",
         steps: {
-            one: "Criar conta",
+            one: "Criar conta/login",
             two: "Perfil profissional completo",
             three: "Criar ou gerir um estudo",
             four: "Convidar membros da equipa ou completar o percurso de estudo sozinho",
