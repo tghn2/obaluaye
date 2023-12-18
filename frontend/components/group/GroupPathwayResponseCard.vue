@@ -8,13 +8,13 @@
                         {{ t("group.pathway.description") }}
                     </p>
                 </div>
-                <LocaleLink
+                <!-- <LocaleLink
                     v-if="journeyStore.term && journeyStore.term.id && (groupStore.isResearcher || groupStore.isCustodian)"
                     :to="`/journey/${groupStore.term.id as string}/${journeyStore.term.id}`"
                     class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-md px-3 my-1 text-sm ring-1 ring-inset text-white bg-spring-500 hover:bg-spring-700">
                     <PhPencilSimple class="md:-ml-0.5 h-4 w-4" aria-hidden="true" />
                     <span class="hidden md:block">{{ t("pathway.journey.review") }}</span>
-                </LocaleLink>
+                </LocaleLink> -->
             </div>
             <div v-if="journeyStore.term.pathway" class="py-1 mt-4 sm:px-6 border-t border-gray-200">
                 <CommonSummaryCard :summary="journeyStore.term.pathway" :pathway="true" />

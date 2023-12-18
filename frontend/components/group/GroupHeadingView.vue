@@ -15,7 +15,7 @@
                 class="flex flex-inline items-center space-x-2">
                 <!-- Separator -->
                 <div class="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10" aria-hidden="true" />
-                <Menu v-if="groupStore.isLastMember || authStore.isAdmin" as="div" class="relative inline-block text-left">
+                <Menu v-if="props.activeTab === 'METADATA' && (groupStore.isLastMember || authStore.isAdmin)" as="div" class="relative inline-block text-left">
                     <div>
                         <MenuButton
                             class="inline-flex items-center w-full justify-center -ml-px gap-x-1.5 rounded-md px-3 py-2 text-sm text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
@@ -42,7 +42,14 @@
                         </MenuItems>
                     </transition>
                 </Menu>
-                <button type="button" @click.prevent="watchEditRequest('edit')"
+                <LocaleLink
+                    v-if="props.activeTab === 'RESPONSE' && journeyStore.term && journeyStore.term.id && (groupStore.isResearcher || groupStore.isCustodian)"
+                    :to="`/journey/${groupStore.term.id as string}/${journeyStore.term.id}`"
+                    class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-md px-3 py-2 text-sm ring-1 ring-inset text-white bg-spring-500 hover:bg-spring-700">
+                    <PhPencilSimple class="md:-ml-0.5 h-4 w-4" aria-hidden="true" />
+                    <span class="hidden md:block">{{ t("pathway.journey.review") }}</span>
+                </LocaleLink>
+                <button type="button" v-if="props.activeTab === 'METADATA'" @click.prevent="watchEditRequest('edit')"
                     class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-md px-3 py-2 text-sm text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
                     <PhLightning class="md:-ml-0.5 h-4 w-4 text-gray-400" aria-hidden="true" />
                     <span class="hidden md:block">{{ t("header.edit") }}</span>
@@ -80,18 +87,24 @@
 
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItems, MenuItem, Switch } from "@headlessui/vue"
-import { PhCaretDown, PhWarningCircle, PhTrashSimple, PhLightning, PhUsersThree, PhFeather, PhChecks } from "@phosphor-icons/vue"
-import { useGroupStore, useAuthStore } from "@/stores"
+import { PhCaretDown, PhWarningCircle, PhTrashSimple, PhLightning, PhUsersThree, PhFeather, PhChecks, PhPencilSimple } from "@phosphor-icons/vue"
+import { useGroupStore, useJourneyStore, useAuthStore } from "@/stores"
 
 const { t } = useI18n()
 const isFeatured = ref(false)
 const isComplete = ref(false)
 const groupStore = useGroupStore()
+const journeyStore = useJourneyStore()
 const authStore = useAuthStore()
 const props = defineProps<{
     title: string,
+    activeTab: string,
 }>()
 const emit = defineEmits<{ setEditRequest: [request: string] }>()
+
+// watch(() => [props.activeTab], async () => {
+//     console.log('Changed active tab to:', props.activeTab)
+// })
 
 function watchFeatured() {
     isFeatured.value = !isFeatured.value

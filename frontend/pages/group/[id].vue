@@ -4,9 +4,9 @@
             <LoadingCardSkeleton />
         </div>
         <div v-if="appSettings.current.pageState === 'done' && groupStore.term && groupStore.term.hasOwnProperty('name')">
-            <GroupHeadingView purpose="Group" :title="groupStore.term.title as string"
+            <GroupHeadingView purpose="Group" :title="groupStore.term.title as string" :active-tab="activeTab"
                 @set-edit-request="watchHeadingRequest" />
-            <TabGroup>
+            <TabGroup @change="emitActiveTab">
                 <TabList class="flex space-x-8 border-b border-gray-200 text-xs">
                     <Tab v-for="tab in navigation" :key="`tab-${tab.id}`" as="template" v-slot="{ selected }">
                         <button
@@ -52,6 +52,7 @@ const appSettings = useSettingStore()
 const route = useRoute()
 const groupStore = useGroupStore()
 const authStore = useAuthStore()
+const activeTab = ref<string>("RESPONSE")
 let navigation = [
     { name: "group.nav.response", id: "RESPONSE", icon: PhPath },
     { name: "group.nav.metadata", id: "METADATA", icon: PhGraph },
@@ -77,6 +78,12 @@ async function watchHeadingRequest(request: string) {
             if (groupStore.isResearcher || groupStore.isCustodian || authStore.isAdmin) {
                 return await navigateTo(localePath(`/group/edit/${route.params.id}`))
             }
+    }
+}
+
+function emitActiveTab(index: any) {
+    if (navigation[index] !== undefined) {
+        activeTab.value = navigation[index].id
     }
 }
 

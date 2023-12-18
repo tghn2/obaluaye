@@ -10,12 +10,12 @@
                 </div>
                 <LocaleLink v-if="authStore.activePathway && journeyStore.term && journeyStore.term.id"
                     :to="`/journey/${journeyStore.term.id}`"
-                    class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-md px-3 my-1 text-sm text-kashmir-900 ring-1 ring-inset ring-gray-300 hover:bg-kashmir-50">
-                    <PhPencilSimple class="md:-ml-0.5 h-4 w-4 text-gray-400" aria-hidden="true" />
+                    class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-md px-3 my-1 text-sm ring-1 ring-inset text-white bg-spring-500 hover:bg-spring-700">
+                    <PhPencilSimple class="md:-ml-0.5 h-4 w-4" aria-hidden="true" />
                     <span class="hidden md:block">{{ t("pathway.journey.review") }}</span>
                 </LocaleLink>
             </div>
-            <GuidepathStartStudyJourney v-if="authStore.completedPathway" />
+            <!-- <GuidepathStartStudyJourney v-if="authStore.completedPathway" /> -->
             <div v-if="journeyStore.term.pathway" class="py-1 mt-4 sm:px-6 border-t border-gray-200">
                 <CommonSummaryCard :summary="journeyStore.term.pathway" :pathway="true" />
                 <div class="bg-gray-100 p-1">
