@@ -1,1 +1,6 @@
 
+name: Deploy to staging
+on: 
+  push:
+    branches:
+      - staging
