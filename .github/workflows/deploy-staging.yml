@@ -1,0 +1,11 @@
+
+name: Deploy to staging
+on: 
+  push:
+    branches:
+      - staging
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Running staging deploy"
