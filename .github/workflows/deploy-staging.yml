@@ -4,3 +4,7 @@ on:
   push:
     branches:
       - staging
+jobs:
+   runs-on: ubuntu-latest
+   steps:
+    - run: echo "Running staging deploy"
