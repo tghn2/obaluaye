@@ -1,11 +1,46 @@
 
 name: Deploy to staging
+
 on: 
   push:
     branches:
       - staging
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Running staging deploy"
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh/
+          echo "$SSH_KEY" > ~/.ssh/deploy.key
+          chmod 600 ~/.ssh/deploy.key
+          cat >>~/.ssh/config <<END
+          Host server
+            HostName 10.131.97.133
+            User root
+            IdentityFile ~/.ssh/deploy.key
+          END
+          ssh-keyscan -H server > ~/.ssh/known_hosts
+        env:
+          SSH_KEY: ${{ secrets.STAGING_SSH_KEY }}
+
+      - name: Check out the latest code
+        run: ssh server 'cd /srv/obaluaye && git pull'
+      
+      - name: Run the build script
+        run: |
+          ssh server 'TAG=staging \
+          DOMAIN=staging.globalhealthstudybuilder.org \
+          STACK_NAME=staging-globalhealthstudybuilder-org \
+          TRAEFIK_TAG=staging.globalhealthstudybuilder.org \
+          FRONTEND_ENV=staging \
+          bash -x scripts/build.sh'
+
+      - name: Run the deploy script
+        run: |
+          ssh server 'TAG=staging \
+          DOMAIN=staging.globalhealthstudybuilder.org \
+          STACK_NAME=staging-globalhealthstudybuilder-org \
+          TRAEFIK_TAG=staging.globalhealthstudybuilder.org \
+          bash -x scripts/deploy.sh'
