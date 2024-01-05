@@ -17,13 +17,14 @@ jobs:
           chmod 600 ~/.ssh/deploy.key
           cat >>~/.ssh/config <<END
           Host server
-            HostName 10.131.97.133
+            HostName $SSH_HOST
             User root
             IdentityFile ~/.ssh/deploy.key
           END
-          ssh-keyscan -H server > ~/.ssh/known_hosts
+          ssh-keyscan -H $SSH_HOST > ~/.ssh/known_hosts
         env:
           SSH_KEY: ${{ secrets.STAGING_SSH_KEY }}
+          SSH_HOST: 10.131.97.133
 
       - name: Check out the latest code
         run: ssh server 'cd /srv/obaluaye && git pull'
