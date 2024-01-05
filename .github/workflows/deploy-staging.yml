@@ -24,7 +24,7 @@ jobs:
           ssh-keyscan -H $SSH_HOST > ~/.ssh/known_hosts
         env:
           SSH_KEY: ${{ secrets.STAGING_SSH_KEY }}
-          SSH_HOST: 10.131.97.133
+          SSH_HOST: 206.189.120.158
 
       - name: Check out the latest code
         run: ssh server 'cd /srv/obaluaye && git pull'
