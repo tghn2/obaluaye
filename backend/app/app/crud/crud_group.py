@@ -31,10 +31,7 @@ class CRUDGroup(CRUDBase[Group, GroupCreate, GroupUpdate, GroupOut]):
     ) -> list[Group]:
         if match:
             db_objs = db_objs.filter(
-                (
-                    self.model.title_vector.match(str(match))
-                    | self.model.description_vector.match(str(match))
-                )
+                (self.model.title_vector.match(str(match)) | self.model.description_vector.match(str(match)))
             )
         if language:
             language = self._fix_language(language)
@@ -81,7 +78,7 @@ class CRUDGroup(CRUDBase[Group, GroupCreate, GroupUpdate, GroupOut]):
             featured=featured,
             public=public,
             user=user,
-            responsibility=responsibility
+            responsibility=responsibility,
         )
         if not page_break:
             if page > 0:
@@ -91,10 +88,7 @@ class CRUDGroup(CRUDBase[Group, GroupCreate, GroupUpdate, GroupOut]):
 
     def get_featured(self, db: Session, *, language: str | Locale | None = None) -> Pathway:
         db_objs = db.query(self.model)
-        db_objs = db_objs.filter(
-            (self.model.isFeatured.is_(True))
-            & (self.model.isActive.is_(True))
-        )
+        db_objs = db_objs.filter((self.model.isFeatured.is_(True)) & (self.model.isActive.is_(True)))
         return db_objs.order_by(func.random()).limit(settings.FEATURED_MAX).all()
 
     def can_remove(self, *, user: User, group: Group, responsibility: RoleType = RoleType.VIEWER) -> bool:
@@ -122,22 +116,21 @@ class CRUDGroup(CRUDBase[Group, GroupCreate, GroupUpdate, GroupOut]):
         last = [
             theme_obj.nodes.order_by(None).order_by(Node.order.desc()).first().id
             for theme_obj in pathway_obj.themes.filter(
-                (Theme.order == order)
-                & (Theme.pathway_id == pathway_obj.id)
+                (Theme.order == order) & (Theme.pathway_id == pathway_obj.id)
             ).all()
         ]
         completed = group.responses.filter(
-            (Pathway.pathType == PathwayType.RESEARCH)
-            & (Response.group_id == group.id)
-            & (Response.node_id.in_(last))
+            (Pathway.pathType == PathwayType.RESEARCH) & (Response.group_id == group.id) & (Response.node_id.in_(last))
         ).first()
         if completed:
             return True
         return False
 
-    def get_pathway(self, *, group: Group) -> Pathway:
+    def get_pathway(self, *, group: Group) -> Pathway | None:
         role_obj = group.roles.first()
-        return role_obj.pathway
+        if role_obj and role_obj.pathway:
+            return role_obj.pathway
+        return None
 
     def get_working_response(self, group: Group) -> Theme | None:
         if not group.responses.first():
@@ -166,6 +159,7 @@ class CRUDGroup(CRUDBase[Group, GroupCreate, GroupUpdate, GroupOut]):
             isComplete = db_obj.isComplete
         obj_in.isComplete = not isComplete
         return self.update(db=db, db_obj=db_obj, obj_in=obj_in)
+
 
 group = CRUDGroup(
     model=Group,
