@@ -6,7 +6,8 @@ from datetime import datetime
 
 from app.db.base_class import Base
 from app.schema_types import InvitationResponseType
-from app.schemas.base_schema import BaseSchema, BaseSummarySchema
+from app.schemas.base_schema import BaseSchema
+from app.schemas.summary import BaseSummarySchema
 from app.schemas.user import UserSummary
 
 

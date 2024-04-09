@@ -7,7 +7,8 @@ from datetime import datetime
 import re
 
 from app.db.base_class import Base
-from app.schemas.base_schema import BaseSchema, BaseSummarySchema, LocaleType, CountryListType
+from app.schemas.base_schema import BaseSchema, LocaleType, CountryListType
+from app.schemas.summary import BaseSummarySchema
 from app.schemas.resource import Resource
 from app.schemas.node import NodeJourney
 
@@ -94,6 +95,7 @@ class ThemeJourney(Theme):
     pathway: Optional[BaseSummarySchema] = Field(None, description="Research pathway objective for this journey.")
     journeyPath: Optional[List[UUID]] = Field([], description="Next point in pathway response. None if not available.")
     journeyBack: Optional[UUID] = Field(None, description="Previous point in pathway response. None if not available.")
+    journeySequence: Optional[List[UUID]] = Field([], description="Ordered list of theme ids. None if not available.")
     nodes: Optional[List[NodeJourney]] = Field([], description="A list of nodes which define this pathway.")
 
     @validator("pathway", pre=True)

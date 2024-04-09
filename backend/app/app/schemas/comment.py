@@ -3,7 +3,8 @@ from pydantic import Field
 from uuid import UUID
 from datetime import datetime
 
-from app.schemas.base_schema import BaseSchema, BaseSummarySchema, LocaleType
+from app.schemas.base_schema import BaseSchema, LocaleType
+from app.schemas.summary import BaseSummarySchema
 from app.schemas.user import UserSummary
 
 
@@ -39,6 +40,7 @@ class Comment(CommentBase):
     researcher_id: Optional[UUID] = Field(None, description="Project custodian responsible for the comment.")
     researcher: UserSummary = Field(..., description="Person who wrote the comment.")
     content: str = Field(..., description="Comment for the response. Can be in markdown.")
+
 
 class CommentJourney(Comment):
     group: Optional[BaseSummarySchema] = Field(None, description="Research group for this comment.")

@@ -1,17 +1,7 @@
-from pydantic import (
-    BaseModel,
-    Field,
-    validator,
-)
-from typing import (
-    Optional,
-    Set,
-)
-from uuid import UUID
-from datetime import datetime
-import re
+from pydantic import BaseModel
 from babel import Locale, UnknownLocaleError
 from sqlalchemy_utils import Country
+
 
 # ======================================================================================================================
 # THIRD-PARTY TYPES FOR LOCALE AND COUNTRY
@@ -34,6 +24,7 @@ class LocaleType(Locale):
     def __modify_schema__(cls, field_schema):
         field_schema.update(type="string", example="fr")
 
+
 class CountryType(Country):
     @classmethod
     def __get_validators__(cls):
@@ -53,6 +44,7 @@ class CountryType(Country):
     @classmethod
     def __modify_schema__(cls, field_schema):
         field_schema.update(type="string", example="FR")
+
 
 class CountryListType(Country):
     @classmethod
@@ -77,15 +69,19 @@ class CountryListType(Country):
     def __modify_schema__(cls, field_schema):
         field_schema.update(type="string", example=["FR", "GB", "ZA"])
 
+
 def locale_encoder(x: Locale | str):
     return str(x).lower()
+
 
 def country_encoder(x: Country | str):
     if isinstance(x, Country):
         return x.code
     return x
 
+
 # ======================================================================================================================
+
 
 class BaseSchema(BaseModel):
     @property
@@ -99,34 +95,3 @@ class BaseSchema(BaseModel):
     class Config:
         orm_mode = True
         json_encoders = {Locale: locale_encoder, Country: country_encoder}
-
-
-class BaseSummarySchema(BaseSchema):
-    id: Optional[UUID] = Field(None, description="Automatically generated unique identity.")
-    created: Optional[datetime] = Field(None, description="Automatically generated date last modified.")
-    modified: Optional[datetime] = Field(None, description="Automatically generated date last modified.")
-    isPrivate: Optional[bool] = Field(False, description="Whether private to roleplayers.")
-    title: Optional[str] = Field(None, description="A human-readable title.")
-    name: Optional[str] = Field(None, description="A machine-readable name.")
-    description: Optional[str] = Field(
-        None,
-        description="A short description.",
-    )
-    subjects: Optional[Set[str]] = Field(set(), description="A list of topics.")
-    language: Optional[LocaleType] = Field(
-        None,
-        description="Specify the language of pathway. Controlled vocabulary defined by ISO 639-1, ISO 639-2 or ISO 639-3.",
-    )
-    country: Optional[CountryListType] = Field([], description="A list of countries, defined by country codes.")
-    order: Optional[int] = Field(None, description="Integer count for pathway themes, but can be overloaded for other uses.")
-
-    @validator("name", always=True)
-    def evaluate_name(cls, v, values):
-        if values.get("title"):
-            # https://stackoverflow.com/a/57837793/295606
-            return re.sub("[^a-z0-9-]", "", values["title"].lower().replace(" ", "-"))
-        return None
-
-    @validator("subjects", pre=True)
-    def evaluate_subjects(cls, v):
-        return {s for s in v}
