@@ -7,6 +7,7 @@ import { usePathwayStore } from "./pathway"
 import { useJourneyStore } from "./journey"
 import { useCommentStore } from "./comment"
 import { useSearchStore } from "./search"
+import { useCollectionStore } from "./collection"
 
 export {
     useAuthStore,
@@ -18,4 +19,5 @@ export {
     useJourneyStore,
     useCommentStore,
     useSearchStore,
+    useCollectionStore,
 }
