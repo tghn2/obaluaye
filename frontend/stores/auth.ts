@@ -23,6 +23,8 @@ export const useAuthStore = defineStore("authStore", {
         subjects: [],
         language: "",
         country: [],
+        selection_ids: [],
+        collection: [],
         spatial: "",
         password: false,
         totp: false,
@@ -226,6 +228,8 @@ export const useAuthStore = defineStore("authStore", {
         this.subjects = payload.subjects
         this.language = payload.language
         this.country = payload.country
+        this.selection_ids = payload.selection_ids
+        this.collection = payload.collection
         this.spatial = payload.spatial
         this.password = payload.password
         this.totp = payload.totp
