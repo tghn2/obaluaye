@@ -41,6 +41,8 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate, UserOut]):
             update_data["hashed_password"] = hashed_password
         if update_data.get("email") and db_obj.email != update_data["email"]:
             update_data["email_validated"] = False
+        if "selection_ids" in update_data:
+            update_data.pop("selection_ids")
         # For validation in super update
         update_data["id"] = db_obj.id
         return super().update(db, db_obj=db_obj, obj_in=update_data)

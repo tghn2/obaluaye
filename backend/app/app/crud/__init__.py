@@ -14,6 +14,8 @@ from .crud_theme import theme  # noqa: F401
 from .crud_node import node  # noqa: F401
 from .crud_response import response  # noqa: F401
 from .crud_comment import comment  # noqa: F401
+from .crud_collection import collection  # noqa: F401
+from .crud_selection import selection  # noqa: F401
 
 # For a new basic set of CRUD operations you could just do
 

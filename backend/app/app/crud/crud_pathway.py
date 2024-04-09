@@ -94,9 +94,7 @@ class CRUDPathway(CRUDBase[Pathway, PathwayCreate, PathwayUpdate, PathwayOut]):
     def get_featured(self, db: Session, pathtype: PathwayType = PathwayType.RESEARCH) -> Pathway:
         db_objs = db.query(self.model)
         db_objs = db_objs.filter(
-            (self.model.isFeatured.is_(True))
-            & (self.model.isPrivate.is_(False))
-            & (self.model.pathType == pathtype)
+            (self.model.isFeatured.is_(True)) & (self.model.isPrivate.is_(False)) & (self.model.pathType == pathtype)
         )
         return db_objs.order_by(func.random()).first()
 
@@ -136,6 +134,13 @@ class CRUDPathway(CRUDBase[Pathway, PathwayCreate, PathwayUpdate, PathwayOut]):
         if theme_obj:
             return theme_obj.order
         return 0
+
+    def get_theme_sequence(self, pathway: Pathway) -> int:
+        # Automatically ordered by order (0,1,...)
+        theme_sequence = pathway.themes.with_entities(Theme.id).all()
+        if theme_sequence:
+            return [t.id for t in theme_sequence]
+        return []
 
     def toggle_featured(self, db: Session, *, db_obj: Pathway) -> Pathway:
         isFeatured = False

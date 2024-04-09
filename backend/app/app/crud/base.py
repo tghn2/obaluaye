@@ -14,7 +14,8 @@ from app.db.base_class import Base
 from app.core.config import settings
 from app.models import Subject, User
 from app.schema_types import RoleType
-from app.schemas.base_schema import BaseSummarySchema, BaseSchema
+from app.schemas.base_schema import BaseSchema
+from app.schemas.summary import BaseSummarySchema
 
 ModelType = TypeVar("ModelType", bound=Base)
 CreateSchemaType = TypeVar("CreateSchemaType", bound=BaseModel)
