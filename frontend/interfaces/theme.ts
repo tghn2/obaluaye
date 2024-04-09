@@ -21,4 +21,5 @@ export interface ITheme {
     nodes?: INode[]
     journeyPath?: string[]
     journeyBack?: string
+    journeySequence?: string[]
 }
