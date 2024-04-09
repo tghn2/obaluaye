@@ -21,7 +21,9 @@
                     <li>
                         <ul role="list" class="-mx-2 space-y-1">
                             <li v-for="item in leadNavigation" :key="item.name">
-                                <LocaleLink :to="item.to" :class="[!(authStore.loggedIn || !item.login)
+                                <LocaleLink 
+                                    v-if="(authStore.loggedIn || !item.login)"
+                                    :to="item.to" :class="[!(authStore.loggedIn || !item.login)
                                     ? 'pointer-events-none text-gray-500'
                                     : item.name === settingsStore.current.pageName
                                         ? 'bg-gray-50 text-kashmir-600'
@@ -39,7 +41,9 @@
                     <li>
                         <ul role="list" class="-mx-2 mt-2 space-y-1">
                             <li v-for="item in secondaryNavigation" :key="item.name">
-                                <LocaleLink :to="item.to" :class="[!(authStore.loggedIn || !item.login)
+                                <LocaleLink 
+                                    v-if="(authStore.loggedIn || !item.login)"
+                                    :to="item.to" :class="[!(authStore.loggedIn || !item.login)
                                     ? 'pointer-events-none text-gray-500'
                                     : item.name === settingsStore.current.pageName
                                         ? 'bg-gray-50 text-kashmir-600'
@@ -56,6 +60,22 @@
                                             <circle cx="50" cy="20" r="10" fill="#d93e8a" />
                                         </svg>
                                     </span>
+                                </LocaleLink>
+                            </li>
+                            <li v-if="authStore.loggedIn && authStore.isAdmin">
+                                <LocaleLink 
+                                    to="/moderation" 
+                                    :class="['nav.moderation' === settingsStore.current.pageName
+                                        ? 'bg-gray-50 text-kashmir-600'
+                                        : 'text-gray-700 hover:text-kashmir-600 hover:bg-gray-50',
+                                    'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold']">
+                                    <PhGear
+                                        :class="['nav.moderation' === settingsStore.current.pageName
+                                            ? 'text-kashmir-600'
+                                            : 'text-gray-400 group-hover:text-kashmir-600',
+                                            'h-6 w-6 shrink-0']"
+                                        aria-hidden="true" />
+                                    <span class="hidden lg:block">{{ t('nav.moderation') }}</span>
                                 </LocaleLink>
                             </li>
                         </ul>
@@ -79,12 +99,13 @@
 <script setup lang="ts">
 import {
     PhHouseSimple,
-    PhGear,
+    PhUserGear,
     PhChatTeardropText,
     PhUsersThree,
     PhMagnifyingGlass,
     PhPath,
     PhDot,
+    PhGear,
 } from "@phosphor-icons/vue"
 import { useSettingStore, useAuthStore } from "@/stores"
 
@@ -98,8 +119,8 @@ const leadNavigation = [
 ]
 
 const secondaryNavigation = [
-    { name: "nav.pathways", to: "/pathway", icon: PhPath, login: false, showDot: false },
-    { name: "nav.comments", to: "/comment", icon: PhChatTeardropText, login: true, showDot: false },
-    { name: "nav.settings", to: "/settings", icon: PhGear, login: true, showDot: authStore.profile.invitationCount > 0 },
+    { name: "nav.pathways", to: "/pathway", icon: PhPath, login: false, showDot: false, admin: false },
+    { name: "nav.comments", to: "/comment", icon: PhChatTeardropText, login: true, showDot: false, admin: false },
+    { name: "nav.settings", to: "/settings", icon: PhUserGear, login: true, showDot: authStore.profile.invitationCount > 0, admin: false },
 ]
 </script>

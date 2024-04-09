@@ -8,8 +8,8 @@
                         {{ t("settings.pathway.description") }}
                     </p>
                 </div>
-                <LocaleLink v-if="authStore.activePathway && journeyStore.term && journeyStore.term.id"
-                    :to="`/journey/${journeyStore.term.id}`"
+                <LocaleLink v-if="authStore.activePathway && journeyStore.term && journeyStore.term.pathway_id"
+                    :to="`/journey/${journeyStore.term.pathway_id}`"
                     class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-md px-3 my-1 text-sm ring-1 ring-inset text-white bg-spring-500 hover:bg-spring-700">
                     <PhPencilSimple class="md:-ml-0.5 h-4 w-4" aria-hidden="true" />
                     <span class="hidden md:block">{{ t("pathway.journey.review") }}</span>

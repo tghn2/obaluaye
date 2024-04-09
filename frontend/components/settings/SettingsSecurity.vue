@@ -215,6 +215,7 @@ onMounted(() => {
 
 function resetProfile() {
     profile = {
+        full_name: authStore.profile.full_name,
         password: ""
     }
 }
@@ -229,7 +230,7 @@ async function enableTOTP(values: any, { resetForm }) {
 
 // @ts-ignore
 async function submit(values: any, { resetForm }) {
-    profile = {}
+    profile = {} as IUserProfileUpdate
     if ((!authStore.profile.password && !values.original) ||
         (authStore.profile.password && values.original)) {
         if (values.original) profile.original = values.original

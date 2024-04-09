@@ -16,17 +16,22 @@
         <Popover as="div" class="z-30 fixed md:hidden inset-x-0 bottom-0 w-full bg-white">
             <div class="max-w-full mx-auto">
                 <nav class="relative grid grid-cols-4 gap-4 justify-center py-1" aria-label="Global">
-                    <LocaleLink v-for="(item, i) in baseNavigation" :key="`basenav-${i}`" :to="item.to" :class="[!(authStore.loggedIn || !item.login)
-                        ? 'pointer-events-none text-gray-500'
-                        : item.name === settingsStore.current.pageName
-                            ? 'bg-gray-50 text-kashmir-600'
-                            : 'text-gray-700 hover:text-kashmir-600 hover:bg-gray-50',
-                        'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold justify-center']"
-                        :disabled="!(authStore.loggedIn || !item.login)">
-                        <component :is="item.icon"
-                            :class="[item.name === settingsStore.current.pageName ? 'text-kashmir-600' : 'text-gray-400 group-hover:text-kashmir-600', 'h-6 w-6 shrink-0 inline-flex items-center']"
-                            aria-hidden="true" />
-                    </LocaleLink>
+                    <div v-for="(item, i) in baseNavigation">
+                        <LocaleLink
+                            v-if="(authStore.loggedIn || !item.login)"
+                            :key="`basenav-${i}`" :to="item.to" 
+                            :class="[!(authStore.loggedIn || !item.login)
+                            ? 'pointer-events-none text-gray-500'
+                            : item.name === settingsStore.current.pageName
+                                ? 'bg-gray-50 text-kashmir-600'
+                                : 'text-gray-700 hover:text-kashmir-600 hover:bg-gray-50',
+                            'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold justify-center']"
+                            :disabled="!(authStore.loggedIn || !item.login)">
+                            <component :is="item.icon"
+                                :class="[item.name === settingsStore.current.pageName ? 'text-kashmir-600' : 'text-gray-400 group-hover:text-kashmir-600', 'h-6 w-6 shrink-0 inline-flex items-center']"
+                                aria-hidden="true" />
+                        </LocaleLink>
+                    </div>
                     <PopoverButton
                         class="group flex-col inline-flex items-center gap-x-3 rounded-md p-2 text-sm font-semibold">
                         <span class="sr-only">Open user menu</span>
@@ -40,35 +45,59 @@
                 leave-to-class="transform opacity-0 scale-95">
                 <PopoverPanel
                     class="-top-4 transform -translate-y-full absolute z-10 mt-2 w-full origin-top-right rounded-md bg-white/90 pt-1 shadow-md ring-1 ring-black ring-opacity-5 focus:outline-none overflow-x-visible">
-                    <LocaleLink v-for="(item, i) in leadNavigation" :key="`scndrynav-${i}`" :to="item.to" :class="[!(authStore.loggedIn || !item.login)
-                        ? 'pointer-events-none text-gray-500'
-                        : item.name === settingsStore.current.pageName
-                            ? 'bg-gray-50 text-kashmir-600'
-                            : 'text-gray-700 hover:text-kashmir-600 hover:bg-gray-50',
-                        'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold']"
-                        :disabled="!(authStore.loggedIn || !item.login)">
-                        <component :is="item.icon"
-                            :class="[item.name === settingsStore.current.pageName ? 'text-kashmir-600' : 'text-gray-400 group-hover:text-kashmir-600', 'h-6 w-6 shrink-0']"
-                            aria-hidden="true" />
-                        {{ t(item.name) }}
-                    </LocaleLink>
-                    <LocaleLink v-for="(item, i) in secondaryNavigation" :key="`scndrynav-${i}`" :to="item.to" :class="[!(authStore.loggedIn || !item.login)
-                        ? 'pointer-events-none text-gray-500'
-                        : item.name === settingsStore.current.pageName
-                            ? 'bg-gray-50 text-kashmir-600'
-                            : 'text-gray-700 hover:text-kashmir-600 hover:bg-gray-50',
-                        'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold']"
-                        :disabled="!(authStore.loggedIn || !item.login)">
-                        <component :is="item.icon"
-                            :class="[item.name === settingsStore.current.pageName ? 'text-kashmir-600' : 'text-gray-400 group-hover:text-kashmir-600', 'h-6 w-6 shrink-0']"
-                            aria-hidden="true" />
-                        {{ t(item.name) }}
-                        <span v-if="item.showDot" class="relative">
-                            <svg viewBox="0 0 100 100" class="absolute -ml-5 z-10 h-[2rem] w-[2rem]" aria-hidden="true">
-                                <circle cx="50" cy="20" r="10" fill="#d93e8a" />
-                            </svg>
-                        </span>
-                    </LocaleLink>
+                    <div v-for="(item, i) in leadNavigation">
+                        <LocaleLink
+                            v-if="(authStore.loggedIn || !item.login)"
+                            :key="`scndrynav-${i}`" :to="item.to" :class="[!(authStore.loggedIn || !item.login)
+                            ? 'pointer-events-none text-gray-500'
+                            : item.name === settingsStore.current.pageName
+                                ? 'bg-gray-50 text-kashmir-600'
+                                : 'text-gray-700 hover:text-kashmir-600 hover:bg-gray-50',
+                            'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold']"
+                            :disabled="!(authStore.loggedIn || !item.login)">
+                            <component :is="item.icon"
+                                :class="[item.name === settingsStore.current.pageName ? 'text-kashmir-600' : 'text-gray-400 group-hover:text-kashmir-600', 'h-6 w-6 shrink-0']"
+                                aria-hidden="true" />
+                            {{ t(item.name) }}
+                        </LocaleLink>
+                    </div>
+                    <div v-for="(item, i) in secondaryNavigation">
+                        <LocaleLink
+                            v-if="(authStore.loggedIn || !item.login)"
+                            :key="`scndrynav-${i}`" :to="item.to" :class="[!(authStore.loggedIn || !item.login)
+                            ? 'pointer-events-none text-gray-500'
+                            : item.name === settingsStore.current.pageName
+                                ? 'bg-gray-50 text-kashmir-600'
+                                : 'text-gray-700 hover:text-kashmir-600 hover:bg-gray-50',
+                            'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold']"
+                            :disabled="!(authStore.loggedIn || !item.login)">
+                            <component :is="item.icon"
+                                :class="[item.name === settingsStore.current.pageName ? 'text-kashmir-600' : 'text-gray-400 group-hover:text-kashmir-600', 'h-6 w-6 shrink-0']"
+                                aria-hidden="true" />
+                            {{ t(item.name) }}
+                            <span v-if="item.showDot" class="relative">
+                                <svg viewBox="0 0 100 100" class="absolute -ml-5 z-10 h-[2rem] w-[2rem]" aria-hidden="true">
+                                    <circle cx="50" cy="20" r="10" fill="#d93e8a" />
+                                </svg>
+                            </span>
+                        </LocaleLink>
+                    </div>
+                    <div v-if="authStore.loggedIn && authStore.isAdmin">
+                        <LocaleLink 
+                            to="/moderation" 
+                            :class="['nav.moderation' === settingsStore.current.pageName
+                                ? 'bg-gray-50 text-kashmir-600'
+                                : 'text-gray-700 hover:text-kashmir-600 hover:bg-gray-50',
+                            'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold']">
+                            <PhGear
+                                :class="['nav.moderation' === settingsStore.current.pageName
+                                    ? 'text-kashmir-600'
+                                    : 'text-gray-400 group-hover:text-kashmir-600',
+                                    'h-6 w-6 shrink-0']"
+                                aria-hidden="true" />
+                            {{ t('nav.moderation') }}
+                        </LocaleLink>
+                    </div>
                     <div class="p-2">
                         <LocaleDropdown />
                     </div>
@@ -94,12 +123,13 @@ import { storeToRefs } from "pinia"
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue"
 import {
     PhHouseSimple,
-    PhGear,
+    PhUserGear,
     PhChatTeardropText,
     PhUsersThree,
     PhMagnifyingGlass,
     PhPath,
     PhDotsThreeOutline,
+    PhGear,
 } from "@phosphor-icons/vue"
 import { useSettingStore, useAuthStore } from "@/stores"
 
@@ -133,7 +163,7 @@ const leadNavigation: INav[] = [
 const secondaryNavigation: INav[] = [
     { name: "nav.pathways", to: "/pathway", icon: PhPath, login: false, showDot: false },
     { name: "nav.comments", to: "/comment", icon: PhChatTeardropText, login: true, showDot: false },
-    { name: "nav.settings", to: "/settings", icon: PhGear, login: true, showDot: authStore.profile.invitationCount > 0 },
+    { name: "nav.settings", to: "/settings", icon: PhUserGear, login: true, showDot: authStore.profile.invitationCount > 0 },
 ]
 const footerNavigation = [
     { name: "nav.about", to: "/about", dot: true },

@@ -37,6 +37,9 @@
                 </span>
             </div>
         </div>
+        <div v-if="props.summary.resources && props.summary.resources.length" class="py-1 text-sm">
+            <ResourceViewDisclosureCard :resources="props.summary.resources" />
+        </div>
     </div>
 </template>
   

@@ -27,12 +27,50 @@
 
 <script setup lang="ts">
 import { PhUsersThree, PhPlay } from "@phosphor-icons/vue"
-import { usePathwayStore } from "@/stores"
+import { usePathwayStore, useTokenStore, useToastStore, useSettingStore } from "@/stores"
+import { apiGroup } from "@/api"
+import { IGroup } from "@/interfaces"
 
 const { t } = useI18n()
 const route = useRoute()
 const localePath = useLocalePath()
+const tokenStore = useTokenStore()
+const toastStore = useToastStore()
+const settingStore = useSettingStore()
 const pathwayStore = usePathwayStore()
+
+async function createGroupPathway() {
+    await tokenStore.refreshTokens()
+    if (tokenStore.token) {
+        try {
+            const data: IGroup = {
+                title: `${t("pathway.journey.groupFor")} ${pathwayStore.term.title}`,
+                language: settingStore.locale
+            }
+            const { data: response } = await apiGroup.createTerm(tokenStore.token, pathwayStore.termStudy, data)
+            if (response.value) {
+                toastStore.addNotice({
+                    title: t("group.alert.createSuccessTitle"),
+                    content: t("group.alert.createSuccessContent"),
+                    icon: "success"
+                })
+                return await navigateTo(localePath(`/group/edit/${response.value.msg}`))
+            } else {
+                toastStore.addNotice({
+                    title: t("group.alert.createErrorTitle"),
+                    content: t("group.alert.createErrorContent"),
+                    icon: "error"
+                })
+            }
+        } catch (error) {
+            toastStore.addNotice({
+                title: t("group.alert.createErrorTitle"),
+                content: t("group.alert.createErrorContent"),
+                icon: "error"
+            })
+        }
+    }
+}
 
 async function submit(request: string) {
     switch (request) {
@@ -41,7 +79,7 @@ async function submit(request: string) {
         case "start":
             await pathwayStore.getFeaturedTerm()
             if (pathwayStore.termStudy) {
-                return await navigateTo(localePath(`/pathway/${pathwayStore.termStudy}`))
+                await createGroupPathway()
             }
             break
     }
