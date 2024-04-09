@@ -1,19 +1,5 @@
 import { IResourceType, IPathwayType } from "./schema_types"
 
-export interface ISummary {
-    id?: string
-    created?: string
-    modified?: string
-    isPrivate?: boolean
-    name?: string
-    title?: string
-    description?: string
-    subjects?: string[]
-    country?: string[]
-    language?: string
-    order?: number
-}
-
 export interface IResource {
     id?: string
     created?: string
@@ -36,6 +22,22 @@ export interface IFilters {
     language?: string
     featured?: boolean
     complete?: boolean
+    selections?: boolean
     path_type?: IPathwayType
     page?: number
+}
+
+export interface ISummary {
+    id?: string
+    created?: string
+    modified?: string
+    isPrivate?: boolean
+    name?: string
+    title?: string
+    description?: string
+    subjects?: string[]
+    country?: string[]
+    language?: string
+    order?: number
+    resources?: IResource[]
 }

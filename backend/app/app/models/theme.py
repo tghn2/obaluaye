@@ -3,8 +3,8 @@ from datetime import datetime
 from sqlalchemy.orm import Mapped, mapped_column, relationship, attribute_keyed_dict
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.ext.associationproxy import AssociationProxy
-from sqlalchemy import ForeignKey, Table, Column, Computed, Index
-from sqlalchemy_utils import TSVectorType, LocaleType, CountryType, Country
+from sqlalchemy import ForeignKey, Table, Column  # , Computed, Index
+from sqlalchemy_utils import LocaleType, CountryType, Country  # TSVectorType,
 from babel import Locale
 from sqlalchemy.dialects.postgresql import UUID, ARRAY
 from sqlalchemy import DateTime
@@ -18,6 +18,7 @@ if TYPE_CHECKING:
     from app.models.resource import Resource  # noqa: F401
     from app.models.pathway import Pathway  # noqa: F401
     from app.models.node import Node  # noqa: F401
+
 
 class Theme(Base):
     id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, index=True, default=uuid4)
@@ -65,7 +66,9 @@ class Theme(Base):
 
 class ThemeTitle(Base):
     id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, index=True, default=uuid4)
-    theme_id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("theme.id", onupdate="CASCADE", ondelete="CASCADE"))
+    theme_id: Mapped[UUID] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("theme.id", onupdate="CASCADE", ondelete="CASCADE")
+    )
     theme: Mapped["Theme"] = relationship(back_populates="title")
     title: Mapped[Optional[str]] = mapped_column(index=True)
     language: Mapped[Locale] = mapped_column(LocaleType)
@@ -88,7 +91,9 @@ class ThemeTitle(Base):
 
 class ThemeDescription(Base):
     id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, index=True, default=uuid4)
-    theme_id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("theme.id", onupdate="CASCADE", ondelete="CASCADE"))
+    theme_id: Mapped[UUID] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("theme.id", onupdate="CASCADE", ondelete="CASCADE")
+    )
     theme: Mapped["Theme"] = relationship(back_populates="description")
     description: Mapped[Optional[str]] = mapped_column(index=True)
     language: Mapped[Locale] = mapped_column(LocaleType)

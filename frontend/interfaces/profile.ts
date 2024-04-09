@@ -1,4 +1,5 @@
 /* eslint-disable camelcase */
+import { ICollection } from "./collection"
 
 export interface IUserProfile {
     id: string
@@ -10,6 +11,8 @@ export interface IUserProfile {
     description?: string
     subjects?: string[]
     country?: string[]
+    selection_ids?: string[]
+    collection?: ICollection[]
     spatial?: string
     language?: string
     completedPersonalPathway: boolean
@@ -25,6 +28,7 @@ export interface IUserProfileUpdate {
     description?: string
     subjects?: string[]
     country?: string[]
+    selection_ids?: string[]
     spatial?: string
     language?: string
     original?: string

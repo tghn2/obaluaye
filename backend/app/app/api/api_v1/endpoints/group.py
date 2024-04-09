@@ -76,6 +76,8 @@ def read_featured_group(
     for db_obj in db_objs:
         obj_out = crud.group.get_schema(db_obj=db_obj, language=db_obj.language, schema_out=schemas.Group)
         pathway_obj = crud.group.get_pathway(group=db_obj)
+        if not pathway_obj:
+            continue
         obj_out.pathway = crud.pathway.get_schema(
             db_obj=pathway_obj, language=db_obj.language, schema_out=schemas.PathwaySummary
         )

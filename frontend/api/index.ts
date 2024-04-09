@@ -8,5 +8,7 @@ import { apiResource } from "./resource"
 import { apiResponse } from "./response"
 import { apiComment } from "./comment"
 import { apiGroup } from "./group"
+import { apiSelection } from "./selection"
+import { apiCollection } from "./collection"
 
-export { apiCore, apiAuth, apiService, apiPathway, apiTheme, apiNode, apiResource, apiResponse, apiComment, apiGroup }
+export { apiCore, apiAuth, apiService, apiPathway, apiTheme, apiNode, apiResource, apiResponse, apiComment, apiGroup, apiSelection, apiCollection }

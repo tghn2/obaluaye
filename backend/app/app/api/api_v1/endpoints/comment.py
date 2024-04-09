@@ -59,7 +59,7 @@ def get_response_comments(
     Get a comment.
     """
     db_obj = crud.response.get(db=db, id=id)
-    if not db_obj or not crud.role.has_responsibility(db=db, user=current_user, group=db_obj.group):
+    if not db_obj or (db_obj.group and not crud.role.has_responsibility(db=db, user=current_user, group=db_obj.group)):
         raise HTTPException(
             status_code=400,
             detail="Either response does not exist, or researcher does not have the rights for this request.",
@@ -106,8 +106,10 @@ def update_comment(
     Update a comment. Must be creator of the comment.
     """
     db_obj = crud.comment.get(db=db, id=id)
-    if not db_obj or db_obj.researcher_id != current_user.id or not crud.role.has_responsibility(
-        db=db, user=current_user, group=db_obj.response.group
+    if (
+        not db_obj
+        or db_obj.researcher_id != current_user.id
+        or not crud.role.has_responsibility(db=db, user=current_user, group=db_obj.response.group)
     ):
         raise HTTPException(
             status_code=400,

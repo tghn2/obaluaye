@@ -1,8 +1,10 @@
-from typing import Optional, Set
+from typing import Optional, Set, List
 from uuid import UUID
 from pydantic import BaseModel, Field, EmailStr, constr, validator
 
 from app.schemas.base_schema import BaseSchema, LocaleType, CountryListType
+from app.schemas.selection import Collection
+
 
 class UserLogin(BaseModel):
     username: str
@@ -23,10 +25,9 @@ class UserBase(BaseSchema):
         description="Specify the language of pathway. Controlled vocabulary defined by ISO 639-1, ISO 639-2 or ISO 639-3.",
     )
     country: Optional[CountryListType] = Field([], description="A list of countries, defined by country codes.")
-    spatial: Optional[str] = Field(
-        None,
-        description="Spatial characteristics of the pathway."
-    )
+    spatial: Optional[str] = Field(None, description="Spatial characteristics of the pathway.")
+    selection_ids: Optional[List[str]] = Field([], description="List of selection ids")
+    collection: Optional[List[Collection]] = Field([], description="List of selection")
 
     @validator("subjects", pre=True)
     def evaluate_subjects(cls, v):
@@ -37,10 +38,7 @@ class UserSummary(BaseSchema):
     email: Optional[EmailStr] = None
     full_name: Optional[str] = None
     description: Optional[str] = None
-    subjects: Optional[Set[str]] = Field(
-        set(),
-        description="A list of topics of the pathway."
-    )
+    subjects: Optional[Set[str]] = Field(set(), description="A list of topics of the pathway.")
     language: Optional[LocaleType] = Field(
         None,
         description="Specify the language of pathway. Controlled vocabulary defined by ISO 639-1, ISO 639-2 or ISO 639-3.",

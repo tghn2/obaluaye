@@ -65,6 +65,7 @@ path = "app/__version__.py"
 virtual = "./.venv"
 
 [tool.hatch.envs.default]
+python="3.11"
 dev-mode = true
 dependencies = []
 

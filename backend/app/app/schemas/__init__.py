@@ -1,12 +1,12 @@
 from .base_schema import (  # noqa: F401
     BaseSchema,
-    BaseSummarySchema,
     LocaleType,
     CountryType,
     CountryListType,
     locale_encoder,
     country_encoder,
 )
+from .summary import BaseSummarySchema  # noqa: F401
 from .form import FormAttributeModel, TermModel, AnswerModel, ConstraintsModel, FormModel  # noqa: F401
 from .msg import Msg  # noqa: F401
 from .token import (  # noqa: F401
@@ -31,3 +31,11 @@ from .resource import Resource, ResourceCreate, ResourceUpdate  # noqa: F401
 from .theme import Theme, ThemeCreate, ThemeUpdate, ThemeJourney  # noqa: F401
 from .pathway import Pathway, PathwaySummary, PathwayCreate, PathwayUpdate, PathwayAdmin  # noqa: F401
 from .group import Group, GroupCreate, GroupUpdate  # noqa: F401
+from .selection import (  # noqa: F401
+    SelectionCreate,
+    SelectionUpdate,
+    Selection,
+    CollectionSelectionCreate,
+    CollectionSelectionUpdate,
+    Collection,
+)

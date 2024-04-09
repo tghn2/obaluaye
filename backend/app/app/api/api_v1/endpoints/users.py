@@ -36,6 +36,7 @@ def create_user_profile(
     # Create user auth
     user_in = schemas.UserCreate(password=password, email=email, full_name=full_name)
     user = crud.user.create(db, obj_in=user_in)
+    user = crud.selection.update_user(db, user_obj=user, keys_in=user_in.selection_ids)
     user.invitationCount = crud.invitation.get_count(db=db, email=user.email)
     user.completedPersonalPathway = crud.user.has_completed_pathway(db=db, user=user)
     user.personalPathway = crud.user.get_pathway(db=db, user=user)
@@ -76,10 +77,23 @@ def update_user(
     user_in.spatial = obj_in.spatial
     user_in.language = obj_in.language
     user = crud.user.update(db, db_obj=current_user, obj_in=user_in)
+    user = crud.selection.update_user(db, user_obj=user, keys_in=obj_in.selection_ids)
     user.invitationCount = crud.invitation.get_count(db=db, email=user.email)
     user.completedPersonalPathway = crud.user.has_completed_pathway(db=db, user=user)
     user.personalPathway = crud.user.get_pathway(db=db, user=user)
-    return user
+    response = crud.user.get_schema(db_obj=current_user, language=current_user.language, schema_out=schemas.User)
+    response.selection_ids = []
+    collection = {}
+    for selection_obj in current_user.selection.all():
+        response.selection_ids.append(str(selection_obj.id))
+        selection_out = crud.selection.get_schema(db_obj=selection_obj, language=current_user.language)
+        collection_out = crud.collection.get_schema(db_obj=selection_obj.collection, language=current_user.language)
+        if str(collection_out.id) not in collection:
+            collection_out.selection = []
+            collection[str(collection_out.id)] = collection_out
+        collection[str(collection_out.id)].selection.append(selection_out)
+    response.collection = [c for c in collection.values()]
+    return response
 
 
 @router.get("/", response_model=schemas.User)
@@ -94,7 +108,19 @@ def read_user(
     current_user.invitationCount = crud.invitation.get_count(db=db, email=current_user.email)
     current_user.completedPersonalPathway = crud.user.has_completed_pathway(db=db, user=current_user)
     current_user.personalPathway = crud.user.get_pathway(db=db, user=current_user)
-    return current_user
+    response = crud.user.get_schema(db_obj=current_user, language=current_user.language, schema_out=schemas.User)
+    response.selection_ids = []
+    collection = {}
+    for selection_obj in current_user.selection.all():
+        response.selection_ids.append(str(selection_obj.id))
+        selection_out = crud.selection.get_schema(db_obj=selection_obj, language=current_user.language)
+        collection_out = crud.collection.get_schema(db_obj=selection_obj.collection, language=current_user.language)
+        if str(collection_out.id) not in collection:
+            collection_out.selection = []
+            collection[str(collection_out.id)] = collection_out
+        collection[str(collection_out.id)].selection.append(selection_out)
+    response.collection = [c for c in collection.values()]
+    return response
 
 
 @router.get("/all", response_model=List[schemas.User])

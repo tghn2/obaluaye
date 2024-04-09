@@ -111,7 +111,7 @@ export const usePathwayStore = defineStore("pathwayStore", {
                 const { data: response } = await apiPathway.getFeaturedTerm(this.settings.locale)
                 if (response.value) {
                     this.setTerm(response.value)
-                    this.oneStudy = this.one.id
+                    this.oneStudy = this.one.id as string
                 }
             } catch (error) {}
         },
@@ -120,7 +120,7 @@ export const usePathwayStore = defineStore("pathwayStore", {
                 this.onePersonal = ""
                 await apiPathway.getPersonalTerm(this.settings.locale)
                 const { data: response } = await apiPathway.getPersonalTerm(this.settings.locale)
-                if (response.value) this.onePersonal = response.value.id
+                if (response.value) this.onePersonal = response.value.id as string
             } catch (error) {}
         },
         async createTerm(key: string, payload: IPathway = {} as IPathway) {

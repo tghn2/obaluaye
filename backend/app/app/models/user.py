@@ -19,6 +19,7 @@ if TYPE_CHECKING:
     from app.models.token import Token  # noqa: F401
     from app.models.subject import Subject  # noqa: F401
     from app.models.role import Role  # noqa: F401
+    from app.models.selection import Selection  # noqa: F401
     from app.models.comment import Comment  # noqa: F401
 
 
@@ -45,6 +46,11 @@ class User(Base):
     subjects: AssociationProxy[list[str]] = association_proxy("subject", "term")
     country: Mapped[Optional[list[Country]]] = mapped_column(ARRAY(CountryType), nullable=True)
     spatial: Mapped[Optional[str]] = mapped_column(nullable=True)
+    selection: Mapped[list["Selection"]] = relationship(
+        secondary=lambda: user_selection_table,
+        back_populates="researchers",
+        lazy="dynamic",
+    )
     language: Mapped[Locale] = mapped_column(LocaleType, nullable=True)
     # AUTHENTICATION AND PERSISTENCE
     totp_secret: Mapped[Optional[str]] = mapped_column(nullable=True)
@@ -68,13 +74,19 @@ class User(Base):
         order_by="Comment.created", back_populates="researcher", cascade="all, delete", lazy="dynamic"
     )
 
-    __table_args__ = (
-        Index("ix_user_description_vector", description_vector, postgresql_using="gin"),
-    )
+    __table_args__ = (Index("ix_user_description_vector", description_vector, postgresql_using="gin"),)
+
 
 user_subject_table: Final[Table] = Table(
     "user_subject",
     Base.metadata,
     Column("user_id", UUID(as_uuid=True), ForeignKey("user.id"), primary_key=True),
     Column("subject_id", UUID(as_uuid=True), ForeignKey("subject.id"), primary_key=True),
+)
+
+user_selection_table: Final[Table] = Table(
+    "user_selection",
+    Base.metadata,
+    Column("user_id", UUID(as_uuid=True), ForeignKey("user.id"), primary_key=True),
+    Column("selection_id", UUID(as_uuid=True), ForeignKey("selection.id"), primary_key=True),
 )

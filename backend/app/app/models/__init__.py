@@ -10,3 +10,4 @@ from .subject import Subject  # noqa: F401
 from .resource import Resource, ResourceTitle, ResourceDescription, ResourceContent  # noqa: F401
 from .theme import Theme, ThemeTitle, ThemeDescription  # noqa: F401
 from .pathway import Pathway, PathwayTitle, PathwayDescription  # noqa: F401
+from .selection import CollectionSelection, CollectionSelectionTitle, Selection, SelectionTerm  # noqa: F401

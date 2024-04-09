@@ -42,18 +42,18 @@
                         </MenuItems>
                     </transition>
                 </Menu>
-                <LocaleLink
-                    v-if="props.activeTab === 'RESPONSE' && journeyStore.term && journeyStore.term.id && (groupStore.isResearcher || groupStore.isCustodian)"
-                    :to="`/journey/${groupStore.term.id as string}/${journeyStore.term.id}`"
+                <button type="button" 
+                    v-if="['RESPONSE', 'METADATA'].includes(props.activeTab) && journeyStore.term && journeyStore.term.id && (groupStore.isResearcher || groupStore.isCustodian)"
+                    @click.prevent="watchEditRequest('edit')"
                     class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-md px-3 py-2 text-sm ring-1 ring-inset text-white bg-spring-500 hover:bg-spring-700">
                     <PhPencilSimple class="md:-ml-0.5 h-4 w-4" aria-hidden="true" />
-                    <span class="hidden md:block">{{ t("pathway.journey.review") }}</span>
-                </LocaleLink>
-                <button type="button" v-if="props.activeTab === 'METADATA'" @click.prevent="watchEditRequest('edit')"
+                    <span class="hidden md:block">{{ t("header.edit") }}</span>
+                </button>
+                <!-- <button type="button" v-if="['RESPONSE', 'METADATA'].includes(props.activeTab)" @click.prevent="watchEditRequest('edit')"
                     class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-md px-3 py-2 text-sm text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
                     <PhLightning class="md:-ml-0.5 h-4 w-4 text-gray-400" aria-hidden="true" />
                     <span class="hidden md:block">{{ t("header.edit") }}</span>
-                </button>
+                </button> -->
                 <div v-if="groupStore.term.readyToComplete && (groupStore.isCustodian || groupStore.isResearcher)"
                     class="flex flex-wrap justify-center mx-3 my-2">
                     <legend class="block text-xs">{{ t("group.complete") }}</legend>

@@ -6,7 +6,7 @@
         <div v-if="appSettings.current.pageState === 'done' && groupStore.term && groupStore.term.hasOwnProperty('name')">
             <GroupHeadingEditView :title="groupStore.term.title as string" @set-edit-request="watchHeadingRequest" />
             <form class="flex-auto rounded-lg p-3">
-                <div class="grid grid-cols-1 gap-x-3 gap-y-4 sm:grid-cols-6">
+                <div class="grid grid-cols-1 gap-x-3 gap-y-4 sm:grid-cols-6 p-3">
                     <div class="sm:col-span-5">
                         <label for="group-title" class="block text-sm font-semibold leading-6 text-gray-900">{{
                             t("group.field.title") }}</label>
@@ -69,13 +69,33 @@
                         </p>
                     </div>
                 </div>
+                <div class="pb-6 text-right">
+                    <nav class="flex items-center justify-between mb-14 px-4 sm:px-0">
+                        <div class="-mt-px flex w-0 flex-1 justify-end">
+                            <div class="flex flex-inline items-center space-x-2">
+                                <button @click.prevent="skipToPathway"
+                                    class="group inline-flex items-center pr-1 pt-4 text-sm font-medium text-gray-500 hover:text-kashmir-500">
+                                    <span>{{ t("pathway.journey.next") }}</span>
+                                    <PhArrowRight class="ml-3 h-5 w-5" aria-hidden="true" />
+                                </button>
+                                <span class="block h-5 mt-3 w-px bg-gray-900/10" aria-hidden="true" />
+                                <button @click.prevent="watchHeadingRequest('save')"
+                                    class="group inline-flex items-center pr-1 pt-4 text-sm font-medium text-gray-500 hover:text-kashmir-500">
+                                    <span>{{ t("pathway.journey.saveNext") }}</span>
+                                    <PhArrowRight class="ml-3 h-5 w-5" aria-hidden="true" />
+                                </button>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
             </form>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import { useSettingStore, useGroupStore } from "@/stores"
+import { PhArrowRight } from "@phosphor-icons/vue"
+import { useSettingStore, useGroupStore, useJourneyStore } from "@/stores"
 import { IGroup } from "@/interfaces"
 
 definePageMeta({
@@ -87,6 +107,7 @@ const localePath = useLocalePath()
 const appSettings = useSettingStore()
 const route = useRoute()
 const groupStore = useGroupStore()
+const journeyStore = useJourneyStore()
 const draft = ref({} as IGroup)
 const subjects = ref("")
 const groupTitle = ref("group.creating")
@@ -97,6 +118,7 @@ async function watchHeadingRequest(request: string) {
         case "save":
             saveDraft()
             await groupStore.updateTerm(route.params.id as string)
+            await skipToPathway()
             break
         case "cancel":
             return await navigateTo(localePath(`/group/${route.params.id}`))
@@ -109,6 +131,11 @@ function watchCountrySelect(response: string[]) {
 
 async function watchLocaleSelect(response: string) {
     draft.value.language = response
+}
+
+async function skipToPathway() {
+    await journeyStore.getGroupTerm(groupStore.term.id as string, groupStore.term.id as string, false)
+    return await navigateTo(localePath(`/journey/${groupStore.term.id as string}/${journeyStore.term.id}`))
 }
 
 watch(

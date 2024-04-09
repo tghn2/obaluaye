@@ -39,6 +39,10 @@ def get_personal_theme(
     # Validated, now return: pathway summary, theme -> node -> response
     response = crud.theme.get_schema(db_obj=db_obj, language=language, schema_out=schemas.ThemeJourney)
     response.pathway = crud.pathway.get_schema_summary(db_obj=db_obj.pathway, language=language)
+    response.pathway.resources = []
+    for resource_obj in db_obj.pathway.resources.all():
+        resources_out = crud.resource.get_schema(db_obj=resource_obj, language=language)
+        response.pathway.resources.append(resources_out)
     response.pathway.order = crud.pathway.get_last_theme_order(pathway=db_obj.pathway)
     response.resources = []
     for resource_obj in db_obj.resources.all():
@@ -56,9 +60,10 @@ def get_personal_theme(
         if response_obj:
             node_out.response = crud.response.get_schema(db_obj=response_obj)
         response.nodes.append(node_out)
-    # Get next page in journey
+    # Get page sequence in journey
     response.journeyPath = crud.pathway.get_next_theme(theme=db_obj)
     response.journeyBack = crud.pathway.get_previous_theme(theme=db_obj, response=response_obj)
+    response.journeySequence = crud.pathway.get_theme_sequence(pathway=db_obj.pathway)
     return response
 
 
@@ -103,6 +108,10 @@ def get_research_theme(
     # Validated, now return: pathway summary, theme -> node -> response
     response = crud.theme.get_schema(db_obj=db_obj, language=language, schema_out=schemas.ThemeJourney)
     response.pathway = crud.pathway.get_schema_summary(db_obj=db_obj.pathway, language=language)
+    response.pathway.resources = []
+    for resource_obj in db_obj.pathway.resources.all():
+        resources_out = crud.resource.get_schema(db_obj=resource_obj, language=language)
+        response.pathway.resources.append(resources_out)
     response.pathway.order = crud.pathway.get_last_theme_order(pathway=db_obj.pathway)
     response.group = crud.group.get_schema_summary(db_obj=group_obj, language=language)
     response.resources = []

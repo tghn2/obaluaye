@@ -5,6 +5,7 @@ Revises: b0847f8dacd3
 Create Date: 2023-10-25 09:38:00.482651
 
 """
+
 from alembic import op
 import sqlalchemy as sa
 from sqlalchemy_utils import TSVectorType
@@ -37,7 +38,9 @@ def upgrade():
             nullable=True,
         ),
     )
-    op.create_index("ix_group_description_vector", "group", ["description_vector"], unique=False, postgresql_using="gin")
+    op.create_index(
+        "ix_group_description_vector", "group", ["description_vector"], unique=False, postgresql_using="gin"
+    )
     op.create_index("ix_group_title_vector", "group", ["title_vector"], unique=False, postgresql_using="gin")
     op.add_column(
         "user",

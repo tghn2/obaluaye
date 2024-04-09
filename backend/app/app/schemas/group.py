@@ -5,7 +5,8 @@ from uuid import UUID
 from datetime import datetime
 import re
 
-from app.schemas.base_schema import BaseSchema, BaseSummarySchema, LocaleType, CountryListType
+from app.schemas.base_schema import BaseSchema, LocaleType, CountryListType
+from app.schemas.summary import BaseSummarySchema
 from app.schemas.role import Role
 
 
@@ -16,19 +17,13 @@ class GroupBase(BaseSchema):
     title: Optional[str] = Field(None, description="A human-readable title given to the group.")
     name: Optional[str] = Field(None, description="A machine-readable name given to the group.")
     description: Optional[str] = Field(None, description="A short description of the group.")
-    subjects: Optional[Set[str]] = Field(
-        set(),
-        description="A list of topics of the pathway."
-    )
+    subjects: Optional[Set[str]] = Field(set(), description="A list of topics of the pathway.")
     language: Optional[LocaleType] = Field(
         None,
         description="Specify the language of pathway. Controlled vocabulary defined by ISO 639-1, ISO 639-2 or ISO 639-3.",
     )
     country: Optional[CountryListType] = Field([], description="A list of countries, defined by country codes.")
-    spatial: Optional[str] = Field(
-        None,
-        description="Spatial characteristics of the pathway."
-    )
+    spatial: Optional[str] = Field(None, description="Spatial characteristics of the pathway.")
     isComplete: Optional[bool] = Field(False, description="Group manual validation of pathway completion.")
     isFeatured: Optional[bool] = Field(False, description="Group featured as exemplar.")
 
@@ -42,6 +37,7 @@ class GroupBase(BaseSchema):
     @validator("subjects", pre=True)
     def evaluate_subjects(cls, v):
         return {s for s in v}
+
 
 class GroupCreate(GroupBase):
     title: str = Field(..., description="A human-readable title given to the group.")

@@ -35,9 +35,6 @@
                     <TabPanel>
                         <SettingsSecurity />
                     </TabPanel>
-                    <TabPanel v-if="authStore.isAdmin">
-                        <ModerationUserTable />
-                    </TabPanel>
                 </TabPanels>
             </TabGroup>
         </div>
@@ -69,9 +66,6 @@ onMounted(() => {
     appSettings.setPageState("loading")
     if (authStore.activePathway) navigation.unshift(
         { name: "settings.nav.pathway", id: "PATHWAY", icon: PhPath, showDot: false },
-    )
-    if (authStore.isAdmin) navigation.push(
-        { name: "settings.nav.moderation", id: "MODERATION", icon: PhUsersThree, showDot: false },
     )
     readyState.value = "done"
 })

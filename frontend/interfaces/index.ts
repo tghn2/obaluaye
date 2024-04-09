@@ -32,6 +32,7 @@ import { IResponse, IPostResponse, IAnswer, IAnswerResponse, IComment } from "./
 import { INode, IConstraints, IForm, ITerm } from "./node"
 import { ITheme } from "./theme"
 import { IPathway } from "./pathway"
+import { ISelection, ICollection } from "./collection"
 
 // https://stackoverflow.com/a/64782482/295606
 interface IKeyable {
@@ -76,4 +77,6 @@ export {
     ITerm,
     ITheme,
     IPathway,
+    ISelection,
+    ICollection,
 }
