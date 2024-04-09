@@ -13,6 +13,8 @@ export default {
         comments: "Commentaires",
         groups: "Mes études",
         settings: "Profil",
+        collection: "Collection",
+        moderation: "Modération",
         about: "A propos",
         privacy: "La vie privée",
         contact: "Contact",
@@ -48,6 +50,7 @@ export default {
             invitations: "Invitations",
             security: "Sécurité",
             moderation: "Modération",
+            collection: "Collections",
         },
         pathway: {
             title: "Profil professionnel",
@@ -366,6 +369,14 @@ export default {
         placeholder: "Ajouter votre commentaire",
         close: "Fermer",
         empty: "Rien pour l'instant. Lorsque vos équipes d'étude commenceront à être actives, vous devriez voir des commentaires ici.",
+    },
+    collection: {
+        metadata: "Métadonnées",
+        translate: "Traduire",
+        title: "Title",
+        multi: "Select multiple",
+        one: "Select one",
+        add: "Add selection",
     },
     search: {
         name: "Toutes les études",

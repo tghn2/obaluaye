@@ -13,6 +13,8 @@ export default {
         comments: "Comments",
         groups: "My studies",
         settings: "Profile",
+        collection: "Collection",
+        moderation: "Moderation",
         about: "About",
         privacy: "Privacy",
         contact: "Contact",
@@ -48,6 +50,7 @@ export default {
             invitations: "Invitations",
             security: "Security",
             moderation: "Moderation",
+            collection: "Collections",
         },
         pathway: {
             title: "Professional profile",
@@ -366,6 +369,14 @@ export default {
         placeholder: "Add your comment",
         close: "Close",
         empty: "Nothing right now. Once your study teams start becoming active, you should see comments here.",
+    },
+    collection: {
+        metadata: "Metadata",
+        translate: "Translating",
+        title: "Title",
+        multi: "Select multiple",
+        one: "Select one",
+        add: "Add selection",
     },
     search: {
         name: "All studies",

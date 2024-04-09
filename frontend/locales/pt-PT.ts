@@ -13,6 +13,8 @@ export default {
         comments: "Comentários",
         groups: "Os meus estudos",
         settings: "Perfil pessoal",
+        collection: "Collection",
+        moderation: "Moderação",
         about: "Sobre",
         privacy: "Privacidade",
         contact: "Contato",
@@ -48,6 +50,7 @@ export default {
             invitations: "Convites",
             security: "Segurança",
             moderation: "Moderação",
+            collection: "Collections",
         },
         pathway: {
             title: "Perfil profissional",
@@ -367,9 +370,17 @@ export default {
         close: "Fechar",
         empty: "De momento, nada. Assim que as suas equipas de estudo começarem a ficar activas, deverá ver comentários aqui.",
     },
+    collection: {
+        metadata: "Metadata",
+        translate: "Traduzir",
+    },
     search: {
         name: "Todos os estudos",
         empty: "Pesquisa de estudos.",
+        title: "Title",
+        multi: "Select multiple",
+        one: "Select one",
+        add: "Add selection",
     },
     frontpage: {
         title: "The 1000 Challenge Study Builder",
