@@ -5,6 +5,7 @@ Revises: fb120f8fc198
 Create Date: 2023-09-04 13:20:32.725502
 
 """
+
 from alembic import op
 import sqlalchemy as sa
 from sqlalchemy.dialects import postgresql
@@ -26,16 +27,28 @@ def upgrade():
         sa.Column("modified", sa.DateTime(timezone=True), server_default=sa.text("now()"), nullable=False),
         sa.Column("isActive", sa.Boolean(), nullable=False),
         sa.Column("title", sa.String(), nullable=True),
-        sa.Column("title_vector", TSVectorType(), sa.Computed("to_tsvector('pg_catalog.simple', 'title')", persisted=True), nullable=False),
+        sa.Column(
+            "title_vector",
+            TSVectorType(),
+            sa.Computed("to_tsvector('pg_catalog.simple', 'title')", persisted=True),
+            nullable=False,
+        ),
         sa.Column("description", sa.String(), nullable=True),
-        sa.Column("description_vector", TSVectorType(), sa.Computed("to_tsvector('pg_catalog.simple', 'description')", persisted=True), nullable=False),
+        sa.Column(
+            "description_vector",
+            TSVectorType(),
+            sa.Computed("to_tsvector('pg_catalog.simple', 'description')", persisted=True),
+            nullable=False,
+        ),
         sa.Column("country", postgresql.ARRAY(CountryType(length=2)), nullable=True),
         sa.Column("spatial", sa.String(), nullable=True),
         sa.Column("language", LocaleType(), nullable=True),
-        sa.PrimaryKeyConstraint("id")
+        sa.PrimaryKeyConstraint("id"),
     )
     op.create_index(op.f("ix_group_description"), "group", ["description"], unique=False)
-    op.create_index("ix_group_description_vector", "group", ["description_vector"], unique=False, postgresql_using="gin")
+    op.create_index(
+        "ix_group_description_vector", "group", ["description_vector"], unique=False, postgresql_using="gin"
+    )
     op.create_index(op.f("ix_group_id"), "group", ["id"], unique=False)
     op.create_index(op.f("ix_group_title"), "group", ["title"], unique=False)
     op.create_index("ix_group_title_vector", "group", ["title_vector"], unique=False, postgresql_using="gin")
@@ -54,7 +67,7 @@ def upgrade():
                 name="pathwaytype",
                 checkfirst=True,
             ),
-            nullable=False
+            nullable=False,
         ),
         sa.Column("country", postgresql.ARRAY(CountryType(length=2)), nullable=True),
         sa.Column("spatial", sa.String(), nullable=True),
@@ -62,15 +75,20 @@ def upgrade():
         sa.Column("temporalEnd", sa.DateTime(timezone=True), nullable=True),
         sa.Column("language", LocaleType(), nullable=True),
         sa.Column("bibliographicCitation", sa.String(), nullable=True),
-        sa.PrimaryKeyConstraint("id")
+        sa.PrimaryKeyConstraint("id"),
     )
     op.create_index(op.f("ix_pathway_id"), "pathway", ["id"], unique=False)
     op.create_table(
         "subject",
         sa.Column("id", sa.UUID(), nullable=False),
         sa.Column("term", sa.String(length=64), nullable=False),
-        sa.Column("term_vector", TSVectorType(), sa.Computed("to_tsvector('pg_catalog.simple', 'term')", persisted=True), nullable=False),
-        sa.PrimaryKeyConstraint("id")
+        sa.Column(
+            "term_vector",
+            TSVectorType(),
+            sa.Computed("to_tsvector('pg_catalog.simple', 'term')", persisted=True),
+            nullable=False,
+        ),
+        sa.PrimaryKeyConstraint("id"),
     )
     op.create_index(op.f("ix_subject_id"), "subject", ["id"], unique=False)
     op.create_index(op.f("ix_subject_term"), "subject", ["term"], unique=True)
@@ -79,9 +97,15 @@ def upgrade():
         "group_subject",
         sa.Column("group_id", sa.UUID(), nullable=False),
         sa.Column("subject_id", sa.UUID(), nullable=False),
-        sa.ForeignKeyConstraint(["group_id"], ["group.id"], ),
-        sa.ForeignKeyConstraint(["subject_id"], ["subject.id"], ),
-        sa.PrimaryKeyConstraint("group_id", "subject_id")
+        sa.ForeignKeyConstraint(
+            ["group_id"],
+            ["group.id"],
+        ),
+        sa.ForeignKeyConstraint(
+            ["subject_id"],
+            ["subject.id"],
+        ),
+        sa.PrimaryKeyConstraint("group_id", "subject_id"),
     )
     op.create_table(
         "invitation",
@@ -98,7 +122,7 @@ def upgrade():
                 name="invitationresponsetype",
                 checkfirst=True,
             ),
-            nullable=False
+            nullable=False,
         ),
         sa.Column("sender_id", sa.UUID(), nullable=False),
         sa.Column("pathway_id", sa.UUID(), nullable=False),
@@ -107,7 +131,7 @@ def upgrade():
         sa.ForeignKeyConstraint(["pathway_id"], ["pathway.id"], onupdate="CASCADE", ondelete="CASCADE"),
         sa.ForeignKeyConstraint(["sender_id"], ["user.id"], onupdate="CASCADE", ondelete="CASCADE"),
         sa.PrimaryKeyConstraint("id"),
-        sa.UniqueConstraint("email", "pathway_id", "group_id", name="_pathway_invitation_uc")
+        sa.UniqueConstraint("email", "pathway_id", "group_id", name="_pathway_invitation_uc"),
     )
     op.create_index(op.f("ix_invitation_email"), "invitation", ["email"], unique=False)
     op.create_index(op.f("ix_invitation_full_name"), "invitation", ["full_name"], unique=False)
@@ -116,9 +140,15 @@ def upgrade():
         "pathway_subject",
         sa.Column("pathway_id", sa.UUID(), nullable=False),
         sa.Column("subject_id", sa.UUID(), nullable=False),
-        sa.ForeignKeyConstraint(["pathway_id"], ["pathway.id"], ),
-        sa.ForeignKeyConstraint(["subject_id"], ["subject.id"], ),
-        sa.PrimaryKeyConstraint("pathway_id", "subject_id")
+        sa.ForeignKeyConstraint(
+            ["pathway_id"],
+            ["pathway.id"],
+        ),
+        sa.ForeignKeyConstraint(
+            ["subject_id"],
+            ["subject.id"],
+        ),
+        sa.PrimaryKeyConstraint("pathway_id", "subject_id"),
     )
     op.create_table(
         "pathwaydescription",
@@ -126,11 +156,22 @@ def upgrade():
         sa.Column("pathway_id", sa.UUID(), nullable=False),
         sa.Column("description", sa.String(), nullable=True),
         sa.Column("language", LocaleType(), nullable=False),
-        sa.Column("description_vector", TSVectorType(), sa.Computed("to_tsvector('pg_catalog.simple', 'description')", persisted=True), nullable=False),
+        sa.Column(
+            "description_vector",
+            TSVectorType(),
+            sa.Computed("to_tsvector('pg_catalog.simple', 'description')", persisted=True),
+            nullable=False,
+        ),
         sa.ForeignKeyConstraint(["pathway_id"], ["pathway.id"], onupdate="CASCADE", ondelete="CASCADE"),
-        sa.PrimaryKeyConstraint("id")
+        sa.PrimaryKeyConstraint("id"),
     )
-    op.create_index("ix_pathway_description_vector", "pathwaydescription", ["description_vector"], unique=False, postgresql_using="gin")
+    op.create_index(
+        "ix_pathway_description_vector",
+        "pathwaydescription",
+        ["description_vector"],
+        unique=False,
+        postgresql_using="gin",
+    )
     op.create_index(op.f("ix_pathwaydescription_description"), "pathwaydescription", ["description"], unique=False)
     op.create_index(op.f("ix_pathwaydescription_id"), "pathwaydescription", ["id"], unique=False)
     op.create_table(
@@ -139,9 +180,14 @@ def upgrade():
         sa.Column("pathway_id", sa.UUID(), nullable=False),
         sa.Column("title", sa.String(), nullable=True),
         sa.Column("language", LocaleType(), nullable=False),
-        sa.Column("title_vector", TSVectorType(), sa.Computed("to_tsvector('pg_catalog.simple', 'title')", persisted=True), nullable=False),
+        sa.Column(
+            "title_vector",
+            TSVectorType(),
+            sa.Computed("to_tsvector('pg_catalog.simple', 'title')", persisted=True),
+            nullable=False,
+        ),
         sa.ForeignKeyConstraint(["pathway_id"], ["pathway.id"], onupdate="CASCADE", ondelete="CASCADE"),
-        sa.PrimaryKeyConstraint("id")
+        sa.PrimaryKeyConstraint("id"),
     )
     op.create_index("ix_pathway_title_vector", "pathwaytitle", ["title_vector"], unique=False, postgresql_using="gin")
     op.create_index(op.f("ix_pathwaytitle_id"), "pathwaytitle", ["id"], unique=False)
@@ -162,13 +208,16 @@ def upgrade():
                 name="roletype",
                 checkfirst=True,
             ),
-            nullable=False
+            nullable=False,
         ),
         sa.Column("pathway_id", sa.UUID(), nullable=True),
-        sa.ForeignKeyConstraint(["group_id"], ["group.id"], ),
+        sa.ForeignKeyConstraint(
+            ["group_id"],
+            ["group.id"],
+        ),
         sa.ForeignKeyConstraint(["pathway_id"], ["pathway.id"], onupdate="CASCADE", ondelete="CASCADE"),
         sa.ForeignKeyConstraint(["researcher_id"], ["user.id"], onupdate="CASCADE", ondelete="CASCADE"),
-        sa.PrimaryKeyConstraint("id")
+        sa.PrimaryKeyConstraint("id"),
     )
     op.create_index(op.f("ix_role_id"), "role", ["id"], unique=False)
     op.create_table(
@@ -182,16 +231,22 @@ def upgrade():
         sa.Column("language", LocaleType(), nullable=True),
         sa.Column("pathway_id", sa.UUID(), nullable=False),
         sa.ForeignKeyConstraint(["pathway_id"], ["pathway.id"], onupdate="CASCADE", ondelete="CASCADE"),
-        sa.PrimaryKeyConstraint("id")
+        sa.PrimaryKeyConstraint("id"),
     )
     op.create_index(op.f("ix_theme_id"), "theme", ["id"], unique=False)
     op.create_table(
         "user_subject",
         sa.Column("user_id", sa.UUID(), nullable=False),
         sa.Column("subject_id", sa.UUID(), nullable=False),
-        sa.ForeignKeyConstraint(["subject_id"], ["subject.id"], ),
-        sa.ForeignKeyConstraint(["user_id"], ["user.id"], ),
-        sa.PrimaryKeyConstraint("user_id", "subject_id")
+        sa.ForeignKeyConstraint(
+            ["subject_id"],
+            ["subject.id"],
+        ),
+        sa.ForeignKeyConstraint(
+            ["user_id"],
+            ["user.id"],
+        ),
+        sa.PrimaryKeyConstraint("user_id", "subject_id"),
     )
     op.create_table(
         "node",
@@ -213,23 +268,32 @@ def upgrade():
                 name="nodetype",
                 checkfirst=True,
             ),
-            nullable=False
+            nullable=False,
         ),
         sa.Column("language", LocaleType(), nullable=True),
         sa.Column("pathway_id", sa.UUID(), nullable=False),
         sa.Column("theme_id", sa.UUID(), nullable=False),
         sa.ForeignKeyConstraint(["pathway_id"], ["pathway.id"], onupdate="CASCADE", ondelete="CASCADE"),
-        sa.ForeignKeyConstraint(["theme_id"], ["theme.id"], ),
-        sa.PrimaryKeyConstraint("id")
+        sa.ForeignKeyConstraint(
+            ["theme_id"],
+            ["theme.id"],
+        ),
+        sa.PrimaryKeyConstraint("id"),
     )
     op.create_index(op.f("ix_node_id"), "node", ["id"], unique=False)
     op.create_table(
         "theme_subject",
         sa.Column("theme_id", sa.UUID(), nullable=False),
         sa.Column("subject_id", sa.UUID(), nullable=False),
-        sa.ForeignKeyConstraint(["subject_id"], ["subject.id"], ),
-        sa.ForeignKeyConstraint(["theme_id"], ["theme.id"], ),
-        sa.PrimaryKeyConstraint("theme_id", "subject_id")
+        sa.ForeignKeyConstraint(
+            ["subject_id"],
+            ["subject.id"],
+        ),
+        sa.ForeignKeyConstraint(
+            ["theme_id"],
+            ["theme.id"],
+        ),
+        sa.PrimaryKeyConstraint("theme_id", "subject_id"),
     )
     op.create_table(
         "themedescription",
@@ -237,11 +301,18 @@ def upgrade():
         sa.Column("theme_id", sa.UUID(), nullable=False),
         sa.Column("description", sa.String(), nullable=True),
         sa.Column("language", LocaleType(), nullable=False),
-        sa.Column("description_vector", TSVectorType(), sa.Computed("to_tsvector('pg_catalog.simple', 'description')", persisted=True), nullable=False),
+        sa.Column(
+            "description_vector",
+            TSVectorType(),
+            sa.Computed("to_tsvector('pg_catalog.simple', 'description')", persisted=True),
+            nullable=False,
+        ),
         sa.ForeignKeyConstraint(["theme_id"], ["theme.id"], onupdate="CASCADE", ondelete="CASCADE"),
-        sa.PrimaryKeyConstraint("id")
+        sa.PrimaryKeyConstraint("id"),
     )
-    op.create_index("ix_theme_description_vector", "themedescription", ["description_vector"], unique=False, postgresql_using="gin")
+    op.create_index(
+        "ix_theme_description_vector", "themedescription", ["description_vector"], unique=False, postgresql_using="gin"
+    )
     op.create_index(op.f("ix_themedescription_description"), "themedescription", ["description"], unique=False)
     op.create_index(op.f("ix_themedescription_id"), "themedescription", ["id"], unique=False)
     op.create_table(
@@ -250,9 +321,14 @@ def upgrade():
         sa.Column("theme_id", sa.UUID(), nullable=False),
         sa.Column("title", sa.String(), nullable=True),
         sa.Column("language", LocaleType(), nullable=False),
-        sa.Column("title_vector", TSVectorType(), sa.Computed("to_tsvector('pg_catalog.simple', 'title')", persisted=True), nullable=False),
+        sa.Column(
+            "title_vector",
+            TSVectorType(),
+            sa.Computed("to_tsvector('pg_catalog.simple', 'title')", persisted=True),
+            nullable=False,
+        ),
         sa.ForeignKeyConstraint(["theme_id"], ["theme.id"], onupdate="CASCADE", ondelete="CASCADE"),
-        sa.PrimaryKeyConstraint("id")
+        sa.PrimaryKeyConstraint("id"),
     )
     op.create_index("ix_theme_title_vector", "themetitle", ["title_vector"], unique=False, postgresql_using="gin")
     op.create_index(op.f("ix_themetitle_id"), "themetitle", ["id"], unique=False)
@@ -264,7 +340,7 @@ def upgrade():
         sa.Column("form", postgresql.JSONB(astext_type=sa.Text()), nullable=False),
         sa.Column("language", LocaleType(), nullable=False),
         sa.ForeignKeyConstraint(["node_id"], ["node.id"], onupdate="CASCADE", ondelete="CASCADE"),
-        sa.PrimaryKeyConstraint("id")
+        sa.PrimaryKeyConstraint("id"),
     )
     op.create_index(op.f("ix_nodeform_id"), "nodeform", ["id"], unique=False)
     op.create_table(
@@ -274,7 +350,7 @@ def upgrade():
         sa.Column("question", sa.String(), nullable=True),
         sa.Column("language", LocaleType(), nullable=False),
         sa.ForeignKeyConstraint(["node_id"], ["node.id"], onupdate="CASCADE", ondelete="CASCADE"),
-        sa.PrimaryKeyConstraint("id")
+        sa.PrimaryKeyConstraint("id"),
     )
     op.create_index(op.f("ix_nodequestion_id"), "nodequestion", ["id"], unique=False)
     op.create_index(op.f("ix_nodequestion_question"), "nodequestion", ["question"], unique=False)
@@ -292,7 +368,7 @@ def upgrade():
                 name="resourcetype",
                 checkfirst=True,
             ),
-            nullable=False
+            nullable=False,
         ),
         sa.Column("language", LocaleType(), nullable=True),
         sa.Column("pathway_id", sa.UUID(), nullable=False),
@@ -301,7 +377,7 @@ def upgrade():
         sa.ForeignKeyConstraint(["node_id"], ["node.id"], onupdate="CASCADE", ondelete="CASCADE"),
         sa.ForeignKeyConstraint(["pathway_id"], ["pathway.id"], onupdate="CASCADE", ondelete="CASCADE"),
         sa.ForeignKeyConstraint(["theme_id"], ["theme.id"], onupdate="CASCADE", ondelete="CASCADE"),
-        sa.PrimaryKeyConstraint("id")
+        sa.PrimaryKeyConstraint("id"),
     )
     op.create_index(op.f("ix_resource_id"), "resource", ["id"], unique=False)
     op.create_table(
@@ -316,8 +392,11 @@ def upgrade():
         sa.Column("group_id", sa.UUID(), nullable=False),
         sa.ForeignKeyConstraint(["group_id"], ["group.id"], onupdate="CASCADE", ondelete="CASCADE"),
         sa.ForeignKeyConstraint(["node_id"], ["node.id"], onupdate="CASCADE", ondelete="CASCADE"),
-        sa.ForeignKeyConstraint(["respondent_id"], ["user.id"], ),
-        sa.PrimaryKeyConstraint("id")
+        sa.ForeignKeyConstraint(
+            ["respondent_id"],
+            ["user.id"],
+        ),
+        sa.PrimaryKeyConstraint("id"),
     )
     op.create_index(op.f("ix_response_id"), "response", ["id"], unique=False)
     op.create_table(
@@ -330,9 +409,12 @@ def upgrade():
         sa.Column("content", sa.String(), nullable=False),
         sa.Column("researcher_id", sa.UUID(), nullable=False),
         sa.Column("response_id", sa.UUID(), nullable=False),
-        sa.ForeignKeyConstraint(["researcher_id"], ["user.id"], ),
+        sa.ForeignKeyConstraint(
+            ["researcher_id"],
+            ["user.id"],
+        ),
         sa.ForeignKeyConstraint(["response_id"], ["response.id"], onupdate="CASCADE", ondelete="CASCADE"),
-        sa.PrimaryKeyConstraint("id")
+        sa.PrimaryKeyConstraint("id"),
     )
     op.create_index(op.f("ix_comment_id"), "comment", ["id"], unique=False)
     op.create_table(
@@ -342,7 +424,7 @@ def upgrade():
         sa.Column("content", sa.String(), nullable=True),
         sa.Column("language", LocaleType(), nullable=False),
         sa.ForeignKeyConstraint(["resource_id"], ["resource.id"], onupdate="CASCADE", ondelete="CASCADE"),
-        sa.PrimaryKeyConstraint("id")
+        sa.PrimaryKeyConstraint("id"),
     )
     op.create_index(op.f("ix_resourcecontent_id"), "resourcecontent", ["id"], unique=False)
     op.create_table(
@@ -351,11 +433,22 @@ def upgrade():
         sa.Column("resource_id", sa.UUID(), nullable=False),
         sa.Column("description", sa.String(), nullable=True),
         sa.Column("language", LocaleType(), nullable=False),
-        sa.Column("description_vector", TSVectorType(), sa.Computed("to_tsvector('pg_catalog.simple', 'description')", persisted=True), nullable=False),
+        sa.Column(
+            "description_vector",
+            TSVectorType(),
+            sa.Computed("to_tsvector('pg_catalog.simple', 'description')", persisted=True),
+            nullable=False,
+        ),
         sa.ForeignKeyConstraint(["resource_id"], ["resource.id"], onupdate="CASCADE", ondelete="CASCADE"),
-        sa.PrimaryKeyConstraint("id")
+        sa.PrimaryKeyConstraint("id"),
     )
-    op.create_index("ix_resource_description_vector", "resourcedescription", ["description_vector"], unique=False, postgresql_using="gin")
+    op.create_index(
+        "ix_resource_description_vector",
+        "resourcedescription",
+        ["description_vector"],
+        unique=False,
+        postgresql_using="gin",
+    )
     op.create_index(op.f("ix_resourcedescription_description"), "resourcedescription", ["description"], unique=False)
     op.create_index(op.f("ix_resourcedescription_id"), "resourcedescription", ["id"], unique=False)
     op.create_table(
@@ -364,17 +457,38 @@ def upgrade():
         sa.Column("resource_id", sa.UUID(), nullable=False),
         sa.Column("title", sa.String(), nullable=True),
         sa.Column("language", LocaleType(), nullable=False),
-        sa.Column("title_vector", TSVectorType(), sa.Computed("to_tsvector('pg_catalog.simple', 'title')", persisted=True), nullable=False),
+        sa.Column(
+            "title_vector",
+            TSVectorType(),
+            sa.Computed("to_tsvector('pg_catalog.simple', 'title')", persisted=True),
+            nullable=False,
+        ),
         sa.ForeignKeyConstraint(["resource_id"], ["resource.id"], onupdate="CASCADE", ondelete="CASCADE"),
-        sa.PrimaryKeyConstraint("id")
+        sa.PrimaryKeyConstraint("id"),
     )
     op.create_index("ix_resource_title_vector", "resourcetitle", ["title_vector"], unique=False, postgresql_using="gin")
     op.create_index(op.f("ix_resourcetitle_id"), "resourcetitle", ["id"], unique=False)
     op.create_index(op.f("ix_resourcetitle_title"), "resourcetitle", ["title"], unique=False)
     op.drop_constraint("token_authenticates_id_fkey", "token", type_="foreignkey")
-    op.create_foreign_key("token_authenticates_id_fkey", "token", "user", ["authenticates_id"], ["id"], onupdate="CASCADE", ondelete="CASCADE")
+    op.create_foreign_key(
+        "token_authenticates_id_fkey",
+        "token",
+        "user",
+        ["authenticates_id"],
+        ["id"],
+        onupdate="CASCADE",
+        ondelete="CASCADE",
+    )
     op.add_column("user", sa.Column("description", sa.String(), nullable=True))
-    op.add_column("user", sa.Column("description_vector", TSVectorType(), sa.Computed("to_tsvector('pg_catalog.simple', 'description')", persisted=True), nullable=False))
+    op.add_column(
+        "user",
+        sa.Column(
+            "description_vector",
+            TSVectorType(),
+            sa.Computed("to_tsvector('pg_catalog.simple', 'description')", persisted=True),
+            nullable=False,
+        ),
+    )
     op.add_column("user", sa.Column("country", postgresql.ARRAY(CountryType(length=2)), nullable=True))
     op.add_column("user", sa.Column("spatial", sa.String(), nullable=True))
     op.add_column("user", sa.Column("language", LocaleType(), nullable=True))

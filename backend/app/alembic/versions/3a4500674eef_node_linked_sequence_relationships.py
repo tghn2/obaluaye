@@ -5,6 +5,7 @@ Revises: 1fae884e42cc
 Create Date: 2023-09-06 15:42:27.050727
 
 """
+
 from alembic import op
 import sqlalchemy as sa
 
@@ -22,9 +23,15 @@ def upgrade():
         "pathway_sequence",
         sa.Column("before_id", sa.UUID(), nullable=False),
         sa.Column("after_id", sa.UUID(), nullable=False),
-        sa.ForeignKeyConstraint(["after_id"], ["node.id"], ),
-        sa.ForeignKeyConstraint(["before_id"], ["node.id"], ),
-        sa.PrimaryKeyConstraint("before_id", "after_id")
+        sa.ForeignKeyConstraint(
+            ["after_id"],
+            ["node.id"],
+        ),
+        sa.ForeignKeyConstraint(
+            ["before_id"],
+            ["node.id"],
+        ),
+        sa.PrimaryKeyConstraint("before_id", "after_id"),
     )
     # ### end Alembic commands ###
 
