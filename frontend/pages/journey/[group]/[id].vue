@@ -29,7 +29,7 @@ const route = useRoute()
 const journeyStore = useJourneyStore()
 const draftResponse = ref([] as IResponse[])
 const nextPage = ref(false)
-const lastPage = ref(false)
+const lastPage = ref(true)
 
 onMounted(async () => {
     appSettings.setPageName("nav.pathways")
@@ -39,8 +39,6 @@ onMounted(async () => {
         throw createError({ statusCode: 404, statusMessage: "Page Not Found", fatal: true })
     if (journeyStore.term.journeyPath && journeyStore.term.journeyPath.length) nextPage.value = true
     else nextPage.value = false
-    if (journeyStore.term.journeyBack) lastPage.value = true
-    else lastPage.value = false
 })
 
 // WATCHERS
@@ -52,7 +50,7 @@ async function watchPageRequest(request: string) {
         case "last":
             if (journeyStore.term.journeyBack)
                 return await navigateTo(localePath(`/journey/${route.params.group as string}/${journeyStore.term.journeyBack}`))
-            break
+            else return await navigateTo(localePath(`/group/edit/${route.params.group as string}`))
         case "next":
             await journeyStore.createTerm(draftResponse.value)
             if (journeyStore.term.journeyPath && journeyStore.term.journeyPath.length === 1)

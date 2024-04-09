@@ -13,27 +13,15 @@
                                 :class="[selected ? 'text-kashmir-500' : 'text-gray-400 group-hover:text-gray-500', '-ml-0.5 mr-2 h-5 w-5']"
                                 aria-hidden="true" />
                             <span class="hidden xl:block">{{ t(tab.name) }}</span>
-                            <span v-if="tab.showDot" class="relative">
-                                <svg viewBox="0 0 100 100" class="absolute -ml-1 sm:-ml-0 -mt-2 z-10 h-[2rem] w-[2rem]"
-                                    aria-hidden="true">
-                                    <circle cx="10" cy="10" r="10" fill="#d93e8a" />
-                                </svg>
-                            </span>
                         </button>
                     </Tab>
                 </TabList>
                 <TabPanels>
-                    <TabPanel v-if="authStore.activePathway">
-                        <SettingsPathwayCard />
+                    <TabPanel>
+                        <ModerationCollectionTable />
                     </TabPanel>
                     <TabPanel>
-                        <SettingsProfile />
-                    </TabPanel>
-                    <TabPanel>
-                        <SettingsInvitationsCard />
-                    </TabPanel>
-                    <TabPanel>
-                        <SettingsSecurity />
+                        <ModerationUserTable />
                     </TabPanel>
                 </TabPanels>
             </TabGroup>
@@ -43,7 +31,7 @@
 
 <script setup lang="ts">
 import { TabGroup, TabList, Tab, TabPanels, TabPanel } from "@headlessui/vue"
-import { PhKey, PhUserCircle, PhEnvelopeSimple, PhUsersThree, PhPath } from "@phosphor-icons/vue"
+import { PhUsersThree, PhRows } from "@phosphor-icons/vue"
 import { useAuthStore, useSettingStore } from "@/stores"
 
 definePageMeta({
@@ -55,18 +43,14 @@ const appSettings = useSettingStore()
 const authStore = useAuthStore()
 
 let navigation = [
-    { name: "settings.nav.account", id: "ACCOUNT", icon: PhUserCircle, showDot: false },
-    { name: "settings.nav.invitations", id: "INVITATIONS", icon: PhEnvelopeSimple, showDot: authStore.profile.invitationCount > 0 },
-    { name: "settings.nav.security", id: "SECURITY", icon: PhKey, showDot: false },
+    { name: "settings.nav.collection", id: "COLLECTION", icon: PhRows },
+    { name: "settings.nav.moderation", id: "MODERATION", icon: PhUsersThree },
 ]
 const readyState = ref("loading")
 
 onMounted(() => {
-    appSettings.setPageName("nav.settings")
+    appSettings.setPageName("nav.moderation")
     appSettings.setPageState("loading")
-    if (authStore.activePathway) navigation.unshift(
-        { name: "settings.nav.pathway", id: "PATHWAY", icon: PhPath, showDot: false },
-    )
     readyState.value = "done"
 })
 </script>

@@ -5,31 +5,38 @@
         </div>
         <div
             v-if="appSettings.current.pageState === 'done' && journeyStore.term && journeyStore.term.hasOwnProperty('name')">
-            <JourneyResponseHeadingPanel :title="journeyStore.term.pathway!.title as string" @set-save-request="watchPageRequest" />
-            <div class="mt-4 sm:px-6">
-                <JourneyResponseThemeCard :theme="journeyStore.term" />
+            <JourneyResponseHeadingPanel :title="pageHeading" @set-save-request="watchPageRequest" />
+            <JourneyResponseProfileCard v-if="profilePage" :next-page="journeyStore.term.id as string" @set-response="watchResponseProfileUpdate" />
+            <div v-else>
+                <div class="mt-4 sm:px-6">
+                    <JourneyResponseThemeCard :theme="journeyStore.term" />
+                </div>
+                <div v-for="node in journeyStore.term.nodes" :key="`node-${node.id}`" class="sm:px-6">
+                    <JourneyResponseNodeCard :node="node" @set-response="watchResponseUpdate" />
+                </div>
+                <JourneyResponsePagination :last-page="lastPage" :next-page="nextPage" :editing="true"
+                    @set-page-response="watchPageRequest" />
             </div>
-            <div v-for="node in journeyStore.term.nodes" :key="`node-${node.id}`" class="sm:px-6">
-                <JourneyResponseNodeCard :node="node" @set-response="watchResponseUpdate" />
-            </div>
-            <JourneyResponsePagination :last-page="lastPage" :next-page="nextPage" :editing="true"
-                @set-page-response="watchPageRequest" />
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import { useSettingStore, useJourneyStore } from "@/stores"
-import { IResponse, INode, ITerm } from "@/interfaces"
+import { useSettingStore, useJourneyStore, usePathwayStore, useCollectionStore } from "@/stores"
+import { IResponse, IUserProfileUpdate, INode, ITerm } from "@/interfaces"
 
 const { t } = useI18n()
 const localePath = useLocalePath()
 const appSettings = useSettingStore()
 const route = useRoute()
+const pathwayStore = usePathwayStore()
 const journeyStore = useJourneyStore()
+const collectionStore = useCollectionStore()
 const draftResponse = ref([] as IResponse[])
 const nextPage = ref(false)
 const lastPage = ref(false)
+const profilePage = ref(false)
+const pageHeading = ref(t('settings.account.title'))
 
 onMounted(async () => {
     appSettings.setPageName("nav.pathways")
@@ -37,10 +44,26 @@ onMounted(async () => {
     await journeyStore.getTerm(route.params.id as string)
     if (!journeyStore.term || Object.keys(journeyStore.term).length === 0)
         throw createError({ statusCode: 404, statusMessage: "Page Not Found", fatal: true })
-    if (journeyStore.term.journeyPath && journeyStore.term.journeyPath.length) nextPage.value = true
+    if (
+        (
+            pathwayStore.termPersonal
+            && (pathwayStore.termPersonal === route.params.id as string)
+        )
+        || (
+            journeyStore.term.pathway_id === route.params.id as string
+        )
+     ) {
+        profilePage.value = true
+        collectionStore.getMulti({selections: true})
+    }
+    if (
+        (journeyStore.term.journeyPath && journeyStore.term.journeyPath.length)
+        || profilePage.value
+    ) nextPage.value = true
     else nextPage.value = false
-    if (journeyStore.term.journeyBack) lastPage.value = true
+    if (journeyStore.term.journeyBack || !profilePage.value) lastPage.value = true
     else lastPage.value = false
+    if (!profilePage.value) pageHeading.value = journeyStore.term.pathway!.title as string
 })
 
 // WATCHERS
@@ -52,9 +75,13 @@ async function watchPageRequest(request: string) {
         case "last":
             if (journeyStore.term.journeyBack)
                 return await navigateTo(localePath(`/journey/${journeyStore.term.journeyBack}`))
+            if (!profilePage.value)
+                return await navigateTo(localePath(`/journey/${journeyStore.term.pathway_id}`))
             break
         case "next":
             await journeyStore.createTerm(draftResponse.value)
+            if (profilePage.value)
+                return await navigateTo(localePath(`/journey/${journeyStore.term.id}`))
             if (journeyStore.term.journeyPath && journeyStore.term.journeyPath.length === 1)
                 return await navigateTo(localePath(`/journey/${journeyStore.term.journeyPath[0]}`))
             if (journeyStore.term.journeyPath && journeyStore.term.journeyPath.length > 1)
@@ -74,6 +101,11 @@ function watchResponseUpdate(response: IResponse) {
             draftResponse.value.push({ ...response })
         }
     }
+}
+
+function watchResponseProfileUpdate(response: IUserProfileUpdate) {
+    console.log("----------- profile --------------")
+    console.log(response)
 }
 
 // UTILITIES
