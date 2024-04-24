@@ -10,11 +10,7 @@ router = APIRouter()
 
 
 @router.get("/{id}", response_model=schemas.Response)
-def get_response(
-    *,
-    db: Session = Depends(deps.get_db),
-    id: str
-) -> Any:
+def get_response(*, db: Session = Depends(deps.get_db), id: str) -> Any:
     """
     Get a response.
     """
@@ -44,7 +40,10 @@ def create_response(
     db_obj = crud.response.get(db=db, id=id)
     if db_obj:
         # Check if personal or group update
-        if db_obj.node.pathway.pathType == schema_types.PathwayType.PERSONAL and db_obj.respondent_id != current_user.id:
+        if (
+            db_obj.node.pathway.pathType == schema_types.PathwayType.PERSONAL
+            and db_obj.respondent_id != current_user.id
+        ):
             validates = False
         if db_obj.node.pathway.pathType == schema_types.PathwayType.RESEARCH and not crud.role.has_responsibility(
             db=db, user=current_user, pathway=db_obj.node.pathway, responsibility=schema_types.RoleType.RESEARCHER
@@ -64,7 +63,10 @@ def create_response(
             ):
                 validates = False
             if node_obj.pathway.pathType == schema_types.PathwayType.PERSONAL:
-                if current_user.responses.first() and current_user.responses.first().node.pathway_id != node_obj.pathway_id:
+                if (
+                    current_user.responses.first()
+                    and current_user.responses.first().node.pathway_id != node_obj.pathway_id
+                ):
                     validates = False
             # Check if the response validates and double check - never trust what comes from the browser
             obj_in.validated = crud.response.validate(node=node_obj, response=obj_in)
@@ -78,6 +80,7 @@ def create_response(
     else:
         db_obj = crud.response.update(db=db, db_obj=db_obj, obj_in=obj_in)
     return crud.response.get_schema(db_obj=db_obj)
+
 
 @router.delete("/{id}", response_model=schemas.Msg)
 def remove_response(
@@ -100,6 +103,7 @@ def remove_response(
     crud.response.remove(db=db, id=id)
     return {"msg": "Response has been successfully removed."}
 
+
 @router.get("/upload/{folder_id}/{source_id}", response_model=None)
 async def get_upload_response(
     *,
@@ -114,10 +118,7 @@ async def get_upload_response(
     if db_obj:
         db_obj = db_obj.responses.filter(
             (models.Response.node_id == folder_id)
-            & (
-                (models.Response.respondent_id == source_id)
-                | (models.Response.group_id == source_id)
-            )
+            & ((models.Response.respondent_id == source_id) | (models.Response.group_id == source_id))
         ).first()
     if not db_obj or not crud.files.exists(folder_id=folder_id, source_id=source_id):
         raise HTTPException(
@@ -148,6 +149,7 @@ async def get_upload_response(
             "Access-Control-Expose-Headers": "Content-Disposition",
         },
     )
+
 
 @router.post("/upload/{folder_id}/{source_id}", response_model=schemas.Msg)
 async def create_upload_response(
@@ -183,9 +185,8 @@ async def create_upload_response(
                 status_code=400,
                 detail=e,
             )
-    return {
-        "msg": "Source file successfully uploaded."
-    }
+    return {"msg": "Source file successfully uploaded."}
+
 
 @router.delete("/upload/{folder_id}/{source_id}", response_model=schemas.Msg)
 async def remove_upload_response(
@@ -206,10 +207,7 @@ async def remove_upload_response(
         group_obj = crud.group.get(db=db, id=source_id)
         db_obj = db_obj.responses.filter(
             (models.Response.node_id == folder_id)
-            & (
-                (models.Response.respondent_id == source_id)
-                | (models.Response.group_id == source_id)
-            )
+            & ((models.Response.respondent_id == source_id) | (models.Response.group_id == source_id))
         ).first()
     # db_obj doesn't exist, folder isn't the node id, and either use no group access, or isn't the respondent
     if not pathway_obj:
@@ -222,14 +220,19 @@ async def remove_upload_response(
             status_code=400,
             detail="Either response does not exist, or user does not have the rights for this request.",
         )
-    elif pathway_obj.pathType == schema_types.PathwayType.RESEARCH and (not group_obj or not crud.role.has_responsibility(
-        db=db, user=current_user, group=group_obj, pathway=pathway_obj, responsibility=schema_types.RoleType.RESEARCHER
-    )):
+    elif pathway_obj.pathType == schema_types.PathwayType.RESEARCH and (
+        not group_obj
+        or not crud.role.has_responsibility(
+            db=db,
+            user=current_user,
+            group=group_obj,
+            pathway=pathway_obj,
+            responsibility=schema_types.RoleType.RESEARCHER,
+        )
+    ):
         raise HTTPException(
             status_code=400,
             detail="Either response does not exist, or user does not have the rights for this request.",
         )
     crud.files.remove(folder_id=folder_id, source_id=source_id)
-    return {
-        "msg": "Source file successfully removed."
-    }
+    return {"msg": "Source file successfully removed."}

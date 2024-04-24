@@ -143,7 +143,8 @@
                             <span v-if="authStore.profile.password" class="block h-5 mt-3 w-px bg-gray-900/10" aria-hidden="true" />
                             <button type="submit"
                                 class="group inline-flex items-center pr-1 pt-4 text-sm font-medium text-gray-500 hover:text-kashmir-500">
-                                <span>{{ t("pathway.journey.saveNext") }}</span>
+                                <span v-if="goNext">{{ t("pathway.journey.saveNext") }}</span>
+                                <span v-else>{{ t("pathway.journey.save") }}</span>
                                 <PhArrowRight class="ml-3 h-5 w-5" aria-hidden="true" />
                             </button>
                         </div>
@@ -166,6 +167,7 @@ const collectionStore = useCollectionStore()
 const profile = ref({} as IUserProfileUpdate)
 const subjects = ref("")
 const selectionChoices = ref([] as string[])
+const goNext = ref(true)
 
 const props = defineProps<{
     nextPage: string,
@@ -184,6 +186,7 @@ onMounted(() => {
 })
 
 function resetProfile() {
+    if (props.nextPage === authStore.profile.id) goNext.value = false
     if (authStore.profile.selection_ids && authStore.profile.selection_ids.length)
         selectionChoices.value = [...authStore.profile.selection_ids]
     profile.value = {
@@ -216,7 +219,8 @@ function watchCollectionSelection(response: IKeyable) {
 }
 
 async function skipToPathway() {
-    return await navigateTo(localePath(`/journey/${props.nextPage}`))
+    if (goNext.value) return await navigateTo(localePath(`/journey/${props.nextPage}`))
+    else return await navigateTo(localePath("/settings"))
 }
 
 async function submit(values: any) {
@@ -236,7 +240,8 @@ async function submit(values: any) {
             if (values.full_name) profile.value.full_name = values.full_name
             await authStore.updateUserProfile({ ...profile.value })
             resetProfile()
-            return await navigateTo(localePath(`/journey/${props.nextPage}`))
+            if (goNext.value) return await navigateTo(localePath(`/journey/${props.nextPage}`))
+            else return await navigateTo(localePath("/settings"))
         }
     }
 }

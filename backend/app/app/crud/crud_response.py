@@ -43,10 +43,18 @@ class CRUDResponse(CRUDBase[Response, ResponseCreate, ResponseUpdate, ResponseOu
                 # Tally the responses
                 for response in response_objs:
                     if response.answer:
-                        if db_obj.formType == NodeType.SELECTMANY:
-                            answers = [{**a} for a in response.answer]
-                        else:
-                            answers = [{**response.answer}]
+                        answers = []
+                        try:
+                            if db_obj.formType == NodeType.SELECTMANY:
+                                answers = [{**a} for a in response.answer]
+                            else:
+                                answers = [{**response.answer}]
+                        except TypeError:
+                            print("---------------------------------------------------------------------")
+                            print(response.answer)
+                            print(response.respondent_id, response.respondent.email)
+                            print("---------------------------------------------------------------------")
+                            continue
                         for answer in answers:
                             obj_in[answer["id"]] = obj_in.get(answer["id"], answer)
                             obj_in[answer["id"]]["count"] = obj_in[answer["id"]].get("count", 0) + 1
