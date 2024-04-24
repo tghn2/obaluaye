@@ -1,4 +1,4 @@
-import { ITheme, IResponse } from "@/interfaces"
+import { ITheme, IResponse, IAnswer } from "@/interfaces"
 import { useTokenStore } from "./tokens"
 import { useSettingStore } from "./settings"
 import { useToastStore } from "./toasts"
@@ -88,6 +88,14 @@ export const useJourneyStore = defineStore("journeyStore", {
                     // Loop through responses to create and update these - add group, respondent & language
                     // https://stackoverflow.com/a/34349073/295606
                     for (const response of payload) {
+                        if (
+                            // Kludge
+                            response.answer
+                            && !Array.isArray(response.answer)
+                            && response.answer.hasOwnProperty("0")
+                        ) {
+                            response.answer = [...Object.values(JSON.parse(JSON.stringify(response.answer)))] as IAnswer[]
+                        }
                         response.respondent_id = this.sourceRespondent
                         response.group_id = this.sourceGroup
                         response.language = this.term.language

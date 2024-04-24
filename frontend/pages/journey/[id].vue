@@ -6,7 +6,9 @@
         <div
             v-if="appSettings.current.pageState === 'done' && journeyStore.term && journeyStore.term.hasOwnProperty('name')">
             <JourneyResponseHeadingPanel :title="pageHeading" @set-save-request="watchPageRequest" />
-            <JourneyResponseProfileCard v-if="profilePage" :next-page="journeyStore.term.id as string" @set-response="watchResponseProfileUpdate" />
+            <JourneyResponseProfileCard v-if="profilePage" 
+                :next-page="route.params.id as string !== authStore.profile.id ? journeyStore.term.id as string : authStore.profile.id" 
+                @set-response="watchResponseProfileUpdate" />
             <div v-else>
                 <div class="mt-4 sm:px-6">
                     <JourneyResponseThemeCard :theme="journeyStore.term" />
@@ -22,13 +24,14 @@
 </template>
 
 <script setup lang="ts">
-import { useSettingStore, useJourneyStore, usePathwayStore, useCollectionStore } from "@/stores"
+import { useSettingStore, useAuthStore, useJourneyStore, usePathwayStore, useCollectionStore } from "@/stores"
 import { IResponse, IUserProfileUpdate, INode, ITerm } from "@/interfaces"
 
 const { t } = useI18n()
 const localePath = useLocalePath()
 const appSettings = useSettingStore()
 const route = useRoute()
+const authStore = useAuthStore()
 const pathwayStore = usePathwayStore()
 const journeyStore = useJourneyStore()
 const collectionStore = useCollectionStore()
@@ -41,11 +44,16 @@ const pageHeading = ref(t('settings.account.title'))
 onMounted(async () => {
     appSettings.setPageName("nav.pathways")
     appSettings.setPageState("loading")
-    await journeyStore.getTerm(route.params.id as string)
-    if (!journeyStore.term || Object.keys(journeyStore.term).length === 0)
-        throw createError({ statusCode: 404, statusMessage: "Page Not Found", fatal: true })
+    if (route.params.id as string !== authStore.profile.id) {
+        await journeyStore.getTerm(route.params.id as string)
+        if (!journeyStore.term || Object.keys(journeyStore.term).length === 0)
+            throw createError({ statusCode: 404, statusMessage: "Page Not Found", fatal: true })
+    }
     if (
         (
+            route.params.id as string === authStore.profile.id
+        )
+        || (
             pathwayStore.termPersonal
             && (pathwayStore.termPersonal === route.params.id as string)
         )

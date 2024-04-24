@@ -16,23 +16,23 @@
 
 <script setup lang="ts">
 import { PhPlay } from "@phosphor-icons/vue"
-import { useToastStore} from "@/stores"
-import { usePathwayStore } from "@/stores"
+import { useToastStore, usePathwayStore, useAuthStore } from "@/stores"
 
 const { t } = useI18n()
 const localePath = useLocalePath()
+const authStore = useAuthStore()
 const pathwayStore = usePathwayStore()
 const toastStore = useToastStore()
 
 async function submit() {
     await pathwayStore.getPersonalTerm()
-    if (pathwayStore.termPersonal) {
-            toastStore.addNotice({
-            title: t("group.alert.createSuccessTitle"),
-            content: t("group.alert.createSuccessContent"),
-            icon: "success"
-        })
+    toastStore.addNotice({
+        title: t("group.alert.createSuccessTitle"),
+        content: t("group.alert.createSuccessContent"),
+        icon: "success"
+    })
+    if (pathwayStore.termPersonal)
         return await navigateTo(localePath(`/journey/${pathwayStore.termPersonal}`))
-    }
+    else return await navigateTo(localePath(`/journey/${authStore.profile.id}`))
 }
 </script>

@@ -75,7 +75,7 @@ async function submit(request: string) {
           await pathwayStore.getPersonalTerm()
           if (pathwayStore.termPersonal)
             return await navigateTo(localePath(`/journey/${pathwayStore.termPersonal}`))
-          break
+          else return await navigateTo(localePath(`/journey/${authStore.profile.id}`))
         case "study":
           await pathwayStore.getFeaturedTerm()
           if (pathwayStore.termStudy)
