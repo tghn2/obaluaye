@@ -1,6 +1,7 @@
 from typing import Any, Dict, Optional, Union
 from uuid import UUID
 from sqlalchemy.orm import Session
+from sqlalchemy.sql.expression import func
 
 from app.core.security import get_password_hash, verify_password
 from app.crud.base import CRUDBase
@@ -113,6 +114,25 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate, UserOut]):
         return node_obj.pathway
 
     def has_completed_pathway(self, db: Session, *, user: User) -> bool:
+        # Check if there is a personal pathway to complete
+        personal_pathway = (
+            db.query(Pathway)
+            .filter(
+                (Pathway.isFeatured.is_(True))
+                & (Pathway.isPrivate.is_(False))
+                & (Pathway.pathType == PathwayType.PERSONAL)
+            )
+            .first()
+        )
+        if (
+            not personal_pathway
+            and user.email_validated
+            and user.hashed_password
+            and user.is_active
+            and user.country
+            and user.full_name
+        ):
+            return True
         # Get the pathway
         pathway_obj = self._get_pathway(db=db, user=user)
         if not pathway_obj:

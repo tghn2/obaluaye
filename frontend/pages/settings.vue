@@ -23,9 +23,6 @@
                     </Tab>
                 </TabList>
                 <TabPanels>
-                    <TabPanel v-if="authStore.activePathway">
-                        <SettingsPathwayCard />
-                    </TabPanel>
                     <TabPanel>
                         <SettingsProfile />
                     </TabPanel>
@@ -44,7 +41,7 @@
 <script setup lang="ts">
 import { TabGroup, TabList, Tab, TabPanels, TabPanel } from "@headlessui/vue"
 import { PhKey, PhUserCircle, PhEnvelopeSimple, PhUsersThree, PhPath } from "@phosphor-icons/vue"
-import { useAuthStore, useSettingStore } from "@/stores"
+import { useAuthStore, useSettingStore, usePathwayStore } from "@/stores"
 
 definePageMeta({
     middleware: ["authenticated"],
@@ -53,6 +50,7 @@ definePageMeta({
 const { t } = useI18n()
 const appSettings = useSettingStore()
 const authStore = useAuthStore()
+const pathwayStore = usePathwayStore()
 
 let navigation = [
     { name: "settings.nav.account", id: "ACCOUNT", icon: PhUserCircle, showDot: false },
@@ -61,12 +59,13 @@ let navigation = [
 ]
 const readyState = ref("loading")
 
-onMounted(() => {
+onMounted(async () => {
     appSettings.setPageName("nav.settings")
     appSettings.setPageState("loading")
-    if (authStore.activePathway) navigation.unshift(
-        { name: "settings.nav.pathway", id: "PATHWAY", icon: PhPath, showDot: false },
-    )
+    await pathwayStore.getPersonalTerm()
+    // if (pathwayStore.termPersonal && authStore.activePathway) navigation.unshift(
+    //     { name: "settings.nav.pathway", id: "PATHWAY", icon: PhPath, showDot: false },
+    // )
     readyState.value = "done"
 })
 </script>
