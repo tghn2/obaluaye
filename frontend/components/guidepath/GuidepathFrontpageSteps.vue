@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="lg:border-b lg:border-t lg:border-gray-200">
+    <div v-if="!authStore.loggedIn" class="lg:border-b lg:border-t lg:border-gray-200">
       <nav class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" aria-label="Progress">
         <ol role="list" class="overflow-hidden rounded-md lg:flex lg:rounded-none lg:border-l lg:border-r lg:border-gray-200">
           <li v-for="(step, stepIdx) in steps" :key="step.id" class="relative overflow-hidden lg:flex-1">
