@@ -40,6 +40,12 @@ jobs:
           FRONTEND_ENV=staging \
           bash -x scripts/build.sh'
 
+      - name: Remove existing stack and prune images
+        run: |
+          ssh server 'docker stack rm staging-globalhealthstudybuilder-org && \
+          sleep 60 && \
+          docker image prune -f'
+
       - name: Run the deploy script
         run: |
           ssh server 'cd /srv/obaluaye && \
