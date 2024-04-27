@@ -1,6 +1,5 @@
 <template>
-    <div v-if="journeyStore.term && journeyStore.term.hasOwnProperty('pathway')"
-        class="sticky top-0 z-20 h-16 shrink-0 bg-white/75">
+    <div class="sticky top-0 z-20 h-16 shrink-0 bg-white/75">
         <div class="sticky top-0 z-20 flex shrink-0 items-center gap-x-4 bg-white/75 sm:gap-x-6">
             <div class="flex w-full items-center justify-between gap-x-6 pb-2">
                 <div class="flex items-center justify-left w-full space-x-4 truncate">
@@ -47,24 +46,38 @@
                         aria-hidden="true">
                         <path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" />
                     </svg>
-                    <LocaleLink :to="`/pathway/${journeyStore.term!.pathway!.id}`"
-                        class="ml-2 text-sm font-medium text-gray-500 hover:text-gray-700">{{
-                            journeyStore.term!.pathway!.title }}
+                    <LocaleLink
+                        v-if="journeyStore.term && journeyStore.term.hasOwnProperty('pathway')"
+                        :to="`/pathway/${journeyStore.term!.pathway!.id}`"
+                        class="ml-2 text-sm font-medium text-gray-500 hover:text-gray-700">
+                            {{ journeyStore.term!.pathway!.title }}
+                    </LocaleLink>
+                    <LocaleLink
+                        v-else
+                        to="/settings"
+                        class="ml-2 text-sm font-medium text-gray-500 hover:text-gray-700">
+                            {{ props.title }}
                     </LocaleLink>
                 </li>
-                <li class="flex items-center">
+                <li 
+                    v-if="journeyStore.term && journeyStore.term.hasOwnProperty('pathway')"
+                    class="flex items-center">
                     <svg class="h-5 w-5 flex-shrink-0 text-gray-300" fill="currentColor" viewBox="0 0 20 20"
                         aria-hidden="true">
                         <path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" />
                     </svg>
                 </li>
-                <li class="flex items-center">
+                <li 
+                    v-if="journeyStore.term && journeyStore.term.hasOwnProperty('pathway')"
+                    class="flex items-center">
                     <svg :class="[journeyStore.term!.pathway_id === route.params.id as string ? 'text-kashmir-500' : 'text-gray-300', 'h-5 w-5 flex-shrink-0']"
                         fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                         <circle cx="10" cy="10" r="6" />
                     </svg>
                 </li>
-                <li v-for="o in Array(journeyStore.term!.pathway!.order as number + 1).fill(0).map((_, i) => i + 1)"
+                <li 
+                    v-if="journeyStore.term && journeyStore.term.hasOwnProperty('pathway')"
+                    v-for="o in Array(journeyStore.term!.pathway!.order as number + 1).fill(0).map((_, i) => i + 1)"
                     :key="`step-${o}`" class="flex items-center">
                     <svg :class="[
                             (journeyStore.term!.order === o - 1)

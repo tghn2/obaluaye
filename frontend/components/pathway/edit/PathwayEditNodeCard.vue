@@ -148,7 +148,7 @@ watch(() => pathwayStore.activeEdit, () => {
 })
 
 watch(
-    () => draft.value, () => {
+    () => [draft.value, subjects.value], () => {
         const response = setDraft({ ...draft.value })
         emit("setDraft", response)
     },
@@ -163,6 +163,7 @@ async function watchFormRequest(request: IForm) {
 // SETTERS
 function setDraft(response: INode): INode {
     if (subjects.value) response.subjects = subjects.value.split(",").map((item: string) => item.trim())
+    else response.subjects = [] as string[]
     return response
 }
 

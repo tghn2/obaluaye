@@ -4,7 +4,7 @@
             <LoadingCardSkeleton />
         </div>
         <div
-            v-if="appSettings.current.pageState === 'done' && journeyStore.term && journeyStore.term.hasOwnProperty('name')">
+            v-if="appSettings.current.pageState === 'done'">
             <JourneyResponseHeadingPanel :title="pageHeading" @set-save-request="watchPageRequest" />
             <JourneyResponseProfileCard v-if="profilePage" 
                 :next-page="route.params.id as string !== authStore.profile.id ? journeyStore.term.id as string : authStore.profile.id" 
@@ -25,7 +25,7 @@
 
 <script setup lang="ts">
 import { useSettingStore, useAuthStore, useJourneyStore, usePathwayStore, useCollectionStore } from "@/stores"
-import { IResponse, IUserProfileUpdate, INode, ITerm } from "@/interfaces"
+import { IResponse, IUserProfileUpdate, INode, ITerm, ITheme } from "@/interfaces"
 
 const { t } = useI18n()
 const localePath = useLocalePath()
@@ -48,6 +48,9 @@ onMounted(async () => {
         await journeyStore.getTerm(route.params.id as string)
         if (!journeyStore.term || Object.keys(journeyStore.term).length === 0)
             throw createError({ statusCode: 404, statusMessage: "Page Not Found", fatal: true })
+    } else {
+        if (authStore.personalPathway) await journeyStore.getTerm(authStore.personalPathway as string)
+        else journeyStore.setTerm({} as ITheme)
     }
     if (
         (

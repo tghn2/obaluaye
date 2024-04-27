@@ -196,9 +196,11 @@ async function watchHeadingRequest(request: string) {
     switch (request) {
         case "save":
             await pathwayStore.createTerm(route.params.id as string, draft.value)
+            pathwayStore.setCreateDraft(false)
             break
         case "cancel":
-            return await navigateTo(localePath(`/pathway/${route.params.id}`))
+            if (pathwayStore.createDraft) return await navigateTo(localePath("/pathway"))
+            else return await navigateTo(localePath(`/pathway/${route.params.id}`))
         default:
             watchLocaleSelect(request)
             break

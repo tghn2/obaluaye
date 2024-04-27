@@ -129,7 +129,7 @@ watch(() => pathwayStore.activeEdit, () => {
 })
 
 watch(
-    () => draft.value, () => {
+    () => [draft.value, subjects.value], () => {
         const response = setDraft({ ...draft.value })
         emit("setDraft", response)
     },
@@ -139,6 +139,7 @@ watch(
 // SETTERS
 function setDraft(response: ITheme): ITheme {
     if (subjects.value) response.subjects = subjects.value.split(",").map((item: string) => item.trim())
+    else response.subjects = [] as string[]
     return response
 }
 

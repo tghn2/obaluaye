@@ -139,7 +139,7 @@ async function skipToPathway() {
 }
 
 watch(
-    () => draft.value, () => {
+    () => [draft.value, subjects.value], () => {
         if (Object.keys(draft.value).length !== 0) {
             saveDraft()
         }
@@ -156,6 +156,7 @@ function saveDraft() {
 function setDraft(response: IGroup) {
     // https://stackoverflow.com/a/38201551/295606
     if (subjects.value) response.subjects = subjects.value.split(",").map((item: string) => item.trim())
+    else response.subjects = [] as string[]
     return response
 }
 

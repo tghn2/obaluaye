@@ -235,6 +235,7 @@ async function submit(values: any) {
         if (!authStore.profile.password) profile.value.password = values.password
         else profile.value.original = values.original
         if (subjects.value) profile.value.subjects = subjects.value.split(",").map((item: string) => item.trim())
+        else profile.value.subjects = [] as string[]
         if (values.email) {
             profile.value.email = values.email
             if (values.full_name) profile.value.full_name = values.full_name
