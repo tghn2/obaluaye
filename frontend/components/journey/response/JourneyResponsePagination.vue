@@ -1,7 +1,7 @@
 <template>
     <nav class="flex items-center justify-between mb-14 px-4 sm:px-0">
         <div class="-mt-px flex w-0 flex-1">
-            <button @click="watchDirection('last')"
+            <button v-if="props.lastPage" @click="watchDirection('last')"
                 :class="[props.lastPage ? '' : 'pointer-events-none', 'group inline-flex items-center pr-1 pt-4 text-sm font-medium text-gray-500 hover:text-kashmir-500']">
                 <PhArrowLeft class="mr-3 h-5 w-5" aria-hidden="true" />
                 {{ t("pathway.journey.previous") }}
