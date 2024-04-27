@@ -178,7 +178,7 @@ watch(() => pathwayStore.activeEdit, () => {
 })
 
 watch(
-    () => draft.value, () => {
+    () => [draft.value, subjects.value], () => {
         const response = setDraft({ ...draft.value })
         emit("setDraft", response)
     },
@@ -189,6 +189,7 @@ watch(
 function setDraft(response: IPathway) {
     // https://stackoverflow.com/a/38201551/295606
     if (subjects.value) response.subjects = subjects.value.split(",").map((item: string) => item.trim())
+    else response.subjects = [] as string[]
     if (dateFrom.value && dateTo.value && dateFrom.value >= dateTo.value) dateTo.value = ""
     if (dateFrom.value) response.temporalStart = dayjs(dateFrom.value).format()
     if (dateTo.value) response.temporalEnd = dayjs(dateTo.value).format()

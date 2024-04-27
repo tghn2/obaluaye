@@ -137,6 +137,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType, OutputSche
         # Automatically populate subjects as a matter of course
         # Prevents subject term duplication (hopefully)
         db_objs = set()
+        objs_in = set([o.lower() for o in objs_in])
         for obj_in in objs_in:
             try:
                 # https://stackoverflow.com/a/52075777/295606
@@ -193,7 +194,10 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType, OutputSche
             if not hasattr(self.model, field):
                 continue
             if field == "subjects":
+                sbj_attrs = [attr for attr in getattr(db_obj, "subject")]
                 sbj_objs = self.create_subjects(db=db, objs_in=update_data.get(field, set()))
+                for sbj_attr in sbj_attrs:
+                    db_obj.subject.remove(sbj_attr)
                 for sbj_obj in sbj_objs:
                     db_obj.subject.add(sbj_obj)
             elif field in self.i18n_terms and language:
