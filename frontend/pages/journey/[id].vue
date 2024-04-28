@@ -81,7 +81,7 @@ onMounted(async () => {
 async function watchPageRequest(request: string) {
     switch (request) {
         case "save":
-            await journeyStore.createTerm(draftResponse.value)
+            if (!profilePage.value) await journeyStore.createTerm(draftResponse.value)
             break
         case "last":
             if (journeyStore.term.journeyBack)

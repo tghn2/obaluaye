@@ -16,8 +16,10 @@
                         <div class="mt-1 group relative inline-block w-full">
                             <Field id="full_name" name="full_name" type="string" v-model="profile.full_name"
                                 class="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-kashmir-600 sm:text-sm sm:leading-6" />
-                            <ErrorMessage name="email"
-                                class="absolute left-5 top-5 translate-y-full w-48 px-2 py-1 bg-gray-700 rounded-lg text-center text-white text-sm after:content-[''] after:absolute after:left-1/2 after:bottom-[100%] after:-translate-x-1/2 after:border-8 after:border-x-transparent after:border-t-transparent after:border-b-gray-700" />
+                            <div v-if="!formValidates && !profile.full_name" 
+                                class="absolute top-5 translate-y-full w-48 px-2 py-1 bg-gray-700 rounded-lg text-center text-white text-sm after:content-[''] after:absolute after:left-1/2 after:bottom-[100%] after:-translate-x-1/2 after:border-8 after:border-x-transparent after:border-t-transparent after:border-b-gray-700">
+                                <span>{{ t("formvalidation.required") }}</span>
+                            </div>
                         </div>
                     </div>
                     <div class="sm:col-span-1">
@@ -38,15 +40,19 @@
                             <Field id="email" name="email" type="email" autocomplete="email" v-model="profile.email"
                                 class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-kashmir-600 sm:text-sm sm:leading-6" />
                             <ErrorMessage name="email"
-                                class="absolute left-5 top-5 translate-y-full w-48 px-2 py-1 bg-gray-700 rounded-lg text-center text-white text-sm after:content-[''] after:absolute after:left-1/2 after:bottom-[100%] after:-translate-x-1/2 after:border-8 after:border-x-transparent after:border-t-transparent after:border-b-gray-700" />
+                                class="absolute top-5 translate-y-full w-48 px-2 py-1 bg-gray-700 rounded-lg text-center text-white text-sm after:content-[''] after:absolute after:left-1/2 after:bottom-[100%] after:-translate-x-1/2 after:border-8 after:border-x-transparent after:border-t-transparent after:border-b-gray-700" />
                         </div>
                     </div>
                     <div class="col-span-full">
                         <label for="description" class="block text-sm font-semibold leading-6 text-gray-900">{{
                             t("group.field.description") }}</label>
-                        <div class="mt-1">
+                        <div class="mt-1 group relative inline-block w-full">
                             <textarea id="description" name="description" rows="3" v-model="profile.description"
                                 class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-kashmir-600 sm:text-sm sm:leading-6" />
+                            <div v-if="!formValidates && !profile.description" 
+                                class="absolute -mt-4 translate-y-full w-48 px-2 py-1 bg-gray-700 rounded-lg text-center text-white text-sm after:content-[''] after:absolute after:left-1/2 after:bottom-[100%] after:-translate-x-1/2 after:border-8 after:border-x-transparent after:border-t-transparent after:border-b-gray-700">
+                                <span>{{ t("formvalidation.required") }}</span>
+                            </div>
                         </div>
                         <p class="mt-1 text-sm leading-6 text-gray-500">
                             <span>{{ t("settings.help.description") }}</span>
@@ -56,9 +62,13 @@
                         <label for="group-subject-values" class="block text-sm font-semibold leading-6 text-gray-900">
                             {{ t("settings.field.subjects") }}
                         </label>
-                        <div class="mt-1">
+                        <div class="mt-1 group relative inline-block w-full">
                             <input type="text" name="group-subject-values" id="group-subject-values" v-model="subjects"
                                 class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-kashmir-600 sm:text-sm sm:leading-6" />
+                            <div v-if="!formValidates && !(profile.subjects && profile.subjects.length)" 
+                                class="absolute top-5 translate-y-full w-48 px-2 py-1 bg-gray-700 rounded-lg text-center text-white text-sm after:content-[''] after:absolute after:left-1/2 after:bottom-[100%] after:-translate-x-1/2 after:border-8 after:border-x-transparent after:border-t-transparent after:border-b-gray-700">
+                                <span>{{ t("formvalidation.required") }}</span>
+                            </div>
                         </div>
                         <p class="mt-1 text-sm leading-6 text-gray-500">{{ t("settings.help.subjects") }}</p>
                     </div>
@@ -66,8 +76,12 @@
                         <label for="group-country-values" class="block text-sm font-semibold leading-6 text-gray-900">
                             {{ t("group.field.country") }}
                         </label>
-                        <div class="mt-1">
+                        <div class="mt-1 group relative inline-block w-full">
                             <CommonCountrySelect :initial-choices="profile.country" @set-select="watchCountrySelect" />
+                            <div v-if="!formValidates && !(profile.country && profile.country.length)" 
+                                class="absolute top-5 translate-y-full w-48 px-2 py-1 bg-gray-700 rounded-lg text-center text-white text-sm after:content-[''] after:absolute after:left-1/2 after:bottom-[100%] after:-translate-x-1/2 after:border-8 after:border-x-transparent after:border-t-transparent after:border-b-gray-700">
+                                <span>{{ t("formvalidation.required") }}</span>
+                            </div>
                         </div>
                         <p class="mt-1 text-sm leading-6 text-gray-500">
                             {{ t("settings.help.country") }}
@@ -80,7 +94,7 @@
                         <label for="group-country-values" class="block text-sm font-semibold leading-6 text-gray-900">
                             {{ universal.title }}
                         </label>
-                        <div class="mt-1">
+                        <div class="mt-1 group relative inline-block w-full">
                             <CollectionSelectionPanel :collection="universal" :all-selections="selectionChoices" @set-selection="watchCollectionSelection" />
                         </div>
                         <p v-if="universal.isMulti" class="mt-1 text-sm leading-6 text-gray-500">
@@ -98,7 +112,7 @@
                             <Field id="original" name="original" type="password" autocomplete="password"
                                 class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-kashmir-600 sm:text-sm sm:leading-6" />
                             <ErrorMessage name="original"
-                                class="absolute z-10 left-5 top-5 translate-y-full w-48 px-2 py-1 bg-gray-700 rounded-lg text-center text-white text-sm after:content-[''] after:absolute after:left-1/2 after:bottom-[100%] after:-translate-x-1/2 after:border-8 after:border-x-transparent after:border-t-transparent after:border-b-gray-700" />
+                                class="absolute z-10 top-5 translate-y-full w-48 px-2 py-1 bg-gray-700 rounded-lg text-center text-white text-sm after:content-[''] after:absolute after:left-1/2 after:bottom-[100%] after:-translate-x-1/2 after:border-8 after:border-x-transparent after:border-t-transparent after:border-b-gray-700" />
                         </div>
                     </div>
                     <div v-else class="col-span-full">
@@ -109,7 +123,7 @@
                             <Field id="password" name="password" type="password" autocomplete="password"
                                 class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-kashmir-600 focus:outline-none focus:ring-kashmir-600 sm:text-sm" />
                             <ErrorMessage name="password"
-                                class="absolute z-10 left-5 top-5 translate-y-full w-48 px-2 py-1 bg-gray-700 rounded-lg text-center text-white text-sm after:content-[''] after:absolute after:left-1/2 after:bottom-[100%] after:-translate-x-1/2 after:border-8 after:border-x-transparent after:border-t-transparent after:border-b-gray-700" />
+                                class="absolute z-10 top-5 translate-y-full w-48 px-2 py-1 bg-gray-700 rounded-lg text-center text-white text-sm after:content-[''] after:absolute after:left-1/2 after:bottom-[100%] after:-translate-x-1/2 after:border-8 after:border-x-transparent after:border-t-transparent after:border-b-gray-700" />
                         </div>
                         <label for="confirmation" class="block text-sm font-semibold leading-6 text-gray-900">
                             {{ t("settings.security.repeat") }}
@@ -118,21 +132,14 @@
                             <Field id="confirmation" name="confirmation" type="password" autocomplete="confirmation"
                                 class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-kashmir-600 focus:outline-none focus:ring-kashmir-600 sm:text-sm" />
                             <ErrorMessage name="confirmation"
-                                class="absolute z-10 left-5 top-5 translate-y-full w-48 px-2 py-1 bg-gray-700 rounded-lg text-center text-white text-sm after:content-[''] after:absolute after:left-1/2 after:bottom-[100%] after:-translate-x-1/2 after:border-8 after:border-x-transparent after:border-t-transparent after:border-b-gray-700" />
+                                class="absolute z-10 top-5 translate-y-full w-48 px-2 py-1 bg-gray-700 rounded-lg text-center text-white text-sm after:content-[''] after:absolute after:left-1/2 after:bottom-[100%] after:-translate-x-1/2 after:border-8 after:border-x-transparent after:border-t-transparent after:border-b-gray-700" />
                         </div>
                     </div>
                 </div>
             </div>
             <div class="pb-6 text-right sm:px-6">
                 <nav class="flex items-center justify-between mb-14 px-4 sm:px-0">
-                    <div class="-mt-px flex w-0 flex-1">
-                        <button
-                            class="pointer-events-none group inline-flex items-center pr-1 pt-4 text-sm font-medium text-gray-500 hover:text-kashmir-500"
-                            :disabled="true">
-                            <PhArrowLeft class="mr-3 h-5 w-5" aria-hidden="true" />
-                            {{ t("pathway.journey.previous") }}
-                        </button>
-                    </div>
+                    <div class="-mt-px flex w-0 flex-1"></div>
                     <div class="-mt-px flex w-0 flex-1 justify-end">
                         <div class="flex flex-inline items-center space-x-2">
                             <button v-if="authStore.profile.password" @click.prevent="skipToPathway"
@@ -168,6 +175,7 @@ const profile = ref({} as IUserProfileUpdate)
 const subjects = ref("")
 const selectionChoices = ref([] as string[])
 const goNext = ref(true)
+const formValidates = ref(true)
 
 const props = defineProps<{
     nextPage: string,
@@ -177,7 +185,6 @@ const schema = {
     original: { required: authStore.profile.password, min: 8, max: 64 },
     password: { required: !authStore.profile.password, min: 8, max: 64 },
     confirmation: { required: !authStore.profile.password, confirmed: "password" },
-    full_name: { required: false },
     email: { email: true, required: true },
 }
 
@@ -224,6 +231,7 @@ async function skipToPathway() {
 }
 
 async function submit(values: any) {
+    formValidates.value = true
     if (
         (authStore.profile.password && values.original)
         || (
@@ -236,7 +244,13 @@ async function submit(values: any) {
         else profile.value.original = values.original
         if (subjects.value) profile.value.subjects = subjects.value.split(",").map((item: string) => item.trim())
         else profile.value.subjects = [] as string[]
-        if (values.email) {
+        if (
+            !profile.value.full_name
+            || !profile.value.description
+            || !(profile.value.country && profile.value.country.length)
+            || !(profile.value.subjects && profile.value.subjects.length)
+        ) formValidates.value = false
+        if (formValidates.value && values.email) {
             profile.value.email = values.email
             if (values.full_name) profile.value.full_name = values.full_name
             await authStore.updateUserProfile({ ...profile.value })
