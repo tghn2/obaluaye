@@ -10,9 +10,13 @@
                     <div class="sm:col-span-5">
                         <label for="group-title" class="block text-sm font-semibold leading-6 text-gray-900">{{
                             t("group.field.title") }}</label>
-                        <div class="mt-2">
+                        <div class="mt-2 group relative inline-block w-full">
                             <input type="text" name="group-title" id="group-title" v-model="draft.title"
                                 class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-kashmir-600 sm:text-sm sm:leading-6" />
+                            <div v-if="!formValidates && !draft.title" 
+                                class="absolute top-5 translate-y-full w-48 px-2 py-1 bg-gray-700 rounded-lg text-center text-white text-sm after:content-[''] after:absolute after:left-1/2 after:bottom-[100%] after:-translate-x-1/2 after:border-8 after:border-x-transparent after:border-t-transparent after:border-b-gray-700">
+                                <span>{{ t("formvalidation.required") }}</span>
+                            </div>
                         </div>
                     </div>
                     <div class="sm:col-span-1">
@@ -27,9 +31,13 @@
                     <div class="col-span-full">
                         <label for="description" class="block text-sm font-semibold leading-6 text-gray-900">{{
                             t("group.field.description") }}</label>
-                        <div class="mt-2">
+                        <div class="mt-2 group relative inline-block w-full">
                             <textarea id="description" name="description" rows="3" v-model="draft.description"
                                 class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-kashmir-600 sm:text-sm sm:leading-6" />
+                            <div v-if="!formValidates && !draft.description" 
+                                class="absolute -mt-4 translate-y-full w-48 px-2 py-1 bg-gray-700 rounded-lg text-center text-white text-sm after:content-[''] after:absolute after:left-1/2 after:bottom-[100%] after:-translate-x-1/2 after:border-8 after:border-x-transparent after:border-t-transparent after:border-b-gray-700">
+                                <span>{{ t("formvalidation.required") }}</span>
+                            </div>
                         </div>
                         <p class="mt-2 text-sm leading-6 text-gray-500">
                             <span>{{ t("group.help.description") }}</span>
@@ -39,9 +47,13 @@
                         <label for="group-subject-values" class="block text-sm font-semibold leading-6 text-gray-900">
                             {{ t("group.field.subjects") }}
                         </label>
-                        <div class="mt-2">
+                        <div class="mt-2 group relative inline-block w-full">
                             <input type="text" name="group-subject-values" id="group-subject-values" v-model="subjects"
                                 class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-kashmir-600 sm:text-sm sm:leading-6" />
+                            <div v-if="!formValidates && !subjects" 
+                                class="absolute top-5 translate-y-full w-48 px-2 py-1 bg-gray-700 rounded-lg text-center text-white text-sm after:content-[''] after:absolute after:left-1/2 after:bottom-[100%] after:-translate-x-1/2 after:border-8 after:border-x-transparent after:border-t-transparent after:border-b-gray-700">
+                                <span>{{ t("formvalidation.required") }}</span>
+                            </div>
                         </div>
                         <p class="mt-2 text-sm leading-6 text-gray-500">{{ t("group.help.subjects") }}</p>
                     </div>
@@ -49,8 +61,12 @@
                         <label for="group-country-values" class="block text-sm font-semibold leading-6 text-gray-900">
                             {{ t("group.field.country") }}
                         </label>
-                        <div class="mt-2">
+                        <div class="mt-2 group relative inline-block w-full">
                             <CommonCountrySelect :initial-choices="draft.country" @set-select="watchCountrySelect" />
+                            <div v-if="!formValidates && !(draft.country && draft.country.length)" 
+                                class="absolute top-5 translate-y-full w-48 px-2 py-1 bg-gray-700 rounded-lg text-center text-white text-sm after:content-[''] after:absolute after:left-1/2 after:bottom-[100%] after:-translate-x-1/2 after:border-8 after:border-x-transparent after:border-t-transparent after:border-b-gray-700">
+                                <span>{{ t("formvalidation.required") }}</span>
+                            </div>
                         </div>
                         <p class="mt-2 text-sm leading-6 text-gray-500">
                             {{ t("group.help.country") }}
@@ -111,14 +127,18 @@ const journeyStore = useJourneyStore()
 const draft = ref({} as IGroup)
 const subjects = ref("")
 const groupTitle = ref("group.creating")
+const formValidates = ref(true)
 
 // WATCHERS
 async function watchHeadingRequest(request: string) {
     switch (request) {
         case "save":
             saveDraft()
-            await groupStore.updateTerm(route.params.id as string)
-            await skipToPathway()
+            validateDraft()
+            if (formValidates.value) {
+                await groupStore.updateTerm(route.params.id as string)
+                await skipToPathway()
+            }
             break
         case "cancel":
             return await navigateTo(localePath(`/group/${route.params.id}`))
@@ -170,6 +190,16 @@ function createDraft() {
         id: route.params.id as string,
         language: groupStore.settings.locale,
     }
+}
+
+function validateDraft() {
+    formValidates.value = true
+    if (
+        !draft.value.title
+        || !draft.value.description
+        || !subjects.value
+        || !(draft.value.country && draft.value.country.length)
+    ) formValidates.value = false
 }
 
 onMounted(async () => {

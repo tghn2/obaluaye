@@ -403,6 +403,13 @@ export default {
         description: "Lo sentimos, algo ha ido mal. Esta página no está disponible.",
         gohome: "Volver a la página de inicio",
     },
+    formvalidation: {
+        required: "This field is required.",
+        email: "This email address is invalid.",
+        min: "Passwords must be 8 to 64 characters long.",
+        max: "Passwords must be 8 to 64 characters long.",
+        url: "This url is invalid.",
+    },
     loginpage: {
         submit: "Enviar",
         login: {
