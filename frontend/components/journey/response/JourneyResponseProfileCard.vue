@@ -139,14 +139,7 @@
             </div>
             <div class="pb-6 text-right sm:px-6">
                 <nav class="flex items-center justify-between mb-14 px-4 sm:px-0">
-                    <div class="-mt-px flex w-0 flex-1">
-                        <button
-                            class="pointer-events-none group inline-flex items-center pr-1 pt-4 text-sm font-medium text-gray-500 hover:text-kashmir-500"
-                            :disabled="true">
-                            <PhArrowLeft class="mr-3 h-5 w-5" aria-hidden="true" />
-                            {{ t("pathway.journey.previous") }}
-                        </button>
-                    </div>
+                    <div class="-mt-px flex w-0 flex-1"></div>
                     <div class="-mt-px flex w-0 flex-1 justify-end">
                         <div class="flex flex-inline items-center space-x-2">
                             <button v-if="authStore.profile.password" @click.prevent="skipToPathway"
