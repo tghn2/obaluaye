@@ -96,6 +96,10 @@
                         </label>
                         <div class="mt-1 group relative inline-block w-full">
                             <CollectionSelectionPanel :collection="universal" :all-selections="selectionChoices" @set-selection="watchCollectionSelection" />
+                            <div v-if="!formValidates && !hasCollectionSelection(universal)" 
+                                class="absolute top-5 translate-y-full w-48 px-2 py-1 bg-gray-700 rounded-lg text-center text-white text-sm after:content-[''] after:absolute after:left-1/2 after:bottom-[100%] after:-translate-x-1/2 after:border-8 after:border-x-transparent after:border-t-transparent after:border-b-gray-700">
+                                <span>{{ t("formvalidation.required") }}</span>
+                            </div>
                         </div>
                         <p v-if="universal.isMulti" class="mt-1 text-sm leading-6 text-gray-500">
                             {{ t("collection.multi") }}
@@ -165,7 +169,7 @@
 <script setup lang="ts">
 import { PhArrowLeft, PhArrowRight } from "@phosphor-icons/vue"
 import { useAuthStore, useCollectionStore } from "@/stores"
-import { IUserProfileUpdate, IKeyable } from "@/interfaces"
+import { IUserProfileUpdate, IKeyable, ICollection } from "@/interfaces"
 
 const { t } = useI18n()
 const localePath = useLocalePath()
@@ -225,6 +229,14 @@ function watchCollectionSelection(response: IKeyable) {
     }
 }
 
+function hasCollectionSelection(collection: ICollection): boolean {
+    if (!(collection && collection.selection && collection.selection.length)) return true
+    if (profile.value.selection_ids && profile.value.selection_ids.length)
+        // @ts-ignore
+        if (collection.selection.find(i => profile.value.selection_ids.includes(i.id as string))) return true
+    return false
+}
+
 async function skipToPathway() {
     if (goNext.value) return await navigateTo(localePath(`/journey/${props.nextPage}`))
     else return await navigateTo(localePath("/settings"))
@@ -250,6 +262,9 @@ async function submit(values: any) {
             || !(profile.value.country && profile.value.country.length)
             || !(profile.value.subjects && profile.value.subjects.length)
         ) formValidates.value = false
+        for (const collection of collectionStore.multi) {
+            if (!hasCollectionSelection(collection)) formValidates.value = false
+        }
         if (formValidates.value && values.email) {
             profile.value.email = values.email
             if (values.full_name) profile.value.full_name = values.full_name
