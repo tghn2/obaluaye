@@ -43,8 +43,12 @@ async function createGroupPathway() {
     await tokenStore.refreshTokens()
     if (tokenStore.token) {
         try {
+            // const data: IGroup = {
+            //     title: `${t("pathway.journey.groupFor")} ${pathwayStore.term.title}`,
+            //     language: settingStore.locale
+            // }
             const data: IGroup = {
-                title: `${t("pathway.journey.groupFor")} ${pathwayStore.term.title}`,
+                title: "",
                 language: settingStore.locale
             }
             const { data: response } = await apiGroup.createTerm(tokenStore.token, pathwayStore.termStudy, data)

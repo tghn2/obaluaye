@@ -89,12 +89,12 @@
                     <nav class="flex items-center justify-between mb-14 px-4 sm:px-0">
                         <div class="-mt-px flex w-0 flex-1 justify-end">
                             <div class="flex flex-inline items-center space-x-2">
-                                <button @click.prevent="skipToPathway"
+                                <button v-if="groupStore.term.title" @click.prevent="skipToPathway"
                                     class="group inline-flex items-center pr-1 pt-4 text-sm font-medium text-gray-500 hover:text-kashmir-500">
                                     <span>{{ t("pathway.journey.next") }}</span>
                                     <PhArrowRight class="ml-3 h-5 w-5" aria-hidden="true" />
                                 </button>
-                                <span class="block h-5 mt-3 w-px bg-gray-900/10" aria-hidden="true" />
+                                <span v-if="groupStore.term.title" class="block h-5 mt-3 w-px bg-gray-900/10" aria-hidden="true" />
                                 <button @click.prevent="watchHeadingRequest('save')"
                                     class="group inline-flex items-center pr-1 pt-4 text-sm font-medium text-gray-500 hover:text-kashmir-500">
                                     <span>{{ t("pathway.journey.saveNext") }}</span>
