@@ -25,7 +25,7 @@
                         <component :is="formType[props.node.formType as INodeType].component" :node="props.node" />
                     </div>
                     <div v-if="props.node.resources && props.node.resources.length" class="py-1 sm:px-1">
-                        <ResourceViewDisclosureCard :resources="props.node.resources" />
+                        <ResourceViewDisclosureCard :resources="props.node.resources" :start-open="false" />
                     </div>
                 </dl>
             </div>

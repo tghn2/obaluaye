@@ -1,6 +1,6 @@
 <template>
     <div class="px-2">
-        <Disclosure v-slot="{ open, close }">
+        <Disclosure v-slot="{ open, close }" :defaultOpen="startOpen">
             <DisclosureButton class="w-full text-sm font-semibold text-gray-900 pb-2">
                 <div class="flex justify-between px-4 mt-1 font-medium text-gray-900 bg-spring-50 border-t border-spring-200 p-2">
                     <h4>
@@ -49,7 +49,6 @@ function getYouTubeId(url: string) {
     // https://stackoverflow.com/a/27728417/295606
     var i, r, regExp = /^.*(?:(?:youtu\.be\/|v\/|vi\/|u\/\w\/|embed\/|shorts\/)|(?:(?:watch)?\?v(?:i)?=|\&v(?:i)?=))([^#\&\?]*).*/;
     const match = url.match(regExp);
-    console.log(match)
     return (match && match[1].length === 11)
       ? match[1]
       : null;
@@ -57,5 +56,6 @@ function getYouTubeId(url: string) {
 
 const props = defineProps<{
     resources: IResource[],
+    startOpen: boolean,
 }>()
 </script>

@@ -38,7 +38,7 @@
                 </span>
             </div>
         </div>
-        <div v-if="props.summary.pathway" class="py-1 mt-1 sm:px-6 border-y border-gray-200">
+        <!-- <div v-if="props.summary.pathway" class="py-1 mt-1 sm:px-6 border-y border-gray-200">
             <div class="group inline-flex text-xs font-medium text-gray-700">
                 <PhPath class="text-gray-700 h-4 w-4 shrink-0" aria-hidden="true" />
                 <span class="ml-1">
@@ -46,7 +46,7 @@
                 </span>
             </div>
             <CommonSummaryCard :summary="props.summary.pathway" :pathway="true" />
-        </div>
+        </div> -->
     </div>
 </template>
   

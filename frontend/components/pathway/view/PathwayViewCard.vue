@@ -58,7 +58,7 @@
             </div>
         </div>
         <div v-if="props.pathway.resources && props.pathway.resources.length" class="py-1 text-sm">
-            <ResourceViewDisclosureCard :resources="props.pathway.resources" />
+            <ResourceViewDisclosureCard :resources="props.pathway.resources" :start-open="false" />
         </div>
     </div>
 </template>

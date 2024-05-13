@@ -32,7 +32,7 @@
                 </div>
             </div>
             <div v-if="props.theme.resources && props.theme.resources.length" class="py-1 text-sm">
-                <ResourceViewDisclosureCard :resources="props.theme.resources" />
+                <ResourceViewDisclosureCard :resources="props.theme.resources" :start-open="true" />
             </div>
         </div>
     </div>

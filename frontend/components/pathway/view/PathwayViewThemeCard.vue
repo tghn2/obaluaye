@@ -40,7 +40,7 @@
                 </div>
             </div>
             <div v-if="theme.resources && theme.resources.length" class="py-1 text-sm">
-                <ResourceViewDisclosureCard :resources="theme.resources" />
+                <ResourceViewDisclosureCard :resources="theme.resources" :start-open="true" />
             </div>
             <div v-for="node in theme.nodes" :key="`node-${node.id}`">
                 <PathwayViewNodeCard :node="node" />
