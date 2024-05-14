@@ -8,6 +8,7 @@ import re
 from app.schemas.base_schema import BaseSchema, LocaleType, CountryListType
 from app.schemas.summary import BaseSummarySchema
 from app.schemas.role import Role
+from app.schemas.pathway import PathwaySummary
 
 
 class GroupBase(BaseSchema):
@@ -55,7 +56,8 @@ class Group(GroupBase):
     created: datetime = Field(..., description="Automatically generated date group was created.")
     modified: datetime = Field(..., description="Automatically generated date group was last modified.")
     title: str = Field(..., description="A human-readable title given to the group.")
-    pathway: Optional[BaseSummarySchema] = Field(None, description="Research pathway objective for this group.")
+    pathway: Optional[PathwaySummary] = Field(None, description="Research pathway objective for this group.")
+    themes: Optional[List[BaseSummarySchema]] = Field([], description="Ordered list of themes for this group pathway")
     roles: Optional[List[Role]] = Field([], description="Group members.")
     roleCount: Optional[int] = Field(default=0, description="Count of group members.")
     readyToComplete: Optional[bool] = Field(False, description="Group pathway is algorithmically complete.")

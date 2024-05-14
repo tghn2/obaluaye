@@ -179,6 +179,12 @@ def get_group(
     obj_out.pathway = crud.pathway.get_schema(
         db_obj=pathway_obj, language=db_obj.language, schema_out=schemas.PathwaySummary
     )
+    obj_out.themes = []
+    for theme_obj in pathway_obj.themes.all():
+        # Quick access menu ...
+        obj_out.themes.append(
+            crud.theme.get_schema(db_obj=theme_obj, language=db_obj.language, schema_out=schemas.BaseSummarySchema)
+        )
     obj_out.readyToComplete = crud.group.has_completed_pathway(group=db_obj)
     return obj_out
 
@@ -206,6 +212,9 @@ def create_group(
             status_code=400,
             detail="Either root pathway does not exist, or researcher does not have the rights for this request.",
         )
+    if obj_in.title:
+        # Default on create is no title - undoing frontend
+        obj_in.title = ""
     group_obj = crud.group.create(db=db, obj_in=obj_in)
     crud.role.create(
         db=db, user=current_user, group=group_obj, pathway=pathway_obj, responsibility=schema_types.RoleType.RESEARCHER

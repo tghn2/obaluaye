@@ -17,6 +17,7 @@ export interface IGroup {
     language?: string
     pathway?: ISummary
     pathway_id?: string
+    themes?: ISummary[]
     roles?: IGroupRole[]
     roleCount?: number
     invitations?: IGroupInvitation[]

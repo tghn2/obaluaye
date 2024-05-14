@@ -149,7 +149,7 @@ export default {
         nav: {
             pathway: "O meu estudo",
             response: "Concluir o seu estudo",
-            metadata: "Visão geral do estudo",
+            review: "Review your study",
             members: "Membros do estudo",
             invitations: "Convites",
         },

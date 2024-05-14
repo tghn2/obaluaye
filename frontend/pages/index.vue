@@ -18,10 +18,10 @@
                             <GuidepathFrontpageSteps />
                         </div>
                         <div class="mt-6 flex items-center justify-center gap-x-6">
-                            <LocaleLink v-if="!authStore.loggedIn" to="/login"
+                            <!-- <LocaleLink v-if="!authStore.loggedIn" to="/login"
                                 class="rounded-md bg-kashmir-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-kashmir-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-kashmir-600">
                                 {{ t("frontpage.getstarted") }}
-                            </LocaleLink>
+                            </LocaleLink> -->
                             <LocaleLink to="/about" class="text-sm font-semibold leading-6 text-gray-900">
                                 {{ t("frontpage.learnmore") }}
                                 <span aria-hidden="true">→</span>
@@ -67,7 +67,7 @@
 
 <script setup lang="ts">
 import { tokenIsTOTP } from "@/utilities"
-import { useAuthStore, useSettingStore, useTokenStore, useGroupStore, usePathwayStore } from "@/stores"
+import { useAuthStore, useSettingStore, useTokenStore, useGroupStore, usePathwayStore, useToastStore } from "@/stores"
 
 definePageMeta({
     layout: "home",
@@ -80,6 +80,7 @@ const settingsStore = useSettingStore()
 const tokenStore = useTokenStore()
 const pathwayStore = usePathwayStore()
 const groupStore = useGroupStore()
+const toastStore = useToastStore()
 const route = useRoute()
 const redirectTOTP = "/totp"
 const redirectAfterLogin = "/"
@@ -100,9 +101,22 @@ onMounted(async () => {
         if (tokenIsTOTP(tokenStore.token)) await navigateTo(localePath(redirectTOTP))
         else await navigateTo(localePath(redirectAfterLogin))
     }
+    if (authStore.loggedIn && !authStore.completedPathway) await redirectToPersonal()
     await pathwayStore.getFeaturedTerm()
     await groupStore.getFeaturedMulti()
 })
+
+async function redirectToPersonal() {
+    await pathwayStore.getPersonalTerm()
+    toastStore.addNotice({
+        title: t("group.alert.createSuccessTitle"),
+        content: t("group.alert.createSuccessContent"),
+        icon: "success"
+    })
+    if (pathwayStore.termPersonal)
+        return await navigateTo(localePath(`/journey/${pathwayStore.termPersonal}`))
+    else return await navigateTo(localePath(`/journey/${authStore.profile.id}`))
+}
 
 // METADATA - START
 // https://nuxt.com/docs/getting-started/seo-meta

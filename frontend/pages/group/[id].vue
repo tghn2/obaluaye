@@ -21,11 +21,12 @@
                 <TabPanels>
                     <TabPanel>
                         <GroupMetadataCard :summary="groupStore.term" />
+                        <GroupThemesEditCard :group-id="(route.params.id as string)" :themes="groupStore.term.themes as ISummary[]" />
+                    </TabPanel>
+                    <TabPanel>
+                        <GroupMetadataCard :summary="groupStore.term" />
                         <GroupPathwayResponseCard :group-id="(route.params.id as string)" />
                     </TabPanel>
-                    <!-- <TabPanel>
-                        <GroupMetadataCard :summary="groupStore.term" />
-                    </TabPanel> -->
                     <TabPanel>
                         <GroupMembersCard :group-id="(route.params.id as string)" />
                     </TabPanel>
@@ -40,8 +41,9 @@
 
 <script setup lang="ts">
 import { TabGroup, TabList, Tab, TabPanels, TabPanel } from "@headlessui/vue"
-import { PhEnvelopeSimple, PhUsersThree, PhGraph, PhPath } from "@phosphor-icons/vue"
+import { PhEnvelopeSimple, PhUsersThree, PhPencilSimpleLine, PhPath } from "@phosphor-icons/vue"
 import { useSettingStore, useGroupStore, useAuthStore } from "@/stores"
+import { ISummary } from "@/interfaces";
 
 definePageMeta({
     middleware: ["authenticated"],
@@ -55,8 +57,8 @@ const groupStore = useGroupStore()
 const authStore = useAuthStore()
 const activeTab = ref<string>("RESPONSE")
 let navigation = [
-    { name: "group.nav.response", id: "RESPONSE", icon: PhPath },
-    // { name: "group.nav.metadata", id: "METADATA", icon: PhGraph },
+    { name: "group.nav.response", id: "RESPONSE", icon: PhPencilSimpleLine },
+    { name: "group.nav.review", id: "REVIEW", icon: PhPath },
     { name: "group.nav.members", id: "MEMBERS", icon: PhUsersThree },
     { name: "group.nav.invitations", id: "INVITATIONS", icon: PhEnvelopeSimple }
 ]

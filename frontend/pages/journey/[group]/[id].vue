@@ -5,7 +5,7 @@
         </div>
         <div
             v-if="appSettings.current.pageState === 'done' && journeyStore.term && journeyStore.term.hasOwnProperty('name')">
-            <JourneyResponseHeadingPanel :title="journeyStore.term.pathway!.title as string" @set-save-request="watchPageRequest" />
+            <JourneyResponseGroupHeadingPanel :title="journeyStore.term.pathway!.title as string" @set-save-request="watchPageRequest" />
             <div class="mt-4 sm:px-6">
                 <JourneyResponseThemeCard :theme="journeyStore.term" />
             </div>
