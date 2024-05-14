@@ -56,12 +56,12 @@ const steps: IKeyable[] = [
         id: "01", 
         description: t("frontpage.steps.one"), 
         request: "login", disabled: authStore.loggedIn},
+      // { 
+      //   id: "02", 
+      //   description: t("frontpage.steps.two"), 
+      //   request: "personal", disabled: !authStore.loggedIn || (authStore.loggedIn && authStore.completedPathway)},
       { 
         id: "02", 
-        description: t("frontpage.steps.two"), 
-        request: "personal", disabled: !authStore.loggedIn || (authStore.loggedIn && authStore.completedPathway)},
-      { 
-        id: "03", 
         description: t("frontpage.steps.three"), 
         request: "study", disabled: !authStore.loggedIn || (authStore.loggedIn && !authStore.completedPathway)},
   ]

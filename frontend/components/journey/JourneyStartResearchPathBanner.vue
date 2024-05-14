@@ -45,7 +45,7 @@ async function submit() {
                     content: t("group.alert.createSuccessContent"),
                     icon: "success"
                 })
-                return await navigateTo(localePath(`/group/${response.value.msg}`))
+                return await navigateTo(localePath(`/group/edit/${response.value.msg}`))
             } else {
                 toastStore.addNotice({
                     title: t("group.alert.createErrorTitle"),
