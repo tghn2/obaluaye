@@ -1,37 +1,27 @@
 ---
 title: 1000 Challenge Study Builder
-description: "1000 Challenge Study Builder Quick Start Guide."
+description: "1000 Challenge Study Builder Help."
 navigation: false
 ---
-# Quick Start Guide
+# Help
 
-## Step 1: Create an account
-- Go to **[globalhealthstudybuilder.org](/)**
-- Select the language you want to work in from the sidebar dropdown menu (currently English is available with Spanish, Portuguese and French to come).
-- Click on **Login** or **Get started**
-- Create an account: Enter email address and you will be sent a link to your inbox (check your spam or junk folder if the email has not arrived within a few minutes). Open the link in the same web browser you are currently using the Study Builder in. If you use the same web browser and don’t clear your cache, it will remember you next time.
-- Create a password for your account, go to **Profile > Security** and add a password in the **New password** field and add again in the **Repeat new password** field, then **Submit**. You can also select two-factor security here. Next time you need to login, check the **If you prefer, use your password & don’t email option** underneath the submit button and enter your email and password.
-- In **Profile > Personal profile**, please enter your **Name**, **Description**, **Search terms**, **Country** and **Region**. Enter your password to confirm and click **Submit** once.
+**Background**
 
-## Step 2: Complete Professional Profile
-- Before you can create a team or begin a Study Pathway, you need to complete your profile using the Professional Profile pathway.
-- Select **Study pathways** on the sidebar menu and select **1000 Challenge Professional Profile**
-- Select **Start** and read the form carefully before completing each question. When complete, select **Save and close**.
+The 1000 Challenge is a global initiative developed by **[Nursing Now Challenge](https://www.nursingnow.org/)** and **[The Global Health Network](https://tghn.org/)** to enable 1000 nurses, midwives, community health workers, and other allied health professionals in low-resource settings to lead research studies that gather evidence to address priority issues in their communities. This is a powerful opportunity for leadership and career development delivered through workplace learning whilst generating vital evidence to improve health outcomes in their communities, and by doing, creating leadership experience.
 
-## Step 3: Join existing Study Team, create new Study Team, or begin as individual researcher
+This challenge is needed because there is vast inequity in where research happens, who leads, and who benefits from the evidence. Too few studies address health issues where accessible and pragmatic solutions could change outcomes in patients. For many reasons healthcare settings to do not have research built into their operations and system and so their healthcare professionals are not supported, encouraged, or mandated to undertake research that could practically and effectively reduce the burden of a devasting health challenge – and tackle gaps they see every day. Such research can generate evidence to inform changes in practice, training, or guidance, or healthcare resource allocation, program development, and implementation. The 1000 Challenge system is a mechanism to introduce research into these care settings by taking these workers through the process and guiding every step and element that is needed to deliver good quality evidence that can change practice.
 
-### Join existing Study Team
-- If you are wanting to join an existing Study Team, contact the Team Lead who created it to invite you using the email address you registered an account with. 
-- When the Team Lead has sent you an invite, you will be able to view and accept the invite in **Profile > Invitations**. Select the **tick** to accept. 
-- Navigate to **My studies** in the sidebar and use the search function or filter to find and select the team you are now a member of and ready to collaborate.
+**How it works**
 
-### Create new Study Team or new Study Pathway as an individual researcher
-- If you are an individual researcher without a team or you are the nominated Team Lead for your Study Team and want to create a new Study Pathway, navigate to **Study pathways** on the sidebar and select **1000 Challenge Study Pathway**. Select **Start**.
-- This will create a new Study Team under the **My studies** section in the sidebar. 
-- Select **Edit** and change the **name** of your Study Team, add a **Description**, **Search terms**, **Country** and **Region**. Click **Save** once.
-- To invite members to join your study, select **Study members** and enter their email address into the field and select **Invite**.
-- To view the status of all those invited, navigate to the “Invitations” tab
-- Remember to also contact members separately so they know they are aware they are now part of the pathway.
-- Once the invite has been accepted, they will appear as a **Viewer**. To enable the person to actively contribute and make comments throughout the journey through the Study pathway, change them to **Team member** under the **Study members** tab.
-- To begin the Study pathway and start capturing your study, Select **Complete your study** and then **Review**.
-- Complete the questions step by step and remember to **Save** often; you don’t have to finish the whole pathway in one go. **Help and resources** are available for you at each step of the way.
+The 1000 Challenge is an opportunity for nurses, midwives, community health workers, and other allied health professionals in low-resource settings to identify and be supported in setting up pragmatic and achievable studies designed to solve challenging healthcare issues they experience in their practice. These studies could be observational, social science (behavioural or practice), diagnostic, or clinical trials involving registered drugs or non-pharmaceutical interventions. These will ask locally important questions to generate evidence that can be taken up to change practice to improve patient management, care, prevention or treatment.
+
+Help, support, training, tools, and resources will be provided to each research team for every step of the process. This will be delivered through this highly interactive online collaborative study builder facility. This begins by setting the question, progresses through running the study, right through to setting out how findings could be taken up into practice and sharing their recommendations. At each step the team are asked if they need any help and this is provided by connecting to specific digital training and resource, and also directly to volunteer experts from across the globe who will guide steps in how to take forward each step.
+
+**Resources**
+- **[1000 Challenge guide](https://1000challenge.tghn.org/guidance-and-resources/1000-challenge-guide/)**
+- **[How to use the Study Builder](https://1000challenge.tghn.org/guidance-and-resources/how-use-study-builder-tool/)**
+- **[Find an expert](https://1000challenge.tghn.org/find-expert/)**
+- **[Volunteer as an expert](https://1000challenge.tghn.org/volunteer-expert/)**
+- **[Join the 1000 Challenge Knowledge Hub and community](https://1000challenge.tghn.org/)**
+- **[Join a discussion group and ask the community](https://1000challenge.tghn.org/community/groups/)**
+- **[FAQs](https://1000challenge.tghn.org/guidance-and-resources/faqs/)**
